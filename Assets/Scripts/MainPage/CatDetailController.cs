@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using WeChatWASM;
 
 public class CatDetailController : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class CatDetailController : MonoBehaviour
     public TMP_Text consumeStone;
     public TMP_Text hadStone;
 
+    public Image rankPicture;//
+
     public Button upRankBtn;//晋级按钮
 
     public Image upRedPoint;//升级的红点
@@ -25,10 +28,17 @@ public class CatDetailController : MonoBehaviour
 
     private Cat cat;
 
+
     public static CatDetailController instance;
     private void Awake()
     {
         instance = this;
+    }
+
+    private void Start()
+    {
+
+
     }
 
     private void Update()
@@ -51,12 +61,20 @@ public class CatDetailController : MonoBehaviour
             }
         }
 
+
     }
 
     //在小猫详情页里展示小猫的样式
-    public void showCatUI(int num)
+    public void showCatUI(int catID)
     {
-        cat = CatController.instance.cats[num];
+        for(int i=0;i< CatController.instance.cats.Count; i++)
+        {
+            if(catID == CatController.instance.cats[i].cat_id)
+            {
+                cat = CatController.instance.cats[i];
+            }
+        }
+        
 
         //对获得的UI进行赋值
         string path = "Materials/BigCat/cat" + cat.cat_icon.ToString();
@@ -86,7 +104,10 @@ public class CatDetailController : MonoBehaviour
             capacity.text = "能力：炼制一阶丹药";
             cultivation.text = "修为：" + cat.cultivation + "/" + CatController.instance.levelNeedCul(cat.small_level, cat.big_level).ToString();
             consumeStone.text = "消耗：" + cat.lingshi_consume.ToString() +"灵石/秒";
-            rank.text = cat.big_level + " " + cat.small_level + "层";
+            rank.text = "<color=#000000>" + cat.big_level + "</color> " + cat.small_level + "层";
+
+            Color color = ParseHexColor("#000000");
+            rankPicture.color = color;
         }
         else if(cat.big_level == "筑基期")
         {
@@ -94,20 +115,29 @@ public class CatDetailController : MonoBehaviour
             cultivation.text = "修为：" + cat.cultivation + "/" + CatController.instance.levelNeedCul(cat.small_level, cat.big_level).ToString();
             consumeStone.text = "消耗：" + cat.lingshi_consume.ToString() + "灵石/秒";
             rank.text = "<color=#19932D>" + cat.big_level + "</color> " + cat.small_level + "层";
+
+            Color color = ParseHexColor("#19932D");
+            rankPicture.color = color;
         }
         else if (cat.big_level == "金丹期")
         {
             capacity.text = "能力：炼制三阶丹药";
             cultivation.text = "修为：" + cat.cultivation + "/" + CatController.instance.levelNeedCul(cat.small_level, cat.big_level).ToString();
             consumeStone.text = "消耗：" + cat.lingshi_consume.ToString() + "灵石/秒";
-            rank.text = "<color=#805C00>" + cat.big_level + "</color> " + cat.small_level + "层";
+            rank.text = "<color=#C3A010>" + cat.big_level + "</color> " + cat.small_level + "层";
+
+            Color color = ParseHexColor("#C3A010");
+            rankPicture.color = color;
         }
         else if (cat.big_level == "元婴期")
         {
             capacity.text = "能力：炼制四阶丹药";
             cultivation.text = "修为：" + cat.cultivation + "/" + CatController.instance.levelNeedCul(cat.small_level, cat.big_level).ToString();
             consumeStone.text = "消耗：" + cat.lingshi_consume.ToString() + "灵石/秒";
-            rank.text = "<color=#F21BEA>" + cat.big_level + "</color> " + cat.small_level + "层";
+            rank.text = "<color=#A72EB0>" + cat.big_level + "</color> " + cat.small_level + "层";
+
+            Color color = ParseHexColor("#A72EB0");
+            rankPicture.color = color;
         }
         else if (cat.big_level == "化神期")
         {
@@ -115,9 +145,21 @@ public class CatDetailController : MonoBehaviour
             cultivation.text = "修为：" + cat.cultivation + "/" + CatController.instance.levelNeedCul(cat.small_level, cat.big_level).ToString();
             consumeStone.text = "消耗：" + cat.lingshi_consume.ToString() + "灵石/秒";
             rank.text = "<color=#FF1010>" + cat.big_level + "</color> " + cat.small_level + "层";
+
+            Color color = ParseHexColor("#FF1010");
+            rankPicture.color = color;
         }
 
-        
+    }
+
+    //颜色转换
+    Color ParseHexColor(string hexColor)
+    {
+        hexColor = hexColor.TrimStart('#');
+        byte r = byte.Parse(hexColor.Substring(0, 2), System.Globalization.NumberStyles.HexNumber);
+        byte g = byte.Parse(hexColor.Substring(2, 2), System.Globalization.NumberStyles.HexNumber);
+        byte b = byte.Parse(hexColor.Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
+        return new Color32(r, g, b, 255); // 如果需要透明度，可以在这里添加alpha值
     }
 
     //升级小猫等级函数
@@ -138,6 +180,7 @@ public class CatDetailController : MonoBehaviour
             else
             {
                 cat.big_level = CatController.instance.numberToCatLevelString(CatController.instance.levelStringToNumber(cat.big_level) + 1);
+                cat.small_level = 1;
             }
 
             /*晋级后刷新属性
@@ -145,11 +188,9 @@ public class CatDetailController : MonoBehaviour
              */
 
             //改变灵石消耗所需
-            cat.lingshi_consume = (int)(cat.small_level * Mathf.Pow(10, CatController.instance.levelStringToNumber(cat.big_level)));
+            cat.lingshi_consume = (int)(cat.small_level * Mathf.Pow(4, 1 + CatController.instance.levelStringToNumber(cat.big_level)));
             consumeStone.text = "消耗：" + cat.lingshi_consume.ToString() + "灵石/秒";
 
-            //改变境界的文案
-            rank.text = cat.big_level + " " + cat.small_level + "层";
 
             //修为清空，并改变晋级的修为和所需修为文案
             cat.cultivation = 0;
@@ -158,34 +199,53 @@ public class CatDetailController : MonoBehaviour
                 capacity.text = "能力：炼制一阶丹药";
                 cultivation.text = "修为：" + cat.cultivation + "/" + CatController.instance.levelNeedCul(cat.small_level, cat.big_level).ToString();
                 consumeStone.text = "消耗：" + cat.lingshi_consume.ToString() + "灵石/秒";
+                rank.text = "<color=#000000>" + cat.big_level + "</color> " + cat.small_level + "层";
+
+                Color color = ParseHexColor("#000000");
+                rankPicture.color = color;
             }
             else if (cat.big_level == "筑基期")
             {
                 capacity.text = "能力：炼制二阶丹药";
                 cultivation.text = "修为：" + cat.cultivation + "/" + CatController.instance.levelNeedCul(cat.small_level, cat.big_level).ToString();
                 consumeStone.text = "消耗：" + cat.lingshi_consume.ToString() + "灵石/秒";
+                rank.text = "<color=#19932D>" + cat.big_level + "</color> " + cat.small_level + "层";
+
+                Color color = ParseHexColor("#19932D");
+                rankPicture.color = color;
             }
             else if (cat.big_level == "金丹期")
             {
                 capacity.text = "能力：炼制三阶丹药";
                 cultivation.text = "修为：" + cat.cultivation + "/" + CatController.instance.levelNeedCul(cat.small_level, cat.big_level).ToString();
                 consumeStone.text = "消耗：" + cat.lingshi_consume.ToString() + "灵石/秒";
+                rank.text = "<color=#C3A010>" + cat.big_level + "</color> " + cat.small_level + "层";
+
+                Color color = ParseHexColor("#C3A010");
+                rankPicture.color = color;
             }
             else if (cat.big_level == "元婴期")
             {
                 capacity.text = "能力：炼制四阶丹药";
                 cultivation.text = "修为：" + cat.cultivation + "/" + CatController.instance.levelNeedCul(cat.small_level, cat.big_level).ToString();
                 consumeStone.text = "消耗：" + cat.lingshi_consume.ToString() + "灵石/秒";
+                rank.text = "<color=#A72EB0>" + cat.big_level + "</color> " + cat.small_level + "层";
+
+                Color color = ParseHexColor("#A72EB0");
+                rankPicture.color = color;
             }
             else if (cat.big_level == "化神期")
             {
                 capacity.text = "能力：炼制五阶丹药";
                 cultivation.text = "修为：" + cat.cultivation + "/" + CatController.instance.levelNeedCul(cat.small_level, cat.big_level).ToString();
                 consumeStone.text = "消耗：" + cat.lingshi_consume.ToString() + "灵石/秒";
+                rank.text = "<color=#FF1010>" + cat.big_level + "</color> " + cat.small_level + "层";
+
+                Color color = ParseHexColor("#FF1010");
+                rankPicture.color = color;
             }
 
             //隐藏红点
-            //upRankBtn.gameObject.SetActive(false);
             upRedPoint.gameObject.SetActive(false);
 
 
@@ -209,7 +269,7 @@ public class CatDetailController : MonoBehaviour
             //判断是否提供全部灵石：stoneNUmber==-1
             if (stoneNumber < 0)
             {
-                cat.had_stone += (int)PropertyController.instance.lingshiNumber;
+                cat.had_stone += PropertyController.instance.lingshiNumber;
                 hadStone.text = "灵石：" + cat.had_stone;
 
                 PropertyController.instance.lingshiNumber = 0;
@@ -251,5 +311,6 @@ public class CatDetailController : MonoBehaviour
 
         }
     }
+
 
 }

@@ -5,46 +5,58 @@ using TMPro;
 using UnityEngine.UI;
 using System;
 using Random = UnityEngine.Random;
+using WeChatWASM;
 
-public class PropertyController : MonoBehaviour///¡ª¡ª¡ª¡ªÒÅÁôÎÊÌâ£ºĞ¡ÓÎÏ·ÄÚµÄÁéÊ¯ÔõÃ´´ø³öÀ´£¿ÇĞ»»³¡¾°Ç°ÃæÔõÃ´±£ÁôÊı¾İ£¿ÇĞ»»³¡¾°³öÀ´ÔõÃ´Õı³£Éú²úÁéµ¤£¿
+public class PropertyController : MonoBehaviour///â€”â€”â€”â€”é—ç•™é—®é¢˜ï¼šå°æ¸¸æˆå†…çš„çµçŸ³æ€ä¹ˆå¸¦å‡ºæ¥ï¼Ÿåˆ‡æ¢åœºæ™¯å‰é¢æ€ä¹ˆä¿ç•™æ•°æ®ï¼Ÿåˆ‡æ¢åœºæ™¯å‡ºæ¥æ€ä¹ˆæ­£å¸¸ç”Ÿäº§çµä¸¹ï¼Ÿ
 {
-    public float timeToLingdan = 5;//ĞèÒªnÃëÁ¶ÖÆ1¿ÅÁéµ¤
-    private float timer = 0;//Áéµ¤¼ÆÊ±Æ÷
-    private float lingshiTimer = 0;//ÁéÊ¯¼ÆÊ±Æ÷
+    public float timeToLingdan = 5;//éœ€è¦nç§’ç‚¼åˆ¶1é¢—çµä¸¹
+    private float timer = 0;//çµä¸¹è®¡æ—¶å™¨
+    private float lingshiTimer = 0;//çµçŸ³è®¡æ—¶å™¨
 
-    public float lingdanNumber = 0;//Áéµ¤µÄÊıÁ¿
-    private float lingdanSpeed;//Áéµ¤²úÉúµÄËÙ¶È
+    public float lingdanNumber = 0;//çµä¸¹çš„æ•°é‡
+    private float lingdanSpeed;//çµä¸¹äº§ç”Ÿçš„é€Ÿåº¦
 
-    public float lingshiNumber = 0;//ÁéÊ¯µÄÊıÁ¿
-    private float beforlingshiNumber;//ÉÏÒ»ÃëÁéÊ¯ÊıÁ¿
-    private float lingshiSpeed;//ÁéÊ¯²úÉúµÄËÙ¶È
+    public int lingshiNumber = 0;//çµçŸ³çš„æ•°é‡
+    private float beforlingshiNumber;//ä¸Šä¸€ç§’çµçŸ³æ•°é‡
+    private float lingshiSpeed;//çµçŸ³äº§ç”Ÿçš„é€Ÿåº¦
 
-    public TMP_Text lingdanText;//Áéµ¤ÊıÁ¿µÄÎÄ±¾
-    public TMP_Text lingdanSpeedText;//Áéµ¤²úÉúËÙ¶ÈµÄÎÄ±¾
+    public TMP_Text lingdanText;//çµä¸¹æ•°é‡çš„æ–‡æœ¬
+    public TMP_Text lingdanSpeedText;//çµä¸¹äº§ç”Ÿé€Ÿåº¦çš„æ–‡æœ¬
 
-    public TMP_Text lingshiText;//ÁéÊ¯ÊıÁ¿µÄÎÄ±¾
-    public TMP_Text lingshiSpeedText;//ÁéÊ¯²úÉúËÙ¶ÈµÄÎÄ±¾
+    public TMP_Text lingshiText;//çµçŸ³æ•°é‡çš„æ–‡æœ¬
+    public TMP_Text lingshiSpeedText;//çµçŸ³äº§ç”Ÿé€Ÿåº¦çš„æ–‡æœ¬
 
-    public GameObject lingdanToSpawn;//ÓÃÓÚÊµÀı»¯µÄÁéµ¤
-    public GameObject lingdanParent;//ÓÃ»§´æ´¢ÊµÀı»¯Áéµ¤µÄ¸¸½Úµã
-    public GameObject destoryLingdanParent;//Ïú»ÙÊ±Õ¹Ê¾µÄ¸¸½Úµã£¬ÒòÎªÕâscrollviewÀï£¬¿´²»µ½¶¯»­£¬·Å³öÀ´
+    public GameObject lingdanToSpawn;//ç”¨äºå®ä¾‹åŒ–çš„çµä¸¹
+    public GameObject lingdanParent;//ç”¨æˆ·å­˜å‚¨å®ä¾‹åŒ–çµä¸¹çš„çˆ¶èŠ‚ç‚¹
+    public GameObject destoryLingdanParent;//é”€æ¯æ—¶å±•ç¤ºçš„çˆ¶èŠ‚ç‚¹ï¼Œå› ä¸ºè¿™scrollviewé‡Œï¼Œçœ‹ä¸åˆ°åŠ¨ç”»ï¼Œæ”¾å‡ºæ¥
 
-    private List<GameObject> lingdanUIList = new List<GameObject>();//ÓÃÓÚ´æ´¢Áéµ¤ÊµÀı»¯UIµÄÁĞ±í
-    private List<LingDan> lingdanList = new List<LingDan>();//ÓÃÓÚ´æ´¢Áéµ¤Êı¾İµÄÁĞ±í
-    public int maxLingdanNumber;//Ò»´ÎĞÔ×î¶à´æ´¢µÄÁéµ¤ÊıÁ¿
-    public int maxLingdanUINumber = 20;//Ò»´ÎĞÔ×î¶à´æ´¢µÄÁéµ¤ÊıÁ¿
+    //private List<GameObject> lingdanUIList = new List<GameObject>();//ç”¨äºå­˜å‚¨çµä¸¹å®ä¾‹åŒ–UIçš„åˆ—è¡¨
+    private List<LingDan> lingdanList = new List<LingDan>();//ç”¨äºå­˜å‚¨çµä¸¹æ•°æ®çš„åˆ—è¡¨
+    public int maxLingdanNumber;//ä¸€æ¬¡æ€§æœ€å¤šå­˜å‚¨çš„çµä¸¹æ•°é‡
+    public int maxLingdanUINumber = 20;//ä¸€æ¬¡æ€§æœ€å¤šå­˜å‚¨çš„çµä¸¹æ•°é‡
 
-    public float territoryArea;//ÁìÍÁÃæ»ı
+    public float territoryArea;//é¢†åœŸé¢ç§¯
     public TMP_Text areaText;
 
-    private float tipsTimer = 1.0f;//tips¼ÆÊ±Æ÷
+    private float tipsTimer = 1.0f;//tipsè®¡æ—¶å™¨
 
-    public AudioClip clickLingdanClip;//µã»÷Áéµ¤µÄÒôĞ§
+    public AudioClip clickLingdanClip;//ç‚¹å‡»çµä¸¹çš„éŸ³æ•ˆ
 
-    public int waitToGetLingDan = 0;//µÈ´ıÁìÈ¡µÄÁéµ¤ÊıÁ¿
-    public int waitToGetLingshi = 0;//µÈ´ıÁìÈ¡µÄÁéµ¤×ª»¯ÎªÁéÊ¯µÄÊıÁ¿
-    public GameObject waitToGetObj;//´ıÁìÈ¡µÄUI¶ÔÏó
-    public TMP_Text waitToGetLingshiText;//´ıÁìÈ¡ÁéÊ¯ÊıÁ¿µÄÎÄ±¾
+    public int waitToGetLingDan = 0;//ç­‰å¾…é¢†å–çš„çµä¸¹æ•°é‡
+    public int waitToGetLingshi = 0;//ç­‰å¾…é¢†å–çš„çµä¸¹è½¬åŒ–ä¸ºçµçŸ³çš„æ•°é‡
+    public GameObject waitToGetObj;//å¾…é¢†å–çš„UIå¯¹è±¡
+    public TMP_Text waitToGetLingshiText;//å¾…é¢†å–çµçŸ³æ•°é‡çš„æ–‡æœ¬
+
+    public TMP_Text bottomTips;//åº•éƒ¨çš„çµä¸¹æç¤º
+
+    public GameObject offlinePanelObj;//ç¦»çº¿æ”¶ç›Šé¢æ¿
+    public TMP_Text waitLingshiNumberText;//åº•éƒ¨çš„çµä¸¹æç¤º
+
+    WXCustomAd BannerAd;//bannerå¹¿å‘Š
+
+    WXRewardedVideoAd doubleVideoAd;//å¹¿å‘Šä½åˆå§‹åŒ–
+
+    private Queue<GameObject> pool = new Queue<GameObject>();
 
     public static PropertyController instance;
     private void Awake()
@@ -62,70 +74,146 @@ public class PropertyController : MonoBehaviour///¡ª¡ª¡ª¡ªÒÅÁôÎÊÌâ£ºĞ¡ÓÎÏ·ÄÚµÄÁé
     // Start is called before the first frame update
     void Start()
     {
-        lingshiNumber += SceneTransferData.instance.getLingshiNumber;
+        //lingshiNumber += SceneTransferData.instance.getLingshiNumber;
 
-        //ÁìÍÁÃæ»ı
-        areaText.text = NumberController.instance.NumberToChinaString((int)territoryArea) + " Æ½·½Ã×";
+        //é¢†åœŸé¢ç§¯
+        areaText.text = NumberController.instance.NumberToChinaString((int)territoryArea) + " å¹³æ–¹ç±³";
+
+        //åŒå€çš„å¹¿å‘Šä½
+        doubleVideoAd = WX.CreateRewardedVideoAd(
+        new WXCreateRewardedVideoAdParam()
+        {
+            adUnitId = "adunit-ab24dd73b4185365",
+            multiton = true
+        });
+
+        doubleVideoAd.OnClose(DoubleAdClose);
+
+        //è·å¾—å®é™…å±å¹•çš„å®½é«˜
+        //float screenWidth = canvas.pixelRect.width;
+        //float screenHeight = canvas.pixelRect.height;
+
+        double screenWidth = WX.GetSystemInfoSync().screenWidth;
+        double screenHeight = WX.GetSystemInfoSync().screenHeight;
+
+        Debug.Log("å±å¹•å°ºå¯¸è¯„ä¼°-å®½ï¼š" + screenWidth.ToString());
+        Debug.Log("å±å¹•å°ºå¯¸è¯„ä¼°-é«˜ï¼š" + screenHeight.ToString());
+
+        /*
+        //è·å¾—panelçš„é«˜åº¦
+        RectTransform objectTransform = panel.GetComponent<RectTransform>();
+
+        // è·å–ç‰©ä½“åˆ°å±å¹•é¡¶éƒ¨çš„è·ç¦»
+        float distanceToTop = objectTransform.offsetMax.y;
+        // è·å–ç‰©ä½“çš„é«˜åº¦
+        float height = objectTransform.sizeDelta.y;
+
+        int l = (int)(screenWidth * 0.1);
+        int t = (int)((distanceToTop + height) * 1.1);
+        int w = (int)(screenWidth * 0.8);
+        Debug.Log("å±å¹•å°ºå¯¸è¯„ä¼°-lã€tã€w åˆ†åˆ«æ˜¯ï¼š" + l.ToString() + " " + t.ToString() + " " + w.ToString());
+        */
+
+        int t = (int)(screenHeight * 4 / 5);
+        int w = (int)(screenWidth * 0.9);
+        int l = (int)(screenWidth - 380) / 2;
+
+        Debug.Log("å±å¹•å°ºå¯¸è¯„ä¼°-lã€tã€w åˆ†åˆ«æ˜¯ï¼š" + l.ToString() + " " + t.ToString() + " " + w.ToString());
+
+        //bannerå¹¿å‘Šä½
+        BannerAd = WX.CreateCustomAd(new WXCreateCustomAdParam()
+        {
+            adUnitId = "adunit-032744d39c795888",
+            adIntervals = 30,
+            style = new CustomStyle() { left = l, top = t, width = 380 }
+        });
     }
 
-    // Ã¿Ö¡ÅĞ¶Ï×ÊÔ´µÄË¢ĞÂ£¬°üÀ¨£ºÍæ¼ÒÁé²İ¡¢ÁéÊ¯¡¢Áéµ¤¼°²úÉúËÙ¶È£¬Ã¨ßäµÄ²úÉú£¬ÈÎÎñµÄ²úÉúµÈ
+    // æ¯å¸§åˆ¤æ–­èµ„æºçš„åˆ·æ–°ï¼ŒåŒ…æ‹¬ï¼šç©å®¶çµè‰ã€çµçŸ³ã€çµä¸¹åŠäº§ç”Ÿé€Ÿåº¦ï¼ŒçŒ«å’ªçš„äº§ç”Ÿï¼Œä»»åŠ¡çš„äº§ç”Ÿç­‰
     void Update()
     {
-        /*Áéµ¤²úÉúÂß¼­£º
-         * 1¡¢Ã¿Ö»Ğ¡Ã¨NÃë²úÉú1¿Å
-         * 2¡¢Ã¿10Ãë²úÉúÒ»´Î£¬Ã¿´Î²úÉúN¿Å*Ğ¡Ã¨
-         * 3¡¢Ğ¡Ã¨µÄ¾³½ç½öÓ°Ïì²úÉúÁéÊ¯µÄ½×ÊıºÍÆ·Êı£¬²»Ó°ÏìËÙ¶È
-         * 4¡¢Ö»ÓĞÍ¨¹ıÍê³ÉÈÎÎñ²ÅÄÜÌá¸ßËÙ¶È
+        /*çµä¸¹äº§ç”Ÿé€»è¾‘ï¼š
+         * 1ã€æ¯åªå°çŒ«Nç§’äº§ç”Ÿ1é¢—
+         * 2ã€æ¯10ç§’äº§ç”Ÿä¸€æ¬¡ï¼Œæ¯æ¬¡äº§ç”ŸNé¢—*å°çŒ«
+         * 3ã€å°çŒ«çš„å¢ƒç•Œä»…å½±å“äº§ç”ŸçµçŸ³çš„é˜¶æ•°å’Œå“æ•°ï¼Œä¸å½±å“é€Ÿåº¦
+         * 4ã€åªæœ‰é€šè¿‡å®Œæˆä»»åŠ¡æ‰èƒ½æé«˜é€Ÿåº¦
          * 
-         * ¾ÙÀı£º10s²úÉúÒ»¿Å£¬3Ö»Ğ¡Ã¨£¬Ò»·ÖÖÓ¾ÍÓĞ6*3=18,2Ğ¡Ê±¾ÍÓĞ18*3600£»
-         * Í¬Ê±»áÏûºÄµ¤Ò©³ÉÎªÁéÊ¯£»Íæ¼ÒÖ÷¶¯ÊÕ»ñ£¬¿ÉÌá¸ßµ¤Ò©ÓëÁéÊ¯µÄ¶Ò»»±ÈÀı
-         * ÁéÊ¯»áÏûºÄ³ÉÎªĞ¡Ã¨µÄĞŞÎª
-         * ½ú¼¶ĞèÒªÏûºÄĞ¡Ã¨ĞŞÎª£»Èç¹û²»½ú¼¶£¬Ò²ĞèÒªÁéÊ¯À´Î¬³ÖĞ¡Ã¨µÄĞŞÎª
+         * ä¸¾ä¾‹ï¼š10säº§ç”Ÿä¸€é¢—ï¼Œ3åªå°çŒ«ï¼Œä¸€åˆ†é’Ÿå°±æœ‰6*3=18,2å°æ—¶å°±æœ‰18*3600ï¼›
+         * åŒæ—¶ä¼šæ¶ˆè€—ä¸¹è¯æˆä¸ºçµçŸ³ï¼›ç©å®¶ä¸»åŠ¨æ”¶è·ï¼Œå¯æé«˜ä¸¹è¯ä¸çµçŸ³çš„å…‘æ¢æ¯”ä¾‹
+         * çµçŸ³ä¼šæ¶ˆè€—æˆä¸ºå°çŒ«çš„ä¿®ä¸º
+         * æ™‹çº§éœ€è¦æ¶ˆè€—å°çŒ«ä¿®ä¸ºï¼›å¦‚æœä¸æ™‹çº§ï¼Œä¹Ÿéœ€è¦çµçŸ³æ¥ç»´æŒå°çŒ«çš„ä¿®ä¸º
          * 
          * 
-         * !!!!ÒÅÁôÎÊÌâ£ºÈç¹ûÊÇÀëÏßµÄ±¾µØÓÎÏ·£¬Èç¹û¸ù¾İÇ°ºóÉÏÏßµÄÊ±¼äËæ»úÌá¹©ÁéÊ¯ºÍÁéµ¤µÄ½á¹û
+         * !!!!é—ç•™é—®é¢˜ï¼šå¦‚æœæ˜¯ç¦»çº¿çš„æœ¬åœ°æ¸¸æˆï¼Œå¦‚æœæ ¹æ®å‰åä¸Šçº¿çš„æ—¶é—´éšæœºæä¾›çµçŸ³å’Œçµä¸¹çš„ç»“æœ
          */
 
-        //²úÉúLingdan¼ÆÊ±Æ÷
+        //äº§ç”ŸLingdanè®¡æ—¶å™¨
         timer -= Time.deltaTime;
         if (timer <= 0)
-        { 
-            //ÇëÇóĞ¡Ã¨¿ØÖÆÆ÷£¬»ñµÃÃ¿nÃëĞ¡Ã¨²úÉúµÄÁéµ¤ÊıÁ¿
+        {
+            //è¯·æ±‚å°çŒ«æ§åˆ¶å™¨ï¼Œè·å¾—æ¯nç§’å°çŒ«äº§ç”Ÿçš„çµä¸¹æ•°é‡
             List<int> lingdan = CatController.instance.spawnLingdan();
             int temp = 0;
-            for(int i = 0; i < lingdan.Count; i++)
+            for (int i = 0; i < lingdan.Count; i++)
             {
                 temp += lingdan[i];
             }
             lingdanNumber += temp;
             lingdanSpeed = temp;
 
-            //Ë¢ĞÂÁéµ¤µÄÎÄ±¾
+            //åˆ·æ–°çµä¸¹çš„æ–‡æœ¬
             lingdanText.text = NumberController.instance.NumberToChinaString((int)lingdanNumber);
-            lingdanSpeedText.text = "+" + NumberController.instance.NumberToChinaString((int)lingdanSpeed); 
+            lingdanSpeedText.text = "+" + NumberController.instance.NumberToChinaString((int)lingdanSpeed);
 
-            //ÔÚµ×²¿²úÉúÁéµ¤Í¼±ê
+            //åœ¨åº•éƒ¨äº§ç”Ÿçµä¸¹å›¾æ ‡
             if (lingdan.Count > 0 && lingdanParent != null)
             {
-                spawnLingdan(lingdan);
+                //spawnLingdan(lingdan);
+
+                //lingshiNumber += (int)(Mathf.Pow(10, lingdan.rank + 1) * (lingdan.quality + 1) * PriceController.instance.price);
             }
-            
 
 
-            //ÖØĞÂ¸³Öµ¼ÆÊ±Æ÷
+
+            //é‡æ–°èµ‹å€¼è®¡æ—¶å™¨
             timer = timeToLingdan;
         }
 
-        //Ã¿Ãë¸üĞÂÎÄ±¾
+        if (MainController.instance.isFirstTimeGaming)
+        {
+            bottomTips.gameObject.SetActive(true);
+            bottomTips.text = "æç¤ºï¼šå°çŒ«ä¼šè‡ªè¡Œç‚¼ä¸¹ï¼Œæ”¾åˆ°è—ä¸¹é˜";
+        }
+
+        if (lingdanNumber >= 3 && lingdanNumber <= 9)
+        {
+            bottomTips.gameObject.SetActive(true);
+            bottomTips.text = "æç¤ºï¼šç‚¹å‡»çµä¸¹å¯å¸®åŠ©å°çŒ«å‡ºå”®çµä¸¹";
+        }
+        else
+        {
+            bottomTips.gameObject.SetActive(false);
+        }
+
+        if (maxLingdanNumber <= lingdanNumber)
+        {
+            bottomTips.gameObject.SetActive(true);
+            bottomTips.text = "æç¤ºï¼šçµä¸¹å·²æ»¡ï¼Œå°çŒ«ä¼šå·å·æ‰“æŠ˜å‡ºå”®";
+        }
+
+        //æ¯ç§’æ›´æ–°æ–‡æœ¬
         lingshiTimer -= Time.deltaTime;
         if (lingshiTimer <= 0)
         {
-            //¸üĞÂÁéÊ¯ÎÄ±¾
+            //å°†çµçŸ³æ•°é‡ä¼ ç»™åœºæ™¯æ•°æ®è®°å½•
+            SceneTransferData.instance.getLingshiNumber = lingshiNumber;
+
+            //æ›´æ–°çµçŸ³æ–‡æœ¬
             lingshiSpeed = lingshiNumber - beforlingshiNumber;
             lingshiText.text = NumberController.instance.NumberToChinaString((int)lingshiNumber);
             if (lingshiSpeed >= 0)
             {
-                //Èç¹ûÁéµ¤¼Û¸ñ´¦ÓÚ¸ßÎ»£¬Ôò¸ßÁÁÕ¹Ê¾±ÈÀı£¬·ñÔòÕı³£Õ¹Ê¾ 
+                //å¦‚æœçµä¸¹ä»·æ ¼å¤„äºé«˜ä½ï¼Œåˆ™é«˜äº®å±•ç¤ºæ¯”ä¾‹ï¼Œå¦åˆ™æ­£å¸¸å±•ç¤º 
                 if (lingshiSpeed > 0 && PriceController.instance.isHighPirce)
                 {
                     lingshiSpeedText.text = "+" + NumberController.instance.NumberToChinaString((int)lingshiSpeed);
@@ -142,25 +230,25 @@ public class PropertyController : MonoBehaviour///¡ª¡ª¡ª¡ªÒÅÁôÎÊÌâ£ºĞ¡ÓÎÏ·ÄÚµÄÁé
             beforlingshiNumber = lingshiNumber;
 
 
-            //¸üĞÂÁìÍÁÃæ»ıÎÄ±¾
-            areaText.text =NumberController.instance.NumberToChinaString((int)territoryArea) + " Æ½·½Ã×";
+            //æ›´æ–°é¢†åœŸé¢ç§¯æ–‡æœ¬
+            areaText.text = NumberController.instance.NumberToChinaString((int)territoryArea) + " å¹³æ–¹ç±³";
 
-            
+
             lingshiTimer = 1f;
         }
 
-        //Ã¿ÃëÅĞ¶ÏÊÇ·ñĞèÒª×öÌáĞÑ
+        //æ¯ç§’åˆ¤æ–­æ˜¯å¦éœ€è¦åšæé†’
         tipsTimer -= Time.deltaTime;
-        if(tipsTimer < 0)
+        if (tipsTimer < 0)
         {
-            //Áéµ¤ÊÇ·ñÂúÁË
+            //çµä¸¹æ˜¯å¦æ»¡äº†
             if (lingdanNumber >= maxLingdanNumber)
             {
                 //Tips.instance.setTip(2);
             }
 
-            //ÁéÊ¯ÊÇ·ñ¹ıµÍ£¨°´10µÄ2´Î·½À´Ëã£©
-            if (lingshiNumber < Mathf.Pow(10, CatController.instance.getCatMaxLevel()+2 ))
+            //çµçŸ³æ˜¯å¦è¿‡ä½ï¼ˆæŒ‰10çš„2æ¬¡æ–¹æ¥ç®—ï¼‰
+            if (lingshiNumber < Mathf.Pow(10, CatController.instance.getCatMaxLevel() + 2))
             {
                 //Tips.instance.setTip(5);
             }
@@ -168,308 +256,384 @@ public class PropertyController : MonoBehaviour///¡ª¡ª¡ª¡ªÒÅÁôÎÊÌâ£ºĞ¡ÓÎÏ·ÄÚµÄÁé
             tipsTimer = 1.0f;
         }
 
-        //Èç¹ûµÈ´ıÁìÈ¡µÄÁéµ¤ÊıÁ¿´óÓÚ0£¬ËµÃ÷²úÉúÁË¶àÓàµÄÁéµ¤Î´ÁìÈ¡
-        if(waitToGetLingDan > 0)
+        //å¦‚æœç­‰å¾…é¢†å–çš„çµä¸¹æ•°é‡å¤§äº0ï¼Œè¯´æ˜äº§ç”Ÿäº†å¤šä½™çš„çµä¸¹æœªé¢†å–
+        if (waitToGetLingDan > 0)
         {
             waitToGetObj.SetActive(true);
-            waitToGetLingshiText.text = NumberController.instance.NumberToChinaString(waitToGetLingshi);
+            waitToGetLingshiText.text = "ç¦»çº¿æ”¶ç›Š\n" + NumberController.instance.NumberToChinaString(waitToGetLingshi);
         }
         else
         {
-            waitToGetObj.SetActive(false);
+            //waitToGetObj.SetActive(false);
+            waitToGetLingshiText.text = "ç¦»çº¿æŒ‚æœºå¯è·å¾—æµ·é‡æ”¶ç›Š";
         }
 
-    }
-
-
-    //¿ØÖÆÁéµ¤µÄÉú²ú¡¢ÏúÊÛºÍ²¼¾Ö¡££¨´«Èë²ÎÊıÎªĞ¡Ã¨Ò»´ÎĞÔÉú²úµÄÁéµ¤ÊıÁ¿£¬Òò´ËĞÂÔöµÄÊı¾İÒ²ÎªÒ»´ÎĞÔÉú²úµÄÊıÁ¿£©
-    void spawnLingdan(List<int> ldList)
-    {       
-        //ÏÈ±éÀúÁéÊ¯ÁĞ±íÃ¿½×µÄ¿ÓÎ»£¬ÅĞ¶ÏÄÄÀï²úÉúÁËÁéÊ¯£¬È»ºóÔÙÅĞ¶ÏÊıÁ¿
-        for(int i = 0; i < ldList.Count; i++)
+        //è·Ÿéšå¼¹çª—å±•ç¤ºbannerå¹¿å‘Š
+        if (BannerAd != null)
         {
-            if (ldList[i] > 0)
+            if (offlinePanelObj.activeSelf)
             {
-                //´¦ÀíÍêÒç³öµÄÁéµ¤ºó£¬¼ÌĞø²úÉúĞÂµÄÁéµ¤
-                for (int j = 0; j < ldList[i]; j++)
-                {
-
-                    //Èç¹û²úÉúµÄÁéµ¤ÊıÁ¿³¬¹ı×î¸ßÊıÁ¿£¬ÔòĞèÒª°ÑÒ»¸ö¸øÂôµô
-                    while (lingdanList.Count >= maxLingdanNumber)
-                    {
-                        saleLingdan(lingdanList[0], 0 , 0);//ÇåÀíµÚÒ»¸öÁéµ¤¶ÔÏó¡¢Î»ÖÃÔÚµÚÒ»¸ö¡¢ÊôÓÚ×Ô¶¯ÏúÊÛ
-                        lingdanList.RemoveAt(0);
-
-                        GameObject t = lingdanUIList[0];
-                        lingdanUIList.RemoveAt(0);
-                        StartCoroutine(AnimLingdan(t));//Ğ­³ÌÔËĞĞÏú»ÙÁéµ¤UI
-
-                        //Ë¢ĞÂÁéµ¤µÄÎÄ±¾
-                        lingdanNumber--;
-                        lingdanText.text = NumberController.instance.NumberToChinaString((int)lingdanNumber);
-                        lingdanSpeedText.text = "+" + NumberController.instance.NumberToChinaString((int)lingdanSpeed);
-                    }
-        
-
-                    //Éú²úÁéµ¤µÄÊı¾İ
-                    LingDan temp = new LingDan();
-                    temp.rank = i;
-
-                    int probability = Random.Range(1, 100);
-                    if (probability <= 10)
-                    {
-                        temp.quality = 2;
-                    }
-                    else if (10 < probability && probability <= 30)
-                    {
-                        temp.quality = 1;
-                    }
-                    else if (probability > 30)
-                    {
-                        temp.quality = 0;
-                    }
-
-                    lingdanList.Add(temp);
-
-
-                    //Éú²úÁéµ¤µÄUI£¬¿ØÖÆÒ»¸ö¸öÉú²úµÄ
-                    spawnOneLingdanUI(temp.rank);
-                }
+                BannerAd.Show();
             }
-        }
-    }
-
-    //²úÉúÁéµ¤UI£¬ºóÃæÒª¸ù¾İÁéµ¤µÄµÈ¼¶Çé¿öÕ¹Ê¾²»Í¬µÄUI£¨Ã¿´Î²úÉú1¸ö£©
-    void spawnOneLingdanUI(int rank)
-    {
-        //¶ÔÄ¿Ç°µÄÁéµ¤UIÁĞ±í½øĞĞ²¼¾Ö
-        showLingdan();
-
-        
-        if (lingdanUIList.Count < maxLingdanUINumber)
-        {
-            int needToSpawn;
-
-            //maxLingdanUINumber - lingdanUIList.Count;¡ª¡ªÄÜ¹»²úÉúµÄÊıÁ¿
-            //lingdanList.Count - lingdanUIList.Count;¡ª¡ªĞèÒª²úÉúµÄÊıÁ¿
-            //ĞèÒª²úÉúµÄÊıÁ¿¸ü¶àÊ±£¬ÔÙ²úÉú×î¶àÄÜ¹»²úÉúµÄÁéµ¤UIÊıÁ¿
-            if(lingdanList.Count - lingdanUIList.Count > maxLingdanUINumber - lingdanUIList.Count)
-            {
-                needToSpawn = maxLingdanUINumber - lingdanUIList.Count;
-            }
-            //ĞèÒª²úÉúµÄÊıÁ¿±ÈÄÜ²úÉúµÄÊıÁ¿Ğ¡£¬»òÕßÏàµÈÊ±£¬×îºóÉú²úÊµ¼ÊĞèÒªµÄ¼´¿É
             else
             {
-                needToSpawn = lingdanList.Count - lingdanUIList.Count;
-            }
-            Debug.Log("Ã¿´ÎĞèÒªÉú²úµÄÁéµ¤ÊıÁ¿" + needToSpawn);
-
-            //¶à´Î²úÉúÁéµ¤UI
-            for(int i = 0; i < needToSpawn; i++)
-            {
-                //²úÉúÒ»¸öÁéµ¤ÔÚµ×²¿
-                GameObject tempLingdan = Instantiate(lingdanToSpawn);
-                lingdanUIList.Add(tempLingdan);
-
-                //½«Áéµ¤ÁĞ±í¹Ò×Å¸¸½ÚµãÉÏ£¬¶Ô»ñµÃµÄUI½øĞĞ¸³Öµ
-                tempLingdan.transform.SetParent(lingdanParent.transform, false);
-                //tempLingdan.transform.localPosition = new Vector3(0, 0, 0);
-
-                Image catIcon = tempLingdan.GetComponent<Image>();
-                string path = "Materials/Logo/" + "Áéµ¤" + rank.ToString();
-                Sprite sprite = Resources.Load(path, typeof(Sprite)) as Sprite;
-                catIcon.sprite = sprite;
-
-                //¶ÔÄ¿Ç°µÄÁéµ¤UIÁĞ±í½øĞĞ²¼¾Ö
-                showLingdan();
-
+                BannerAd.Hide();
             }
         }
-        
 
     }
-       
-    //ÔÚµ×²¿Ãæ°åÕ¹Ê¾Áéµ¤logo£¬ÔÚ´ËÖ®Ç°ÅĞ¶ÏÁéµ¤ÊıÁ¿ÊÇ·ñ³¬¹ı×î´óÖµ¡£
-    //Í¬Ê±£¬½«×îºóÃ¿¸öÁéµ¤logo¿Éµã»÷µÄÊÂ¼ş½øĞĞ°ó¶¨£¬ÔÚ´ËÖ®Ç°°ÑËùÓĞÔ­À´µÄ°ó¶¨¸ø½â°ó
+
+
+    //æ§åˆ¶çµä¸¹çš„ç”Ÿäº§ã€é”€å”®å’Œå¸ƒå±€ã€‚ï¼ˆä¼ å…¥å‚æ•°ä¸ºå°çŒ«ä¸€æ¬¡æ€§ç”Ÿäº§çš„çµä¸¹æ•°é‡ï¼Œå› æ­¤æ–°å¢çš„æ•°æ®ä¹Ÿä¸ºä¸€æ¬¡æ€§ç”Ÿäº§çš„æ•°é‡ï¼‰
+    // void spawnLingdan(List<int> ldList)
+    // {
+    //     //å…ˆéå†çµçŸ³åˆ—è¡¨æ¯é˜¶çš„å‘ä½ï¼Œåˆ¤æ–­å“ªé‡Œäº§ç”Ÿäº†çµçŸ³ï¼Œç„¶åå†åˆ¤æ–­æ•°é‡
+    //     for (int i = 0; i < ldList.Count; i++)
+    //     {
+    //         if (ldList[i] > 0)
+    //         {
+    //             //å¤„ç†å®Œæº¢å‡ºçš„çµä¸¹åï¼Œç»§ç»­äº§ç”Ÿæ–°çš„çµä¸¹
+    //             for (int j = 0; j < ldList[i]; j++)
+    //             {
+
+    //                 //å¦‚æœäº§ç”Ÿçš„çµä¸¹æ•°é‡è¶…è¿‡æœ€é«˜æ•°é‡ï¼Œåˆ™éœ€è¦æŠŠä¸€ä¸ªç»™å–æ‰
+    //                 while (lingdanList.Count >= maxLingdanNumber)
+    //                 {
+    //                     saleLingdan(lingdanList[0], 0, 0);//æ¸…ç†ç¬¬ä¸€ä¸ªçµä¸¹å¯¹è±¡ã€ä½ç½®åœ¨ç¬¬ä¸€ä¸ªã€å±äºè‡ªåŠ¨é”€å”®
+    //                     lingdanList.RemoveAt(0);
+
+    //                     GameObject t = lingdanUIList[0];
+    //                     lingdanUIList.RemoveAt(0);
+    //                     StartCoroutine(AnimLingdan(t));//åç¨‹è¿è¡Œé”€æ¯çµä¸¹UI
+
+    //                     //åˆ·æ–°çµä¸¹çš„æ–‡æœ¬
+    //                     lingdanNumber--;
+    //                     lingdanText.text = NumberController.instance.NumberToChinaString((int)lingdanNumber);
+    //                     lingdanSpeedText.text = "+" + NumberController.instance.NumberToChinaString((int)lingdanSpeed);
+    //                 }
+
+
+    //                 //ç”Ÿäº§çµä¸¹çš„æ•°æ®
+    //                 LingDan temp = new LingDan();
+    //                 temp.rank = i;
+
+    //                 int probability = Random.Range(1, 100);
+    //                 if (probability <= 10)
+    //                 {
+    //                     temp.quality = 2;
+    //                 }
+    //                 else if (10 < probability && probability <= 30)
+    //                 {
+    //                     temp.quality = 1;
+    //                 }
+    //                 else if (probability > 30)
+    //                 {
+    //                     temp.quality = 0;
+    //                 }
+
+    //                 lingdanList.Add(temp);
+
+
+    //                 //ç”Ÿäº§çµä¸¹çš„UIï¼Œæ§åˆ¶ä¸€ä¸ªä¸ªç”Ÿäº§çš„
+    //                 //spawnOneLingdanUI(temp.rank);
+    //             }
+    //         }
+    //     }
+    // }
+
+    //äº§ç”Ÿçµä¸¹UIï¼Œåé¢è¦æ ¹æ®çµä¸¹çš„ç­‰çº§æƒ…å†µå±•ç¤ºä¸åŒçš„UIï¼ˆæ¯æ¬¡äº§ç”Ÿ1ä¸ªï¼‰
+    void spawnOneLingdanUI(int rank)
+    {
+        //å¯¹ç›®å‰çš„çµä¸¹UIåˆ—è¡¨è¿›è¡Œå¸ƒå±€
+        //showLingdan();
+
+
+        // if (lingdanUIList.Count < maxLingdanUINumber)
+        // {
+        //     int needToSpawn;
+
+        //     //maxLingdanUINumber - lingdanUIList.Count;â€”â€”èƒ½å¤Ÿäº§ç”Ÿçš„æ•°é‡
+        //     //lingdanList.Count - lingdanUIList.Count;â€”â€”éœ€è¦äº§ç”Ÿçš„æ•°é‡
+        //     //éœ€è¦äº§ç”Ÿçš„æ•°é‡æ›´å¤šæ—¶ï¼Œå†äº§ç”Ÿæœ€å¤šèƒ½å¤Ÿäº§ç”Ÿçš„çµä¸¹UIæ•°é‡
+        //     if (lingdanList.Count - lingdanUIList.Count > maxLingdanUINumber - lingdanUIList.Count)
+        //     {
+        //         //needToSpawn = maxLingdanUINumber - lingdanUIList.Count;
+        //     }
+        //     //éœ€è¦äº§ç”Ÿçš„æ•°é‡æ¯”èƒ½äº§ç”Ÿçš„æ•°é‡å°ï¼Œæˆ–è€…ç›¸ç­‰æ—¶ï¼Œæœ€åç”Ÿäº§å®é™…éœ€è¦çš„å³å¯
+        //     else
+        //     {
+        //         //needToSpawn = lingdanList.Count - lingdanUIList.Count;
+        //     }
+        //     Debug.Log("æ¯æ¬¡éœ€è¦ç”Ÿäº§çš„çµä¸¹æ•°é‡" + needToSpawn);
+
+        //     //å¤šæ¬¡äº§ç”Ÿçµä¸¹UI
+        //     for (int i = 0; i < needToSpawn; i++)
+        //     {
+        //         //äº§ç”Ÿä¸€ä¸ªçµä¸¹åœ¨åº•éƒ¨
+
+        //         GameObject tempLingdan = Instantiate(lingdanToSpawn);
+
+
+        //         //lingdanUIList.Add(tempLingdan);
+
+        //         //å°†çµä¸¹åˆ—è¡¨æŒ‚ç€çˆ¶èŠ‚ç‚¹ä¸Šï¼Œå¯¹è·å¾—çš„UIè¿›è¡Œèµ‹å€¼
+        //         tempLingdan.transform.SetParent(lingdanParent.transform, false);
+        //         //tempLingdan.transform.localPosition = new Vector3(0, 0, 0);
+
+        //         Image catIcon = tempLingdan.GetComponent<Image>();
+        //         string path = "Materials/Logo/" + "çµä¸¹" + rank.ToString();
+        //         Sprite sprite = Resources.Load(path, typeof(Sprite)) as Sprite;
+        //         catIcon.sprite = sprite;
+
+        //         //å¯¹ç›®å‰çš„çµä¸¹UIåˆ—è¡¨è¿›è¡Œå¸ƒå±€
+        //         //showLingdan();
+
+        //     }
+        // }
+
+
+    }
+
+    //åœ¨åº•éƒ¨é¢æ¿å±•ç¤ºçµä¸¹logoï¼Œåœ¨æ­¤ä¹‹å‰åˆ¤æ–­çµä¸¹æ•°é‡æ˜¯å¦è¶…è¿‡æœ€å¤§å€¼ã€‚
+    //åŒæ—¶ï¼Œå°†æœ€åæ¯ä¸ªçµä¸¹logoå¯ç‚¹å‡»çš„äº‹ä»¶è¿›è¡Œç»‘å®šï¼Œåœ¨æ­¤ä¹‹å‰æŠŠæ‰€æœ‰åŸæ¥çš„ç»‘å®šç»™è§£ç»‘
     void showLingdan()
     {
-        //½«²úÉúµÄÁéµ¤¶ÔÏó½øĞĞÅÅ²¼
-        for (int i=0; i < lingdanUIList.Count; i++)
-        {
-            lingdanUIList[i].transform.localPosition = new Vector3(60 + (i%10) * 110, -(i / 10) * 110 - 70, 0);
-        }
+        //å°†äº§ç”Ÿçš„çµä¸¹å¯¹è±¡è¿›è¡Œæ’å¸ƒ
+        // for (int i = 0; i < lingdanUIList.Count; i++)
+        // {
+        //     //lingdanUIList[i].transform.localPosition = new Vector3(60 + (i % 10) * 110, -(i / 10) * 110 - 70, 0);
+        // }
 
-        //Çå¿ÕÁéµ¤UIµÄµã»÷ÊÂ¼ş£¬²¢ÖØĞÂ°ó¶¨
-        for (int i = 0; i < lingdanUIList.Count; i++)
-        {
-            int temp = i;
-            lingdanUIList[i].GetComponent<Button>().onClick.RemoveAllListeners();
-            lingdanUIList[i].GetComponent<Button>().onClick.AddListener(() => clickLingdan(temp));
-        }
+        // //æ¸…ç©ºçµä¸¹UIçš„ç‚¹å‡»äº‹ä»¶ï¼Œå¹¶é‡æ–°ç»‘å®š
+        // for (int i = 0; i < lingdanUIList.Count; i++)
+        // {
+        //     int temp = i;
+        //     // lingdanUIList[i].GetComponent<Button>().onClick.RemoveAllListeners();
+        //     // lingdanUIList[i].GetComponent<Button>().onClick.AddListener(() => clickLingdan(temp));
+        // }
 
 
     }
 
-    //µã»÷ÁËµÚn¸öÁéµ¤
-    public void clickLingdan(int number)
-    {
-        if(number< lingdanList.Count)
-        {
+    //ç‚¹å‡»äº†ç¬¬nä¸ªçµä¸¹
+    // public void clickLingdan(int number)
+    // {
+    //     if (number < lingdanList.Count)
+    //     {
 
-            //²¥·ÅÁéµ¤µã»÷ÒôĞ§
-            AudioManager.instance.PlayAudio(clickLingdanClip);
+    //         //æ’­æ”¾çµä¸¹ç‚¹å‡»éŸ³æ•ˆ
+    //         AudioManager.instance.PlayAudio(clickLingdanClip);
 
-            Debug.Log("±»µã»÷ÃüÖĞµÄÁéµ¤±àºÅÎª£º" + number);
-            Debug.Log("Áéµ¤ÁĞ±íÊıÁ¿£º" + lingdanList.Count);
-            /*
-            for(int i = 0; i < lingdanList.Count; i++)
-            {
-                Debug.Log("±éÀúÁéµ¤Êı¾İÁĞ±í£¨µÈ¼¶£©£º" + lingdanList[i].rank);
-                Debug.Log("±éÀúÁéµ¤Êı¾İÁĞ±í£¨ÖÊÁ¿£©£º" + lingdanList[i].quality);
-            }
-            */
+    //         Debug.Log("è¢«ç‚¹å‡»å‘½ä¸­çš„çµä¸¹ç¼–å·ä¸ºï¼š" + number);
+    //         Debug.Log("çµä¸¹åˆ—è¡¨æ•°é‡ï¼š" + lingdanList.Count);
+    //         /*
+    //         for(int i = 0; i < lingdanList.Count; i++)
+    //         {
+    //             Debug.Log("éå†çµä¸¹æ•°æ®åˆ—è¡¨ï¼ˆç­‰çº§ï¼‰ï¼š" + lingdanList[i].rank);
+    //             Debug.Log("éå†çµä¸¹æ•°æ®åˆ—è¡¨ï¼ˆè´¨é‡ï¼‰ï¼š" + lingdanList[i].quality);
+    //         }
+    //         */
 
-            saleLingdan(lingdanList[number], number, 1);//ÏúÊÛ±»µãÖĞµÄÁéµ¤¡¢Î»ÖÃÊÇnumber¡¢ÊôÓÚÊÖ¶¯µã»÷
-            lingdanList.RemoveAt(number);
+    //         saleLingdan(lingdanList[number], number, 1);//é”€å”®è¢«ç‚¹ä¸­çš„çµä¸¹ã€ä½ç½®æ˜¯numberã€å±äºæ‰‹åŠ¨ç‚¹å‡»
+    //         lingdanList.RemoveAt(number);
 
-            GameObject t = lingdanUIList[number];
-            lingdanUIList.RemoveAt(number);
+    //         GameObject t = lingdanUIList[number];
+    //         lingdanUIList.RemoveAt(number);
 
-            StartCoroutine(AnimLingdan(t));//Ğ­³ÌÔËĞĞÏú»ÙÁéµ¤UI
+    //         StartCoroutine(AnimLingdan(t));//åç¨‹è¿è¡Œé”€æ¯çµä¸¹UI
 
 
-            //Ë¢ĞÂÁéµ¤µÄÎÄ±¾
-            lingdanNumber--;
-            lingdanText.text = NumberController.instance.NumberToChinaString((int)lingdanNumber);
-            lingdanSpeedText.text = "+" + NumberController.instance.NumberToChinaString((int)lingdanSpeed);
+    //         //åˆ·æ–°çµä¸¹çš„æ–‡æœ¬
+    //         lingdanNumber--;
+    //         lingdanText.text = NumberController.instance.NumberToChinaString((int)lingdanNumber);
+    //         lingdanSpeedText.text = "+" + NumberController.instance.NumberToChinaString((int)lingdanSpeed);
 
-            //Ë¢ĞÂÁéµ¤µÄUI
-            if (number < lingdanList.Count)
-            {
-                spawnOneLingdanUI(lingdanList[number].rank);
-            }
-               
-        }
+    //         //åˆ·æ–°çµä¸¹çš„UI
+    //         if (number < lingdanList.Count)
+    //         {
+    //             //spawnOneLingdanUI(lingdanList[number].rank);
+    //         }
 
-    }
+    //     }
 
-    //Ğ­³ÌÖ´ĞĞ¶¯»­
+    // }
+
+    //åç¨‹æ‰§è¡ŒåŠ¨ç”»
     IEnumerator AnimLingdan(GameObject lingdan)
     {
-        Debug.Log("²¥·Å¶¯»­£¬Ïú»ÙÒ»¿ÅÁéÊ¯UI");
+        Debug.Log("æ’­æ”¾åŠ¨ç”»ï¼Œé”€æ¯ä¸€é¢—çµçŸ³UI");
 
         lingdan.transform.SetParent(destoryLingdanParent.transform, false);
 
         //lingdan.transform.localPosition
-        lingdan.GetComponent<LingdanFadeAnimation>().isAnimate = true;//²¥·Å¶¯»­
+        lingdan.GetComponent<LingdanFadeAnimation>().isAnimate = true;//æ’­æ”¾åŠ¨ç”»
 
-        
 
-        //µÈ´ı2sÖ´ĞĞÏÂÒ»Óï¾ä
+        //ç­‰å¾…2sæ‰§è¡Œä¸‹ä¸€è¯­å¥
         yield return new WaitForSeconds(2.0f);
         Destroy(lingdan);
 
+
+
+        Resources.UnloadUnusedAssets();
+        System.GC.Collect();
+
     }
 
 
 
-    //ÏúÊÛÄ³¸öÁéµ¤£¬¸ù¾İ½×Êı¡¢Æ·¼¶ÏúÊÛ²»Í¬µÄÁéÊ¯
-    /*Áéµ¤ºÍÁéÊ¯µÄ¶Ò»»¹ØÏµ£¬°´10±¶µÄ¹ØÏµËã£º
-     * Ò»½×Áéµ¤£º1ÁéÊ¯
-     * ¶ş½×Áéµ¤£º10ÁéÊ¯
-     * Èı½×Áéµ¤£º100ÁéÊ¯
-     * ËÄ½×Áéµ¤£º1000ÁéÊ¯
-     * Îå½×Áéµ¤£º10000ÁéÊ¯
+    //é”€å”®æŸä¸ªçµä¸¹ï¼Œæ ¹æ®é˜¶æ•°ã€å“çº§é”€å”®ä¸åŒçš„çµçŸ³
+    /*çµä¸¹å’ŒçµçŸ³çš„å…‘æ¢å…³ç³»ï¼ŒæŒ‰10å€çš„å…³ç³»ç®—ï¼š
+     * ä¸€é˜¶çµä¸¹ï¼š1çµçŸ³
+     * äºŒé˜¶çµä¸¹ï¼š10çµçŸ³
+     * ä¸‰é˜¶çµä¸¹ï¼š100çµçŸ³
+     * å››é˜¶çµä¸¹ï¼š1000çµçŸ³
+     * äº”é˜¶çµä¸¹ï¼š10000çµçŸ³
      * 
-     * µÍÆ·£ºn * 1
-     * ÖĞÆ·£ºn * 2
-     * ¸ßÆ·£ºn * 5
+     * ä½å“ï¼šn * 1
+     * ä¸­å“ï¼šn * 2
+     * é«˜å“ï¼šn * 5
      * 
-     * type£ºÏúÊÛµÄÀàĞÍ
-     * ×Ô¶¯ÏúÊÛ£º0
-     * ÊÖ¶¯ÏúÊÛ£º1
+     * typeï¼šé”€å”®çš„ç±»å‹
+     * è‡ªåŠ¨é”€å”®ï¼š0
+     * æ‰‹åŠ¨é”€å”®ï¼š1
      */
-    void saleLingdan(LingDan lingdan, int pos, int type)
-    {
-        int plus = 0;
+    // void saleLingdan(LingDan lingdan, int pos, int type)
+    // {
+    //     int plus = 0;
 
-        plus = (int)(Mathf.Pow(10, lingdan.rank + 1) * (lingdan.quality + 1) * PriceController.instance.price);
+    //     plus = (int)(Mathf.Pow(10, lingdan.rank + 1) * (lingdan.quality + 1) * PriceController.instance.price);
 
-        Transform temp = lingdanUIList[pos].transform.Find("PlusNumber(Clone)");
+    //     Transform temp = lingdanUIList[pos].transform.Find("PlusNumber(Clone)");
 
-        if (temp != null)
-        {
-            if(type == 0)
-            {
-                plus = (int)(plus / 2);
-                temp.GetComponent<TMP_Text>().text = "<color=#F32D2D>°ë¼Û³öÊÛ</color>";
-            }
-            else if(type == 1)
-            {
-                temp.GetComponent<TMP_Text>().text = "+" + plus.ToString();
-            }
-            
-            
-        }
-        else
-        {
-            Debug.Log("ÁéÊ¯ÏúÊÛµÄÊı×ÖÓĞÎÊÌâ");
-        }
+    //     if (temp != null)
+    //     {
+    //         if (type == 0)
+    //         {
+    //             plus = plus / 2;
+    //             temp.GetComponent<TMP_Text>().text = "<color=#F32D2D>åŠä»·å‡ºå”®</color>";
+    //         }
+    //         else if (type == 1)
+    //         {
+    //             temp.GetComponent<TMP_Text>().text = "+" + plus.ToString();
+    //         }
 
-        Debug.Log("±¾´ÎÏúÊÛ»ñµÃÁéÊ¯Êı£º" + plus);
 
-        lingshiNumber += plus;
+    //     }
+    //     else
+    //     {
+    //         Debug.Log("çµçŸ³é”€å”®çš„æ•°å­—æœ‰é—®é¢˜");
+    //     }
 
-        Debug.Log("ÏúÊÛÁËÒ»¸öÁéµ¤½×ÊıÎª£º" + lingdan.rank + "  Æ·¼¶Îª£º" + lingdan.quality + "  ×îºó×Ü¹²ÁéÊ¯Îª£º" + lingshiNumber);
+    //     Debug.Log("æœ¬æ¬¡é”€å”®è·å¾—çµçŸ³æ•°ï¼š" + plus);
 
-    }
+    //     lingshiNumber += plus;
 
-    //Éú³ÉµÈ´ıÁìÈ¡µÄÁéµ¤ÊıÁ¿
+    //     Debug.Log("é”€å”®äº†ä¸€ä¸ªçµä¸¹é˜¶æ•°ä¸ºï¼š" + lingdan.rank + "  å“çº§ä¸ºï¼š" + lingdan.quality + "  æœ€åæ€»å…±çµçŸ³ä¸ºï¼š" + lingshiNumber);
+
+    // }
+
+    //ç”Ÿæˆç­‰å¾…é¢†å–çš„çµä¸¹æ•°é‡
     public void saleLingdanToWaitGet(int lingdanNumber)
     {
         int lingdanToSale = 0;
-        for(int i =0; i<lingdanNumber; i++)
+        for (int i = 0; i < lingdanNumber; i++)
         {
-            int probability = Random.Range(1, 100);
-            int quality = 0;
-            if (probability <= 10)
-            {
-                quality = 2;
-            }
-            else if (10 < probability && probability <= 30)
-            {
-                quality = 1;
-            }
-            else if (probability > 30)
-            {
-                quality = 0;
-            }
 
-            lingdanToSale += (int)(Mathf.Pow(10, Random.Range(CatController.instance.getCatMaxLevel(), CatController.instance.getCatMaxLevel() + 1)) 
-                * (quality + 1) * PriceController.instance.price);
-
+            lingdanToSale += (int)(10 * (CatController.instance.getCatMaxLevel() + 1)
+                 * PriceController.instance.price);
         }
 
         waitToGetLingshi = lingdanToSale;
     }
 
-    //»ñµÃÀëÏßÊÕÒæµÄÁéµ¤
-    public void getWaitingLingdan()
+    //è·å¾—ç¦»çº¿æ”¶ç›Šçš„çµä¸¹ï¼ˆé»˜è®¤è·å¾—1å€æ”¶ç›Šï¼Œå¯è·å¾—å¤šå€æ”¶ç›Šï¼‰
+    public void getWaitingLingdan(int time = 1)
     {
-        lingshiNumber += waitToGetLingshi;
+        lingshiNumber += waitToGetLingshi * time;
         waitToGetLingshi = 0;
         waitToGetLingDan = 0;
+        offlinePanelObj.SetActive(false);
     }
 
-    public void consumeLingShi(float number)
+    public void consumeLingShi(int number)
     {
         lingshiNumber -= number;
     }
+
+
+    //ç‚¹å‡»ç¦»çº¿æ”¶ç›Šï¼Œæ‰“å¼€é¢æ¿å’Œå¹¿å‘Š
+    public void ShowOfflinePanel()
+    {
+        //å­˜åœ¨çµçŸ³å¾…æ”¶è·
+        if (waitToGetLingDan > 0)
+        {
+            //æ‰“å¼€é¢æ¿
+            offlinePanelObj.SetActive(true);
+            waitLingshiNumberText.text = "çµçŸ³ï¼š" + NumberController.instance.NumberToChinaString(waitToGetLingshi);
+
+
+        }
+    }
+
+    //çœ‹è§†é¢‘
+    public void WatchAddToDouble()
+    {
+        if (doubleVideoAd != null)
+        {
+            doubleVideoAd.Show();
+            Debug.Log("æ¿€åŠ±å¹¿å‘Šå±•ç¤º");
+        }
+
+    }
+
+    //å…³é—­å¹¿å‘Šäº‹ä»¶ç›‘å¬-
+    void DoubleAdClose(WXRewardedVideoAdOnCloseResponse res)
+    {
+        if ((res != null && res.isEnded) || res == null)
+        {
+            // æ­£å¸¸æ’­æ”¾ç»“æŸï¼Œå¯ä»¥ä¸‹å‘æ¸¸æˆå¥–åŠ±
+            getWaitingLingdan(2);
+
+            Debug.Log("æµ‹è¯•å¹¿å‘ŠæˆåŠŸ");
+        }
+        else
+        {
+            // æ’­æ”¾ä¸­é€”é€€å‡ºï¼Œä¸ä¸‹å‘æ¸¸æˆå¥–åŠ±
+            Debug.Log("å¹¿å‘Šä¸­é€”é€€å‡º");
+        }
+    }
+
+    public void CloseBannerAD()
+    {
+        BannerAd.Destroy();
+    }
+
+    //è·å¾—èµ„æºæ± çš„å¯¹è±¡ï¼Œå¦‚æœèµ„æºæ± ä¸ºç©ºï¼Œåˆ™è¿”å›1
+    public GameObject GetObject()
+    {
+        if (pool.Count == 0)
+        {
+            return null;
+        }
+
+        GameObject obj = pool.Dequeue();
+        obj.SetActive(true);
+        return obj;
+    }
+
+    //å°†ä½¿ç”¨è¿‡çš„ç‰©ä½“æ”¾å›èµ„æºæ± 
+    public void ReturnObject(GameObject obj)
+    {
+        obj.SetActive(false);
+        pool.Enqueue(obj);
+    }
+
 }
 
 [Serializable]
 public class LingDan
 {
-    public int rank;//½×Êı
-    public int quality;//Æ·½×
+    public int rank;//é˜¶æ•°
+    public int quality;//å“é˜¶
 }

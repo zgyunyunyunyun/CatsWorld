@@ -21,17 +21,20 @@ public class NewCatController : MonoBehaviour//ËäÈ»ÕâÀïĞ´ĞÂÔöĞ¡Ã¨£¬µ«¶ÔÍæ¼ÒÊÇÌ½Ë
 
     public DateTime lastNewTime;//¼ÇÂ¼ÉÏÒ»´ÎÕĞÄ¼µÄÊ±¼ä
 
+    private int freeHour = 4;
+
     private bool isFree = false;
 
-    public int consumeStone = 100;//ÏÂÒ»´ÎÏûºÄµÄÁéÊ¯ÊıÁ¿
+    public int consumeStone = 200;//ÏÂÒ»´ÎÏûºÄµÄÁéÊ¯ÊıÁ¿
 
-    public int time = 0;//µ±Ç°µÚ¼¸´Îµ®ÉúĞ¡Ã¨
+    public int time = 1;//µ±Ç°µÚ¼¸´Îµ®ÉúĞ¡Ã¨
 
     public int freeNewTime = 3;//Ãâ·Ñµ®ÉúĞ¡Ã¨´ÎÊı
     public int shareTime = 3;//¿É·ÖÏíµÄ´ÎÊı
 
     public Button newBtn;//µ®ÉúĞ¡Ã¨°´Å¥
     public Button shareBtn;//·ÖÏí°´Å¥
+    public Button watchAddBtn;//¿´¹ã¸æ°´Å¥
     public GameObject chooseCatUI;//Ñ¡ÔñĞ¡Ã¨µÄUI
     public GameObject newCatUI;//Ñ°ÕÒĞ¡Ã¨µÄUI
     public GameObject toast;//ÁéÊ¯²»×ãtoast
@@ -54,7 +57,11 @@ public class NewCatController : MonoBehaviour//ËäÈ»ÕâÀïĞ´ĞÂÔöĞ¡Ã¨£¬µ«¶ÔÍæ¼ÒÊÇÌ½Ë
         "ÔÜÒ»¿Ú´üĞÇĞÇ", "´òÒ°ÂÜÀò", "´ò²»µ¹µÄĞ¡¹ÔÊŞ", " ÌòÄÌ¸ÇµÄĞ¡ÏÉÅ®", "¼Ò×¡Ä§ÏÉ±¤", "×ÏÂŞÀ¼µÄÃØÃÜ", "½ã°ÔµÀ·¶", "×ÔÈ»ÃÈ", "ÌğÆß ", "Ñ©¶ù", "ÂÜÀò", "Äê»ª"};
 
     string[] level = { "½ğµ¤ÆÚ", "½ğµ¤ÆÚ", "½ğµ¤ÆÚ", "½ğµ¤ÆÚ", "½ğµ¤ÆÚ", "ÔªÓ¤ÆÚ", "ÔªÓ¤ÆÚ", "ÔªÓ¤ÆÚ", "»¯ÉñÆÚ" };
+
     public GameObject outCatTips;//tips¶ÔÏó
+
+    WXRewardedVideoAd renewVideoAd;//¹ã¸æÎ»³õÊ¼»¯
+    
 
     public static NewCatController instance;
     private void Awake()
@@ -68,6 +75,18 @@ public class NewCatController : MonoBehaviour//ËäÈ»ÕâÀïĞ´ĞÂÔöĞ¡Ã¨£¬µ«¶ÔÍæ¼ÒÊÇÌ½Ë
         //ÖØĞÂ»Øµ½Ö÷³¡¾°£¬»áÓĞÓ°ÏìµÄµØ·½Ö÷ÒªÔÚÓÚ£¬Ô­À´ÓĞ¸öÀÛ¼ÆµÄÊı¾İ£¬ĞèÒªÍ¨¹ıupdateÀ´¸üĞÂ£¬¶ø²»ÊÇ±»start³õÊ¼»¯µôÁË
 
         //lastNewTime = DateTime.Now;
+
+        
+        //ÖØÖÃµÄ¹ã¸æÎ»
+        renewVideoAd = WX.CreateRewardedVideoAd(
+        new WXCreateRewardedVideoAdParam()
+        {
+            adUnitId = "adunit-3b02ba33ecacb9d0",
+            multiton = true
+        });
+
+        renewVideoAd.OnClose(RenewAdClose);
+
     }
 
     // Update is called once per frame
@@ -155,13 +174,13 @@ public class NewCatController : MonoBehaviour//ËäÈ»ÕâÀïĞ´ĞÂÔöĞ¡Ã¨£¬µ«¶ÔÍæ¼ÒÊÇÌ½Ë
         {
             freeTipsText.gameObject.SetActive(true);
             isFree = true;
-            freeTipsText.text = "Ê×´ÎÍæÓÎÏ·£¬¿ÉÃâ·ÑÑ°ÕÒ" + freeNewTime.ToString() + "´ÎĞ¡Ã¨";
+            freeTipsText.text = "Ê×´ÎÍæÓÎÏ·£¬¿ÉÊÕÑø" + freeNewTime.ToString() + "Ö»Á÷ÀËµÄĞ¡Ã¨";
 
             if (freeNewTime <= 0)
             {
                 MainController.instance.isFirstTimeGaming = false;
                 isFree = false;
-                time = 0;
+                time = 1;
             }
         }
 
@@ -170,14 +189,20 @@ public class NewCatController : MonoBehaviour//ËäÈ»ÕâÀïĞ´ĞÂÔöĞ¡Ã¨£¬µ«¶ÔÍæ¼ÒÊÇÌ½Ë
         if (isFree)
         {
             consumeText.text = "Ãâ·Ñ";
+            if (CatController.instance.cats.Count >= UpRaceController.instance.MaxCatNumber(UpRaceController.instance.raceLevel))
+            {
+                consumeText.text = "<color=#E52222>Ğ¡Ã¨ÒÑÂú£¬Éı¼¶ÖÖ×åµÈ¼¶¿ÉÈİÄÉ¸ü¶àĞ¡Ã¨</color>";
+            }
+
             freeTimeText.text = " ";
-            time = 0;
+            time = 1;
 
             //¸üĞÂºìµãÌáĞÑ
             redPoint.gameObject.SetActive(true);
 
             shareBtn.gameObject.SetActive(false);
-            newBtn.transform.localPosition = new Vector3(0, -500, 0);
+            watchAddBtn.gameObject.SetActive(false);
+            newBtn.transform.localPosition = new Vector3(0, -458, 0);
         }
         else
         {
@@ -187,7 +212,20 @@ public class NewCatController : MonoBehaviour//ËäÈ»ÕâÀïĞ´ĞÂÔöĞ¡Ã¨£¬µ«¶ÔÍæ¼ÒÊÇÌ½Ë
             //Òş²ØÃâ·ÑÎÄ°¸
             freeTipsText.gameObject.SetActive(false);
 
-            consumeText.text = "ÏûºÄ£º<b><color=#2D5AFD>" + consumeStone.ToString() + "</color></b> ÁéÊ¯\nÏûºÄÁéÊ¯Ô½¶à£¬Ñ°ÕÒµ½Ğ¡Ã¨¾³½çÔ½¸ß"; 
+            if (PropertyController.instance.lingshiNumber >= consumeStone)
+            {
+                consumeText.text = "ÏûºÄ£º<b><color=#2D5AFD>" + consumeStone.ToString() + "</color></b> ÁéÊ¯\nÏûºÄÁéÊ¯Ô½¶à£¬Ñ°ÕÒµ½Ğ¡Ã¨¾³½çÔ½¸ß";
+            }
+            else
+            {
+                consumeText.text = "ÏûºÄ£º<b><color=#2D5AFD>" + consumeStone.ToString() + "</color></b> ÁéÊ¯\n" + "<color=#E52222>ÁéÊ¯²»×ã£¬Á¶µ¤¿É»ñµÃ¸ü¶àÁéÊ¯</color>";
+            }
+
+            if(CatController.instance.cats.Count >= UpRaceController.instance.MaxCatNumber(UpRaceController.instance.raceLevel))
+            {
+                consumeText.text = "<color=#E52222>Ğ¡Ã¨ÒÑÂú£¬Éı¼¶ÖÖ×åµÈ¼¶¿ÉÈİÄÉ¸ü¶àĞ¡Ã¨</color>";
+            }
+
 
             //¸üĞÂÊ±¼äµ¹¼ÆÊ±
             currentTime = DateTime.Now;
@@ -197,7 +235,7 @@ public class NewCatController : MonoBehaviour//ËäÈ»ÕâÀïĞ´ĞÂÔöĞ¡Ã¨£¬µ«¶ÔÍæ¼ÒÊÇÌ½Ë
             float secondsDifference = (float)difference.TotalSeconds; // Ïà²îµÄ×ÜÃëÊı
 
             //Èç¹ûÊ±¼ä¶¼ÊÇ0£¨µ¹¼ÆÊ±½áÊø£©£¬ÔòÕ¹Ê¾Ãâ·Ñ°´Å¥£»·ñÔò£¬Õı³£Õ¹Ê¾Ê±¼äµ¹¼ÆÊ±
-            if (secondsDifference >= 3600)
+            if (secondsDifference >= 3600 * freeHour)
             {
                 isFree = true;
                 freeNewTime = 1;
@@ -205,12 +243,22 @@ public class NewCatController : MonoBehaviour//ËäÈ»ÕâÀïĞ´ĞÂÔöĞ¡Ã¨£¬µ«¶ÔÍæ¼ÒÊÇÌ½Ë
             }else
             {
                 //µ¹¼ÆÊ±Ê£ÓàÊ±¼ä
-                float rest = 3600 - secondsDifference;
-                int m = ((int)rest) / 60;
-                int s = ((int)rest) - m * 60;
+                float rest = 3600 * freeHour - secondsDifference;
+                int h = ((int)rest) / 3600;
+                int m = ((int)rest - h*3600) / 60;
+                int s = ((int)rest) - m * 60 - h * 3600;
 
                 //Debug.Log("M" + m);
                 //Debug.Log("S" + s);
+
+                if (h < 10)
+                {
+                    hour = "0" + h.ToString();
+                }
+                else
+                {
+                    hour = h.ToString();
+                }
 
                 if (m < 10)
                 {
@@ -232,13 +280,22 @@ public class NewCatController : MonoBehaviour//ËäÈ»ÕâÀïĞ´ĞÂÔöĞ¡Ã¨£¬µ«¶ÔÍæ¼ÒÊÇÌ½Ë
 
                 if(shareTime > 0)
                 {
-                    freeTimeText.text = hour + ":" + minute + ":" + second + " ºóÃâ·Ñ£¬Ã¿ÈÕ¿É<color=#F32D2D>·ÖÏí</color>3´ÎÖØÖÃÃâ·Ñ";
+                    freeTimeText.text = hour + ":" + minute + ":" + second + " ºóÃâ·Ñ£¬Ã¿ÈÕ<color=#F32D2D>¿´ÊÓÆµ</color>ÖØÖÃ3´Î";
 
+                    /*
                     if (!shareBtn.gameObject.activeSelf)
                     {
                         newBtn.transform.localPosition = newBtn.transform.localPosition + new Vector3(170, 0, 0);
                     }
                     shareBtn.gameObject.SetActive(true);
+                    */
+
+                    if (!watchAddBtn.gameObject.activeSelf)
+                    {
+                        newBtn.transform.localPosition = newBtn.transform.localPosition + new Vector3(170, 0, 0);
+                    }
+                    watchAddBtn.gameObject.SetActive(true);
+
                 }
                 else
                 {
@@ -304,15 +361,20 @@ public class NewCatController : MonoBehaviour//ËäÈ»ÕâÀïĞ´ĞÂÔöĞ¡Ã¨£¬µ«¶ÔÍæ¼ÒÊÇÌ½Ë
                     90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 99, 95, 95, 95,
                     90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 99, 95, 95, 95,
                      70, 60, 50, 50,70, 70, 60, 50, 70, 90, 80, 70, 70, 60, 50, 50,70, 70, 60, 50, 50, 20, 20, 10,
+                     90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 99, 95, 95, 95,
+                     70, 60, 50, 50,70, 70, 60, 50, 70, 90, 80, 70, 70, 60, 50, 50,70, 70, 60, 50, 50, 20, 20, 10,
+                    70, 60, 50, 50,70, 70, 60, 50, 70, 90, 80, 70, 70, 60, 50, 50,70, 70, 60, 50, 50, 20, 20, 10,
+                    70, 60, 50, 50,70, 70, 60, 50, 70, 90, 80, 70, 70, 60, 50, 50,70, 70, 60, 50, 50, 20, 20, 10,
                     70, 60, 50, 50,70, 70,70, 60, 50, 50,70, 70,70, 60, 50, 50,70, 70,70, 60, 50, 50,70, 70,70, 60, 50, 50,
-                    50, 50,70, 70, 60, 50, 50, 20, 20, 10,30, 30, 10, 10, 10, 15, 10, 30, 40, 50, 10 };
+                    50, 50,70, 70, 60, 50, 50, 20, 20, 10,30, 30, 10, 10, 10, 15, 10, 30, 40, 50, 10,
+                    50, 50,70, 70, 60, 50, 50, 20, 20, 10,30, 30, 10, 10, 10, 15, 10, 30, 40, 50, 10};
 
                 int r = Random.Range(0, 100);
                 probabilityToNewCat = proList[Random.Range(0, proList.Length - 1)];//Ëæ»úÑ¡ÔñÉÏÊölistµÄ¸ÅÂÊ
 
                 Debug.Log("²úÉúĞ¡Ã¨µÄ´ÎÊı£º" + time);
                 //Èç¹û³É¹¦Éú²úĞ¡Ã¨£¬Ôò×ßÉú³ÉĞ¡Ã¨µÄÌõ¼ş£»·ñÔòµ¯³öÌáÊ¾Éú³ÉÊ§°Ü
-                if (r >= probabilityToNewCat)
+                if (r >= probabilityToNewCat)//Ò»¶¨Í¨¹ı£¬ÔÚºóÃæµÈ¼¶´¦¿ØÖÆÊÇ·ñÉú³ÉĞ¡Ã¨
                 {
                     ChooseCatUI.instance.newCatAndCatUI(0);//ĞÂÔöĞ¡Ã¨
                     //newCatUI.gameObject.SetActive(false);
@@ -343,9 +405,14 @@ public class NewCatController : MonoBehaviour//ËäÈ»ÕâÀïĞ´ĞÂÔöĞ¡Ã¨£¬µ«¶ÔÍæ¼ÒÊÇÌ½Ë
         }
         else if(PropertyController.instance.lingshiNumber < consumeStone)
         {
-             //µ¯³öÌáÊ¾ÁéÊ¯²»×ã
-             toast.SetActive(true);
-             toast.GetComponent<Toast>().setText("ÁéÊ¯²»×ã£¬Çë»ñµÃ¸ü¶àÁéÊ¯");
+            //µ¯³öÌáÊ¾ÁéÊ¯²»×ã
+            toast.SetActive(true);
+            toast.GetComponent<Toast>().setText("ÁéÊ¯²»×ã£¬Çë»ñµÃ¸ü¶àÁéÊ¯");
+
+            //consumeText.text = "ÁéÊ¯²»×ã£¬»ñµÃ¸ü¶àÁéÊ¯×÷ÎªÌ½Ë÷×Ê½ğ";
+
+
+
              Debug.Log("µ¯³öÁéÊ¯²»×ãtoast");
         }
         
@@ -360,7 +427,7 @@ public class NewCatController : MonoBehaviour//ËäÈ»ÕâÀïĞ´ĞÂÔöĞ¡Ã¨£¬µ«¶ÔÍæ¼ÒÊÇÌ½Ë
         WX.ShareAppMessage(new ShareAppMessageOption
         {
             //imageUrl = imageUrl, // Í¼Æ¬µÄURL£¬Ò²¿ÉÒÔ²»Ìî£¨×Ô¶¯½ØÆÁ£©
-            title = "ºÙºÙ£¬ÎÒÂíÉÏ¾ÍÄÜÕÒµ½" + outCatNumber.ToString() + "Ö»Ã¨Ã¨ÁË", // ÏÔÊ¾ÎÄ±¾
+            title = "ºÙºÙ£¬ÎÒÂíÉÏ¾ÍÄÜÕÒµ½" + CatController.instance.cats.Count.ToString() + "Ö»Ã¨Ã¨ÁË", // ÏÔÊ¾ÎÄ±¾
             //query = query, // ¸½´ø²ÎÊı£¬ÏŞÖÆ2k³¤¶È
         });
 
@@ -369,5 +436,41 @@ public class NewCatController : MonoBehaviour//ËäÈ»ÕâÀïĞ´ĞÂÔöĞ¡Ã¨£¬µ«¶ÔÍæ¼ÒÊÇÌ½Ë
         freeNewTime = 1;
         shareTime--;
         Debug.Log("ÖØÖÃÃâ·Ñ");
+    }
+
+    //µã»÷ÁËÖØÖÃ°´Å¥
+    public void ClickRenewBtn()
+    {
+        WatchAddToRenew();
+    }
+
+    //ÎªÁËÒÆ³ı¶ø¿´ÊÓÆµ
+    void WatchAddToRenew()
+    {
+        if (renewVideoAd != null)
+        {
+            renewVideoAd.Show();
+            Debug.Log("¼¤Àø¹ã¸æÕ¹Ê¾");
+        }
+
+    }
+
+    //¹Ø±Õ¹ã¸æÊÂ¼ş¼àÌı-ÖØÖÃ
+    void RenewAdClose(WXRewardedVideoAdOnCloseResponse res)
+    {
+        if ((res != null && res.isEnded) || res == null)
+        {
+            // Õı³£²¥·Å½áÊø£¬¿ÉÒÔÏÂ·¢ÓÎÏ·½±Àø
+            isFree = true;
+            freeNewTime = 1;
+            shareTime--;
+
+            Debug.Log("²âÊÔ¹ã¸æ³É¹¦");
+        }
+        else
+        {
+            // ²¥·ÅÖĞÍ¾ÍË³ö£¬²»ÏÂ·¢ÓÎÏ·½±Àø
+            Debug.Log("¹ã¸æÖĞÍ¾ÍË³ö");
+        }
     }
 }

@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: MiniGameConfig
   m_EditorClassIdentifier: 
   ProjectConf:
-    projectName: Cat8
+    projectName: Cat
     Appid: wxc9df9cbd3e70e6b9
-    CDN: https://catgame-v0001-4g0nvm54abfb04ae-1258905158.tcloudbaseapp.com/Cat
+    CDN: https://cloudbase-3g6wpqls9c8a86cf-1258905158.tcloudbaseapp.com/Cat
     assetLoadType: 0
     compressDataPackage: 1
     VideoUrl: 
-    DST: F:/Gamesoftware/OutputGame/Cat8
+    DST: E:/OutGame/Cat
     StreamCDN: 
     bundleHashLength: 32
     bundlePathIdentifier: StreamingAssets;
@@ -29,7 +29,7 @@ MonoBehaviour:
     HideAfterCallMain: 1
     preloadFiles: 
     Orientation: 0
-    bgImageSrc: "Assets/Resources/Materials/BackGround/\u5F00\u5C4F.png"
+    bgImageSrc: Assets/Resources/Materials/BackGround/Open.png
     dataFileSubPrefix: 
     maxStorage: 200
     defaultReleaseSize: 31457280
@@ -37,7 +37,7 @@ MonoBehaviour:
     texturesPath: Assets/Textures
     needCacheTextures: 1
     loadingBarWidth: 240
-    needCheckUpdate: 0
+    needCheckUpdate: 1
     disableHighPerformanceFallback: 0
     IOSDevicePixelRatio: 0
   SDKOptions:
@@ -57,12 +57,15 @@ MonoBehaviour:
     ProfilingMemory: 0
     CleanBuild: 0
     CustomNodePath: 
+    autoAdaptScreen: 1
     showMonitorSuggestModal: 1
     enableProfileStats: 0
     enableRenderAnalysis: 0
+    enablePerfAnalysis: 0
     iOSAutoGCInterval: 10000
     enableIOSPerformancePlus: 0
     brotliMT: 1
+    enableWasm2023: 0
   CompressTexture:
     halfSize: 0
     useDXT5: 0

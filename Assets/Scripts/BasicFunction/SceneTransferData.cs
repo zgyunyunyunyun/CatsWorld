@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SceneTransferData : MonoBehaviour
 {
-    public int getLingshiNumber = 0;//从游戏里获得的灵石
+    public int getLingshiNumber;//从游戏里获得的灵石
 
     public int maxCatLevel;//小猫最高等级
     private float putTimer = 1;//每1s传递一次等级数据

@@ -92,49 +92,75 @@ public class AllCatUI : MonoBehaviour
         //清空小猫的UI，用于刷新选择的结果
         for (int i = catUIList.Count - 1; i >= 0; i--)
         {
-            GameObject temp = catUIList[i];          
+            GameObject tempObj = catUIList[i];          
             catUIList.RemoveAt(i);
-            Destroy(temp);
+            Destroy(tempObj);
         }
 
         Debug.Log("清理结果：" + catUIList.Count);
 
         //当小猫的数量展示范围超过5行时，扩大可展示的content范围
-        if ((cats.Count / 4.0f) > 5)
+        if ((cats.Count / 4.0f) > 4)
         {
+            Debug.Log("尝试改变UI");
             RectTransform contentRect = content.GetComponent<RectTransform>();
-            if((cats.Count / 4.0f) == (cats.Count / 4))
+            if ((cats.Count / 4.0f) == (cats.Count / 4))
             {
-                contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, 1279.9f + ((cats.Count / 4) - 5) * 240);
+                //contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, 1279.9f + ((cats.Count / 4) - 5) * 260);
+                contentRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 1300 + ((cats.Count / 4) - 4) * 270);
+                Debug.Log("尝试改变UI1");
             }
             else
             {
-                contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, 1279.9f + ((cats.Count / 4) - 4) * 240);
+                //contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, 1279.9f + ((cats.Count / 4) - 4) * 260);
+                contentRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 1300 + ((cats.Count / 4) - 3) * 270);
+                Debug.Log("尝试改变UI2");
             }
-            
         }
 
+        //给小猫进行等级排序
+        for(int i = cats.Count-1; i > 0 ; i--)
+        {
+            int maxIndex = i;
+            for(int j = i-1; j >= 0; j--)
+            {
+                if(CatController.instance.levelStringToNumber(cats[j].big_level) > CatController.instance.levelStringToNumber(cats[maxIndex].big_level) 
+                    || (CatController.instance.levelStringToNumber(cats[j].big_level) == CatController.instance.levelStringToNumber(cats[maxIndex].big_level) && cats[j].small_level > cats[maxIndex].small_level))
+                {
+                    maxIndex = j;
+                }
+            }
+
+            var temp = cats[maxIndex];
+            cats.RemoveAt(maxIndex);
+            cats.Add(temp);
+        }
+
+        //第一个是最小的，然后挪到第一位去
+        var firstObj = cats[0];
+        cats.RemoveAt(0);
+        cats.Add(firstObj);
 
         //展示所有小猫并处理对应的位置
-        for (int i=0; i< cats.Count; i++)
+        for (int i = 0; i< cats.Count; i++)
         {
-            GameObject temp = Instantiate(catUI);
-            catUIList.Add(temp);
+            GameObject tempObj = Instantiate(catUI);
+            catUIList.Add(tempObj);
 
             //给小猫添加点击监听事件，用在这里是因为筛选会重新更新UI
-            int index = cats[i].cat_id;
-            temp.GetComponent<Button>().onClick.AddListener(() => showCatDetail(index));
+            int catID = cats[i].cat_id;
+            tempObj.GetComponent<Button>().onClick.AddListener(() => showCatDetail(catID));
 
             //将小猫属性列表挂着父节点上
-            temp.transform.SetParent(content.transform, false);
+            tempObj.transform.SetParent(content.transform, false);
             //Debug.Log("%" + i % 4);
             //Debug.Log("/" + i / 4);
-            temp.transform.localPosition = new Vector3(95 + (i%4)*220, -100 - 290*(i/4), 0);
+            //tempObj.transform.localPosition = new Vector3(95 + (i%4)*220, -100 - 290*(i/4), 0);
             //temp.transform.localPosition = new Vector3(0, 0, 0);
 
-            Image catIcon = temp.transform.Find("Image").GetComponent<Image>();
-            TMP_Text catName = temp.transform.Find("Name").GetComponent<TMP_Text>();
-            GameObject redPoint = temp.transform.Find("RedPoint").gameObject;
+            Image catIcon = tempObj.transform.Find("Image").GetComponent<Image>();
+            TMP_Text catName = tempObj.transform.Find("Name").GetComponent<TMP_Text>();
+            GameObject redPoint = tempObj.transform.Find("RedPoint").gameObject;
 
             if (cats[i].canUp)
             {
@@ -153,18 +179,18 @@ public class AllCatUI : MonoBehaviour
             catIcon.sprite = sprite;
 
             catName.text = cats[i].cat_name;
-            
+
         }
         
     }
 
     //展示第n只小猫的详情，从0算起
-    void showCatDetail(int num)
+    void showCatDetail(int catID)
     {
-        Debug.Log("点击了第" + num + "只猫");
+        Debug.Log("点击了第" + catID + "只猫");
         catListGreyPanel.gameObject.SetActive(false);
         catDetailPanel.gameObject.SetActive(true);
 
-        CatDetailController.instance.showCatUI(num);
+        CatDetailController.instance.showCatUI(catID);
     }
 }

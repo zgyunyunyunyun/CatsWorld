@@ -220,7 +220,7 @@ public class ExpendTerritory : MonoBehaviour
 
         //敌人的数量
         int playerCatCount = CatController.instance.cats.Count;
-        enemy.number = (Random.Range((int)(playerCatCount * 0.3) + 1, (int)(playerCatCount * 1.5) + 1));
+        enemy.number = (Random.Range((int)(playerCatCount * 0.3) + 1, (int)(playerCatCount * 1.2) + 1));
 
         //敌人的名称
         if (enemy.big_level == 0)
@@ -255,7 +255,7 @@ public class ExpendTerritory : MonoBehaviour
 
 
         //奖励：领土面积。与怪物等级、数量有关（主要是为了契合晋级需要的领土面积和小猫的数量）
-        float area = Random.Range(enemy.number * enemy.big_level + 5, enemy.number * (enemy.big_level + 1) + 5 );
+        float area = Random.Range(enemy.number * enemy.big_level + 3, enemy.number * (enemy.big_level + 1) + 3 );
         enemy.area = area;
 
         return enemy;

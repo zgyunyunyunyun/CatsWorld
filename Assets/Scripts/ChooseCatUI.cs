@@ -16,6 +16,7 @@ public class ChooseCatUI : MonoBehaviour
     public TMP_Text freshBtnText;//刷新按钮文案
     public Button freshBtn;//刷新按钮文案
     public Button shareBtn;//分享按钮
+    public Image rankPicture;
 
     public TMP_Text freshTips;//刷新用完提示
 
@@ -24,6 +25,9 @@ public class ChooseCatUI : MonoBehaviour
     private int currFreshTime = 3;//当前可刷新的次数
 
     public static ChooseCatUI instance;
+
+    WXRewardedVideoAd refreshVideoAd;//广告位初始化
+
     private void Awake()
     {
         instance = this;
@@ -33,6 +37,16 @@ public class ChooseCatUI : MonoBehaviour
     void Start()
     {
 
+
+        //重置的广告位
+        refreshVideoAd = WX.CreateRewardedVideoAd(
+        new WXCreateRewardedVideoAdParam()
+        {
+            adUnitId = "adunit-69b4b66718060505",
+            multiton = true
+        });
+
+        refreshVideoAd.OnClose(RefreshAdClose);
     }
 
     // Update is called once per frame
@@ -66,7 +80,7 @@ public class ChooseCatUI : MonoBehaviour
             //query = query, // 附带参数，限制2k长度
         });
 
-        currFreshTime = 5;
+        currFreshTime = 3;
     }
 
 
@@ -108,32 +122,58 @@ public class ChooseCatUI : MonoBehaviour
         {
             capa = "炼制一阶丹药";
             catLevel.text = "境界：<color=#000000>" + currCat.big_level + "</color> " + currCat.small_level.ToString() + " 层";
+
+            Color color = ParseHexColor("#000000");
+            rankPicture.color = color;
         }
         else if (currCat.big_level == "筑基期")
         {
             capa = "炼制二阶丹药";
             catLevel.text = "境界：<color=#19932D>" + currCat.big_level + "</color> " + currCat.small_level.ToString() + " 层";
+
+            Color color = ParseHexColor("#19932D");
+            rankPicture.color = color;
         }
         else if (currCat.big_level == "金丹期")
         {
             capa = "炼制三阶丹药";
-            catLevel.text = "境界：<color=#805C00>" + currCat.big_level + "</color> " + currCat.small_level.ToString() + " 层";
+            catLevel.text = "境界：<color=#C3A010>" + currCat.big_level + "</color> " + currCat.small_level.ToString() + " 层";
+
+            Color color = ParseHexColor("#C3A010");
+            rankPicture.color = color;
         }
         else if (currCat.big_level == "元婴期")
         {
             capa = "炼制四阶丹药";
-            catLevel.text = "境界：<color=#F21BEA>" + currCat.big_level + "</color> " + currCat.small_level.ToString() + " 层";
+            catLevel.text = "境界：<color=#A72EB0>" + currCat.big_level + "</color> " + currCat.small_level.ToString() + " 层";
+
+            Color color = ParseHexColor("#A72EB0");
+            rankPicture.color = color;
         }
         else if (currCat.big_level == "化神期")
         {
             capa = "炼制五阶丹药";
             catLevel.text = "境界：<color=#FF1010>" + currCat.big_level + "</color> " + currCat.small_level.ToString() + " 层";
+
+            Color color = ParseHexColor("#FF1010");
+            rankPicture.color = color;
         }
         catCapacity.text = "能力：" + capa;
         
         stoneNumber.text = "灵石：<color=#2D5AFD>" + currCat.had_stone.ToString() + "</color>"; 
 
     }
+
+    //颜色转换
+    Color ParseHexColor(string hexColor)
+    {
+        hexColor = hexColor.TrimStart('#');
+        byte r = byte.Parse(hexColor.Substring(0, 2), System.Globalization.NumberStyles.HexNumber);
+        byte g = byte.Parse(hexColor.Substring(2, 2), System.Globalization.NumberStyles.HexNumber);
+        byte b = byte.Parse(hexColor.Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
+        return new Color32(r, g, b, 255); // 如果需要透明度，可以在这里添加alpha值
+    }
+
     public void chooseCat()
     {
         CatController.instance.chooseCat(currCat);
@@ -141,4 +181,37 @@ public class ChooseCatUI : MonoBehaviour
         NewCatController.instance.outCatNumber--;
     }
 
+    //点击了重置按钮
+    public void ClickRefreshBtn()
+    {
+        WatchAddToRefresh();
+    }
+
+    //看视频
+    void WatchAddToRefresh()
+    {
+        if (refreshVideoAd != null)
+        {
+            refreshVideoAd.Show();
+            Debug.Log("激励广告展示");
+        }
+
+    }
+
+    //关闭广告事件监听
+    void RefreshAdClose(WXRewardedVideoAdOnCloseResponse res)
+    {
+        if ((res != null && res.isEnded) || res == null)
+        {
+            // 正常播放结束，可以下发游戏奖励
+            currFreshTime = 3;
+
+            Debug.Log("测试广告成功");
+        }
+        else
+        {
+            // 播放中途退出，不下发游戏奖励
+            Debug.Log("广告中途退出");
+        }
+    }
 }

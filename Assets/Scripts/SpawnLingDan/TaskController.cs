@@ -67,13 +67,13 @@ public class TaskController : MonoBehaviour
         clearTimer = clearTaskTime;
     }
 
-    
+
     // Update is called once per frame
     void Update()
     {
 
         //完成当前关卡所有小猫炼丹任务，游戏结束
-        if (curCatNumber <=0 )
+        if (curCatNumber <= 0)
         {
             TaskLevelController.instance.passedCurrentGame();
         }
@@ -91,7 +91,7 @@ public class TaskController : MonoBehaviour
             stonePassPanelNumber.text = sNumber.ToString();
             stoneFinishPanelNumber.text = sNumber.ToString();
         }
-       
+
         finishPercent.text = fPercent.ToString() + "%";
 
 
@@ -109,12 +109,12 @@ public class TaskController : MonoBehaviour
         }
 
         //遍历任务列表，判断任务是否完成
-        for(int i = taskDataList.Count-1; i >= 0; i--)
-        {           
+        for (int i = taskDataList.Count - 1; i >= 0; i--)
+        {
             GameObject tempTaskObj = taskList[i];//获得处理对象
 
             //判断任务完成、且未开始丹炉播放动画，则播放1次动画
-            if (taskDataList[i].catchNumber >= 3 
+            if (taskDataList[i].catchNumber >= 3
                 && !tempTaskObj.transform.Find("MainObject").GetComponent<EffectController>().AnimationBeginning()
                 && !tempTaskObj.transform.Find("MainObject").GetComponent<EffectController>().AnimationFinished()
                 && !taskDataList[i].cats[0].activeSelf
@@ -124,12 +124,12 @@ public class TaskController : MonoBehaviour
                 Debug.Log("开始播放任务完成动画，丹炉序号为：" + i);
 
                 //播放任务完成的丹炉动画
-                tempTaskObj.transform.Find("MainObject").GetComponent<EffectController>().scaleObject(false);  
+                tempTaskObj.transform.Find("MainObject").GetComponent<EffectController>().scaleObject(false);
             }
 
 
             //判断任务完成、且完成丹炉动画播放、且未开始播放灵石数字动画，则处理1次数据，开始播放1次灵石数字动画
-            if(taskDataList[i].catchNumber >= 3 
+            if (taskDataList[i].catchNumber >= 3
                 && tempTaskObj.transform.Find("MainObject").GetComponent<EffectController>().AnimationFinished()
                 && !tempTaskObj.transform.Find("EffectObject").Find("Lingdan").GetComponent<EffectController>().AnimationBeginning()
                 && !tempTaskObj.transform.Find("EffectObject").Find("Lingdan").GetComponent<EffectController>().AnimationFinished()
@@ -175,22 +175,23 @@ public class TaskController : MonoBehaviour
                     {
                         factor = 2.0f;
                     }
+                    Debug.Log("灵丹品质：" + taskDataList[i].lingdanQuality);
 
                     float price = 0;
 
                     //含价格飙升系数
                     if (PriceController.instance != null)
                     {
-                        price = (int)(Mathf.Pow(2, taskDataList[i].lingdanLevel) * factor * PriceController.instance.price) * 50;//提高该玩法的可玩性和意愿
-                        sNumber += (int)price/2;
+                        price = (int)(Mathf.Pow(5, taskDataList[i].lingdanLevel + 1) * factor * PriceController.instance.price * 10) * (TaskLevelController.instance.currLevel + 1);//提高该玩法的可玩性和意愿
+                        sNumber += (int)price / 2;
                     }
                     else
                     {
-                        price = (int)(Mathf.Pow(2, taskDataList[i].lingdanLevel) * factor) * 50;//提高该玩法的可玩性和意愿
-                        sNumber += (int)price/2;
+                        price = (int)(Mathf.Pow(5, taskDataList[i].lingdanLevel + 1) * factor * 10) * (TaskLevelController.instance.currLevel + 1);//提高该玩法的可玩性和意愿
+                        sNumber += (int)price / 2;
                     }
 
-                
+
                     tempTaskObj.transform.Find("EffectObject").Find("Lingdan").Find("Text").GetComponent<TMP_Text>().text = "+" + ((int)price).ToString();
 
 
@@ -264,15 +265,15 @@ public class TaskController : MonoBehaviour
         Debug.Log("maxCatNumber" + maxCatNumber);
 
         //清空数据（任务对象，任务数据，未销毁的任务）
-        if (taskList.Count>0)
+        if (taskList.Count > 0)
         {
-            for(int i=0; i< taskList.Count; i++)
+            for (int i = 0; i < taskList.Count; i++)
             {
                 Destroy(taskList[i]);
             }
             taskList.Clear();
         }
-        if(taskDataList.Count>0)
+        if (taskDataList.Count > 0)
         {
             taskDataList.Clear();
         }
@@ -314,24 +315,24 @@ public class TaskController : MonoBehaviour
             task.cats = new List<GameObject>();
 
             //随机产生不同品质丹药，按概率
-            int pro = Random.Range(0,100);
-            if (pro < 2)
+            int pro = Random.Range(0, 100);
+            if (pro < 5)
             {
                 task.lingdanQuality = 3;
             }
-            else if (pro >= 2 && pro < 10)
+            else if (pro >= 5 && pro < 15)
             {
                 task.lingdanQuality = 2;
             }
-            else if (pro >= 10 && pro < 30)
+            else if (pro >= 15 && pro < 40)
             {
                 task.lingdanQuality = 1;
             }
-            else if (pro >= 30)
+            else if (pro >= 40)
             {
                 task.lingdanQuality = 0;
             }
-           
+
 
 
             //产生对象并添加任务列表
@@ -391,7 +392,7 @@ public class TaskController : MonoBehaviour
 
 
             LingDanCatController.instance.catTypeAmount[catType]--;
-            
+
 
             string catPath = "Materials/Cat/cat" + catType.ToString();
             Sprite catSprite = Resources.Load(catPath, typeof(Sprite)) as Sprite;
@@ -404,7 +405,7 @@ public class TaskController : MonoBehaviour
             task.catType = catType;
             task.furnaceIcon = furnaceType;
             task.lingdanLevel = SceneTransferData.instance.maxCatLevel;
-            
+
 
             taskDataList.Insert(i, task);
             Debug.Log("新生产的灵丹任务，序号为：" + i);
@@ -424,7 +425,7 @@ public class TaskController : MonoBehaviour
                  */
                 //Debug.Log("StayBar小猫遍历序号为：" + j);
                 //Debug.Log("StayBar小猫遍历bool为：" + stayCatList[j].hasCat);
-               // Debug.Log("StayBar小猫遍历type为：" + stayCatList[j].catType);
+                // Debug.Log("StayBar小猫遍历type为：" + stayCatList[j].catType);
                 //Debug.Log("StayBar小猫遍历type2为：" + catType);
                 //Debug.Log("StayBar小猫遍历位置为：" + cSite);
 
@@ -454,7 +455,7 @@ public class TaskController : MonoBehaviour
                     if (stayCatList[j].cat != null && tran != null)
                     {
                         stayCatList[j].cat.GetComponent<LingdanCat>().moveCat(tran.position, catType, i, temp, cSite, stayCatList[j].catNumber);//目标位置、小猫类型、丹炉位置、丹炉内位置、小猫序号
-                        
+
                         //stayCatList[j].cat.GetComponent<LingdanCat>().moveCat(tran.position, catType,  cSite, stayCatList[j].catNumber);//目标位置、小猫类型、丹炉位置、丹炉内位置、小猫序号
 
 
@@ -471,7 +472,7 @@ public class TaskController : MonoBehaviour
                     stayCatList[j].catNumber = -1;
                     stayCatList[j].cat = null;
 
-                    if(taskDataList[i].catchNumber >= 3)
+                    if (taskDataList[i].catchNumber >= 3)
                     {
                         break;
                     }
@@ -515,7 +516,7 @@ public class TaskController : MonoBehaviour
                 }
             }
         }
-        
+
     }
 
     /*添加了小猫后，可能有几种情况：
@@ -605,7 +606,7 @@ public class TaskController : MonoBehaviour
         //丹炉的位置
         int index = taskDataList.IndexOf(fSite);
         Debug.Log("判断完成任务：" + fSite);
-        Debug.Log("判断完成任务的位置："+ index);
+        Debug.Log("判断完成任务的位置：" + index);
         Debug.Log("判断完成任务的数量：" + taskDataList.Count);
         Debug.Log("应该被清理的小猫数量：" + taskDataList[index].cats.Count);
 
@@ -657,9 +658,9 @@ public class TaskController : MonoBehaviour
 
             //播放任务完成动画
             //StartCoroutine(PlayAniAndAudio(index, price));
-            
+
         }
- 
+
 
     }
 
@@ -670,13 +671,13 @@ public class TaskController : MonoBehaviour
         GameObject toDestory = taskList[index];
         if (toDestory != null)
         {
-            
+
             //播放完成任务的动效
             toDestory.transform.Find("MainObject").GetComponent<EffectController>().scaleObject(false);
             toDestory.transform.Find("EffectObject").Find("Lingdan").gameObject.SetActive(true);
             toDestory.transform.Find("EffectObject").Find("Lingdan").GetComponent<EffectController>().scaleObject(true);
             toDestory.transform.Find("EffectObject").Find("Lingdan").Find("Text").GetComponent<TMP_Text>().text = "+" + ((int)price).ToString();
-          
+
             //播放小猫音效
             AudioManager.instance.PlayAudio(finishTaskClip);
 
@@ -697,7 +698,7 @@ public class TaskController : MonoBehaviour
             }
 
             //将完成任务的数据从list中移除
-            
+
             taskDataList.RemoveAt(index);
 
 
@@ -711,8 +712,11 @@ public class TaskController : MonoBehaviour
             //遗留问题，仍然无法解决
 
             Debug.Log("正在播放的灵丹序号为：" + index);
-            toDestory.SetActive(false);                      
-            taskToDestoryList.Add(toDestory);          
+            toDestory.SetActive(false);
+            taskToDestoryList.Add(toDestory);
+
+            Resources.UnloadUnusedAssets();
+            System.GC.Collect();
 
             //产生新的任务
             spawnTask(index);//问题，有可能遗留了3个小猫没有去处，是因为点击清理任务速度较快，还没有倒计时接触，就已经把当前小猫数量降到了12以下，导致无法产生更多小猫。改变判断条件即可

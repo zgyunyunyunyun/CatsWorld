@@ -5,18 +5,18 @@ using UnityEngine.UI;
 
 public class LingdanCat : MonoBehaviour
 {
-    public bool moveToFur = false;//ÊÇ·ñÒÆ¶¯µ½µ¤Â¯
-    public bool moveToStay = false;//ÊÇ·ñÒÆ¶¯µ½µ¤Â¯
-    public Vector3 target;//ÒÆ¶¯µÄÄ¿±ê
-    public float speed;//ÒÆ¶¯µÄËÙ¶È
+    public bool moveToFur = false;//æ˜¯å¦ç§»åŠ¨åˆ°ä¸¹ç‚‰
+    public bool moveToStay = false;//æ˜¯å¦ç§»åŠ¨åˆ°ä¸¹ç‚‰
+    public Vector3 target;//ç§»åŠ¨çš„ç›®æ ‡
+    public float speed;//ç§»åŠ¨çš„é€Ÿåº¦
 
-    private int cType;//Ğ¡Ã¨ÀàĞÍ
-    private int fSite;//Ä¿µÄµ¤Â¯Î»ÖÃ
-    private GameObject furnace;//Ä¿µÄµ¤Â¯Î»ÖÃ
-    private int cSite;//Ä¿µÄĞ¡Ã¨¿ÓÎ»
-    private int catNumber;//Ğ¡Ã¨Êı¾İÔÚÁĞ±íÖĞµÄÎ»ÖÃ
+    private int cType;//å°çŒ«ç±»å‹
+    private int fSite;//ç›®çš„ä¸¹ç‚‰ä½ç½®
+    private GameObject furnace;//ç›®çš„ä¸¹ç‚‰ä½ç½®
+    private int cSite;//ç›®çš„å°çŒ«å‘ä½
+    private int catNumber;//å°çŒ«æ•°æ®åœ¨åˆ—è¡¨ä¸­çš„ä½ç½®
 
-    private int sNumber;//Ğ¡Ã¨ÔÚstayBarµÄÎ»ÖÃ
+    private int sNumber;//å°çŒ«åœ¨stayBarçš„ä½ç½®
 
     private Vector3 lastPosition;
 
@@ -31,7 +31,7 @@ public class LingdanCat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Èç¹û·ûºÏÌõ¼ş£¬ÒÆ¶¯Ğ¡Ã¨
+        //å¦‚æœç¬¦åˆæ¡ä»¶ï¼Œç§»åŠ¨å°çŒ«
         if (moveToStay || moveToFur)
         {
             transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
@@ -40,29 +40,29 @@ public class LingdanCat : MonoBehaviour
             //transform.position = Vector3.Lerp(transform.position, target, speed * Time.deltaTime);
 
             //transform.Find("Particle").position = transform.position;
-            
+
             if (lastPosition == transform.position && moveToFur)
             {
-                //Debug.Log("Ğ¡Ã¨¾²Ö¹²»¶¯ÁË£¬ÇÒ±»ÇåÀí¡£ĞòºÅÎª£º" + catNumber);
+                //Debug.Log("å°çŒ«é™æ­¢ä¸åŠ¨äº†ï¼Œä¸”è¢«æ¸…ç†ã€‚åºå·ä¸ºï¼š" + catNumber);
 
-                //Ìæ»»µ¤Â¯ÉÏµÄĞ¡Ã¨ui
-                
+                //æ›¿æ¢ä¸¹ç‚‰ä¸Šçš„å°çŒ«ui
+
                 if (TaskController.instance.taskList.Count >= 1)
                 {
                     if (TaskController.instance.taskList.Count == 1)
                     {
                         fSite = 0;
                     }
-                    Debug.Log("Çå³ıµ¤Â¯£¬ĞòºÅÎª£º" + fSite);
+                    Debug.Log("æ¸…é™¤ä¸¹ç‚‰ï¼Œåºå·ä¸ºï¼š" + fSite);
                     GameObject tempTask = furnace;//TaskController.instance.taskList[fSite];
                     Image catIcon = tempTask.transform.Find("MainObject").Find("CatPos" + cSite.ToString()).GetComponent<Image>();
                     string path = "Materials/Cat/cat" + cType.ToString();
                     Sprite sprite = Resources.Load(path, typeof(Sprite)) as Sprite;
                     catIcon.sprite = sprite;
 
-                    Color color = catIcon.color; // »ñÈ¡µ±Ç°ÑÕÉ«
-                    color.a = 1.0f; // ÉèÖÃÍ¸Ã÷¶È
-                    catIcon.color = color; // Ó¦ÓÃĞÂÑÕÉ«
+                    Color color = catIcon.color; // è·å–å½“å‰é¢œè‰²
+                    color.a = 1.0f; // è®¾ç½®é€æ˜åº¦
+                    catIcon.color = color; // åº”ç”¨æ–°é¢œè‰²
 
                     gameObject.SetActive(false);
                 }
@@ -72,7 +72,7 @@ public class LingdanCat : MonoBehaviour
 
             if (lastPosition == transform.position && moveToStay)
             {
-                //Debug.Log("Ğ¡Ã¨¾²Ö¹²»¶¯ÁË£¬ÇÒÍ£ÁôÔÚstayBar");
+                //Debug.Log("å°çŒ«é™æ­¢ä¸åŠ¨äº†ï¼Œä¸”åœç•™åœ¨stayBar");
 
             }
 
@@ -83,10 +83,10 @@ public class LingdanCat : MonoBehaviour
 
     public void moveCat(Vector3 t, int type, int furnaceSite, GameObject furnaceObj, int catSite, int cNumber)
     {
-        Debug.Log("Ğ¡Ã¨±»ÒÆ¶¯µ½µ¤Â¯ÉÏ£¬Ğ¡Ã¨ĞòºÅÎª£º" + cNumber);
-        Debug.Log("Ğ¡Ã¨±»ÒÆ¶¯µ½µ¤Â¯ÉÏ£¬Ğ¡Ã¨ÀàĞÍÎª£º" + type);
-        //Debug.Log("Ğ¡Ã¨±»ÒÆ¶¯µ½µ¤Â¯ÉÏ£¬µ¤Â¯ĞòºÅÎª£º" + furnaceSite);
-       // //Debug.Log("Ğ¡Ã¨±»ÒÆ¶¯µ½ÅĞ¶ÏÍê³ÉÈÎÎñµÄµ¤Â¯ÉÏ£¬µ¤Â¯ĞòºÅÎª£º" + furnaceSite);
+        Debug.Log("å°çŒ«è¢«ç§»åŠ¨åˆ°ä¸¹ç‚‰ä¸Šï¼Œå°çŒ«åºå·ä¸ºï¼š" + cNumber);
+        Debug.Log("å°çŒ«è¢«ç§»åŠ¨åˆ°ä¸¹ç‚‰ä¸Šï¼Œå°çŒ«ç±»å‹ä¸ºï¼š" + type);
+        //Debug.Log("å°çŒ«è¢«ç§»åŠ¨åˆ°ä¸¹ç‚‰ä¸Šï¼Œä¸¹ç‚‰åºå·ä¸ºï¼š" + furnaceSite);
+        // //Debug.Log("å°çŒ«è¢«ç§»åŠ¨åˆ°åˆ¤æ–­å®Œæˆä»»åŠ¡çš„ä¸¹ç‚‰ä¸Šï¼Œä¸¹ç‚‰åºå·ä¸ºï¼š" + furnaceSite);
 
         target = t;
         moveToFur = true;
@@ -106,8 +106,8 @@ public class LingdanCat : MonoBehaviour
 
     public void moveCatToStay(Vector3 t, int type, int stayNumber, int cNumber)
     {
-        Debug.Log("Ğ¡Ã¨±»ÒÆ¶¯µ½stayBarÉÏ£¬Ğ¡Ã¨ĞòºÅÎª£º" + cNumber);
-        Debug.Log("Ğ¡Ã¨±»ÒÆ¶¯µ½stayBarÉÏ£¬Ğ¡Ã¨ÀàĞÍÎª£º" + type);
+        Debug.Log("å°çŒ«è¢«ç§»åŠ¨åˆ°stayBarä¸Šï¼Œå°çŒ«åºå·ä¸ºï¼š" + cNumber);
+        Debug.Log("å°çŒ«è¢«ç§»åŠ¨åˆ°stayBarä¸Šï¼Œå°çŒ«ç±»å‹ä¸ºï¼š" + type);
         target = t;
         moveToStay = true;
         cType = type;

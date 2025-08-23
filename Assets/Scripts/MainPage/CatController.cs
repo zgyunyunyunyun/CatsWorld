@@ -138,7 +138,7 @@ public class CatController : MonoBehaviour
                     Debug.Log("发送可升级的消息，展示红点");
 
                     //发送消息
-                    Tips.instance.setTip(7, i);
+                    //Tips.instance.setTip(7, i);
                     cats[i].canUp = true;
 
                     redPointShowed = true;
@@ -168,33 +168,36 @@ public class CatController : MonoBehaviour
         //给新增的小猫随机赋值
         newCat.cat_id = cats.Count;//小猫id从0开始
                                   
-        newCat.cat_icon = Random.Range(0, catTypeNumber - 1);//icon即小猫类型
+        newCat.cat_icon = Random.Range(7, 58);//icon即小猫类型
         int rName = Random.Range(1, catNameList[0].Length - 1);//随机的名字类型
+        int rrName = Random.Range(0, 7);//icon即小猫类型
 
         Debug.Log("寻找的小猫类型：" + newCat.cat_icon);
         Debug.Log("寻找的小猫名字序号：" + rName);
 
-        newCat.cat_name = catNameList[newCat.cat_icon][rName];
+        newCat.cat_name = catNameList[rrName][rName];
 
         string[] intro = { "正经", "懦弱", "调皮", "乖巧", "友善", "高傲", "内向", "冷漠" };
 
         newCat.introuction = intro[Random.Range(0, intro.Length - 1)];
 
         //根据新增小猫的次数来提高小猫的等级
+
         newCat.big_level = "练气期";
 
-        if(newCatTime < 8 && newCatTime >= 5 && Random.Range(0, 100) >= 80)
+        
+        if((newCatTime >= 7 && Random.Range(0, 100) >= 70) || (newCatTime >= 12 && Random.Range(0, 100) >= 60) || (newCatTime >= 20 && Random.Range(0, 100) >= 0))
         {
             newCat.big_level = "筑基期";
             Debug.Log("寻找的小猫等级??：" + newCat.big_level);
         } 
 
-        if (newCatTime < 12 && newCatTime >= 8 && Random.Range(0, 100) >= 80)
+        if ((newCatTime >= 12 && Random.Range(0, 100) >= 80) ||( newCatTime >= 20 && Random.Range(0, 100) >= 60))
         {
             newCat.big_level = "金丹期";
         }
 
-        if (newCatTime >= 12 && Random.Range(0, 100) >= 80)
+        if (newCatTime >= 20 && Random.Range(0, 100) >= 80)
         {
             newCat.big_level = "元婴期";
         }
@@ -204,7 +207,7 @@ public class CatController : MonoBehaviour
         newCat.small_level = Random.Range(1, 5);
         newCat.cultivation = 0;
         newCat.canUp = false;
-        newCat.lingshi_consume = (int)(newCat.small_level * Mathf.Pow(10, levelStringToNumber(newCat.big_level) + 1));
+        newCat.lingshi_consume = (int)(newCat.small_level * Mathf.Pow(4, 1 + levelStringToNumber(newCat.big_level)));
         newCat.had_stone = Random.Range(1,10)* (int)(Mathf.Pow(10, levelStringToNumber(newCat.big_level) + 2));
 
         return newCat;
@@ -213,8 +216,7 @@ public class CatController : MonoBehaviour
     //将小猫添加入list
     public void chooseCat(Cat cat)
     {
-        
-        cats.Add(cat);
+        cats.Add(cat);    
 
         Debug.Log("玩家选择了小猫，小猫id为：" + cat.cat_id.ToString());
     }
@@ -308,7 +310,7 @@ public class CatController : MonoBehaviour
     //将等级转化为修为的上限
     public int levelNeedCul(int small_level, string big_level)
     {
-        return (int)(small_level * Mathf.Pow(10, levelStringToNumber(big_level) + 3));
+        return (int)(small_level * Mathf.Pow(10, levelStringToNumber(big_level) + 3)) * 2;
     }
 
 
@@ -332,7 +334,7 @@ public class CatController : MonoBehaviour
         //常规消耗灵石
         for (int i = 0; i < cats.Count; i++)
         {
-            cats[i].lingshi_consume = (int)(cats[i].small_level * Mathf.Pow(10, levelStringToNumber(cats[i].big_level)));
+            cats[i].lingshi_consume = (int)(cats[i].small_level * Mathf.Pow(4, 1 + levelStringToNumber(cats[i].big_level)));
 
             //灵石是否足够消耗
             bool enoughStone = cats[i].had_stone >= cats[i].lingshi_consume * secondsDifference;

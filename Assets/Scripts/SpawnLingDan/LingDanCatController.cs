@@ -31,6 +31,13 @@ public class LingDanCatController : MonoBehaviour
     public GameObject refreshObj;//可重置小猫的按钮
     public GameObject removeObj;//可移出小猫的按钮
 
+    WXRewardedVideoAd refreshVideoAd;//广告位初始化
+    WXRewardedVideoAd removeVideoAd;//广告位初始化
+
+    public Image refreshIcon;//刷新的icon
+    public Image removeIcon;//移走的icon
+
+
     public static LingDanCatController instance;
     private void Awake()
     {
@@ -40,7 +47,25 @@ public class LingDanCatController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        //重置的广告位
+        refreshVideoAd = WX.CreateRewardedVideoAd(
+        new WXCreateRewardedVideoAdParam()
+        {
+            adUnitId = "adunit-20bf7db8fdd5abf9",
+            multiton = true
+        });
+
+        refreshVideoAd.OnClose(ReFreshAdClose);
+
+        //移除的广告位
+        removeVideoAd = WX.CreateRewardedVideoAd(
+        new WXCreateRewardedVideoAdParam()
+        {
+            adUnitId = "adunit-4c910c9b8601c06c",
+            multiton = true
+        });
+
+        removeVideoAd.OnClose(RemoveAdClose);
     }
 
     // Update is called once per frame
@@ -53,6 +78,16 @@ public class LingDanCatController : MonoBehaviour
     //根据关卡难度产生小猫（参数：当前关卡生成小猫的数量）
     public void SpawnCat(int catNumber)
     {
+        //广告按钮展示出来
+        if (!refreshObj.activeSelf)
+        {
+            refreshObj.gameObject.SetActive(true);
+        }
+        if (!removeObj.activeSelf)
+        {
+            removeObj.gameObject.SetActive(true);
+        }
+
         //初始化数据（stayBar数据，小猫类型数据，小猫数据）
         initStayBarList();
 
@@ -70,20 +105,22 @@ public class LingDanCatController : MonoBehaviour
             Debug.Log("重置小猫，原本列表数量为：" + catList.Count);
             for (int i = 0; i < catList.Count; i++)
             {
-                if(catList[i] != null)
+                if (catList[i] != null)
                 {
                     Destroy(catList[i]);
-                }                
+                }
             }
+            Resources.UnloadUnusedAssets();
+            System.GC.Collect();
             catList.Clear();
         }
 
 
         //用于记录每个小猫图片需要往下的位置
-        int[ , ] siteFlag = new int[4,4];
-        for(int a=0;a<4;a++)
+        int[,] siteFlag = new int[4, 4];
+        for (int a = 0; a < 4; a++)
         {
-            for(int b = 0; b < 4; b++)
+            for (int b = 0; b < 4; b++)
             {
                 siteFlag[a, b] = 0;
             }
@@ -109,12 +146,12 @@ public class LingDanCatController : MonoBehaviour
                 //随机产生小猫位置
                 int x = Random.Range(-2, 2);
                 int y = Random.Range(-2, 2);
-                temp.transform.localPosition = new Vector3(250 * x + siteFlag[x + 2, y + 2] * 8, 250 * y + siteFlag[x + 2, y + 2] * 8, 0);
+                temp.transform.localPosition = new Vector3(250 * x + siteFlag[x + 2, y + 2] * 3, 250 * y + siteFlag[x + 2, y + 2] * 3, 0);
 
                 siteFlag[x + 2, y + 2] += 1;
 
                 //展示图片
-                Image catIcon = temp.GetComponent<Image>();               
+                Image catIcon = temp.GetComponent<Image>();
                 string path = "Materials/Cat/cat" + catType.ToString();
                 Sprite sprite = Resources.Load(path, typeof(Sprite)) as Sprite;
                 catIcon.sprite = sprite;
@@ -145,12 +182,14 @@ public class LingDanCatController : MonoBehaviour
                 stayCatList[i].catType = -1;
                 stayCatList[i].catNumber = -1;
                 stayCatList[i].hasCat = false;
-                if(stayCatList[i].cat != null)
+                if (stayCatList[i].cat != null)
                 {
                     Debug.Log("初始化stayBar，清理的小猫对象序号：" + i);
                     Destroy(stayCatList[i].cat);
                 }
             }
+            Resources.UnloadUnusedAssets();
+            System.GC.Collect();
         }
         else
         {
@@ -222,7 +261,7 @@ public class LingDanCatController : MonoBehaviour
         {
             //小猫可以落在哪个位置            
             int stayCatNumber = 0;//用于判断第几个位置没有小猫，并记录下来
-            for(int i = 0; i < stayCatList.Count; i++)
+            for (int i = 0; i < stayCatList.Count; i++)
             {
                 //记录有小猫的数量
                 if (stayCatList[i].hasCat)
@@ -247,12 +286,12 @@ public class LingDanCatController : MonoBehaviour
             {
                 Debug.Log("未收集的小猫达到6个");
                 TaskLevelController.instance.gameFailed();
-                
+
             }
 
-            
+
         }
-        
+
 
     }
 
@@ -294,15 +333,18 @@ public class LingDanCatController : MonoBehaviour
         if (canRefresh)
         {
             RefreshCatPosition();
+
+            string path = "Materials/Logo/vedio";
+            Sprite sprite = Resources.Load(path, typeof(Sprite)) as Sprite;
+            refreshIcon.sprite = sprite;
+
             canRefresh = false;
             refreshObj.gameObject.SetActive(false);
             refreshRedPoint.gameObject.SetActive(false);
         }
         else
         {
-            ShareToRefresh();
-            canRefresh = true;
-            refreshRedPoint.gameObject.SetActive(true);
+            WatchAddToRefresh();
         }
     }
 
@@ -312,18 +354,84 @@ public class LingDanCatController : MonoBehaviour
         if (canRemove)
         {
             RemoveCatOutStayBar();
+
+
+            string path = "Materials/Logo/vedio";
+            Sprite sprite = Resources.Load(path, typeof(Sprite)) as Sprite;
+            removeIcon.sprite = sprite;
+
             canRemove = false;
             removeObj.gameObject.SetActive(false);
             removeRedPoint.gameObject.SetActive(false);
         }
         else
         {
-            ShareToRemove();
-            canRemove = true;
-            removeRedPoint.gameObject.SetActive(true);
+            WatchAddToRemove();
+
         }
     }
 
+    //为了重置而看视频
+    public void WatchAddToRefresh()
+    {
+        if (refreshVideoAd != null)
+        {
+            refreshVideoAd.Show();
+            Debug.Log("激励广告展示");
+        }
+
+    }
+
+    //为了移除而看视频
+    public void WatchAddToRemove()
+    {
+        if (refreshVideoAd != null)
+        {
+            removeVideoAd.Show();
+            Debug.Log("激励广告展示");
+        }
+
+    }
+
+    //关闭广告事件监听-重置
+    void ReFreshAdClose(WXRewardedVideoAdOnCloseResponse res)
+    {
+        if ((res != null && res.isEnded) || res == null)
+        {
+            // 正常播放结束，可以下发游戏奖励
+            canRefresh = true;
+            refreshRedPoint.gameObject.SetActive(true);
+            string path = "Materials/Logo/use";
+            Sprite sprite = Resources.Load(path, typeof(Sprite)) as Sprite;
+            refreshIcon.sprite = sprite;
+            Debug.Log("测试广告成功");
+        }
+        else
+        {
+            // 播放中途退出，不下发游戏奖励
+            Debug.Log("广告中途退出");
+        }
+    }
+
+    //关闭广告事件监听-移除
+    void RemoveAdClose(WXRewardedVideoAdOnCloseResponse res)
+    {
+        if ((res != null && res.isEnded) || res == null)
+        {
+            // 正常播放结束，可以下发游戏奖励
+            canRemove = true;
+            removeRedPoint.gameObject.SetActive(true);
+            string path = "Materials/Logo/use";
+            Sprite sprite = Resources.Load(path, typeof(Sprite)) as Sprite;
+            removeIcon.sprite = sprite;
+            Debug.Log("测试广告成功");
+        }
+        else
+        {
+            // 播放中途退出，不下发游戏奖励
+            Debug.Log("广告中途退出");
+        }
+    }
 
     //为了重置而分享
     public void ShareToRefresh()
@@ -360,14 +468,14 @@ public class LingDanCatController : MonoBehaviour
             }
         }
 
-        for(int i = 0; i < catList.Count; i++)
+        for (int i = 0; i < catList.Count; i++)
         {
             GameObject temp = catList[i];
 
             bool ifNext = false;
-            for(int j = 0; j < stayCatList.Count; j++)
+            for (int j = 0; j < stayCatList.Count; j++)
             {
-               if (stayCatList[j].cat == temp)
+                if (stayCatList[j].cat == temp)
                 {
                     ifNext = true;
                     break;
@@ -390,12 +498,23 @@ public class LingDanCatController : MonoBehaviour
     //将小猫移出stayBar
     public void RemoveCatOutStayBar()
     {
-        for(int i = 0; i < stayCatList.Count; i++)
+        for (int i = 0; i < stayCatList.Count; i++)
         {
-            if(stayCatList[i].cat != null)
+            if (stayCatList[i].cat != null)
             {
                 stayCatList[i].cat.GetComponent<LingdanCat>().moveToStay = false;
                 stayCatList[i].cat.transform.localPosition += new Vector3(0, -200, 0);
+
+                stayCatList[i].cat.GetComponent<Button>().interactable = true;
+
+                stayCatList[i].catType = -1;
+                stayCatList[i].catNumber = -1;
+                stayCatList[i].hasCat = false;
+                if (stayCatList[i].cat != null)
+                {
+                    Debug.Log("初始化stayBar，清理的小猫对象序号：" + i);
+                    stayCatList[i].cat = null;
+                }
             }
         }
     }
@@ -408,7 +527,7 @@ public class StayBarCat
 {
     public int catNumber;//小猫的顺序
     public int catType;//小猫icon类型
-    public GameObject emptyObj;//小猫的各个节点对象
+    public GameObject emptyObj;//小猫的各个节点对象，主要用来存储位置
     public bool hasCat;//该节点是否有小猫
-    public GameObject cat;
+    public GameObject cat;//当前所在的小猫对象
 }

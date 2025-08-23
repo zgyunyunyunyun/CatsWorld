@@ -112,7 +112,16 @@ public class StorageController : MonoBehaviour
             TimeSpan difference = currentTime - endTime; // 计算时间差
             double secondsDifference = difference.TotalSeconds; // 相差的总秒数   
 
-            PropertyController.instance.lingshiNumber = propertData.lingshiNumber;
+            if(SceneTransferData.instance!=null && SceneTransferData.instance.getLingshiNumber > 0)
+            {
+                PropertyController.instance.lingshiNumber = SceneTransferData.instance.getLingshiNumber;
+            }
+            else
+            {
+                PropertyController.instance.lingshiNumber = propertData.lingshiNumber;
+            }
+
+            
             PropertyController.instance.maxLingdanNumber = propertData.maxLingdanNumber;
             PropertyController.instance.territoryArea = propertData.territoryArea;
             UpRaceController.instance.raceLevel = propertData.raceLevel;
@@ -146,9 +155,9 @@ public class StorageController : MonoBehaviour
 
             newLingdan = propertData.waitToGetLingDan + newLingdan;
 
-            if (newLingdan >= Mathf.Pow(10, CatController.instance.getCatMaxLevel() + 2))
+            if (newLingdan >= Mathf.Pow(10, CatController.instance.getCatMaxLevel() + 1) * 100)
             {
-                PropertyController.instance.waitToGetLingDan = (int)Mathf.Pow(10, CatController.instance.getCatMaxLevel() + 2);
+                PropertyController.instance.waitToGetLingDan = (int)(Mathf.Pow(10, CatController.instance.getCatMaxLevel() + 1) * 100);
             }
             else
             {
@@ -222,7 +231,7 @@ public class BasicData
 public class PropertyData
 {
     public int waitToGetLingDan;//当前拥有的灵丹数量
-    public float lingshiNumber;//当前拥有的灵石数量
+    public int lingshiNumber;//当前拥有的灵石数量
     public int maxLingdanNumber;//最大的灵丹数量
     public float territoryArea;//当前领土面积
     public int catNumber;//当前小猫的数量

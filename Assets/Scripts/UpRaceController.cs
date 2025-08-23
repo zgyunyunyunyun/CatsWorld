@@ -70,7 +70,7 @@ public class UpRaceController : MonoBehaviour
 
             if(raceLevel >= 4)
             {
-                upBtnText.text = "已达最高等级";
+                upBtnText.text = "已满级";
                 upBtn.interactable = false;
             }
             
@@ -141,9 +141,9 @@ public class UpRaceController : MonoBehaviour
             }
 
             //达到种族晋级条件
-            if (areaCondition && levelCondition && stoneCondition)
+            if (areaCondition && levelCondition && stoneCondition || CatController.instance.cats.Count >= MaxCatNumber(raceLevel))
             {
-                Debug.Log("达到种族晋级的条件");
+                Debug.Log("达到种族晋级的条件，或者小猫数量满了");
                 //Tips.instance.setTip(9);
 
                 redPoint.gameObject.SetActive(true);
@@ -197,10 +197,12 @@ public class UpRaceController : MonoBehaviour
             //3个条件都满足，按钮改变
             if (stoneCondition && levelCondition && areaCondition)
             {
+                upBtnText.text = "未满足";
                 upBtn.interactable = true;
             }
             else
             {
+                upBtnText.text = "未满足";
                 upBtn.interactable = false;
             }
         }
@@ -282,19 +284,19 @@ public class UpRaceController : MonoBehaviour
     //输出下一等级的灵石要求2
     int RequestStone()
     {
-        return 5000 * (int)Mathf.Pow(10, raceLevel);
+        return 100 * (int)Mathf.Pow(100, raceLevel + 1);
     }
 
     //输出下一等级的领土面积要求
     int RequestTerritoryArea()
     {
-        return 10 * (int)Mathf.Pow(5, raceLevel + 1);
+        return 10 * (int)Mathf.Pow(10, raceLevel + 1);
     }
 
     //输出当前等级最大小猫数量
     public int MaxCatNumber(int rLevel)
     {
-        return 10 * (rLevel + 1);
+        return 10 * (int)Mathf.Pow(2, rLevel);
     }
 
     //输出当前等级最大Lingdan数量

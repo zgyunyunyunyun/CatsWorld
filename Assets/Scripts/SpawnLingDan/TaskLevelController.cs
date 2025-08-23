@@ -2,25 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using WeChatWASM;
 
 public class TaskLevelController : MonoBehaviour
 {
-    /*¹Ø¿¨Êı¾İ
+    /*å…³å¡æ•°æ®
     * 
     */
-    public int initMaxLevel = 5;//³õÊ¼×î´ó¹Ø¿¨Êı
-    public int spawnCatNumber = 10;//Ğ¡Ã¨µÄ³õÊ¼ÊıÁ¿£º30,60£¬120,240,480(1,2,4,8,16)
-    private int currLevel;//µ±Ç°¹Ø¿¨£¬´Ó0¿ªÊ¼
+    public int initMaxLevel = 5;//åˆå§‹æœ€å¤§å…³å¡æ•°
+    public int spawnCatNumber = 10;//å°çŒ«çš„åˆå§‹æ•°é‡ï¼š30,60ï¼Œ120,240,480(1,2,4,8,16)
+    public int currLevel;//å½“å‰å…³å¡ï¼Œä»0å¼€å§‹
 
-    private int maxLevelCat;//Ğ¡Ã¨×î¸ßµÈ¼¶0-5
-    private int currCatNumber;//µ±Ç°¹Ø¿¨Ğ¡Ã¨µÄÊıÁ¿
+    private int maxLevelCat;//å°çŒ«æœ€é«˜ç­‰çº§0-5
+    private int currCatNumber;//å½“å‰å…³å¡å°çŒ«çš„æ•°é‡
 
 
-    public GameObject gameFailedPanel;//ÓÎÏ·Ê§°ÜÃæ°å¡ª¡ªÎ´Íê³É
-    public GameObject gamePassPanel;//µ±¾ÖÓÎÏ·Í¨¹ıÃæ°å
-    public GameObject gameFinishedPanel;//ÓÎÏ·È«²¿Í¨¹ØÃæ°å
+    public GameObject gameFailedPanel;//æ¸¸æˆå¤±è´¥é¢æ¿â€”â€”æœªå®Œæˆ
+    public GameObject gamePassPanel;//å½“å±€æ¸¸æˆé€šè¿‡é¢æ¿
+    public GameObject gameFinishedPanel;//æ¸¸æˆå…¨éƒ¨é€šå…³é¢æ¿
+    public GameObject gameStopdPanel;//æ¸¸æˆæš‚åœé¢æ¿
 
-    public float judgeTime = 1f;//ÅĞ¶ÏÓÎÏ·ÊÇ·ñ½áÊøÊ±¼ä
+    public float judgeTime = 1f;//åˆ¤æ–­æ¸¸æˆæ˜¯å¦ç»“æŸæ—¶é—´
+
+    public GameObject gameTipsPanel;//æ¸¸æˆå¼€å±€çš„æé†’
+    public TMP_Text levelTitle;//å…³å¡æé†’
+    public TMP_Text gameTips;//æ¸¸æˆæé†’
+
+
+    //å¹¿å‘Šç»„ä»¶
+    WXCustomAd BannerAd;//bannerå¹¿å‘Š
+
+    WXRewardedVideoAd doubleVideoAd;//å¹¿å‘Šä½åˆå§‹åŒ–
+    WXRewardedVideoAd doubleLastVideoAd;//å¹¿å‘Šä½åˆå§‹åŒ–
 
 
     public static TaskLevelController instance;
@@ -33,67 +46,127 @@ public class TaskLevelController : MonoBehaviour
     void Start()
     {
         currLevel = 0;
-        currCatNumber = spawnCatNumber * 3 * (int)Mathf.Pow( 2, currLevel);
+        currCatNumber = spawnCatNumber * 3 * (int)Mathf.Pow(2, currLevel);
         maxLevelCat = 0;
 
-        //³õÊ¼»¯¶Ô¾Ö¡ª¡ª¡ª¡ªĞèÒªÏÈÉú²úĞ¡Ã¨£¬·ñÔòÉÏÒ»¾ÖµÄĞ¡Ã¨Î´ÇåÀí£¬¿ÉÄÜ±»Ìí¼Ó½øÁËÈÎÎñÀï
+        //åˆå§‹åŒ–å¯¹å±€â€”â€”â€”â€”éœ€è¦å…ˆç”Ÿäº§å°çŒ«ï¼Œå¦åˆ™ä¸Šä¸€å±€çš„å°çŒ«æœªæ¸…ç†ï¼Œå¯èƒ½è¢«æ·»åŠ è¿›äº†ä»»åŠ¡é‡Œ
         LingDanCatController.instance.SpawnCat(currCatNumber);
         TaskController.instance.startGame(currCatNumber, maxLevelCat);
 
-        SceneTransferData.instance.getLingshiNumber = 0;//½«¿É´«µİµÄÁéÊ¯ÖÃÎª0.
+        //SceneTransferData.instance.getLingshiNumber = 0;//å°†å¯ä¼ é€’çš„çµçŸ³ç½®ä¸º0.
+        gameTipsPanel.SetActive(true);
 
+
+        //åŒå€çš„å¹¿å‘Šä½ - æœ€å
+        doubleLastVideoAd = WX.CreateRewardedVideoAd(
+        new WXCreateRewardedVideoAdParam()
+        {
+            adUnitId = "adunit-f81bd6ad1b21f15e",
+            multiton = true
+        });
+
+        doubleLastVideoAd.OnClose(DoubleLastAdClose);
+
+        //åŒå€çš„å¹¿å‘Šä½
+        doubleVideoAd = WX.CreateRewardedVideoAd(
+        new WXCreateRewardedVideoAdParam()
+        {
+            adUnitId = "adunit-91e1c33b90182c3f",
+            multiton = true
+        });
+
+        doubleVideoAd.OnClose(DoubleAdClose);
+
+
+        double screenWidth = WX.GetSystemInfoSync().screenWidth;
+        double screenHeight = WX.GetSystemInfoSync().screenHeight;
+
+        Debug.Log("å±å¹•å°ºå¯¸è¯„ä¼°-å®½ï¼š" + screenWidth.ToString());
+        Debug.Log("å±å¹•å°ºå¯¸è¯„ä¼°-é«˜ï¼š" + screenHeight.ToString());
+
+        int t = (int)(screenHeight * 3.5 / 5);
+        int w = (int)(screenWidth * 0.9);
+        int l = (int)(screenWidth - 380) / 2;
+
+        Debug.Log("å±å¹•å°ºå¯¸è¯„ä¼°-lã€tã€w åˆ†åˆ«æ˜¯ï¼š" + l.ToString() + " " + t.ToString() + " " + w.ToString());
+
+        //bannerå¹¿å‘Šä½
+        BannerAd = WX.CreateCustomAd(new WXCreateCustomAdParam()
+        {
+            adUnitId = "adunit-31ab5f63566b4997",
+            adIntervals = 30,
+            style = new CustomStyle() { left = l, top = t, width = 380 }
+        });
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        //è·Ÿéšå¼¹çª—å±•ç¤ºbannerå¹¿å‘Š
+        if (BannerAd != null)
+        {
+            if (gameFailedPanel.activeSelf || gamePassPanel.activeSelf || gameFinishedPanel.activeSelf || gameStopdPanel.activeSelf)
+            {
+                BannerAd.Show();
+            }
+            else
+            {
+                BannerAd.Hide();
+            }
+        }
     }
 
-    //Í¨¹Øµ±Ç°¹Ø¿¨
+    //é€šå…³å½“å‰å…³å¡
     public void passedCurrentGame()
     {
-        //ÊÇ·ñÍê³ÉËùÓĞ¹Ø¿¨ÈÎÎñ£¬ÓÎÏ·½áÊø£»·ñÔò£¬µ±¾ÖÓÎÏ·½áÊø
+        //æ˜¯å¦å®Œæˆæ‰€æœ‰å…³å¡ä»»åŠ¡ï¼Œæ¸¸æˆç»“æŸï¼›å¦åˆ™ï¼Œå½“å±€æ¸¸æˆç»“æŸ
         if (currLevel + 1 >= initMaxLevel)
         {
-            //Debug.Log("Íê³ÉËùÓĞ¹Ø¿¨µÄĞ¡Ã¨Á¶µ¤ÈÎÎñ£¬ÓÎÏ·½áÊø£¡£¡");
+            //Debug.Log("å®Œæˆæ‰€æœ‰å…³å¡çš„å°çŒ«ç‚¼ä¸¹ä»»åŠ¡ï¼Œæ¸¸æˆç»“æŸï¼ï¼");
             gameFinishedPanel.SetActive(true);
             //Time.timeScale = 0;
         }
         else
         {
-            //Debug.Log("Íê³Éµ±Ç°¹Ø¿¨ËùÓĞĞ¡Ã¨Á¶µ¤ÈÎÎñ£¬ÓÎÏ·½áÊø£¡£¡");
+            //Debug.Log("å®Œæˆå½“å‰å…³å¡æ‰€æœ‰å°çŒ«ç‚¼ä¸¹ä»»åŠ¡ï¼Œæ¸¸æˆç»“æŸï¼ï¼");
             gamePassPanel.SetActive(true);
             //Time.timeScale = 0;
         }
-        
+
     }
 
-    //ÏÂÒ»¹Ø
+    //ä¸‹ä¸€å…³
     public void nextLevel()
     {
-        Debug.Log("½øÈëÏÂÒ»¹Ø");
+        Debug.Log("è¿›å…¥ä¸‹ä¸€å…³");
 
         Time.timeScale = 1;
+
 
         currLevel++;
         currCatNumber = spawnCatNumber * 3 * (int)Mathf.Pow(2, currLevel);
 
-        //³õÊ¼»¯ÏÂÒ»¶Ô¾Ö
+        //åˆå§‹åŒ–ä¸‹ä¸€å¯¹å±€
         LingDanCatController.instance.SpawnCat(currCatNumber);
         TaskController.instance.startGame(currCatNumber, maxLevelCat);
-        
+
+        gameTipsPanel.SetActive(true);
+        levelTitle.text = "ç¬¬" + (currLevel + 1).ToString() + "å…³";
+        if (currLevel > 0)
+        {
+            gameTips.text = "æœ¬å…³çµçŸ³å¥–åŠ±å¢åŠ " + currLevel.ToString() + "å€";
+        }
 
     }
 
-    //ÖØĞÂ¿ªÊ¼
+    //é‡æ–°å¼€å§‹
     public void restartGame()
     {
-        Debug.Log("ÖØĞÂ¿ªÊ¼ÓÎÏ·");
+        Debug.Log("é‡æ–°å¼€å§‹æ¸¸æˆ");
 
         Time.timeScale = 1;
 
-        //ÅĞ¶ÏÊÇ·ñ´æÔÚÉÏÒ»¾ÖµÄÍ¨ÓÃÉèÖÃ
+        //åˆ¤æ–­æ˜¯å¦å­˜åœ¨ä¸Šä¸€å±€çš„é€šç”¨è®¾ç½®
         if (gameFailedPanel.activeSelf)
         {
             gameFailedPanel.SetActive(false);
@@ -101,19 +174,24 @@ public class TaskLevelController : MonoBehaviour
 
 
 
-        //³õÊ¼»¯¶Ô¾Ö
+        //åˆå§‹åŒ–å¯¹å±€
         currCatNumber = spawnCatNumber * 3 * (int)Mathf.Pow(2, currLevel);
-        Debug.Log("¿ªÊ¼ÓÎÏ·ĞèÒªÉú²úµÄĞ¡Ã¨ÊıÁ¿£º" + currCatNumber);
+        Debug.Log("å¼€å§‹æ¸¸æˆéœ€è¦ç”Ÿäº§çš„å°çŒ«æ•°é‡ï¼š" + currCatNumber);
         LingDanCatController.instance.SpawnCat(currCatNumber);
         TaskController.instance.startGame(currCatNumber, maxLevelCat);
-        
 
+        gameTipsPanel.SetActive(true);
+        levelTitle.text = "ç¬¬" + (currLevel + 1).ToString() + "å…³";
+        if (currLevel > 0)
+        {
+            gameTips.text = "æœ¬å…³çµçŸ³å¥–åŠ±å¢åŠ " + currLevel.ToString() + "å€";
+        }
     }
 
-    //ÓÎÏ·Ê§°Ü£¬½áÊø
+    //æ¸¸æˆå¤±è´¥ï¼Œç»“æŸ
     public void gameFailed()
     {
-        Debug.Log("ÓÎÏ·½áÊø£¡£¡");
+        Debug.Log("æ¸¸æˆç»“æŸï¼ï¼");
 
         StartCoroutine(waitEnd(judgeTime));
     }
@@ -125,10 +203,81 @@ public class TaskLevelController : MonoBehaviour
         //Time.timeScale = 0;
     }
 
-    //°ÑÁéÊ¯½±ÀøÌí¼Óµ½×Ê²úÀï
+    //æŠŠçµçŸ³å¥–åŠ±æ·»åŠ åˆ°èµ„äº§é‡Œ
     public void getLingshiAward()
     {
-        Debug.Log("»ñµÃÁéÊ¯½±Àø£¨º¬½±ÀøÏµÊı£©£º" + TaskController.instance.sNumber);
+        Debug.Log("è·å¾—çµçŸ³å¥–åŠ±ï¼ˆå«å¥–åŠ±ç³»æ•°ï¼‰ï¼š" + TaskController.instance.sNumber);
         SceneTransferData.instance.getLingshiNumber += TaskController.instance.sNumber;
+    }
+
+    //çœ‹è§†é¢‘ - æœ€å
+    public void WatchAddToDoubleLast()
+    {
+        if (doubleVideoAd != null)
+        {
+            doubleLastVideoAd.Show();
+            Debug.Log("æ¿€åŠ±å¹¿å‘Šå±•ç¤º");
+        }
+
+    }
+
+    //å…³é—­å¹¿å‘Šäº‹ä»¶ç›‘å¬ - æœ€å
+    void DoubleLastAdClose(WXRewardedVideoAdOnCloseResponse res)
+    {
+        if ((res != null && res.isEnded) || res == null)
+        {
+            // æ­£å¸¸æ’­æ”¾ç»“æŸï¼Œå¯ä»¥ä¸‹å‘æ¸¸æˆå¥–åŠ±??
+            TaskController.instance.sNumber *= 2;
+            BackToMainScene();
+
+            Debug.Log("æµ‹è¯•å¹¿å‘ŠæˆåŠŸ");
+        }
+        else
+        {
+            // æ’­æ”¾ä¸­é€”é€€å‡ºï¼Œä¸ä¸‹å‘æ¸¸æˆå¥–åŠ±
+            Debug.Log("å¹¿å‘Šä¸­é€”é€€å‡º");
+        }
+    }
+
+    //çœ‹è§†é¢‘
+    public void WatchAddToDouble()
+    {
+        if (doubleVideoAd != null)
+        {
+            doubleVideoAd.Show();
+            Debug.Log("æ¿€åŠ±å¹¿å‘Šå±•ç¤º");
+        }
+
+    }
+
+    //å…³é—­å¹¿å‘Šäº‹ä»¶ç›‘å¬-
+    void DoubleAdClose(WXRewardedVideoAdOnCloseResponse res)
+    {
+        if ((res != null && res.isEnded) || res == null)
+        {
+            // æ­£å¸¸æ’­æ”¾ç»“æŸï¼Œå¯ä»¥ä¸‹å‘æ¸¸æˆå¥–åŠ±??
+            TaskController.instance.sNumber *= 2;
+            nextLevel();
+            gamePassPanel.SetActive(false);
+
+            Debug.Log("æµ‹è¯•å¹¿å‘ŠæˆåŠŸ");
+        }
+        else
+        {
+            // æ’­æ”¾ä¸­é€”é€€å‡ºï¼Œä¸ä¸‹å‘æ¸¸æˆå¥–åŠ±
+            Debug.Log("å¹¿å‘Šä¸­é€”é€€å‡º");
+        }
+    }
+
+    //è¿”å›ä¸»åœºæ™¯
+    public void BackToMainScene()
+    {
+        BannerAd.Destroy();
+        Debug.Log("å…³é—­bannerå¹¿å‘Š");
+
+        //è·å¾—çµçŸ³
+        getLingshiAward();
+
+        SceneController.instance.changeScene(0);
     }
 }

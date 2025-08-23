@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using WeChatWASM;
 
 public class MainController : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class MainController : MonoBehaviour
     public GameObject beginBG;
     public GameObject beginBornCat;
     public GameObject beginChooseCat;
+
+    //开局展示免费生产小猫
+    public GameObject freeNewCat;
 
 
     public static MainController instance;
@@ -41,9 +45,11 @@ public class MainController : MonoBehaviour
         if (isFirstTimeGaming && !bgIsOpened)
         {
             //展示背景介绍
-            beginBG.SetActive(true);
+            //beginBG.SetActive(true);
 
             //Debug.Log("首次进入游戏");
+
+            freeNewCat.SetActive(true);
         }
         else
         {
