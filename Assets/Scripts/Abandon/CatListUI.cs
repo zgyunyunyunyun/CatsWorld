@@ -14,8 +14,8 @@ public class CatListUI : MonoBehaviour
 
     private List<Cat> cats = new List<Cat>();
 
-    //private int disCatId;//Ëù·ÖÅä¹¤×÷Ğ¡Ã¨µÄid£¬³õÊ¼»¯Î´-1
-    public string currChoose = "È«²¿";//µ±Ç°ËùÑ¡ÔñµÄĞ¡Ã¨·ÖÀà£¬Ä¬ÈÏÊÇÈ«²¿
+    //private int disCatId;//æ‰€åˆ†é…å·¥ä½œå°çŒ«çš„idï¼Œåˆå§‹åŒ–æœª-1
+    public string currChoose = "å…¨éƒ¨";//å½“å‰æ‰€é€‰æ‹©çš„å°çŒ«åˆ†ç±»ï¼Œé»˜è®¤æ˜¯å…¨éƒ¨
 
     public static CatListUI instance;
     private void Awake()
@@ -27,7 +27,7 @@ public class CatListUI : MonoBehaviour
     void Start()
     {
         //disCatId = -1;
-        //RefreshUI("È«²¿");
+        //RefreshUI("å…¨éƒ¨");
 
     }
 
@@ -38,18 +38,18 @@ public class CatListUI : MonoBehaviour
     }
 
     /*
-    //Çå¿Õµ±Ç°×Ó½ÚµãºóÖØĞÂ³õÊ¼»¯ÁĞ±í
+    //æ¸…ç©ºå½“å‰å­èŠ‚ç‚¹åé‡æ–°åˆå§‹åŒ–åˆ—è¡¨
     public void RefreshUI(string work_state)
     {
         currChoose = work_state;
-        //Çå¿Õ×Ó½Úµã
+        //æ¸…ç©ºå­èŠ‚ç‚¹
         if (transform.childCount > 0)
         {
             for (int j = 0; j < transform.childCount; j++)
             {
                 GameObject.Destroy(transform.GetChild(j).gameObject);
 
-                Debug.Log("ÒÑÇå¿ÕÔ­¸¸½ÚµãµÄËùÓĞ×Ó½Úµã");
+                Debug.Log("å·²æ¸…ç©ºåŸçˆ¶èŠ‚ç‚¹çš„æ‰€æœ‰å­èŠ‚ç‚¹");
             }
         }
         
@@ -60,14 +60,14 @@ public class CatListUI : MonoBehaviour
         }
 
 
-        //»ñµÃĞ¡Ã¨list²¢ÖØĞÂÅÅĞò
+        //è·å¾—å°çŒ«listå¹¶é‡æ–°æ’åº
         List<Cat> tempcats = CatController.instance.cats;
 
-        Debug.Log("Ğ¡Ã¨µÄÊıÁ¿£º" + tempcats.Count);
+        Debug.Log("å°çŒ«çš„æ•°é‡ï¼š" + tempcats.Count);
 
         for (int j = 0; j < tempcats.Count; j++)
         {
-            if(tempcats[j].work == "¿ÕÏĞ")
+            if(tempcats[j].work == "ç©ºé—²")
             {
                 cats.Insert(0, tempcats[j]);
             }
@@ -78,24 +78,24 @@ public class CatListUI : MonoBehaviour
         }
 
 
-        int i;//±éÀúĞ¡Ã¨
-        int t = 0;//Êµ¼ÊÕ¹Ê¾Ğ¡Ã¨µÄÎ»ÖÃ
+        int i;//éå†å°çŒ«
+        int t = 0;//å®é™…å±•ç¤ºå°çŒ«çš„ä½ç½®
 
         for (i = 0; i < cats.Count; i++)
         {
-            //Ğ¡Ã¨²»·ûºÏÕ¹Ê¾µÄÌõ¼ş£¬Ìø¹ı²¢½øÈëÏÂÒ»´ÎÑ­»·
-            if(work_state != "È«²¿" && cats[i].work != work_state)
+            //å°çŒ«ä¸ç¬¦åˆå±•ç¤ºçš„æ¡ä»¶ï¼Œè·³è¿‡å¹¶è¿›å…¥ä¸‹ä¸€æ¬¡å¾ªç¯
+            if(work_state != "å…¨éƒ¨" && cats[i].work != work_state)
             {
-                Debug.Log("²»·ûºÏÌõ¼şµÄĞ¡Ã¨ĞòºÅ£º" + i);
+                Debug.Log("ä¸ç¬¦åˆæ¡ä»¶çš„å°çŒ«åºå·ï¼š" + i);
                 continue;             
             }
 
-            Debug.Log("µ±Ç°Ğ¡Ã¨ÊıÁ¿£º" + cats.Count);
+            Debug.Log("å½“å‰å°çŒ«æ•°é‡ï¼š" + cats.Count);
 
-            //»ñµÃÊµÀı»¯¹¤×÷ÏîµÄÊı¾İ£¬ÓÃÓÚºóÃæ¸³Öµ
+            //è·å¾—å®ä¾‹åŒ–å·¥ä½œé¡¹çš„æ•°æ®ï¼Œç”¨äºåé¢èµ‹å€¼
             GameObject temp = Instantiate(workUI);
 
-            //½«Ğ¡Ã¨ÊôĞÔÁĞ±í¹Ò×Å¸¸½ÚµãÉÏ
+            //å°†å°çŒ«å±æ€§åˆ—è¡¨æŒ‚ç€çˆ¶èŠ‚ç‚¹ä¸Š
             temp.transform.SetParent(this.transform, false);
 
             temp.transform.localPosition = new Vector3(410, -60 - t * 236, 0);
@@ -108,56 +108,56 @@ public class CatListUI : MonoBehaviour
             TMP_Text contentBtn = button.transform.Find("Text (TMP)").GetComponent<TMP_Text>();
 
 
-            //¶Ô»ñµÃµÄUI½øĞĞ¸³Öµ
+            //å¯¹è·å¾—çš„UIè¿›è¡Œèµ‹å€¼
             string path = "Materials/" + cats[i].cat_icon;
-            Debug.Log("³É¹¦µ®ÉúĞ¡Ã¨£¬Ğ¡Ã¨Í·Ïñ path:" + path);
+            Debug.Log("æˆåŠŸè¯ç”Ÿå°çŒ«ï¼Œå°çŒ«å¤´åƒ path:" + path);
             Sprite sprite = Resources.Load(path, typeof(Sprite)) as Sprite;
             catIcon.sprite = sprite;
 
             catName.text = cats[i].cat_name;
             workState.text = cats[i].work;
-            if (cats[i].work == "Á¶µ¤ÖĞ")
+            if (cats[i].work == "ç‚¼ä¸¹ä¸­")
             {
-                getThing.text = "ÊÕ»ñ£ºÁéµ¤£¨´ı¼ÆËã£©";
-                contentBtn.text = "Í£Ö¹";
+                getThing.text = "æ”¶è·ï¼šçµä¸¹ï¼ˆå¾…è®¡ç®—ï¼‰";
+                contentBtn.text = "åœæ­¢";
 
-                //µã»÷°´Å¥Ê±£¬°Ñµ±Ç°ĞèÒª·ÖÅä¹¤×÷µÄĞ¡Ã¨µÄid¼ÇÂ¼ÏÂÀ´
+                //ç‚¹å‡»æŒ‰é’®æ—¶ï¼ŒæŠŠå½“å‰éœ€è¦åˆ†é…å·¥ä½œçš„å°çŒ«çš„idè®°å½•ä¸‹æ¥
                 int catid = cats[i].cat_id;
                 button.onClick.AddListener(() => clickWorkBtn(catid));
-                button.onClick.AddListener(() => this.DistributeWork("¿ÕÏĞ"));
+                button.onClick.AddListener(() => this.DistributeWork("ç©ºé—²"));
             }
-            else if (cats[i].work == "Ì½Ë÷ÖĞ")
+            else if (cats[i].work == "æ¢ç´¢ä¸­")
             {
-                getThing.text = "ÊÕ»ñ£ºÁé²İ£¨´ı¼ÆËã£©";
-                contentBtn.text = "Í£Ö¹";
+                getThing.text = "æ”¶è·ï¼šçµè‰ï¼ˆå¾…è®¡ç®—ï¼‰";
+                contentBtn.text = "åœæ­¢";
 
-                //µã»÷°´Å¥Ê±£¬°Ñµ±Ç°ĞèÒª·ÖÅä¹¤×÷µÄĞ¡Ã¨µÄid¼ÇÂ¼ÏÂÀ´
+                //ç‚¹å‡»æŒ‰é’®æ—¶ï¼ŒæŠŠå½“å‰éœ€è¦åˆ†é…å·¥ä½œçš„å°çŒ«çš„idè®°å½•ä¸‹æ¥
                 int catid = cats[i].cat_id;
                 button.onClick.AddListener(() => clickWorkBtn(catid));
-                button.onClick.AddListener(() => this.DistributeWork("¿ÕÏĞ"));
+                button.onClick.AddListener(() => this.DistributeWork("ç©ºé—²"));
             }
             else
             {
-                getThing.text = "ÊÕ»ñ£ºÎŞ";
-                contentBtn.text = "¹¤×÷";
+                getThing.text = "æ”¶è·ï¼šæ— ";
+                contentBtn.text = "å·¥ä½œ";
 
                 button.onClick.AddListener(() => chooseWork.gameObject.SetActive(true));
                 button.onClick.AddListener(() => greyBG.gameObject.SetActive(false));
 
-                //µã»÷°´Å¥Ê±£¬°Ñµ±Ç°ĞèÒª·ÖÅä¹¤×÷µÄĞ¡Ã¨µÄid¼ÇÂ¼ÏÂÀ´
+                //ç‚¹å‡»æŒ‰é’®æ—¶ï¼ŒæŠŠå½“å‰éœ€è¦åˆ†é…å·¥ä½œçš„å°çŒ«çš„idè®°å½•ä¸‹æ¥
                 int catid = cats[i].cat_id;
                 button.onClick.AddListener(() => clickWorkBtn(catid));
 
-                //°ó¶¨°´Å¥µã»÷·ÖÅä¹¤×÷
-                disLiandanWork.onClick.AddListener(() => this.DistributeWork("Á¶µ¤ÖĞ"));
-                disTansuoWork.onClick.AddListener(() => this.DistributeWork("Ì½Ë÷ÖĞ"));
+                //ç»‘å®šæŒ‰é’®ç‚¹å‡»åˆ†é…å·¥ä½œ
+                disLiandanWork.onClick.AddListener(() => this.DistributeWork("ç‚¼ä¸¹ä¸­"));
+                disTansuoWork.onClick.AddListener(() => this.DistributeWork("æ¢ç´¢ä¸­"));
                 disLiandanWork.onClick.AddListener(() => chooseWork.gameObject.SetActive(false));
                 disLiandanWork.onClick.AddListener(() => greyBG.gameObject.SetActive(true));
                 disTansuoWork.onClick.AddListener(() => chooseWork.gameObject.SetActive(false));
                 disTansuoWork.onClick.AddListener(() => greyBG.gameObject.SetActive(true));
             }
 
-            t++;//Õ¹Ê¾ÁË1Ö»Ğ¡Ã¨²¢×öÀÛ¼Æ
+            t++;//å±•ç¤ºäº†1åªå°çŒ«å¹¶åšç´¯è®¡
 
         }
     }
@@ -171,7 +171,7 @@ public class CatListUI : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Ğ¡Ã¨¹¤×÷·ÖÅä³ö´í£¬Î´ÕıÈ·³õÊ¼»¯");
+            Debug.LogError("å°çŒ«å·¥ä½œåˆ†é…å‡ºé”™ï¼Œæœªæ­£ç¡®åˆå§‹åŒ–");
         }    
     }*/
 
@@ -179,23 +179,23 @@ public class CatListUI : MonoBehaviour
     void DistributeWork(string workState)
     {
         List<Cat> cats = CatController.instance.cats;
-        //Debug.Log("×¼±¸·ÖÅä¹¤×÷:");
+        //Debug.Log("å‡†å¤‡åˆ†é…å·¥ä½œ:");
         if (cats != null && cats.Count > 0)
         {
             for(int i =0; i < cats.Count; i++)
             {
-                //ÅĞ¶ÏÊÇ·ñĞèÒª¿ªÊ¼·ÖÅä¹¤×÷»òÍ£Ö¹¹¤×÷
+                //åˆ¤æ–­æ˜¯å¦éœ€è¦å¼€å§‹åˆ†é…å·¥ä½œæˆ–åœæ­¢å·¥ä½œ
                 if (disCatId != -1 && cats[i].cat_id == disCatId)
                 {
                     CatController.instance.cats[i].work = workState;
 
-                    Debug.Log("Ğ¡Ã¨¿ªÊ¼¹¤×÷ÁË£¬¸ÃĞ¡Ã¨idÎª£º" + cats[i].cat_id);
+                    Debug.Log("å°çŒ«å¼€å§‹å·¥ä½œäº†ï¼Œè¯¥å°çŒ«idä¸ºï¼š" + cats[i].cat_id);
 
                     disCatId = -1;
                     RefreshUI(currChoose);
                 }else
                 {
-                    Debug.LogError("·ÖÅä¹¤×÷Ê§°Ü");
+                    Debug.LogError("åˆ†é…å·¥ä½œå¤±è´¥");
                 }
             }
         }

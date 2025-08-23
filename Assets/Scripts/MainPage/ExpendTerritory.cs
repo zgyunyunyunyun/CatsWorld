@@ -8,72 +8,72 @@ using Random = UnityEngine.Random;
 
 public class ExpendTerritory : MonoBehaviour
 {
-    public GameObject content;//´æ´¢ÎïÌåµÄ¸¸½Úµã£¨scrowµÄÄÚÈİ½Úµã£©
-    public GameObject enemyUI;//µĞÈËµÄÊı¾İUI
+    public GameObject content;//å­˜å‚¨ç‰©ä½“çš„çˆ¶èŠ‚ç‚¹ï¼ˆscrowçš„å†…å®¹èŠ‚ç‚¹ï¼‰
+    public GameObject enemyUI;//æ•Œäººçš„æ•°æ®UI
 
-    public GameObject victoryUI;//Ê¤ÀûUI
-    public GameObject defeatedUI;//Ê§°ÜUI
+    public GameObject victoryUI;//èƒœåˆ©UI
+    public GameObject defeatedUI;//å¤±è´¥UI
 
-    public int enemyListCount = 12;//µĞÈËÁĞ±íÊı=5
+    public int enemyListCount = 12;//æ•Œäººåˆ—è¡¨æ•°=5
     private List<EnemyData> enemyDataList = new List<EnemyData>();
     private List<GameObject> enemyUIList = new List<GameObject>();
 
-    private string[] enemyNameList0 = {"Ò°ÀÇ", "ºÚÓ¥", "¾Ş»¢", "ÁÔ±ª", "¶À½ÇÏ¬Å£"};
-    private string[] enemyNameList1 = {"É³Ä®ÍÁÀÇ", "·ç±ª", "³à½ğĞÜ","ÁÒ·çÂí","ÈıÄ¿Éñºï","»ÃÓ°ºü","¾ÅÉ«Â¹","ÁÒÑæÊó","Ó×Äê÷è÷ë"};
-    private string[] enemyNameList2 = {"ÁÒÑæÌì÷ë", "À×ÊŞ", "Ó¦Áú","ÊÉ½ğ·ÉÒÏ","ÊÉÁé³æ","¾ŞÑÒ¹Ö","Ó×ÄêöïÅô", "Ó×ÄêÇàÁú"};
-    private string[] enemyNameList3 = {"òÔÁú", "Îå²Ê·ï»Ë", "É³Ä®¾ŞÊŞ", "¶À½ÇÊŞ","ÊÉÁé³æ","ÅôÓ¥","±±Óò½ğµñ", "ºÚÁ×¾Şòş"};
-    private string[] enemyNameList4 = {"ÇîÆæ", "´¿ÑªÇàÁú", "´¿Ñª·ï»Ë", "°ÙÊŞµÛ¾ı", "ÍÌÔÂÊÉ»êòÚò¼", "ÍÌÌì¸òó¡", "ÁúÅ®", "öïÅô"};
+    private string[] enemyNameList0 = {"é‡ç‹¼", "é»‘é¹°", "å·¨è™", "çŒè±¹", "ç‹¬è§’çŠ€ç‰›"};
+    private string[] enemyNameList1 = {"æ²™æ¼ åœŸç‹¼", "é£è±¹", "èµ¤é‡‘ç†Š","çƒˆé£é©¬","ä¸‰ç›®ç¥çŒ´","å¹»å½±ç‹","ä¹è‰²é¹¿","çƒˆç„°é¼ ","å¹¼å¹´éº’éºŸ"};
+    private string[] enemyNameList2 = {"çƒˆç„°å¤©éºŸ", "é›·å…½", "åº”é¾™","å™¬é‡‘é£èš","å™¬çµè™«","å·¨å²©æ€ª","å¹¼å¹´é²²é¹", "å¹¼å¹´é’é¾™"};
+    private string[] enemyNameList3 = {"è›Ÿé¾™", "äº”å½©å‡¤å‡°", "æ²™æ¼ å·¨å…½", "ç‹¬è§’å…½","å™¬çµè™«","é¹é¹°","åŒ—åŸŸé‡‘é›•", "é»‘ç£·å·¨èŸ’"};
+    private string[] enemyNameList4 = {"ç©·å¥‡", "çº¯è¡€é’é¾™", "çº¯è¡€å‡¤å‡°", "ç™¾å…½å¸å›", "åæœˆå™¬é­‚èœˆèš£", "åå¤©è›¤èŸ†", "é¾™å¥³", "é²²é¹"};
 
 
-    private bool hasAttackEnemy = false;//µ±Ç°ÊÇ·ñÓĞÀ´Ï®µÄµĞÈË
-    private float attackDetectTimer = 5;//¼ì²âÊÇ·ñÓĞµĞÈËµÄ¼ÆÊ±Æ÷
+    private bool hasAttackEnemy = false;//å½“å‰æ˜¯å¦æœ‰æ¥è¢­çš„æ•Œäºº
+    private float attackDetectTimer = 5;//æ£€æµ‹æ˜¯å¦æœ‰æ•Œäººçš„è®¡æ—¶å™¨
     public float attackTimeGap = 5;
 
-    private EnemyData enemyAttack;//À´Ï®µÄµĞÈËÊı¾İ
+    private EnemyData enemyAttack;//æ¥è¢­çš„æ•Œäººæ•°æ®
 
-    public GameObject enemyComingUI;//µĞÈËÀ´Ï®µÄÌáÊ¾Ìõ
-    //public Image enemyImage;//ÌáÊ¾ÌõÉÏµĞÈËµÄÍ·Ïñ
-    public TMP_Text timeTipText;//µ¹¼ÆÊ±ÌáÊ¾
-    private float expendRestTimer = 900;//Ê£ÓàÊ±¼ä¡ª¡ªµ¥Î»£ºÃë¡££¨ĞèÒªÖØÖÃ£©
+    public GameObject enemyComingUI;//æ•Œäººæ¥è¢­çš„æç¤ºæ¡
+    //public Image enemyImage;//æç¤ºæ¡ä¸Šæ•Œäººçš„å¤´åƒ
+    public TMP_Text timeTipText;//å€’è®¡æ—¶æç¤º
+    private float expendRestTimer = 900;//å‰©ä½™æ—¶é—´â€”â€”å•ä½ï¼šç§’ã€‚ï¼ˆéœ€è¦é‡ç½®ï¼‰
     private float expendRestGap = 900;
 
-    public GameObject enemyDetailUI;//µĞÈËÀ´Ï®µÄÌáÊ¾Ìõ
-    //public Image enemyPanelImgae;//Ãæ°åÉÏµÄµĞÈËÌáÊ¾
-    public TMP_Text enemyNameText;//µĞÈËµÄÃû³Æ
-    public TMP_Text enemyNumberText;//µĞÈËµÄÊıÁ¿
-    public TMP_Text enemyMaxLevelText;//µĞÈË×î¸ß¾³½ç
-    public TMP_Text rewardText;//½±ÀøÎÄ±¾
-    public Button attackBtn;//¹¥»÷°´Å¥
-    public TMP_Text attackBtnText;//¹¥»÷°´Å¥ÎÄ±¾
+    public GameObject enemyDetailUI;//æ•Œäººæ¥è¢­çš„æç¤ºæ¡
+    //public Image enemyPanelImgae;//é¢æ¿ä¸Šçš„æ•Œäººæç¤º
+    public TMP_Text enemyNameText;//æ•Œäººçš„åç§°
+    public TMP_Text enemyNumberText;//æ•Œäººçš„æ•°é‡
+    public TMP_Text enemyMaxLevelText;//æ•Œäººæœ€é«˜å¢ƒç•Œ
+    public TMP_Text rewardText;//å¥–åŠ±æ–‡æœ¬
+    public Button attackBtn;//æ”»å‡»æŒ‰é’®
+    public TMP_Text attackBtnText;//æ”»å‡»æŒ‰é’®æ–‡æœ¬
 
     private void Start()
     {
-        //Éú³ÉµĞÈË
+        //ç”Ÿæˆæ•Œäºº
         StartCoroutine(RandomSpawnEnemy());
 
     }
 
     /// <summary>
-    /// µ¹¼ÆÊ±µÄ¼ÆËã·ÅÔÚµÄ¿ç³¡¾°µÄ¶ÔÏóÀï
+    /// å€’è®¡æ—¶çš„è®¡ç®—æ”¾åœ¨çš„è·¨åœºæ™¯çš„å¯¹è±¡é‡Œ
     /// </summary>
 
     private void Update()
     {
-        //µÚ¶ş´Î¼°ÒÔºó£¬´ÓÆäËû³¡¾°»ØÀ´ÒÔºó¡£Èç¹û´¦ÓÚµ¹¼ÆÊ±×´Ì¬£¬ÔòË¢ĞÂÊı¾İ
+        //ç¬¬äºŒæ¬¡åŠä»¥åï¼Œä»å…¶ä»–åœºæ™¯å›æ¥ä»¥åã€‚å¦‚æœå¤„äºå€’è®¡æ—¶çŠ¶æ€ï¼Œåˆ™åˆ·æ–°æ•°æ®
         if (SceneTransferData.instance.hasAttackEnemy)
         {
             hasAttackEnemy = SceneTransferData.instance.hasAttackEnemy;
             expendRestTimer = SceneTransferData.instance.expendRestTimer;
         }
 
-        //Ã¿¸öÒ»¶ÎÊ±¼ä¼ì²âÊÇ·ñÉú³ÉÀ´Ï®µÄµĞÈË
+        //æ¯ä¸ªä¸€æ®µæ—¶é—´æ£€æµ‹æ˜¯å¦ç”Ÿæˆæ¥è¢­çš„æ•Œäºº
         attackDetectTimer -= Time.deltaTime;
         
         /*
         if(false)
         //if (attackDetectTimer < 0)
         {
-            //Éú³ÉµÄ¸ÅÂÊÎª20%£¬ÇÒµ±Ç°Ã»ÓĞÀ´Ï®µÄµĞÈË¡ª¡ªÉú³É1¸öµĞÈË²¢Õ¹Ê¾ÌáÊ¾ÌõUI
+            //ç”Ÿæˆçš„æ¦‚ç‡ä¸º20%ï¼Œä¸”å½“å‰æ²¡æœ‰æ¥è¢­çš„æ•Œäººâ€”â€”ç”Ÿæˆ1ä¸ªæ•Œäººå¹¶å±•ç¤ºæç¤ºæ¡UI
             int x = Random.Range(0, 100);
             if (x > 90 && !hasAttackEnemy)
             {
@@ -83,11 +83,11 @@ public class ExpendTerritory : MonoBehaviour
             attackDetectTimer = attackTimeGap;
         }
 
-        //µ±¹¥»÷ÌáÊ¾Õ¹Ê¾Ê±£¬µ¹¼ÆÊ±¿ªÊ¼¡£µ¹¼ÆÊ±½áÊø£¬Ôò¿ªÊ¼¹¥»÷
+        //å½“æ”»å‡»æç¤ºå±•ç¤ºæ—¶ï¼Œå€’è®¡æ—¶å¼€å§‹ã€‚å€’è®¡æ—¶ç»“æŸï¼Œåˆ™å¼€å§‹æ”»å‡»
         //if (hasAttackEnemy && enemyComingUI != null && expendRestTimer >= 0)
         if(false)
         {
-            //Debug.Log("À´Ï®µÄµĞÈË£¬×¼±¸Éú³ÉµĞÈË");
+            //Debug.Log("æ¥è¢­çš„æ•Œäººï¼Œå‡†å¤‡ç”Ÿæˆæ•Œäºº");
             enemyAttack = RandomSpawnOneEnemy();
             enemyComingUI.gameObject.SetActive(true);
 
@@ -101,10 +101,10 @@ public class ExpendTerritory : MonoBehaviour
                 AttackComingEnemy();
                 expendRestTimer = attackTimeGap;
                 hasAttackEnemy = false;
-                //¹¥»÷¡ª¡ªÒÅÁô
+                //æ”»å‡»â€”â€”é—ç•™
             }
 
-            //³õÊ¼»¯Ê±£¬°ÑÊ£ÓàÊ±¼ä´«µİ¸ø³¡¾°¼ÇÂ¼data
+            //åˆå§‹åŒ–æ—¶ï¼ŒæŠŠå‰©ä½™æ—¶é—´ä¼ é€’ç»™åœºæ™¯è®°å½•data
             if (SceneTransferData.instance.expendRestTimer < 0 || SceneTransferData.instance.expendRestTimer < expendRestTimer)
             {
                 SceneTransferData.instance.expendRestTimer = expendRestTimer;
@@ -118,10 +118,10 @@ public class ExpendTerritory : MonoBehaviour
         */
     }
 
-    //Õ¹Ê¾¿ªÍØÁìÍÁµÄÈÎÎñ
+    //å±•ç¤ºå¼€æ‹“é¢†åœŸçš„ä»»åŠ¡
     public void ShowTerritoryTask()
     {
-        //Çå¿Õcontent
+        //æ¸…ç©ºcontent
         if (content.transform.childCount > 0)
         {
             foreach (Transform child in content.transform)
@@ -132,9 +132,9 @@ public class ExpendTerritory : MonoBehaviour
             enemyUIList.Clear();
         }
 
-        Debug.Log("¿ªÊ¼Õ¹Ê¾µĞÈËÁĞ±íUI£¬ÊıÁ¿Îª£º" + enemyDataList.Count);
+        Debug.Log("å¼€å§‹å±•ç¤ºæ•Œäººåˆ—è¡¨UIï¼Œæ•°é‡ä¸ºï¼š" + enemyDataList.Count);
 
-        //¸ù¾İdataÉú³ÉUI
+        //æ ¹æ®dataç”ŸæˆUI
         for (int i=0; i < enemyDataList.Count; i++)
         {
 
@@ -148,64 +148,64 @@ public class ExpendTerritory : MonoBehaviour
     {
         GameObject tempUI = Instantiate(enemyUI);
 
-        //½«µĞÈËUI¹Ò×Å¸¸½ÚµãÉÏ
+        //å°†æ•ŒäººUIæŒ‚ç€çˆ¶èŠ‚ç‚¹ä¸Š
         tempUI.transform.SetParent(content.transform, false);
 
-        //¸Ä±äUIÎ»ÖÃ
+        //æ”¹å˜UIä½ç½®
         tempUI.transform.localPosition = new Vector3(500, -160 - 300 * i, 0);
-        Debug.Log("ĞÂÔöµĞÈËµÄposition£º" + tempUI.transform.localPosition);
-        Debug.Log("ĞÂÔöµĞÈËµÄĞòºÅi£º" + i);
+        Debug.Log("æ–°å¢æ•Œäººçš„positionï¼š" + tempUI.transform.localPosition);
+        Debug.Log("æ–°å¢æ•Œäººçš„åºå·iï¼š" + i);
 
-        //¶ÔÎÄ×Ö½øĞĞ¸³Öµ
+        //å¯¹æ–‡å­—è¿›è¡Œèµ‹å€¼
         TMP_Text title = tempUI.transform.Find("Title").GetComponent<TMP_Text>();
         TMP_Text number = tempUI.transform.Find("Number").GetComponent<TMP_Text>();
         TMP_Text maxLevel = tempUI.transform.Find("MaxLevel").GetComponent<TMP_Text>();
         TMP_Text area = tempUI.transform.Find("TerritoryArea").GetComponent<TMP_Text>();
 
         title.text = enemyDataList[i].name;
-        number.text = "µĞÈË£º" + enemyDataList[i].number.ToString();
-        maxLevel.text = "×î´óµÈ¼¶£º" + CatController.instance.numberToCatLevelString(enemyDataList[i].big_level) + " " + enemyDataList[i].small_level + "²ã";
-        area.text = "ÁìÍÁ£º" + NumberController.instance.NumberToChinaString((int)enemyDataList[i].area) + " Æ½·½Ã×";
+        number.text = "æ•Œäººï¼š" + enemyDataList[i].number.ToString();
+        maxLevel.text = "æœ€å¤§ç­‰çº§ï¼š" + CatController.instance.numberToCatLevelString(enemyDataList[i].big_level) + " " + enemyDataList[i].small_level + "å±‚";
+        area.text = "é¢†åœŸï¼š" + NumberController.instance.NumberToChinaString((int)enemyDataList[i].area) + " å¹³æ–¹ç±³";
 
-        //¶Ô»ñµÃµÄUI½øĞĞ¸³Öµ
+        //å¯¹è·å¾—çš„UIè¿›è¡Œèµ‹å€¼
         /*Image icon = tempUI.transform.Find("Icon").GetComponent<Image>();
-        string path = "Materials/BigCat/cat" + enemyDataList[i].enemyType.ToString();//ÒÅÁô£º´ı¸Ä¶¯
+        string path = "Materials/BigCat/cat" + enemyDataList[i].enemyType.ToString();//é—ç•™ï¼šå¾…æ”¹åŠ¨
         Sprite sprite = Resources.Load(path, typeof(Sprite)) as Sprite;
         icon.sprite = sprite;
         */
 
-        //¸ø°´Å¥°ó¶¨ÊÂ¼ş
+        //ç»™æŒ‰é’®ç»‘å®šäº‹ä»¶
         int index = i;
         tempUI.transform.Find("Button").GetComponent<Button>().onClick.AddListener(() => ClickSubdueButton(index));
 
         return tempUI;
     }
 
-    //³õÊ¼»¯µĞÈËÁĞ±í
+    //åˆå§‹åŒ–æ•Œäººåˆ—è¡¨
     IEnumerator RandomSpawnEnemy()
     {
         yield return new WaitForSeconds(0.3f);
 
-        //Çå¿ÕÔ­±¾µÄÊı×é
+        //æ¸…ç©ºåŸæœ¬çš„æ•°ç»„
         if (enemyDataList.Count > 0)
         {
             enemyDataList.Clear();
         }
 
-        //Ëæ»úÉú³ÉĞÂµĞÈË
+        //éšæœºç”Ÿæˆæ–°æ•Œäºº
         for (int i = 0; i < enemyListCount; i++)
         {
-            Debug.Log("Ëæ»úÉú³ÉµĞÈË£º" + enemyDataList.Count);
+            Debug.Log("éšæœºç”Ÿæˆæ•Œäººï¼š" + enemyDataList.Count);
             enemyDataList.Add(RandomSpawnOneEnemy());
         }
     }
 
-    //Ëæ»úÉú³ÉÒ»¸öµĞÈË
+    //éšæœºç”Ÿæˆä¸€ä¸ªæ•Œäºº
     private EnemyData RandomSpawnOneEnemy()
     {
         EnemyData enemy = new EnemyData();
 
-        //µĞÈËµÄ×î¸ßµÈ¼¶
+        //æ•Œäººçš„æœ€é«˜ç­‰çº§
         int pro = Random.Range(1, 100);
         if (pro >= 90)
         {
@@ -215,46 +215,46 @@ public class ExpendTerritory : MonoBehaviour
             enemy.big_level = CatController.instance.getCatMaxLevel();
         }
 
-        //Ğ¡¾³½ç£¨´¿Ëæ»ú£©
+        //å°å¢ƒç•Œï¼ˆçº¯éšæœºï¼‰
         enemy.small_level = Random.Range(1, 9);
 
-        //µĞÈËµÄÊıÁ¿
+        //æ•Œäººçš„æ•°é‡
         int playerCatCount = CatController.instance.cats.Count;
         enemy.number = (Random.Range((int)(playerCatCount * 0.3) + 1, (int)(playerCatCount * 1.2) + 1));
 
-        //µĞÈËµÄÃû³Æ
+        //æ•Œäººçš„åç§°
         if (enemy.big_level == 0)
         {
             int eType = Random.Range(0, enemyNameList0.Length - 1);
             enemy.enemyType = eType;
-            enemy.name = enemyNameList0[eType];//Ëæ»úÉú³ÉµĞÈËÃû³Æ
+            enemy.name = enemyNameList0[eType];//éšæœºç”Ÿæˆæ•Œäººåç§°
         }else if(enemy.big_level == 1)
         {
             int eType = Random.Range(0, enemyNameList1.Length - 1);
             enemy.enemyType = eType;
-            enemy.name = enemyNameList1[eType];//Ëæ»úÉú³ÉµĞÈËÃû³Æ
+            enemy.name = enemyNameList1[eType];//éšæœºç”Ÿæˆæ•Œäººåç§°
         }
         else if (enemy.big_level == 2)
         {
             int eType = Random.Range(0, enemyNameList2.Length - 1);
             enemy.enemyType = eType;
-            enemy.name = enemyNameList2[eType];//Ëæ»úÉú³ÉµĞÈËÃû³Æ
+            enemy.name = enemyNameList2[eType];//éšæœºç”Ÿæˆæ•Œäººåç§°
         }
         else if (enemy.big_level == 3)
         {
             int eType = Random.Range(0, enemyNameList3.Length - 1);
             enemy.enemyType = eType;
-            enemy.name = enemyNameList3[eType];//Ëæ»úÉú³ÉµĞÈËÃû³Æ
+            enemy.name = enemyNameList3[eType];//éšæœºç”Ÿæˆæ•Œäººåç§°
         }
         else if (enemy.big_level == 4)
         {
             int eType = Random.Range(0, enemyNameList4.Length - 1);
             enemy.enemyType = eType;
-            enemy.name = enemyNameList4[eType];//Ëæ»úÉú³ÉµĞÈËÃû³Æ
+            enemy.name = enemyNameList4[eType];//éšæœºç”Ÿæˆæ•Œäººåç§°
         }
 
 
-        //½±Àø£ºÁìÍÁÃæ»ı¡£Óë¹ÖÎïµÈ¼¶¡¢ÊıÁ¿ÓĞ¹Ø£¨Ö÷ÒªÊÇÎªÁËÆõºÏ½ú¼¶ĞèÒªµÄÁìÍÁÃæ»ıºÍĞ¡Ã¨µÄÊıÁ¿£©
+        //å¥–åŠ±ï¼šé¢†åœŸé¢ç§¯ã€‚ä¸æ€ªç‰©ç­‰çº§ã€æ•°é‡æœ‰å…³ï¼ˆä¸»è¦æ˜¯ä¸ºäº†å¥‘åˆæ™‹çº§éœ€è¦çš„é¢†åœŸé¢ç§¯å’Œå°çŒ«çš„æ•°é‡ï¼‰
         float area = Random.Range(enemy.number * enemy.big_level + 3, enemy.number * (enemy.big_level + 1) + 3 );
         enemy.area = area;
 
@@ -262,73 +262,73 @@ public class ExpendTerritory : MonoBehaviour
     }
 
 
-    //µã»÷ÁËÊÕ·ş°´Å¥£¨ÊÕ·şµÄÎ»ÖÃ£©£¬´¥·¢ÊÕ·şµÄ½á¹û
+    //ç‚¹å‡»äº†æ”¶æœæŒ‰é’®ï¼ˆæ”¶æœçš„ä½ç½®ï¼‰ï¼Œè§¦å‘æ”¶æœçš„ç»“æœ
     private void ClickSubdueButton(int pos)
     {
-        Debug.Log("µã»÷ÊÕ·şµÄ°´Å¥Ë³ĞòÎª£º" + pos);
+        Debug.Log("ç‚¹å‡»æ”¶æœçš„æŒ‰é’®é¡ºåºä¸ºï¼š" + pos);
 
-        StartCoroutine(Battle(enemyDataList[pos], 0, pos));//²¥·ÅÕ½¶·»­Ãæ
+        StartCoroutine(Battle(enemyDataList[pos], 0, pos));//æ’­æ”¾æˆ˜æ–—ç”»é¢
 
     }
 
-    //²¥·ÅÕ½¶·¶¯»­ºó³ö½á¹û£¨µĞÈË£¬ÀàĞÍ£©
-    //ÀàĞÍ£º0£¬ÁĞ±íµĞÈË£»1£¬À´Ï®µĞÈË
+    //æ’­æ”¾æˆ˜æ–—åŠ¨ç”»åå‡ºç»“æœï¼ˆæ•Œäººï¼Œç±»å‹ï¼‰
+    //ç±»å‹ï¼š0ï¼Œåˆ—è¡¨æ•Œäººï¼›1ï¼Œæ¥è¢­æ•Œäºº
     IEnumerator Battle(EnemyData enemy, int type, int pos = -1)
     {
-        //²¥·ÅÕ½¶·»­Ãæ
+        //æ’­æ”¾æˆ˜æ–—ç”»é¢
         if(type == 0)
         {
-            enemyUIList[pos].transform.Find("Button").transform.Find("Text (TMP)").GetComponent<TMP_Text>().text = "Õ½¶·ÖĞ";
+            enemyUIList[pos].transform.Find("Button").transform.Find("Text (TMP)").GetComponent<TMP_Text>().text = "æˆ˜æ–—ä¸­";
         }
         else if(type == 1)
         {
             if(attackBtnText != null)
             {
-                attackBtnText.text = "Õ½¶·ÖĞ";
+                attackBtnText.text = "æˆ˜æ–—ä¸­";
             }
 
         }
 
 
 
-        //µÈ´ı3sÖ´ĞĞÏÂÒ»Óï¾ä
+        //ç­‰å¾…3sæ‰§è¡Œä¸‹ä¸€è¯­å¥
         yield return new WaitForSeconds(0.5f);
-        Debug.Log("Õ½¶·½áÊø");
+        Debug.Log("æˆ˜æ–—ç»“æŸ");
         if (attackBtnText != null)
         {
-            attackBtnText.text = "¹¥»÷";
+            attackBtnText.text = "æ”»å‡»";
         }
-        //enemyUIList[pos].transform.Find("Button").transform.Find("Text (TMP)").GetComponent<TMP_Text>().text = "ÊÕ·ş";
+        //enemyUIList[pos].transform.Find("Button").transform.Find("Text (TMP)").GetComponent<TMP_Text>().text = "æ”¶æœ";
 
 
-        //´¥·¢Õ½¶·²¢·µ»ØÊÇ·ñÊ¤Àû
+        //è§¦å‘æˆ˜æ–—å¹¶è¿”å›æ˜¯å¦èƒœåˆ©
         bool battleResult = BattleWithEnemy(enemy);
 
-        //Ê¤Àû or Ê§°Ü
-        /*Ê¤Àû£º
-         * 1¡¢µ¯³öÊ¤ÀûUI£¬»ñµÃ½±Àø
-         * 2¡¢Òş²ØµĞÈËÁĞ±íUI
-         * 3¡¢Éú³ÉĞÂµÄµĞÈËÊı¾İ£¬Ìí¼Óµ½ÁĞ±íÉÏ£»Í¬Ê±Õ¹Ê¾ÁĞ±íUI
+        //èƒœåˆ© or å¤±è´¥
+        /*èƒœåˆ©ï¼š
+         * 1ã€å¼¹å‡ºèƒœåˆ©UIï¼Œè·å¾—å¥–åŠ±
+         * 2ã€éšè—æ•Œäººåˆ—è¡¨UI
+         * 3ã€ç”Ÿæˆæ–°çš„æ•Œäººæ•°æ®ï¼Œæ·»åŠ åˆ°åˆ—è¡¨ä¸Šï¼›åŒæ—¶å±•ç¤ºåˆ—è¡¨UI
          * 
-         * Ê§°Ü£º
-         * 1¡¢µ¯³öÊ§°ÜUI£¬»ñµÃ³Í·£
-         * 2¡¢ÆäËû²»±ä
+         * å¤±è´¥ï¼š
+         * 1ã€å¼¹å‡ºå¤±è´¥UIï¼Œè·å¾—æƒ©ç½š
+         * 2ã€å…¶ä»–ä¸å˜
          * 
          */
 
         if (battleResult)
         {
-            //Õ¹Ê¾Ê¤ÀûµÄUI
+            //å±•ç¤ºèƒœåˆ©çš„UI
             victoryUI.gameObject.SetActive(true);
 
             float reward = enemy.area;
-            victoryUI.transform.Find("Reward").GetComponent<TMP_Text>().text = "ÁìÍÁ£º+" + NumberController.instance.NumberToChinaString((int)reward) + "Æ½·½Ã×";
+            victoryUI.transform.Find("Reward").GetComponent<TMP_Text>().text = "é¢†åœŸï¼š+" + NumberController.instance.NumberToChinaString((int)reward) + "å¹³æ–¹ç±³";
             PropertyController.instance.territoryArea += reward;
 
             int hurt = 0;
             for(int i=0;i< CatController.instance.cats.Count; i++)
             {
-                //ÊÜÉËµÄ¸ÅÂÊ£º0.05
+                //å—ä¼¤çš„æ¦‚ç‡ï¼š0.05
                 if(Random.Range(0,100) > 95)
                 {
                     hurt++;
@@ -338,17 +338,17 @@ public class ExpendTerritory : MonoBehaviour
                     }
                 }
             }
-            victoryUI.transform.Find("HurtPunishmen").GetComponent<TMP_Text>().text = "ÊÜÉËĞ¡Ã¨£º" + hurt.ToString();
+            victoryUI.transform.Find("HurtPunishmen").GetComponent<TMP_Text>().text = "å—ä¼¤å°çŒ«ï¼š" + hurt.ToString();
 
             victoryUI.transform.Find("Button").GetComponent<Button>().onClick.RemoveAllListeners();
 
-            //°ó¶¨°´Å¥ÊÂ¼ş
+            //ç»‘å®šæŒ‰é’®äº‹ä»¶
             if (type == 0)
             {
                 victoryUI.transform.Find("Button").GetComponent<Button>().onClick.AddListener(() => ClickConfirmButton(pos));
             }else if(type == 1)
             {
-                Debug.Log("À´Ï®Ğ¡Ã¨£¬µã»÷ÁË¹¥»÷°´Å¥£¬ÀàĞÍÎª1µÄÊ¤Àû");
+                Debug.Log("æ¥è¢­å°çŒ«ï¼Œç‚¹å‡»äº†æ”»å‡»æŒ‰é’®ï¼Œç±»å‹ä¸º1çš„èƒœåˆ©");
                 victoryUI.transform.Find("Button").GetComponent<Button>().onClick.AddListener(() => ClickConfirmButtonByAttack());
                 enemyComingUI.gameObject.SetActive(false);
                 enemyDetailUI.gameObject.SetActive(false);
@@ -359,13 +359,13 @@ public class ExpendTerritory : MonoBehaviour
         }
         else
         {
-            //Õ¹Ê¾Ê§°ÜµÄUI
+            //å±•ç¤ºå¤±è´¥çš„UI
             defeatedUI.gameObject.SetActive(true);
 
             int hurt = 0;
             for (int i = 0; i < CatController.instance.cats.Count; i++)
             {
-                //ÊÜÉËµÄ¸ÅÂÊ£º0.5
+                //å—ä¼¤çš„æ¦‚ç‡ï¼š0.5
                 if (Random.Range(0, 100) > 50)
                 {
                     hurt++;
@@ -375,7 +375,7 @@ public class ExpendTerritory : MonoBehaviour
                     }
                 }
             }
-            defeatedUI.transform.Find("HurtPunishmen").GetComponent<TMP_Text>().text = "ÊÜÉËĞ¡Ã¨ÊıÁ¿£º" + hurt.ToString();
+            defeatedUI.transform.Find("HurtPunishmen").GetComponent<TMP_Text>().text = "å—ä¼¤å°çŒ«æ•°é‡ï¼š" + hurt.ToString();
 
         }
 
@@ -383,44 +383,44 @@ public class ExpendTerritory : MonoBehaviour
 
     public void ClickConfirmButtonByAttack()
     {
-        Debug.Log("À´Ï®Ğ¡Ã¨£¬µã»÷Ê¤ÀûµÄÈ·ÈÏ°´Å¥");
+        Debug.Log("æ¥è¢­å°çŒ«ï¼Œç‚¹å‡»èƒœåˆ©çš„ç¡®è®¤æŒ‰é’®");
         victoryUI.gameObject.SetActive(false);
     }
 
-    //µã»÷È·ÈÏ°´Å¥£¬È»ºó²Å²¥·Å¶¯»­
+    //ç‚¹å‡»ç¡®è®¤æŒ‰é’®ï¼Œç„¶åæ‰æ’­æ”¾åŠ¨ç”»
     public void ClickConfirmButton(int pos)
     {
-        StartCoroutine(RefreshEnemyData(pos));//²¥·ÅÕ½¶·»­Ãæ
+        StartCoroutine(RefreshEnemyData(pos));//æ’­æ”¾æˆ˜æ–—ç”»é¢
         victoryUI.transform.Find("Button").GetComponent<Button>().onClick.RemoveAllListeners();
         victoryUI.gameObject.SetActive(false);
     }
 
-    //Ğ­³ÌÑÓÊ±²¥·Å¶¯»­
+    //åç¨‹å»¶æ—¶æ’­æ”¾åŠ¨ç”»
     IEnumerator RefreshEnemyData(int pos)
     {
-        /*posÊä³öÁ½±éµÄÔ­ÒòÊÇ£¬ÖØ¸´°ó¶¨ÁËµã»÷ÊÂ¼ş
+        /*posè¾“å‡ºä¸¤éçš„åŸå› æ˜¯ï¼Œé‡å¤ç»‘å®šäº†ç‚¹å‡»äº‹ä»¶
          * 
          */
-        Debug.Log("Êä³öpos£º" + pos);
+        Debug.Log("è¾“å‡ºposï¼š" + pos);
         yield return new WaitForSeconds(0.08f);
-        //Çå³ıÔ­À´µÄUIºÍÊı¾İ
+        //æ¸…é™¤åŸæ¥çš„UIå’Œæ•°æ®
         Destroy(enemyUIList[pos]);
         enemyUIList.RemoveAt(pos);
         enemyDataList.RemoveAt(pos);
 
         yield return new WaitForSeconds(0.2f);
 
-        //Éú³ÉĞÂµÄUIºÍÊı¾İ
+        //ç”Ÿæˆæ–°çš„UIå’Œæ•°æ®
         enemyDataList.Insert(pos, RandomSpawnOneEnemy());
         enemyUIList.Insert(pos, SpawnOneEnemyUI(pos));
     }
 
 
-    //Ğ¡Ã¨ºÍĞèÒªÊÕ·şµÄµĞÈËÕ½¶·£¨·µ»ØÊÇ·ñÊ¤Àû£©
+    //å°çŒ«å’Œéœ€è¦æ”¶æœçš„æ•Œäººæˆ˜æ–—ï¼ˆè¿”å›æ˜¯å¦èƒœåˆ©ï¼‰
     private bool BattleWithEnemy(EnemyData enemy)
     {
-        int enemyPoints = 0;//µĞÈËµÄµãÊı
-        int playerPoints = 0;//Íæ¼ÒµÄµãÊı
+        int enemyPoints = 0;//æ•Œäººçš„ç‚¹æ•°
+        int playerPoints = 0;//ç©å®¶çš„ç‚¹æ•°
 
         for(int i = 0; i < CatController.instance.cats.Count; i++)
         {
@@ -435,8 +435,8 @@ public class ExpendTerritory : MonoBehaviour
 
         enemyPoints += (int)(Mathf.Pow(10, 1 + enemy.big_level) + enemy.small_level * 5);
 
-        Debug.Log("µĞÈËµãÊı£º" + enemyPoints);
-        Debug.Log("Íæ¼ÒµãÊı£º" + playerPoints);
+        Debug.Log("æ•Œäººç‚¹æ•°ï¼š" + enemyPoints);
+        Debug.Log("ç©å®¶ç‚¹æ•°ï¼š" + playerPoints);
 
         if (enemyPoints >= playerPoints)
         {
@@ -449,22 +449,22 @@ public class ExpendTerritory : MonoBehaviour
     }
 
 
-    //Õ¹Ê¾¼´½«À´Ï®µĞÈËµÄÏêÇéÒ³UI
+    //å±•ç¤ºå³å°†æ¥è¢­æ•Œäººçš„è¯¦æƒ…é¡µUI
     public void ShowAttackEnemyDetail()
     {
         enemyNameText.text = enemyAttack.name;
-        enemyNumberText.text = "µĞÈË£º" + enemyAttack.number.ToString();
-        enemyMaxLevelText.text = "×î´óµÈ¼¶£º" + CatController.instance.numberToCatLevelString(enemyAttack.big_level) + " " + enemyAttack.small_level + "²ã";
-        rewardText.text = "ÁìÍÁ£º" + NumberController.instance.NumberToChinaString((int)enemyAttack.area) + " Æ½·½Ã×";
+        enemyNumberText.text = "æ•Œäººï¼š" + enemyAttack.number.ToString();
+        enemyMaxLevelText.text = "æœ€å¤§ç­‰çº§ï¼š" + CatController.instance.numberToCatLevelString(enemyAttack.big_level) + " " + enemyAttack.small_level + "å±‚";
+        rewardText.text = "é¢†åœŸï¼š" + NumberController.instance.NumberToChinaString((int)enemyAttack.area) + " å¹³æ–¹ç±³";
 
     }
 
-    //»Ø»÷¼´½«À´Ï®µÄµĞÈË¡ª¡ªÒÅÁô
+    //å›å‡»å³å°†æ¥è¢­çš„æ•Œäººâ€”â€”é—ç•™
     public void AttackComingEnemy()
     {
         if(enemyAttack != null)
         {
-            StartCoroutine(Battle(enemyAttack, 1));//²¥·ÅÕ½¶·»­Ãæ
+            StartCoroutine(Battle(enemyAttack, 1));//æ’­æ”¾æˆ˜æ–—ç”»é¢
         }
     }
 }
@@ -472,10 +472,10 @@ public class ExpendTerritory : MonoBehaviour
 [Serializable]
 public class EnemyData
 {
-    public string name;//Ãû³Æ
-    public int enemyType;//µĞÈËÀàĞÍ 
-    public int number;//ÊıÁ¿
-    public int big_level;//´ó¾³½ç
-    public int small_level;//Ğ¡¾³½ç
-    public float area;//ÁìÍÁÃæ»ı
+    public string name;//åç§°
+    public int enemyType;//æ•Œäººç±»å‹ 
+    public int number;//æ•°é‡
+    public int big_level;//å¤§å¢ƒç•Œ
+    public int small_level;//å°å¢ƒç•Œ
+    public float area;//é¢†åœŸé¢ç§¯
 }

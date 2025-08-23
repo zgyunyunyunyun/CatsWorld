@@ -5,16 +5,16 @@ using UnityEngine;
 
 public class ObjectMove : MonoBehaviour
 {
-    public float speed = 0.1f;//ÒÆ¶¯ËÙ¶È
+    public float speed = 0.1f;//ç§»åŠ¨é€Ÿåº¦
     private Rigidbody2D rb;
-    private Vector3 movement;//ÒÆ¶¯·½Ïò
+    private Vector3 movement;//ç§»åŠ¨æ–¹å‘
 
-    public float timer = 0f;//Ã¿¸öxÃë¸Ä±äÒÆ¶¯·½Ïò
-    public float activity = 5f;//ÒÆ¶¯·½ÏòµÄ¾àÀë£¬¾ö¶¨ÁËÒÆ¶¯µÄ·ù¶È
+    public float timer = 0f;//æ¯ä¸ªxç§’æ”¹å˜ç§»åŠ¨æ–¹å‘
+    public float activity = 5f;//ç§»åŠ¨æ–¹å‘çš„è·ç¦»ï¼Œå†³å®šäº†ç§»åŠ¨çš„å¹…åº¦
 
     private RectTransform rectTransform;
 
-    public int objectType = -1;//0ÊÇÁéÒº£¬1ÊÇÔÓÖÊ
+    public int objectType = -1;//0æ˜¯çµæ¶²ï¼Œ1æ˜¯æ‚è´¨
 
     // Start is called before the first frame update
     void Start()
@@ -24,7 +24,7 @@ public class ObjectMove : MonoBehaviour
         //GetComponent<Button>().onClick.AddListener(() => addPointAndDestroy());
 
 
-        //rectTransform = GetComponent<RectTransform>();//ÊµÏÖ´¥ÃşĞ§¹û
+        //rectTransform = GetComponent<RectTransform>();//å®ç°è§¦æ‘¸æ•ˆæœ
 
     }
 
@@ -35,7 +35,7 @@ public class ObjectMove : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             //Debug.Log("Touch");
-            //¼ì²âÊó±ê×ó¼üÊÇ·ñµã»÷
+            //æ£€æµ‹é¼ æ ‡å·¦é”®æ˜¯å¦ç‚¹å‡»
             //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             var onScreenPosition = Input.mousePosition;
             var ray = Camera.main.ScreenPointToRay(onScreenPosition);
@@ -51,7 +51,7 @@ public class ObjectMove : MonoBehaviour
             }
         }
 
-        //ÊµÏÖ´¥ÃşĞ§¹û£¬ÔİÊ±ÆÁ±Î
+        //å®ç°è§¦æ‘¸æ•ˆæœï¼Œæš‚æ—¶å±è”½
         /*
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
@@ -77,7 +77,7 @@ public class ObjectMove : MonoBehaviour
     private void FixedUpdate()
     {
         
-        //¼ÆÊ±Æ÷£¬Ã¿¸öxs£¬¸Ä±äÒ»´ÎÒÆ¶¯·½Ïò
+        //è®¡æ—¶å™¨ï¼Œæ¯ä¸ªxsï¼Œæ”¹å˜ä¸€æ¬¡ç§»åŠ¨æ–¹å‘
         timer -= Time.deltaTime;
         if(timer <= 0)
         {
@@ -92,12 +92,12 @@ public class ObjectMove : MonoBehaviour
     {
         if(objectType == 0)
         {
-            Debug.Log("ÊÕ¼¯ÁéÒº1µÎ!");
+            Debug.Log("æ”¶é›†çµæ¶²1æ»´!");
             UpLianDanController.instance.addPurityPoint(1f);
             Destroy(gameObject);
         }else if(objectType ==1)
         {
-            Debug.Log("ÊÕ¼¯ÔÓÖÊ1µÎ!");
+            Debug.Log("æ”¶é›†æ‚è´¨1æ»´!");
             UpLianDanController.instance.addImpurityPoint(1f);
             Destroy(gameObject);
         }

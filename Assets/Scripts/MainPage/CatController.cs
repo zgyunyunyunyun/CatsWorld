@@ -10,18 +10,18 @@ using Random = UnityEngine.Random;
 
 public class CatController : MonoBehaviour
 {
-    //¿ØÖÆËùÓĞĞ¡Ã¨µÄlistºÍĞ¡Ã¨µÄÊôĞÔ£¬²úÉú£¬Ñ¡ÔñµÈĞĞÎª
+    //æ§åˆ¶æ‰€æœ‰å°çŒ«çš„listå’Œå°çŒ«çš„å±æ€§ï¼Œäº§ç”Ÿï¼Œé€‰æ‹©ç­‰è¡Œä¸º
 
-    public List<Cat> cats = new List<Cat>(); //Ä¿Ç°Íæ¼Ò¾ß±¸µÄËùÓĞĞ¡Ã¨
+    public List<Cat> cats = new List<Cat>(); //ç›®å‰ç©å®¶å…·å¤‡çš„æ‰€æœ‰å°çŒ«
     List<string[]> catNameList = new List<string[]>();
 
-    private float timer = 1.0f;//Ãë¼ÆÊ±Æ÷
+    private float timer = 1.0f;//ç§’è®¡æ—¶å™¨
 
 
-    public GameObject tips;//Ğ¡Ã¨ÁéÊ¯ÏûºÄÍêµÄÌáÊ¾
-    public int catTypeNumber = 5;//Ğ¡Ã¨ÀàĞÍÊıÁ¿
+    public GameObject tips;//å°çŒ«çµçŸ³æ¶ˆè€—å®Œçš„æç¤º
+    public int catTypeNumber = 5;//å°çŒ«ç±»å‹æ•°é‡
 
-    public Image catListRedPoint;//Ğ¡Ã¨ÁĞ±íµÄºìµã
+    public Image catListRedPoint;//å°çŒ«åˆ—è¡¨çš„çº¢ç‚¹
 
 
     public static CatController instance;
@@ -41,9 +41,9 @@ public class CatController : MonoBehaviour
     {
 
         /*
-        Debug.Log("¿ªÊ¼¶ÁÈ¡Ğ¡Ã¨Ãû×ÖÎÄ¼ş");
+        Debug.Log("å¼€å§‹è¯»å–å°çŒ«åå­—æ–‡ä»¶");
 
-        string csvUrl = "https://catgame-v0001-4g0nvm54abfb04ae-1258905158.tcloudbaseapp.com/Cat/Cat_0005/Resources/DataFile/catName.csv"; // Ìæ»»ÎªÄãµÄCSVÎÄ¼şÂ·¾¶
+        string csvUrl = "https://catgame-v0001-4g0nvm54abfb04ae-1258905158.tcloudbaseapp.com/Cat/Cat_0005/Resources/DataFile/catName.csv"; // æ›¿æ¢ä¸ºä½ çš„CSVæ–‡ä»¶è·¯å¾„
         //string[] lines = File.ReadAllLines(path, Encoding.GetEncoding(936));
 
         using (UnityWebRequest www = UnityWebRequest.Get(csvUrl))
@@ -77,32 +77,32 @@ public class CatController : MonoBehaviour
             string[] values = line.Split(',');
             catNameList.Add(values);
 
-            //Debug.Log("Êä³ö¶ÁÈ¡ÎÄ¼şÃ¿ĞĞµÄ½á¹û£º" + values);
+            //Debug.Log("è¾“å‡ºè¯»å–æ–‡ä»¶æ¯è¡Œçš„ç»“æœï¼š" + values);
         }
 
-        // Êä³ö¶ÁÈ¡µÄÊı¾İ
+        // è¾“å‡ºè¯»å–çš„æ•°æ®
         for (int i = 0; i < catNameList.Count; i++)
         {
             for (int j = 0; j < catNameList[i].Length; j++)
             {
-                //Debug.Log("Êä³ö¶ÁÈ¡Ğ¡Ã¨Ãû³ÆÎÄ¼şµÚ" + i + "ĞĞµÄ½á¹ûÎª£º" + catNameList[i][j]);
+                //Debug.Log("è¾“å‡ºè¯»å–å°çŒ«åç§°æ–‡ä»¶ç¬¬" + i + "è¡Œçš„ç»“æœä¸ºï¼š" + catNameList[i][j]);
             }
         }
         */
 
-        string[] lines0 = { "°×Ã¨", "µ°µ°", "²¼¶¡", "Ğ¡°×", "°×ÔÆ", "ÄÌÓÍ", "ÈâÈâ", "ß÷ß÷", "ÌğÌğ", "à£à£", "Ã«Ã«", "ÕĞ²Æ", "Ç®¶à¶à", "ÀÏ°å", "¸»¹ó", "Ìúµ°", "¶şÑ¾", "¹·µ°", "´ä»¨", "´óÅ£", "¶şÒ¯", "¹û¶³", "´ó×³", "à½à½", "Ğ¡Íè×Ó", "¶£µ±", "Ğ¡Çò", "Íú²Æ", "»ÊÉÏ", "´ó±¦", "¶ş±¦", "ÌÀÔ²", "±İÏÂ", "ßäßä" };
+        string[] lines0 = { "ç™½çŒ«", "è›‹è›‹", "å¸ƒä¸", "å°ç™½", "ç™½äº‘", "å¥¶æ²¹", "è‚‰è‚‰", "å–µå–µ", "ç”œç”œ", "å•µå•µ", "æ¯›æ¯›", "æ‹›è´¢", "é’±å¤šå¤š", "è€æ¿", "å¯Œè´µ", "é“è›‹", "äºŒä¸«", "ç‹—è›‹", "ç¿ èŠ±", "å¤§ç‰›", "äºŒçˆ·", "æœå†»", "å¤§å£®", "å˜Ÿå˜Ÿ", "å°ä¸¸å­", "å®å½“", "å°çƒ", "æ—ºè´¢", "çš‡ä¸Š", "å¤§å®", "äºŒå®", "æ±¤åœ†", "é™›ä¸‹", "å’ªå’ª" };
         catNameList.Add(lines0);
-        string[] lines1 = { "ºÚÃ¨", "Ğ¡ºÚ", "ºÚÍÁ", "¾¯³¤", "ÈâÈâ", "ß÷ß÷", "ÌğÌğ", "à£à£", "Ã«Ã«", "ÕĞ²Æ", "Ç®¶à¶à", "ÀÏ°å", "¸»¹ó", "Ìúµ°", "¶şÑ¾", "¹·µ°", "´ä»¨", "´óÅ£", "¶şÒ¯", "¹û¶³", "´ó×³", "à½à½", "Ğ¡Íè×Ó", "¶£µ±", "Ğ¡Çò", "Íú²Æ", "»ÊÉÏ", "´ó±¦", "¶ş±¦", "ÌÀÔ²", "±İÏÂ", "ßäßä", "ÃÃÃÃ", "¿ÉÀÖ" };
+        string[] lines1 = { "é»‘çŒ«", "å°é»‘", "é»‘åœŸ", "è­¦é•¿", "è‚‰è‚‰", "å–µå–µ", "ç”œç”œ", "å•µå•µ", "æ¯›æ¯›", "æ‹›è´¢", "é’±å¤šå¤š", "è€æ¿", "å¯Œè´µ", "é“è›‹", "äºŒä¸«", "ç‹—è›‹", "ç¿ èŠ±", "å¤§ç‰›", "äºŒçˆ·", "æœå†»", "å¤§å£®", "å˜Ÿå˜Ÿ", "å°ä¸¸å­", "å®å½“", "å°çƒ", "æ—ºè´¢", "çš‡ä¸Š", "å¤§å®", "äºŒå®", "æ±¤åœ†", "é™›ä¸‹", "å’ªå’ª", "å¦¹å¦¹", "å¯ä¹" };
         catNameList.Add(lines1);
-        string[] lines2 = { "éÙÃ¨", "²¼¶¡", "Ğ¡»Æ", "ÅÖ»¢", "Ğ¡éÙ", "Ã¢¹û", "±ı±ı", "Ğ¡Ì«Ñô", "´ó»Æ", "´óéÙ", "ÈâÈâ", "ß÷ß÷", "ÌğÌğ", "à£à£", "Ã«Ã«", "ÕĞ²Æ", "Ç®¶à¶à", "ÀÏ°å", "¸»¹ó", "Ìúµ°", "¶şÑ¾", "¹·µ°", "´ä»¨", "´óÅ£", "¶şÒ¯", "¹û¶³", "´ó×³", "à½à½", "Ğ¡Íè×Ó", "¶£µ±", "Ğ¡Çò", "Íú²Æ", "»ÊÉÏ", "´ó±¦" };
+        string[] lines2 = { "æ©˜çŒ«", "å¸ƒä¸", "å°é»„", "èƒ–è™", "å°æ©˜", "èŠ’æœ", "é¥¼é¥¼", "å°å¤ªé˜³", "å¤§é»„", "å¤§æ©˜", "è‚‰è‚‰", "å–µå–µ", "ç”œç”œ", "å•µå•µ", "æ¯›æ¯›", "æ‹›è´¢", "é’±å¤šå¤š", "è€æ¿", "å¯Œè´µ", "é“è›‹", "äºŒä¸«", "ç‹—è›‹", "ç¿ èŠ±", "å¤§ç‰›", "äºŒçˆ·", "æœå†»", "å¤§å£®", "å˜Ÿå˜Ÿ", "å°ä¸¸å­", "å®å½“", "å°çƒ", "æ—ºè´¢", "çš‡ä¸Š", "å¤§å®" };
         catNameList.Add(lines2);
-        string[] lines3 = { "»¨Ã¨", "»¨»¨", "Ğ¡»Ò", "Ğ¡»¨", "ÈâÈâ", "ß÷ß÷", "ÌğÌğ", "à£à£", "Ã«Ã«", "ÕĞ²Æ", "Ç®¶à¶à", "ÀÏ°å", "¸»¹ó", "Ìúµ°", "¶şÑ¾", "¹·µ°", "´ä»¨", "´óÅ£", "¶şÒ¯", "¹û¶³", "´ó×³", "à½à½", "Ğ¡Íè×Ó", "¶£µ±", "Ğ¡Çò", "Íú²Æ", "»ÊÉÏ", "´ó±¦", "¶ş±¦", "ÌÀÔ²", "±İÏÂ", "ßäßä", "ÃÃÃÃ", "¿ÉÀÖ" };
+        string[] lines3 = { "èŠ±çŒ«", "èŠ±èŠ±", "å°ç°", "å°èŠ±", "è‚‰è‚‰", "å–µå–µ", "ç”œç”œ", "å•µå•µ", "æ¯›æ¯›", "æ‹›è´¢", "é’±å¤šå¤š", "è€æ¿", "å¯Œè´µ", "é“è›‹", "äºŒä¸«", "ç‹—è›‹", "ç¿ èŠ±", "å¤§ç‰›", "äºŒçˆ·", "æœå†»", "å¤§å£®", "å˜Ÿå˜Ÿ", "å°ä¸¸å­", "å®å½“", "å°çƒ", "æ—ºè´¢", "çš‡ä¸Š", "å¤§å®", "äºŒå®", "æ±¤åœ†", "é™›ä¸‹", "å’ªå’ª", "å¦¹å¦¹", "å¯ä¹" };
         catNameList.Add(lines3);
-        string[] lines4 = { "Èı»¨Ã¨", "»¨»¨", "Ğ¡»¨", "ÌÒ×Ó", "ÄÌÓÍ", "ÈâÈâ", "ß÷ß÷", "ÌğÌğ", "à£à£", "Ã«Ã«", "ÕĞ²Æ", "Ç®¶à¶à", "ÀÏ°å", "¸»¹ó", "Ìúµ°", "¶şÑ¾", "¹·µ°", "´ä»¨", "´óÅ£", "¶şÒ¯", "¹û¶³", "´ó×³", "à½à½", "Ğ¡Íè×Ó", "¶£µ±", "Ğ¡Çò", "Íú²Æ", "»ÊÉÏ", "´ó±¦", "¶ş±¦", "ÌÀÔ²", "±İÏÂ", "ßäßä", "ÃÃÃÃ" };
+        string[] lines4 = { "ä¸‰èŠ±çŒ«", "èŠ±èŠ±", "å°èŠ±", "æ¡ƒå­", "å¥¶æ²¹", "è‚‰è‚‰", "å–µå–µ", "ç”œç”œ", "å•µå•µ", "æ¯›æ¯›", "æ‹›è´¢", "é’±å¤šå¤š", "è€æ¿", "å¯Œè´µ", "é“è›‹", "äºŒä¸«", "ç‹—è›‹", "ç¿ èŠ±", "å¤§ç‰›", "äºŒçˆ·", "æœå†»", "å¤§å£®", "å˜Ÿå˜Ÿ", "å°ä¸¸å­", "å®å½“", "å°çƒ", "æ—ºè´¢", "çš‡ä¸Š", "å¤§å®", "äºŒå®", "æ±¤åœ†", "é™›ä¸‹", "å’ªå’ª", "å¦¹å¦¹" };
         catNameList.Add(lines4);
-        string[] lines5 = { "ºÚÃ¨", "Ğ¡ºÚ", "ºÚÍÁ", "¾¯³¤", "ÈâÈâ", "ß÷ß÷", "ÌğÌğ", "à£à£", "Ã«Ã«", "ÕĞ²Æ", "Ç®¶à¶à", "ÀÏ°å", "¸»¹ó", "Ìúµ°", "¶şÑ¾", "¹·µ°", "´ä»¨", "´óÅ£", "¶şÒ¯", "¹û¶³", "´ó×³", "à½à½", "Ğ¡Íè×Ó", "¶£µ±", "Ğ¡Çò", "Íú²Æ", "»ÊÉÏ", "´ó±¦", "¶ş±¦", "ÌÀÔ²", "±İÏÂ", "ßäßä", "ÃÃÃÃ", "¿ÉÀÖ" };
+        string[] lines5 = { "é»‘çŒ«", "å°é»‘", "é»‘åœŸ", "è­¦é•¿", "è‚‰è‚‰", "å–µå–µ", "ç”œç”œ", "å•µå•µ", "æ¯›æ¯›", "æ‹›è´¢", "é’±å¤šå¤š", "è€æ¿", "å¯Œè´µ", "é“è›‹", "äºŒä¸«", "ç‹—è›‹", "ç¿ èŠ±", "å¤§ç‰›", "äºŒçˆ·", "æœå†»", "å¤§å£®", "å˜Ÿå˜Ÿ", "å°ä¸¸å­", "å®å½“", "å°çƒ", "æ—ºè´¢", "çš‡ä¸Š", "å¤§å®", "äºŒå®", "æ±¤åœ†", "é™›ä¸‹", "å’ªå’ª", "å¦¹å¦¹", "å¯ä¹" };
         catNameList.Add(lines5);
-        string[] lines6 = { "éÙºÚÃ¨", "»¨»¨", "Ğ¡»¨", "¾¯³¤", "ÈâÈâ", "ß÷ß÷", "ÌğÌğ", "à£à£", "Ã«Ã«", "ÕĞ²Æ", "Ç®¶à¶à", "ÀÏ°å", "¸»¹ó", "Ìúµ°", "¶şÑ¾", "¹·µ°", "´ä»¨", "´óÅ£", "¶şÒ¯", "¹û¶³", "´ó×³", "à½à½", "Ğ¡Íè×Ó", "¶£µ±", "Ğ¡Çò", "Íú²Æ", "»ÊÉÏ", "´ó±¦", "¶ş±¦", "ÌÀÔ²", "±İÏÂ", "ßäßä", "ÃÃÃÃ", "¿ÉÀÖ" };
+        string[] lines6 = { "æ©˜é»‘çŒ«", "èŠ±èŠ±", "å°èŠ±", "è­¦é•¿", "è‚‰è‚‰", "å–µå–µ", "ç”œç”œ", "å•µå•µ", "æ¯›æ¯›", "æ‹›è´¢", "é’±å¤šå¤š", "è€æ¿", "å¯Œè´µ", "é“è›‹", "äºŒä¸«", "ç‹—è›‹", "ç¿ èŠ±", "å¤§ç‰›", "äºŒçˆ·", "æœå†»", "å¤§å£®", "å˜Ÿå˜Ÿ", "å°ä¸¸å­", "å®å½“", "å°çƒ", "æ—ºè´¢", "çš‡ä¸Š", "å¤§å®", "äºŒå®", "æ±¤åœ†", "é™›ä¸‹", "å’ªå’ª", "å¦¹å¦¹", "å¯ä¹" };
         catNameList.Add(lines6);
 
         catTypeNumber = catNameList.Count;
@@ -116,28 +116,28 @@ public class CatController : MonoBehaviour
         {
             autoConsumeStone();
 
-            bool redPointShowed = false;//ºìµãÊÇ·ñÕ¹Ê¾ÁË?
-            //±éÀú´¥·¢ÌáÊ¾
+            bool redPointShowed = false;//çº¢ç‚¹æ˜¯å¦å±•ç¤ºäº†?
+            //éå†è§¦å‘æç¤º
             for (int i = 0; i < cats.Count; i++)
             {
-                //ÁéÊ¯ÏûºÄÍêÁË
+                //çµçŸ³æ¶ˆè€—å®Œäº†
                 if (cats[i].had_stone <= 0)
                 {
-                    Debug.Log("·¢ËÍÁéÊ¯ÏûºÄÍêµÄÏûÏ¢£¬Õ¹Ê¾ºìµã");
+                    Debug.Log("å‘é€çµçŸ³æ¶ˆè€—å®Œçš„æ¶ˆæ¯ï¼Œå±•ç¤ºçº¢ç‚¹");
 
-                    //·¢ËÍÏûÏ¢
+                    //å‘é€æ¶ˆæ¯
                     //Tips.instance.setTip(3, i);
 
                     redPointShowed = true;
                 }
 
-                //Ğ¡Ã¨¿ÉÒÔÉı¼¶ÁË
+                //å°çŒ«å¯ä»¥å‡çº§äº†
                 bool canUp = cats[i].cultivation + cats[i].lingshi_consume > levelNeedCul(cats[i].small_level, cats[i].big_level);
                 if (canUp)
                 {
-                    Debug.Log("·¢ËÍ¿ÉÉı¼¶µÄÏûÏ¢£¬Õ¹Ê¾ºìµã");
+                    Debug.Log("å‘é€å¯å‡çº§çš„æ¶ˆæ¯ï¼Œå±•ç¤ºçº¢ç‚¹");
 
-                    //·¢ËÍÏûÏ¢
+                    //å‘é€æ¶ˆæ¯
                     //Tips.instance.setTip(7, i);
                     cats[i].canUp = true;
 
@@ -149,7 +149,7 @@ public class CatController : MonoBehaviour
                 }
             }
 
-            //±éÀúÍêÁËÒÔºó£¬»¹²»Õ¹Ê¾ºìµã£¬ÔòÒş²ØÆğÀ´
+            //éå†å®Œäº†ä»¥åï¼Œè¿˜ä¸å±•ç¤ºçº¢ç‚¹ï¼Œåˆ™éšè—èµ·æ¥
             catListRedPoint.gameObject.SetActive(redPointShowed);
             
 
@@ -159,50 +159,50 @@ public class CatController : MonoBehaviour
     }
 
 
-    //ĞÂÔöËæ»úÊôĞÔµÄĞ¡Ã¨£¨²¢Î´¼ÓÈëĞ¡Ã¨µÄÁĞ±íÖĞ£©
-    //²ÎÊı:µ±Ç°ĞÂÔöĞ¡Ã¨µÄ´ÎÊı£¨ÓÃÓÚÅĞ¶ÏÊÇ·ñÒªÔö¼ÓĞ¡Ã¨µÄµÈ¼¶£©
+    //æ–°å¢éšæœºå±æ€§çš„å°çŒ«ï¼ˆå¹¶æœªåŠ å…¥å°çŒ«çš„åˆ—è¡¨ä¸­ï¼‰
+    //å‚æ•°:å½“å‰æ–°å¢å°çŒ«çš„æ¬¡æ•°ï¼ˆç”¨äºåˆ¤æ–­æ˜¯å¦è¦å¢åŠ å°çŒ«çš„ç­‰çº§ï¼‰
     public Cat newCat(int newCatTime)
     {
         Cat newCat = new Cat();
 
-        //¸øĞÂÔöµÄĞ¡Ã¨Ëæ»ú¸³Öµ
-        newCat.cat_id = cats.Count;//Ğ¡Ã¨id´Ó0¿ªÊ¼
+        //ç»™æ–°å¢çš„å°çŒ«éšæœºèµ‹å€¼
+        newCat.cat_id = cats.Count;//å°çŒ«idä»0å¼€å§‹
                                   
-        newCat.cat_icon = Random.Range(7, 58);//icon¼´Ğ¡Ã¨ÀàĞÍ
-        int rName = Random.Range(1, catNameList[0].Length - 1);//Ëæ»úµÄÃû×ÖÀàĞÍ
-        int rrName = Random.Range(0, 7);//icon¼´Ğ¡Ã¨ÀàĞÍ
+        newCat.cat_icon = Random.Range(7, 58);//iconå³å°çŒ«ç±»å‹
+        int rName = Random.Range(1, catNameList[0].Length - 1);//éšæœºçš„åå­—ç±»å‹
+        int rrName = Random.Range(0, 7);//iconå³å°çŒ«ç±»å‹
 
-        Debug.Log("Ñ°ÕÒµÄĞ¡Ã¨ÀàĞÍ£º" + newCat.cat_icon);
-        Debug.Log("Ñ°ÕÒµÄĞ¡Ã¨Ãû×ÖĞòºÅ£º" + rName);
+        Debug.Log("å¯»æ‰¾çš„å°çŒ«ç±»å‹ï¼š" + newCat.cat_icon);
+        Debug.Log("å¯»æ‰¾çš„å°çŒ«åå­—åºå·ï¼š" + rName);
 
         newCat.cat_name = catNameList[rrName][rName];
 
-        string[] intro = { "Õı¾­", "Å³Èõ", "µ÷Æ¤", "¹ÔÇÉ", "ÓÑÉÆ", "¸ß°Á", "ÄÚÏò", "ÀäÄ®" };
+        string[] intro = { "æ­£ç»", "æ‡¦å¼±", "è°ƒçš®", "ä¹–å·§", "å‹å–„", "é«˜å‚²", "å†…å‘", "å†·æ¼ " };
 
         newCat.introuction = intro[Random.Range(0, intro.Length - 1)];
 
-        //¸ù¾İĞÂÔöĞ¡Ã¨µÄ´ÎÊıÀ´Ìá¸ßĞ¡Ã¨µÄµÈ¼¶
+        //æ ¹æ®æ–°å¢å°çŒ«çš„æ¬¡æ•°æ¥æé«˜å°çŒ«çš„ç­‰çº§
 
-        newCat.big_level = "Á·ÆøÆÚ";
+        newCat.big_level = "ç»ƒæ°”æœŸ";
 
         
         if((newCatTime >= 7 && Random.Range(0, 100) >= 70) || (newCatTime >= 12 && Random.Range(0, 100) >= 60) || (newCatTime >= 20 && Random.Range(0, 100) >= 0))
         {
-            newCat.big_level = "Öş»ùÆÚ";
-            Debug.Log("Ñ°ÕÒµÄĞ¡Ã¨µÈ¼¶??£º" + newCat.big_level);
+            newCat.big_level = "ç­‘åŸºæœŸ";
+            Debug.Log("å¯»æ‰¾çš„å°çŒ«ç­‰çº§??ï¼š" + newCat.big_level);
         } 
 
         if ((newCatTime >= 12 && Random.Range(0, 100) >= 80) ||( newCatTime >= 20 && Random.Range(0, 100) >= 60))
         {
-            newCat.big_level = "½ğµ¤ÆÚ";
+            newCat.big_level = "é‡‘ä¸¹æœŸ";
         }
 
         if (newCatTime >= 20 && Random.Range(0, 100) >= 80)
         {
-            newCat.big_level = "ÔªÓ¤ÆÚ";
+            newCat.big_level = "å…ƒå©´æœŸ";
         }
-        Debug.Log("Ñ°ÕÒµÄĞ¡Ã¨´ÎÊı£º" + newCatTime);
-        Debug.Log("Ñ°ÕÒµÄĞ¡Ã¨µÈ¼¶£º" + newCat.big_level);
+        Debug.Log("å¯»æ‰¾çš„å°çŒ«æ¬¡æ•°ï¼š" + newCatTime);
+        Debug.Log("å¯»æ‰¾çš„å°çŒ«ç­‰çº§ï¼š" + newCat.big_level);
 
         newCat.small_level = Random.Range(1, 5);
         newCat.cultivation = 0;
@@ -213,39 +213,39 @@ public class CatController : MonoBehaviour
         return newCat;
     }
 
-    //½«Ğ¡Ã¨Ìí¼ÓÈëlist
+    //å°†å°çŒ«æ·»åŠ å…¥list
     public void chooseCat(Cat cat)
     {
         cats.Add(cat);    
 
-        Debug.Log("Íæ¼ÒÑ¡ÔñÁËĞ¡Ã¨£¬Ğ¡Ã¨idÎª£º" + cat.cat_id.ToString());
+        Debug.Log("ç©å®¶é€‰æ‹©äº†å°çŒ«ï¼Œå°çŒ«idä¸ºï¼š" + cat.cat_id.ToString());
     }
 
-    //¸ù¾İµ±Ç°ËùÓĞĞ¡Ã¨£¬Ã¿¸ôÒ»¶ÎÊ±¼ä²úÉúÁéÊ¯
+    //æ ¹æ®å½“å‰æ‰€æœ‰å°çŒ«ï¼Œæ¯éš”ä¸€æ®µæ—¶é—´äº§ç”ŸçµçŸ³
     public List<int> spawnLingdan()
     {
-        //¸÷½×ÁéÊ¯µÄÊıÁ¿
+        //å„é˜¶çµçŸ³çš„æ•°é‡
         List<int> lingdan = new List<int>() { 0, 0, 0, 0, 0 };
         
         for (int i = 0; i < cats.Count; i++)
         {
-            if (cats[i].big_level == "Á·ÆøÆÚ")
+            if (cats[i].big_level == "ç»ƒæ°”æœŸ")
             {
                 lingdan[0] += 1;
             }
-            else if (cats[i].big_level == "Öş»ùÆÚ")
+            else if (cats[i].big_level == "ç­‘åŸºæœŸ")
             {
                 lingdan[1] += 1;
             }
-            else if (cats[i].big_level == "½ğµ¤ÆÚ")
+            else if (cats[i].big_level == "é‡‘ä¸¹æœŸ")
             {
                 lingdan[2] += 1;
             }
-            else if (cats[i].big_level == "ÔªÓ¤ÆÚ")
+            else if (cats[i].big_level == "å…ƒå©´æœŸ")
             {
                 lingdan[3] += 1;
             }
-            else if (cats[i].big_level == "»¯ÉñÆÚ")
+            else if (cats[i].big_level == "åŒ–ç¥æœŸ")
             {
                 lingdan[4] += 1;
             }
@@ -254,26 +254,26 @@ public class CatController : MonoBehaviour
         return lingdan;
     }
     
-    //½«µÈ¼¶×Ö·û´®×Ô¶¯×ª»¯ÎªÊı×Ö
+    //å°†ç­‰çº§å­—ç¬¦ä¸²è‡ªåŠ¨è½¬åŒ–ä¸ºæ•°å­—
     public int levelStringToNumber(string level)
     {
-        if (level == "Á·ÆøÆÚ")
+        if (level == "ç»ƒæ°”æœŸ")
         {
             return 0;
         }
-        else if (level == "Öş»ùÆÚ")
+        else if (level == "ç­‘åŸºæœŸ")
         {
             return 1;
         }
-        else if (level == "½ğµ¤ÆÚ")
+        else if (level == "é‡‘ä¸¹æœŸ")
         {
             return 2;
         }
-        else if (level == "ÔªÓ¤ÆÚ")
+        else if (level == "å…ƒå©´æœŸ")
         {
             return 3;
         }
-        else if (level == "»¯ÉñÆÚ")
+        else if (level == "åŒ–ç¥æœŸ")
         {
             return 4;
         }
@@ -285,72 +285,72 @@ public class CatController : MonoBehaviour
     {
         if (level == 0)
         {
-            return "Á·ÆøÆÚ";
+            return "ç»ƒæ°”æœŸ";
         }
         else if (level == 1)
         {
-            return "Öş»ùÆÚ";
+            return "ç­‘åŸºæœŸ";
         }
         else if (level == 2)
         {
-            return "½ğµ¤ÆÚ";
+            return "é‡‘ä¸¹æœŸ";
         }
         else if (level == 3)
         {
-            return "ÔªÓ¤ÆÚ";
+            return "å…ƒå©´æœŸ";
         }
         else if (level == 4)
         {
-            return "»¯ÉñÆÚ";
+            return "åŒ–ç¥æœŸ";
         }
 
         return "";
     }
 
-    //½«µÈ¼¶×ª»¯ÎªĞŞÎªµÄÉÏÏŞ
+    //å°†ç­‰çº§è½¬åŒ–ä¸ºä¿®ä¸ºçš„ä¸Šé™
     public int levelNeedCul(int small_level, string big_level)
     {
         return (int)(small_level * Mathf.Pow(10, levelStringToNumber(big_level) + 3)) * 2;
     }
 
 
-    //×Ô¶¯ÏûºÄÁéÊ¯£¬²¢¿ØÖÆĞ¡Ã¨ĞŞÎª´ïµ½ÉÏÏŞ
+    //è‡ªåŠ¨æ¶ˆè€—çµçŸ³ï¼Œå¹¶æ§åˆ¶å°çŒ«ä¿®ä¸ºè¾¾åˆ°ä¸Šé™
     public void autoConsumeStone()
     {           
-        int secondsDifference = 1; // Ïà²îµÄ×ÜÃëÊı
+        int secondsDifference = 1; // ç›¸å·®çš„æ€»ç§’æ•°
 
         if (!SceneTransferData.instance.isConsumeStone)
         {
-            //¸üĞÂÊ±¼äµ¹¼ÆÊ±
+            //æ›´æ–°æ—¶é—´å€’è®¡æ—¶
             DateTime currentTime = DateTime.Now;
-            TimeSpan difference = currentTime - StorageController.instance.endTime; // ¼ÆËãÊ±¼ä²î
-            secondsDifference = (int)difference.TotalSeconds; // Ïà²îµÄ×ÜÃëÊı
+            TimeSpan difference = currentTime - StorageController.instance.endTime; // è®¡ç®—æ—¶é—´å·®
+            secondsDifference = (int)difference.TotalSeconds; // ç›¸å·®çš„æ€»ç§’æ•°
 
-            Debug.Log("¾àÀëÉÏ´Î´ò¿ªµÄÏà²îÃëÊıÎª£º" + secondsDifference.ToString());
+            Debug.Log("è·ç¦»ä¸Šæ¬¡æ‰“å¼€çš„ç›¸å·®ç§’æ•°ä¸ºï¼š" + secondsDifference.ToString());
 
             SceneTransferData.instance.isConsumeStone = true;
         }
 
-        //³£¹æÏûºÄÁéÊ¯
+        //å¸¸è§„æ¶ˆè€—çµçŸ³
         for (int i = 0; i < cats.Count; i++)
         {
             cats[i].lingshi_consume = (int)(cats[i].small_level * Mathf.Pow(4, 1 + levelStringToNumber(cats[i].big_level)));
 
-            //ÁéÊ¯ÊÇ·ñ×ã¹»ÏûºÄ
+            //çµçŸ³æ˜¯å¦è¶³å¤Ÿæ¶ˆè€—
             bool enoughStone = cats[i].had_stone >= cats[i].lingshi_consume * secondsDifference;
             
-            //ÅĞ¶ÏĞ¡Ã¨µ±Ç°ÁéÊ¯ÊıÁ¿ÊÇ·ñ×ã¹»ÏûºÄ£¬Èç¹û²»×ã£¬Ôò½öÏûºÄÄ¿Ç°ÓĞµÄ
+            //åˆ¤æ–­å°çŒ«å½“å‰çµçŸ³æ•°é‡æ˜¯å¦è¶³å¤Ÿæ¶ˆè€—ï¼Œå¦‚æœä¸è¶³ï¼Œåˆ™ä»…æ¶ˆè€—ç›®å‰æœ‰çš„
             if (enoughStone)
             {
-                //ÏûºÄµÄÁéÊ¯ÊÇ·ñ³¬¹ıĞ¡Ã¨µÄĞŞÎªÉÏÏŞ
+                //æ¶ˆè€—çš„çµçŸ³æ˜¯å¦è¶…è¿‡å°çŒ«çš„ä¿®ä¸ºä¸Šé™
                 bool canUp = cats[i].cultivation + cats[i].lingshi_consume * secondsDifference > levelNeedCul(cats[i].small_level, cats[i].big_level);
-                //ÏûºÄÁéÊ¯ºó³¬¹ıĞŞÎªÉÏÏŞ£¬ÇÒ¸ÃĞ¡Ã¨·ûºÏ½ú¼¶Ìõ¼ş
+                //æ¶ˆè€—çµçŸ³åè¶…è¿‡ä¿®ä¸ºä¸Šé™ï¼Œä¸”è¯¥å°çŒ«ç¬¦åˆæ™‹çº§æ¡ä»¶
                 if (canUp)
                 {
                     cats[i].had_stone -= (int)(levelNeedCul(cats[i].small_level, cats[i].big_level) - cats[i].cultivation);
                     cats[i].cultivation = levelNeedCul(cats[i].small_level, cats[i].big_level);
 
-                    Debug.Log("Ğ¡Ã¨¿É½ú¼¶£¬ĞòºÅÎª£º" + i);
+                    Debug.Log("å°çŒ«å¯æ™‹çº§ï¼Œåºå·ä¸ºï¼š" + i);
                 }
                 else
                 {
@@ -363,15 +363,15 @@ public class CatController : MonoBehaviour
             }
             else
             {
-                //ÏûºÄµÄÁéÊ¯ÊÇ·ñ³¬¹ıĞ¡Ã¨µÄĞŞÎªÉÏÏŞ
+                //æ¶ˆè€—çš„çµçŸ³æ˜¯å¦è¶…è¿‡å°çŒ«çš„ä¿®ä¸ºä¸Šé™
                 bool canUp = cats[i].cultivation + cats[i].had_stone > levelNeedCul(cats[i].small_level, cats[i].big_level);
-                //ÏûºÄÁéÊ¯ºó³¬¹ıĞŞÎªÉÏÏŞ£¬ÇÒ¸ÃĞ¡Ã¨·ûºÏ½ú¼¶Ìõ¼ş
+                //æ¶ˆè€—çµçŸ³åè¶…è¿‡ä¿®ä¸ºä¸Šé™ï¼Œä¸”è¯¥å°çŒ«ç¬¦åˆæ™‹çº§æ¡ä»¶
                 if (canUp)
                 {
                     cats[i].had_stone -= (int)(levelNeedCul(cats[i].small_level, cats[i].big_level) - cats[i].cultivation);
                     cats[i].cultivation = levelNeedCul(cats[i].small_level, cats[i].big_level);
 
-                    Debug.Log("Ğ¡Ã¨¿É½ú¼¶£¬ĞòºÅÎª£º" + i);
+                    Debug.Log("å°çŒ«å¯æ™‹çº§ï¼Œåºå·ä¸ºï¼š" + i);
                 }
                 else
                 {
@@ -385,7 +385,7 @@ public class CatController : MonoBehaviour
         }
     }
 
-    //»ñµÃĞ¡Ã¨µ±Ç°×î¸ßµÈ¼¶
+    //è·å¾—å°çŒ«å½“å‰æœ€é«˜ç­‰çº§
     public int getCatMaxLevel()
     {
         int level = 0;
@@ -408,26 +408,26 @@ public class CatController : MonoBehaviour
 [Serializable]
 public class Cat
 {
-    public int cat_id;//Ğ¡Ã¨µÄid£¬´Ó0¿ªÊ¼
+    public int cat_id;//å°çŒ«çš„idï¼Œä»0å¼€å§‹
 
-    public int cat_icon;//Ğ¡Ã¨Í·Ïñ
+    public int cat_icon;//å°çŒ«å¤´åƒ
 
-    public string cat_name;//Ğ¡Ã¨Ãû³Æ
+    public string cat_name;//å°çŒ«åç§°
 
-    public string introuction;//Ğ¡Ã¨¼ò½é
+    public string introuction;//å°çŒ«ç®€ä»‹
 
-    //public string work;//¹¤×÷×´Ì¬£ºÁ¶µ¤ÖĞ¡¢Ì½Ë÷ÖĞ¡¢¿ÕÏĞÖĞ
+    //public string work;//å·¥ä½œçŠ¶æ€ï¼šç‚¼ä¸¹ä¸­ã€æ¢ç´¢ä¸­ã€ç©ºé—²ä¸­
 
-    public string big_level;//´ó¾³½ç
-    public int small_level;//Ğ¡¾³½ç
+    public string big_level;//å¤§å¢ƒç•Œ
+    public int small_level;//å°å¢ƒç•Œ
 
-    public float cultivation;//ĞŞÎª
+    public float cultivation;//ä¿®ä¸º
 
-    public bool canUp;//Ğ¡Ã¨ÊÇ·ñÄÜÉı¼¶
+    public bool canUp;//å°çŒ«æ˜¯å¦èƒ½å‡çº§
 
-    public int lingshi_consume;//ÁéÊ¯ÏûºÄËÙ¶Èx/s
+    public int lingshi_consume;//çµçŸ³æ¶ˆè€—é€Ÿåº¦x/s
 
-    public int had_stone;//ÓµÓĞµÄÁéÊ¯ÊıÁ¿
+    public int had_stone;//æ‹¥æœ‰çš„çµçŸ³æ•°é‡
 
     /*
     public static implicit operator GameObject(Cat v)

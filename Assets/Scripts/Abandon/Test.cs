@@ -9,7 +9,7 @@ public class Test : MonoBehaviour
     public TMP_Text areaText;
     public GameObject beginBG;
 
-    public float tipsTimer = 1.0f;//tips¼ÆÊ±Æ÷
+    public float tipsTimer = 1.0f;//tipsè®¡æ—¶å™¨
 
     public static Test instance;
     private void Awake()
@@ -22,7 +22,7 @@ public class Test : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // ±£³ÖÕâ¸ö¶ÔÏó²»±»Ïú»Ù
+        // ä¿æŒè¿™ä¸ªå¯¹è±¡ä¸è¢«é”€æ¯
         DontDestroyOnLoad(this.gameObject);
     }
 

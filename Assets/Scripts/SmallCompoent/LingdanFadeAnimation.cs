@@ -6,9 +6,9 @@ using UnityEngine.UI;
 
 public class LingdanFadeAnimation : MonoBehaviour
 {
-    public bool isAnimate = false;//ÊÇ·ñ²¥·Å¶¯»­
-    public float moveSpeed = 50;//ÒÆ¶¯ËÙ¶È
-    public float sizeSpeed = 0.2f;//ËõĞ¡ËÙ¶È
+    public bool isAnimate = false;//æ˜¯å¦æ’­æ”¾åŠ¨ç”»
+    public float moveSpeed = 50;//ç§»åŠ¨é€Ÿåº¦
+    public float sizeSpeed = 0.2f;//ç¼©å°é€Ÿåº¦
     float size = 1;
     Color newalph;
 
@@ -19,7 +19,7 @@ public class LingdanFadeAnimation : MonoBehaviour
     void Start()
     {
         newalph = GetComponent<Image>().color;
-        //³õÊ¼»¯Êı×Ö£»ºóĞøÒÆ¶¯Êı×Ö
+        //åˆå§‹åŒ–æ•°å­—ï¼›åç»­ç§»åŠ¨æ•°å­—
         if (plusText == null)
         {
             plusText = Instantiate(numberTextObj);
@@ -35,7 +35,7 @@ public class LingdanFadeAnimation : MonoBehaviour
     {
         if (isAnimate)
         {           
-            //ÒÆ¶¯ÁéÊ¯
+            //ç§»åŠ¨çµçŸ³
             size -= sizeSpeed;
             transform.Translate(0, moveSpeed * Time.deltaTime, 0);
             //transform.localScale = new Vector3(size, size , 0);
@@ -43,14 +43,14 @@ public class LingdanFadeAnimation : MonoBehaviour
             GetComponent<Image>().color = newalph;
             plusText.gameObject.SetActive(true);
 
-            //³õÊ¼»¯ºóÒÆ¶¯Êı×Ö
+            //åˆå§‹åŒ–åç§»åŠ¨æ•°å­—
             if (plusText != null)
             {
                 plusText.transform.localPosition = new Vector3(200, 10, 0);
 
             }
 
-            //Òş²ØÁéÊ¯ºÍÊı×Ö
+            //éšè—çµçŸ³å’Œæ•°å­—
             if (size <= 0)
             {
                 gameObject.SetActive(false);

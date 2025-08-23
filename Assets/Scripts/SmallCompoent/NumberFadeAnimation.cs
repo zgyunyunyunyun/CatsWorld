@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class NumberFadeAnimation : MonoBehaviour
 {
-    public bool isAnimate = false;//ÊÇ·ñ²¥·Å¶¯»­
-    public float moveSpeed = 50;//ÒÆ¶¯ËÙ¶È
-    public float sizeSpeed = 0.2f;//ËõĞ¡ËÙ¶È
+    public bool isAnimate = false;//æ˜¯å¦æ’­æ”¾åŠ¨ç”»
+    public float moveSpeed = 50;//ç§»åŠ¨é€Ÿåº¦
+    public float sizeSpeed = 0.2f;//ç¼©å°é€Ÿåº¦
     float size = 1;
 
     public TMP_Text text;
@@ -22,11 +22,11 @@ public class NumberFadeAnimation : MonoBehaviour
     {
         if (isAnimate)
         {
-            //ÒÆ¶¯
+            //ç§»åŠ¨
             size -= sizeSpeed;
 
 
-            //³õÊ¼»¯Êı×Ö£»ºóĞøÒÆ¶¯Êı×Ö
+            //åˆå§‹åŒ–æ•°å­—ï¼›åç»­ç§»åŠ¨æ•°å­—
             if (plusText == null)
             {
                 plusText = Instantiate(text);
@@ -40,7 +40,7 @@ public class NumberFadeAnimation : MonoBehaviour
 
             }
 
-            //Òş²ØÁéÊ¯ºÍÊı×Ö
+            //éšè—çµçŸ³å’Œæ•°å­—
             if (size <= 0)
             {
                 gameObject.SetActive(false);

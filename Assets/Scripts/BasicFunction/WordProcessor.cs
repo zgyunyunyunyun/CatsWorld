@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class WordProcessor : MonoBehaviour
 {
-    public TMP_Text backgroundText;//±³¾°ÎÄ×Ö
-    public GameObject backgroundTipObj;//±³¾°µÄÌáÊ¾£¬²¥·ÅÍêÒÔºóÔÙÕ¹Ê¾
+    public TMP_Text backgroundText;//èƒŒæ™¯æ–‡å­—
+    public GameObject backgroundTipObj;//èƒŒæ™¯çš„æç¤ºï¼Œæ’­æ”¾å®Œä»¥åå†å±•ç¤º
 
-    private float charsPerSecond = 0.07f;//´ò×ÖÊ±¼ä¼ä¸ô
-    private int currentPos = 0;//µ±Ç°´ò×ÖÎ»ÖÃ
+    private float charsPerSecond = 0.07f;//æ‰“å­—æ—¶é—´é—´éš”
+    private int currentPos = 0;//å½“å‰æ‰“å­—ä½ç½®
 
     // Start is called before the first frame update
     void Start()
@@ -25,9 +25,9 @@ public class WordProcessor : MonoBehaviour
 
     public void ShowBackGround()
     {
-        //string content = "ĞŞÏÉ½ç¹ã´óÎŞÛó£¬Éú´æ×ÅÊÀ¼äÍòÎï\n\nĞ¡Ã¨×åÓµÓĞ¼«¼ÑµÄÁ¶µ¤Ìì¸³£¬µ«ĞŞÁ¶Ìì¸³µÍ£¬²»¶®µÃÔËÓÃÁ¶µ¤Ìì¸³\n\nÍòÄêÇ°·¢ÉúÁËÒ»¼şÕğ¾ªÊÀ½çµÄ´óÊÂ£¬" +
-        //    "Ğ¡Ã¨×åËÄ·ÖÎåÁÑ£¬´óÁ¿Ğ¡Ã¨ÎŞ¼Ò¿É¹é\n\n¿ìÀ´Ñ°ÕÒĞ¡Ã¨£¬°ïÖúĞ¡Ã¨ĞŞÁ¶³É³¤¡¢ÖØËÜ¼ÒÔ°";
-        string content = "ĞŞÏÉ½çÖĞ\n\n´óÁ¿Ğ¡Ã¨ËÄ´¦Á÷ÀË\n\nĞèÒªÄã\nÊÕÑøĞ¡Ã¨\nÖ¸ÒıĞ¡Ã¨³É³¤";
+        //string content = "ä¿®ä»™ç•Œå¹¿å¤§æ— å ï¼Œç”Ÿå­˜ç€ä¸–é—´ä¸‡ç‰©\n\nå°çŒ«æ—æ‹¥æœ‰æä½³çš„ç‚¼ä¸¹å¤©èµ‹ï¼Œä½†ä¿®ç‚¼å¤©èµ‹ä½ï¼Œä¸æ‡‚å¾—è¿ç”¨ç‚¼ä¸¹å¤©èµ‹\n\nä¸‡å¹´å‰å‘ç”Ÿäº†ä¸€ä»¶éœ‡æƒŠä¸–ç•Œçš„å¤§äº‹ï¼Œ" +
+        //    "å°çŒ«æ—å››åˆ†äº”è£‚ï¼Œå¤§é‡å°çŒ«æ— å®¶å¯å½’\n\nå¿«æ¥å¯»æ‰¾å°çŒ«ï¼Œå¸®åŠ©å°çŒ«ä¿®ç‚¼æˆé•¿ã€é‡å¡‘å®¶å›­";
+        string content = "ä¿®ä»™ç•Œä¸­\n\nå¤§é‡å°çŒ«å››å¤„æµæµª\n\néœ€è¦ä½ \næ”¶å…»å°çŒ«\næŒ‡å¼•å°çŒ«æˆé•¿";
         backgroundText.text = content;
         //StartCoroutine(DisplayWordOneByOne(backgroundText, content));
 
@@ -42,7 +42,7 @@ public class WordProcessor : MonoBehaviour
         {
             yield return new WaitForSeconds(charsPerSecond);
             currentPos++;
-            text.text = texts.Substring(0, currentPos);//Ë¢ĞÂÎÄ±¾ÏÔÊ¾ÄÚÈİ
+            text.text = texts.Substring(0, currentPos);//åˆ·æ–°æ–‡æœ¬æ˜¾ç¤ºå†…å®¹
         }
     }
 

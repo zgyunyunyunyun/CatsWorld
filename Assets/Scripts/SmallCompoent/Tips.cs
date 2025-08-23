@@ -10,21 +10,21 @@ using System.Text;
 
 public class Tips : MonoBehaviour
 {
-    public GameObject tipsUIObj;//tipsUIµÄ¶ÔÏó
-    public TMP_Text text;//ÎÄ±¾
-    public Image catIcon;//Ğ¡Ã¨Í·Ïñ
+    public GameObject tipsUIObj;//tipsUIçš„å¯¹è±¡
+    public TMP_Text text;//æ–‡æœ¬
+    public Image catIcon;//å°çŒ«å¤´åƒ
 
-    public GameObject catDetailPanel;//Ğ¡Ã¨ÏêÇéÒ³
+    public GameObject catDetailPanel;//å°çŒ«è¯¦æƒ…é¡µ
 
-    public float detectTimeGap = 1.0f;//¸ôns¼ì²âÒ»´ÎtipsµÄ×´Ì¬£¨·¢ËÍÏûÏ¢µÄ¼ä¸ô£©
-    private float detectTimer = 1.0f;//¸ôns¼ì²âÒ»´ÎtipsµÄ×´Ì¬
+    public float detectTimeGap = 1.0f;//éš”nsæ£€æµ‹ä¸€æ¬¡tipsçš„çŠ¶æ€ï¼ˆå‘é€æ¶ˆæ¯çš„é—´éš”ï¼‰
+    private float detectTimer = 1.0f;//éš”nsæ£€æµ‹ä¸€æ¬¡tipsçš„çŠ¶æ€
 
-    public float clearTimeGap = 30.0f;//¸ô30sÇåÀíÒ»´Î±»µã»÷¹ıµÄÊı¾İ
-    private float clearTimer = 30.0f;//¸ô30sÇåÀíÒ»´Î±»µã»÷¹ıµÄÊı¾İ
+    public float clearTimeGap = 30.0f;//éš”30sæ¸…ç†ä¸€æ¬¡è¢«ç‚¹å‡»è¿‡çš„æ•°æ®
+    private float clearTimer = 30.0f;//éš”30sæ¸…ç†ä¸€æ¬¡è¢«ç‚¹å‡»è¿‡çš„æ•°æ®
 
     private List<TipsData> tipsList = new List<TipsData>();
 
-    private bool isShowed = false;//ÊÇ·ñÕ¹Ê¾µÚÒ»´ÎµÄÈÎÎñ¹ÊÊÂ
+    private bool isShowed = false;//æ˜¯å¦å±•ç¤ºç¬¬ä¸€æ¬¡çš„ä»»åŠ¡æ•…äº‹
 
     public static Tips instance;
     private void Awake()
@@ -44,10 +44,10 @@ public class Tips : MonoBehaviour
     {
         if(MainController.instance.isFirstTimeGaming && !isShowed)
         {
-            /*Ã¿´Î¿ª¾Ö£¬×Ô¶¯ÌáÊ¾ÈçÏÂÏûÏ¢£º
-            * 0£ºĞ¡Ã¨Á¶ÖÆÁéµ¤ËµÃ÷ÌáĞÑ
-            * 1£ºĞ¡Ã¨³öÊÛÁéµ¤ÌáĞÑ
-            * 4¡¢Ê£ÓàÁ÷ÀËĞ¡Ã¨ÌáĞÑ
+            /*æ¯æ¬¡å¼€å±€ï¼Œè‡ªåŠ¨æç¤ºå¦‚ä¸‹æ¶ˆæ¯ï¼š
+            * 0ï¼šå°çŒ«ç‚¼åˆ¶çµä¸¹è¯´æ˜æé†’
+            * 1ï¼šå°çŒ«å‡ºå”®çµä¸¹æé†’
+            * 4ã€å‰©ä½™æµæµªå°çŒ«æé†’
             */
 
             setTip(0);
@@ -57,24 +57,24 @@ public class Tips : MonoBehaviour
             isShowed = true;
         }
 
-        //±éÀútipsÁĞ±í£¬Õ¹Ê¾¸ßÓÅµÄÄÚÈİ
+        //éå†tipsåˆ—è¡¨ï¼Œå±•ç¤ºé«˜ä¼˜çš„å†…å®¹
         detectTimer -= Time.deltaTime;
         if (MainController.instance.isFirstTimeGaming && detectTimer < 0)
         {
-            Debug.Log("²âÊÔtipµÄÊ±¼äÖÜÆÚ£º" + detectTimer);
-            Debug.Log("µ±Ç°tipµÄÁĞ±íÊıÁ¿£º" + tipsList.Count);
+            Debug.Log("æµ‹è¯•tipçš„æ—¶é—´å‘¨æœŸï¼š" + detectTimer);
+            Debug.Log("å½“å‰tipçš„åˆ—è¡¨æ•°é‡ï¼š" + tipsList.Count);
             for (int i = tipsList.Count - 1; i >= 0; i--)
             {
-                Debug.Log("µ±Ç°tipµÚ"+i+"¸öÊÇ·ñ±»µã»÷¹ı£º" + tipsList[i].clicked);
+                Debug.Log("å½“å‰tipç¬¬"+i+"ä¸ªæ˜¯å¦è¢«ç‚¹å‡»è¿‡ï¼š" + tipsList[i].clicked);
             }
 
-            TipsData tipToShow = null;//¼ÇÂ¼ĞèÒªÕ¹Ê¾µÄtipÊı¾İ
-            int tipPos = -1;//¼ÇÂ¼tipµÄÎ»ÖÃ£¬ÓÃÓÚÇåÀíºóÉ¾³ıÊı¾İ
-            int unclicked = -1;//¼ÇÂ¼ºó±ßµÚÒ»¸öÃ»ÓĞ±»µã»÷¹ıµÄÊı¾İ
+            TipsData tipToShow = null;//è®°å½•éœ€è¦å±•ç¤ºçš„tipæ•°æ®
+            int tipPos = -1;//è®°å½•tipçš„ä½ç½®ï¼Œç”¨äºæ¸…ç†ååˆ é™¤æ•°æ®
+            int unclicked = -1;//è®°å½•åè¾¹ç¬¬ä¸€ä¸ªæ²¡æœ‰è¢«ç‚¹å‡»è¿‡çš„æ•°æ®
 
             if (tipsList.Count > 0)
             {
-                //´Óºó±ß±éÀúÁĞ±í£¬ÕÒµ½µÚÒ»¸öÃ»ÓĞ±»µã»÷¹ıµÄtip
+                //ä»åè¾¹éå†åˆ—è¡¨ï¼Œæ‰¾åˆ°ç¬¬ä¸€ä¸ªæ²¡æœ‰è¢«ç‚¹å‡»è¿‡çš„tip
                 for(int i = tipsList.Count - 1; i >= 0; i--)
                 {
                     if (!tipsList[i].clicked)
@@ -84,7 +84,7 @@ public class Tips : MonoBehaviour
                         tipsUIObj.gameObject.SetActive(true);
                         
                         unclicked = i;
-                        Debug.Log("µ±Ç°ÓĞtipÌáÊ¾ÓïÊÂ¼ş·¢Éú£¬ÆäĞòºÅÎª£º" + i);
+                        Debug.Log("å½“å‰æœ‰tipæç¤ºè¯­äº‹ä»¶å‘ç”Ÿï¼Œå…¶åºå·ä¸ºï¼š" + i);
                         break;
                     }
                 }
@@ -93,10 +93,10 @@ public class Tips : MonoBehaviour
             }else
             {
                 tipsUIObj.gameObject.SetActive(false);
-                Debug.Log("µ±Ç°Ã»ÓĞtipÌáÊ¾ÓïÊÂ¼ş·¢Éú");
+                Debug.Log("å½“å‰æ²¡æœ‰tipæç¤ºè¯­äº‹ä»¶å‘ç”Ÿ");
             }
                       
-            //´ÓÃ»ÓĞ±»µã»÷¹ıµÄÊı¾İÍùÇ°ÕÒ
+            //ä»æ²¡æœ‰è¢«ç‚¹å‡»è¿‡çš„æ•°æ®å¾€å‰æ‰¾
             for(int i = unclicked - 1; i >= 0; i--)
             {
                 if(!tipsList[i].clicked && tipsList[i].priority > tipToShow.priority)
@@ -108,29 +108,29 @@ public class Tips : MonoBehaviour
 
             if (tipToShow != null)
             {
-                //ÉèÖÃÎÄ±¾
+                //è®¾ç½®æ–‡æœ¬
                 setText(tipToShow.content);
 
-                //ÉèÖÃÍ·Ïñ
+                //è®¾ç½®å¤´åƒ
                 if(tipToShow.catNumber >= 0)
                 {
                     setIcon(tipToShow.catNumber);
                 }
                 
 
-                //Çå¿Õµã»÷ÊÂ¼şµÄ°ó¶¨
+                //æ¸…ç©ºç‚¹å‡»äº‹ä»¶çš„ç»‘å®š
                 tipsUIObj.transform.GetComponent<Button>().onClick.RemoveAllListeners();
 
-                //ÉèÖÃµã»÷ÊÂ¼ş
+                //è®¾ç½®ç‚¹å‡»äº‹ä»¶
                 if(tipToShow.catNumber >= 0)
                 {
-                    //½øÈëÏêÇéÒ³²¢¹Ø±Õtoast
+                    //è¿›å…¥è¯¦æƒ…é¡µå¹¶å…³é—­toast
                     tipsUIObj.transform.GetComponent<Button>().onClick.AddListener(() => showCatDetail(tipToShow.catNumber));
                     tipsUIObj.transform.GetComponent<Button>().onClick.AddListener(() => closeTips(tipPos));
                 }
                 else
                 {
-                    //¹Ø±Õtoast
+                    //å…³é—­toast
                     tipsUIObj.transform.GetComponent<Button>().onClick.AddListener(() => closeTips(tipPos));
                     
                 }
@@ -140,13 +140,13 @@ public class Tips : MonoBehaviour
             detectTimer = detectTimeGap;
         }
 
-        //ÇåÀí±»µã»÷¹ıµÄtips
+        //æ¸…ç†è¢«ç‚¹å‡»è¿‡çš„tips
         clearTimer -= Time.deltaTime;
         if(clearTimer < 0)
         {
             for(int i = tipsList.Count - 1; i >= 0; i--)
             {
-                //±»µã»÷¹ı
+                //è¢«ç‚¹å‡»è¿‡
                 if (tipsList[i].clicked)
                 {
                     tipsList.RemoveAt(i);
@@ -157,17 +157,17 @@ public class Tips : MonoBehaviour
         }
     }
 
-    //ÉèÖÃtipsµÄÄÚÈİ¼°Ìø×ª
+    //è®¾ç½®tipsçš„å†…å®¹åŠè·³è½¬
     public void setTip(int type, int catNumber = -1)
     {
 
         bool ifSet = true;
         for(int i = 0; i < tipsList.Count; i++)
         {
-            //ÅĞ¶Ï¸ÃÏûÏ¢ÊÇ·ñÒÑÔÚlistÀï
+            //åˆ¤æ–­è¯¥æ¶ˆæ¯æ˜¯å¦å·²åœ¨listé‡Œ
             if(type == tipsList[i].type && catNumber == tipsList[i].catNumber)
             {
-                //Debug.Log("¸ÃÏûÏ¢ÒÑ´æÔÚÁĞ±íÖĞ£¬²»ÔÙÊÕÄÉ");
+                //Debug.Log("è¯¥æ¶ˆæ¯å·²å­˜åœ¨åˆ—è¡¨ä¸­ï¼Œä¸å†æ”¶çº³");
 
                 ifSet = false;
                 break;
@@ -184,84 +184,84 @@ public class Tips : MonoBehaviour
 
     public void spawnTipData(int type, int catNumber)
     {
-        Debug.Log("ĞÂÔöÏûÏ¢ÀàĞÍÎª£º" + type);
-        Debug.Log("ĞÂÔöÏûÏ¢µÄĞ¡Ã¨±àºÅÎª£º" + catNumber);
+        Debug.Log("æ–°å¢æ¶ˆæ¯ç±»å‹ä¸ºï¼š" + type);
+        Debug.Log("æ–°å¢æ¶ˆæ¯çš„å°çŒ«ç¼–å·ä¸ºï¼š" + catNumber);
 
-        //³õÊ¼»¯ÖĞ¼ä²ÎÊı
+        //åˆå§‹åŒ–ä¸­é—´å‚æ•°
         string content = "";
         int priority = -1;
 
-        /*ÌáÊ¾ÀàĞÍ£º
-        * 0£ºĞ¡Ã¨Á¶ÖÆÁéµ¤ËµÃ÷ÌáĞÑ.¡£
-        * 1£ºĞ¡Ã¨³öÊÛÁéµ¤ÌáĞÑ.¡£
-        * 2£ºÁéµ¤ÊıÁ¿´ïµ½ÉÏÏŞ£¬´òÕÛ³öÊÛÌáĞÑ¡£
-        * 3£ºĞ¡Ã¨ÁéÊ¯²»×ã.¡£
-        * 4¡¢Ê£ÓàÁ÷ÀËĞ¡Ã¨ÌáĞÑ.¡£
-        * 5¡¢Íæ¼ÒÁéÊ¯²»×ãÌáĞÑ¡£
-        * 6¡¢Áéµ¤¼Û¸ñÉÏÕÇÌáĞÑ
-        * 7¡¢Ğ¡Ã¨½ú¼¶ÌáĞÑ¡£
-        * 8¡¢Ğ¡Ã¨ÊıÁ¿´ïµ½ÉÏÏŞÌáĞÑ¡£
-        * 9¡¢ÖÖÈº´ïµ½½úÉıÌõ¼şÌáĞÑ¡£
+        /*æç¤ºç±»å‹ï¼š
+        * 0ï¼šå°çŒ«ç‚¼åˆ¶çµä¸¹è¯´æ˜æé†’.ã€‚
+        * 1ï¼šå°çŒ«å‡ºå”®çµä¸¹æé†’.ã€‚
+        * 2ï¼šçµä¸¹æ•°é‡è¾¾åˆ°ä¸Šé™ï¼Œæ‰“æŠ˜å‡ºå”®æé†’ã€‚
+        * 3ï¼šå°çŒ«çµçŸ³ä¸è¶³.ã€‚
+        * 4ã€å‰©ä½™æµæµªå°çŒ«æé†’.ã€‚
+        * 5ã€ç©å®¶çµçŸ³ä¸è¶³æé†’ã€‚
+        * 6ã€çµä¸¹ä»·æ ¼ä¸Šæ¶¨æé†’
+        * 7ã€å°çŒ«æ™‹çº§æé†’ã€‚
+        * 8ã€å°çŒ«æ•°é‡è¾¾åˆ°ä¸Šé™æé†’ã€‚
+        * 9ã€ç§ç¾¤è¾¾åˆ°æ™‹å‡æ¡ä»¶æé†’ã€‚
         */
-        //ÅĞ¶ÏÏûÏ¢ÀàĞÍ
+        //åˆ¤æ–­æ¶ˆæ¯ç±»å‹
         if (type == 0)
         {
-            content = "Ğ¡Ã¨»á°ÑÁ¶ÖÆµÄÁéµ¤·Åµ½²Øµ¤¸ó";
+            content = "å°çŒ«ä¼šæŠŠç‚¼åˆ¶çš„çµä¸¹æ”¾åˆ°è—ä¸¹é˜";
             priority = 100;
         }
         else if (type == 1)
         {
-            content = "µã»÷Áéµ¤£¬¿É°ïÖúĞ¡Ã¨ <b><color=#F32D2D>Ô­¼Û</color></b> ³öÊÛÁéµ¤";
+            content = "ç‚¹å‡»çµä¸¹ï¼Œå¯å¸®åŠ©å°çŒ« <b><color=#F32D2D>åŸä»·</color></b> å‡ºå”®çµä¸¹";
             priority = 99;
 
         }
         else if (type == 2)
         {
-            content = "Áéµ¤ÊıÁ¿³¬¹ıÉÏÏŞ£¬Ğ¡Ã¨ÕıÔÚ <b><color=#F32D2D>´òÕÛ</color></b> ³öÊÛ";
+            content = "çµä¸¹æ•°é‡è¶…è¿‡ä¸Šé™ï¼Œå°çŒ«æ­£åœ¨ <b><color=#F32D2D>æ‰“æŠ˜</color></b> å‡ºå”®";
             priority = 1;
 
         }
         else if (type == 3)
         {
-            content = "Ğ¡Ã¨µÄÁéÊ¯²»×ã£¬ÎŞ·¨ĞŞÁ¶»ñµÃĞŞÎª";
+            content = "å°çŒ«çš„çµçŸ³ä¸è¶³ï¼Œæ— æ³•ä¿®ç‚¼è·å¾—ä¿®ä¸º";
             priority = 2;
 
         }
-        /*else if (type == 4)//Ã¿´Î´ò¿ªÓÎÏ·½ö´¥·¢1´Î
+        /*else if (type == 4)//æ¯æ¬¡æ‰“å¼€æ¸¸æˆä»…è§¦å‘1æ¬¡
         {
             
-            content = "·¢ÏÖÁË <b><color=#F32D2D>" + NewCatController.instance.outCatNumber.ToString() + "</color></b> Ö»Ğ¡Ã¨ÔÚÍâÁ÷ÀË";
+            content = "å‘ç°äº† <b><color=#F32D2D>" + NewCatController.instance.outCatNumber.ToString() + "</color></b> åªå°çŒ«åœ¨å¤–æµæµª";
             priority = 1;
         }*/
         else if (type == 5)
         {
-            content = "ÁéÊ¯ÊıÁ¿½ÏÉÙ£¬<b><color=#F32D2D>¿ªÊ¼Á¶µ¤</color></b>¿ÉÒÔ°ïÖúĞ¡Ã¨Á¶µ¤£¬¿ìËÙ»ñµÃÁéÊ¯";
+            content = "çµçŸ³æ•°é‡è¾ƒå°‘ï¼Œ<b><color=#F32D2D>å¼€å§‹ç‚¼ä¸¹</color></b>å¯ä»¥å¸®åŠ©å°çŒ«ç‚¼ä¸¹ï¼Œå¿«é€Ÿè·å¾—çµçŸ³";
             priority = 1;
 
         }
         else if (type == 6)
         {
-            content = "<b><color=#F32D2D>15·ÖÖÓÄÚ</color></b>Áéµ¤¼Û¸ñì­Éı£¬¿ìºô»½Ğ¡Ã¨Á¶ÖÆÁéµ¤";
+            content = "<b><color=#F32D2D>15åˆ†é’Ÿå†…</color></b>çµä¸¹ä»·æ ¼é£™å‡ï¼Œå¿«å‘¼å”¤å°çŒ«ç‚¼åˆ¶çµä¸¹";
             priority = 2;
 
         }
         else if (type == 7)
         {
-            content = "ß÷ß÷£¬Ğ¡Ã¨ĞŞÎªÒÑÂú£¬¿ÉÒÔÉı¼¶ÁË";
+            content = "å–µå–µï¼Œå°çŒ«ä¿®ä¸ºå·²æ»¡ï¼Œå¯ä»¥å‡çº§äº†";
             priority = 1;
         }
         else if (type == 8)
         {
-            content = "Ğ¡Ã¨ÊıÁ¿´ïµ½ÉÏÏŞ£¬Ìá¸ßÃ¨ÈºµÈ¼¶²ÅÄÜÊÕÑø¸ü¶àĞ¡Ã¨";
+            content = "å°çŒ«æ•°é‡è¾¾åˆ°ä¸Šé™ï¼Œæé«˜çŒ«ç¾¤ç­‰çº§æ‰èƒ½æ”¶å…»æ›´å¤šå°çŒ«";
             priority = 1;
         }
         else if (type == 9)
         {
-            content = "ß÷ß÷£¬Ã¨ÈºÒÑÂú×ã½ú¼¶Ìõ¼ş£¬¿ìÈ¥Éı¼¶";
+            content = "å–µå–µï¼ŒçŒ«ç¾¤å·²æ»¡è¶³æ™‹çº§æ¡ä»¶ï¼Œå¿«å»å‡çº§";
             priority = 1;
         }
 
-        //²úÉútipÊı¾İ¶ÔÏó
+        //äº§ç”Ÿtipæ•°æ®å¯¹è±¡
         TipsData tip = new TipsData();
         tip.type = type;
         tip.catNumber = catNumber;
@@ -269,38 +269,38 @@ public class Tips : MonoBehaviour
         tip.priority = priority;
         tip.clicked = false;
 
-        //Ìí¼Óµ½Êı¾İÁĞ±íÀï
+        //æ·»åŠ åˆ°æ•°æ®åˆ—è¡¨é‡Œ
         tipsList.Add(tip);
     }
 
-        //ÉèÖÃtipsµÄÎÄ±¾
+        //è®¾ç½®tipsçš„æ–‡æœ¬
     public void setText(string content)
     {
         text.text = content;
     }
 
-    //ÊäÈë¸Ä±äĞ¡Ã¨iconµÄÀàĞÍ£¨²ÎÊı£ºĞ¡Ã¨ÀàĞÍ£¬ÌáÊ¾ÀàĞÍ£¬Ğ¡Ã¨Ë³Ğò£©
+    //è¾“å…¥æ”¹å˜å°çŒ«iconçš„ç±»å‹ï¼ˆå‚æ•°ï¼šå°çŒ«ç±»å‹ï¼Œæç¤ºç±»å‹ï¼Œå°çŒ«é¡ºåºï¼‰
     public void setIcon(int catNumber)
     {
-        Debug.Log("ÊäÈë¸Ä±äÏûÏ¢µÄĞ¡Ã¨iconµÄ±àºÅ£º" + catNumber);
+        Debug.Log("è¾“å…¥æ”¹å˜æ¶ˆæ¯çš„å°çŒ«iconçš„ç¼–å·ï¼š" + catNumber);
         string path = "Materials/BigCat/cat" + CatController.instance.cats[catNumber].cat_icon;
-        Debug.Log("Ğ¡Ã¨Í·Ïñ path:" + path);
+        Debug.Log("å°çŒ«å¤´åƒ path:" + path);
         Sprite sprite = Resources.Load(path, typeof(Sprite)) as Sprite;
         catIcon.sprite = sprite;
         
     }
 
-    //°ó¶¨µã»÷ÊÂ¼ş£¬¿É´ò¿ªĞ¡Ã¨ÏêÇéÒ³
+    //ç»‘å®šç‚¹å‡»äº‹ä»¶ï¼Œå¯æ‰“å¼€å°çŒ«è¯¦æƒ…é¡µ
     public void showCatDetail(int catNumber)
     {
-        Debug.Log("µã»÷µÄĞ¡Ã¨ĞòºÅ£º" + catNumber);
+        Debug.Log("ç‚¹å‡»çš„å°çŒ«åºå·ï¼š" + catNumber);
         catDetailPanel.gameObject.SetActive(true);
         CatDetailController.instance.showCatUI(catNumber);
     }
 
     public void closeTips(int tipPos)
     {
-        Debug.Log("±»µã»÷µÄtipË³ĞòÎª£º" + tipPos);
+        Debug.Log("è¢«ç‚¹å‡»çš„tipé¡ºåºä¸ºï¼š" + tipPos);
         tipsList[tipPos].clicked = true;
         tipsUIObj.gameObject.SetActive(false);
     }
@@ -310,32 +310,32 @@ public class Tips : MonoBehaviour
 [Serializable]
 public class TipsData
 {
-    /*ÌáÊ¾ÀàĞÍ£º
-     * 0£ºĞ¡Ã¨Á¶ÖÆÁéµ¤ËµÃ÷ÌáĞÑ
-     * 1£ºĞ¡Ã¨³öÊÛÁéµ¤ÌáĞÑ
-     * 2£ºÁéµ¤ÊıÁ¿´ïµ½ÉÏÏŞ£¬´òÕÛ³öÊÛÌáĞÑ
-     * 3£ºĞ¡Ã¨ÁéÊ¯²»×ã
-     * 4¡¢Ê£ÓàÁ÷ÀËĞ¡Ã¨ÌáĞÑ
-     * 5¡¢Íæ¼ÒÁéÊ¯²»×ãÌáĞÑ
-     * 6¡¢Áéµ¤¼Û¸ñÉÏÕÇÌáĞÑ
-     * 7¡¢Ğ¡Ã¨½ú¼¶ÌáĞÑ
-     * 8¡¢Ğ¡Ã¨ÊıÁ¿´ïµ½ÉÏÏŞÌáĞÑ
-     * 9¡¢ÖÖÈº´ïµ½½úÉıÌõ¼şÌáĞÑ
+    /*æç¤ºç±»å‹ï¼š
+     * 0ï¼šå°çŒ«ç‚¼åˆ¶çµä¸¹è¯´æ˜æé†’
+     * 1ï¼šå°çŒ«å‡ºå”®çµä¸¹æé†’
+     * 2ï¼šçµä¸¹æ•°é‡è¾¾åˆ°ä¸Šé™ï¼Œæ‰“æŠ˜å‡ºå”®æé†’
+     * 3ï¼šå°çŒ«çµçŸ³ä¸è¶³
+     * 4ã€å‰©ä½™æµæµªå°çŒ«æé†’
+     * 5ã€ç©å®¶çµçŸ³ä¸è¶³æé†’
+     * 6ã€çµä¸¹ä»·æ ¼ä¸Šæ¶¨æé†’
+     * 7ã€å°çŒ«æ™‹çº§æé†’
+     * 8ã€å°çŒ«æ•°é‡è¾¾åˆ°ä¸Šé™æé†’
+     * 9ã€ç§ç¾¤è¾¾åˆ°æ™‹å‡æ¡ä»¶æé†’
      */
-    public int type;//ÌáÊ¾ÀàĞÍ
-    public int catNumber;//Ğ¡Ã¨Ë³Ğò
-    public string content;//ÌáÊ¾ÄÚÈİ
+    public int type;//æç¤ºç±»å‹
+    public int catNumber;//å°çŒ«é¡ºåº
+    public string content;//æç¤ºå†…å®¹
 
-    /*ÊıÖµÔ½´ó£¬ÓÅÏÈ¼¶Ô½¸ß
+    /*æ•°å€¼è¶Šå¤§ï¼Œä¼˜å…ˆçº§è¶Šé«˜
      * 
-     * ĞÂÊÖÒıµ¼ÌáÊ¾£º´Ó100¿ªÊ¼
+     * æ–°æ‰‹å¼•å¯¼æç¤ºï¼šä»100å¼€å§‹
      * 
-     * ³£¹æÌáĞÑ£º´Ó0¿ªÊ¼
-     * 0£º·ÇÖØÒªÌáĞÑ
-     * 1£º´Ù½øÍæ¼ÒĞĞÎªÌáĞÑ
-     * 2£ºÖØÒª½ú¼¶µÄÌáĞÑ
+     * å¸¸è§„æé†’ï¼šä»0å¼€å§‹
+     * 0ï¼šéé‡è¦æé†’
+     * 1ï¼šä¿ƒè¿›ç©å®¶è¡Œä¸ºæé†’
+     * 2ï¼šé‡è¦æ™‹çº§çš„æé†’
      */
-    public int priority;//Õ¹Ê¾µÄÓÅÏÈ¼¶
+    public int priority;//å±•ç¤ºçš„ä¼˜å…ˆçº§
 
-    public bool clicked;//ÊÇ·ñÒÑ¾­±»µã»÷¹ı
+    public bool clicked;//æ˜¯å¦å·²ç»è¢«ç‚¹å‡»è¿‡
 }

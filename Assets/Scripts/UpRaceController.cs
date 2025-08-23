@@ -6,40 +6,40 @@ using TMPro;
 
 public class UpRaceController : MonoBehaviour
 {
-    public int raceLevel = 0;//µ±Ç°ÖÖ×åµÈ¼¶£¬´Ó0¿ªÊ¼£¬¼´Ò»½×
+    public int raceLevel = 0;//å½“å‰ç§æ—ç­‰çº§ï¼Œä»0å¼€å§‹ï¼Œå³ä¸€é˜¶
 
-    public TMP_Text levelMain;//Ö÷½çÃæÕ¹Ê¾ÖÖ×åµÈ¼¶
-    public TMP_Text level;//Õ¹Ê¾ÖÖ×åµÈ¼¶
-    public TMP_Text requestLevel;//Õ¹Ê¾ÒªÇó´ïµ½µÄĞ¡Ã¨µÈ¼¶
-    public TMP_Text requestStone;//Õ¹Ê¾ÒªÇóÓµÓĞµÄÁéÊ¯ÊıÁ¿
-    public TMP_Text requestArea;//Õ¹Ê¾ÒªÇóÓµÓĞµÄÁìÍÁÃæ»ı
+    public TMP_Text levelMain;//ä¸»ç•Œé¢å±•ç¤ºç§æ—ç­‰çº§
+    public TMP_Text level;//å±•ç¤ºç§æ—ç­‰çº§
+    public TMP_Text requestLevel;//å±•ç¤ºè¦æ±‚è¾¾åˆ°çš„å°çŒ«ç­‰çº§
+    public TMP_Text requestStone;//å±•ç¤ºè¦æ±‚æ‹¥æœ‰çš„çµçŸ³æ•°é‡
+    public TMP_Text requestArea;//å±•ç¤ºè¦æ±‚æ‹¥æœ‰çš„é¢†åœŸé¢ç§¯
 
-    public Button upBtn;//Éı¼¶°´Å¥
-    public TMP_Text upBtnText;//Éı¼¶°´Å¥µÄÎÄ°¸
-    public TMP_Text maxCatNumber;//×î´óĞ¡Ã¨ÊıÁ¿
-    public TMP_Text maxLingDanNumber;//×î´óÁéµ¤ÊıÁ¿
-    public TMP_Text catNumber;//Ğ¡Ã¨ÊıÁ¿¼°×î´óÊıÁ¿
+    public Button upBtn;//å‡çº§æŒ‰é’®
+    public TMP_Text upBtnText;//å‡çº§æŒ‰é’®çš„æ–‡æ¡ˆ
+    public TMP_Text maxCatNumber;//æœ€å¤§å°çŒ«æ•°é‡
+    public TMP_Text maxLingDanNumber;//æœ€å¤§çµä¸¹æ•°é‡
+    public TMP_Text catNumber;//å°çŒ«æ•°é‡åŠæœ€å¤§æ•°é‡
 
-    public Image btn1;//µÚÒ»¸öÌõ¼şÊÇ·ñ´ï³É
-    public Image btn2;//µÚ¶ş¸öÌõ¼şÊÇ·ñ´ï³É
-    public Image btn3;//µÚÈı¸öÌõ¼şÊÇ·ñ´ï³É
+    public Image btn1;//ç¬¬ä¸€ä¸ªæ¡ä»¶æ˜¯å¦è¾¾æˆ
+    public Image btn2;//ç¬¬äºŒä¸ªæ¡ä»¶æ˜¯å¦è¾¾æˆ
+    public Image btn3;//ç¬¬ä¸‰ä¸ªæ¡ä»¶æ˜¯å¦è¾¾æˆ
 
-    public GameObject upPanel;//Éı¼¶Ãæ°å
+    public GameObject upPanel;//å‡çº§é¢æ¿
 
-    private List<Cat> cats;//±éÀúĞ¡Ã¨µÄµÈ¼¶
+    private List<Cat> cats;//éå†å°çŒ«çš„ç­‰çº§
 
-    //½ú¼¶Ìõ¼ş
+    //æ™‹çº§æ¡ä»¶
     private bool levelCondition = false;
     private bool stoneCondition = false;
     private bool areaCondition = false;
 
-    public TMP_Text nextRankText;//Éı¼¶ºóµ±Ç°µÈ¼¶
-    public TMP_Text newtMaxLDNumberText;//Éı¼¶ºóµ±Ç°Áéµ¤ÊıÁ¿
-    public TMP_Text nextMaxCNumberText;//Éı¼¶ºóµ±Ç°Ğ¡Ã¨ÊıÁ¿
+    public TMP_Text nextRankText;//å‡çº§åå½“å‰ç­‰çº§
+    public TMP_Text newtMaxLDNumberText;//å‡çº§åå½“å‰çµä¸¹æ•°é‡
+    public TMP_Text nextMaxCNumberText;//å‡çº§åå½“å‰å°çŒ«æ•°é‡
 
-    private float tipsTimer = 1.0f;//ÅĞ¶ÏÌáĞÑµÄ¼ÆÊ±Æ÷
+    private float tipsTimer = 1.0f;//åˆ¤æ–­æé†’çš„è®¡æ—¶å™¨
 
-    public Image redPoint;//ÖÖ×å½ú¼¶µÄºìµãÌáÊ¾
+    public Image redPoint;//ç§æ—æ™‹çº§çš„çº¢ç‚¹æç¤º
 
     public static UpRaceController instance;
     private void Awake()
@@ -56,41 +56,41 @@ public class UpRaceController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Èç¹ûÉı¼¶Ãæ°åÕ¹Ê¾ÁË£¬Ôò²»¶ÏË¢ĞÂUI
+        //å¦‚æœå‡çº§é¢æ¿å±•ç¤ºäº†ï¼Œåˆ™ä¸æ–­åˆ·æ–°UI
         if (upPanel.gameObject.activeSelf)
         {
             
-            level.text = changeLevel(raceLevel) + "ÖÖ×å";
-            requestLevel.text = RequestLevel();//ÒªÇóµÄÏÂÒ»µÈ¼¶
-            requestStone.text = RequestStone().ToString() + "ÁéÊ¯";
-            requestArea.text = RequestTerritoryArea().ToString() + "Æ½·½Ã×";
+            level.text = changeLevel(raceLevel) + "ç§æ—";
+            requestLevel.text = RequestLevel();//è¦æ±‚çš„ä¸‹ä¸€ç­‰çº§
+            requestStone.text = RequestStone().ToString() + "çµçŸ³";
+            requestArea.text = RequestTerritoryArea().ToString() + "å¹³æ–¹ç±³";
 
-            maxCatNumber.text = "Ğ¡Ã¨×î´óÊıÁ¿£º" + MaxCatNumber(raceLevel).ToString();
-            maxLingDanNumber.text = "Áéµ¤×î´óÊıÁ¿£º" + MaxLingDanNumber(raceLevel).ToString();
+            maxCatNumber.text = "å°çŒ«æœ€å¤§æ•°é‡ï¼š" + MaxCatNumber(raceLevel).ToString();
+            maxLingDanNumber.text = "çµä¸¹æœ€å¤§æ•°é‡ï¼š" + MaxLingDanNumber(raceLevel).ToString();
 
             if(raceLevel >= 4)
             {
-                upBtnText.text = "ÒÑÂú¼¶";
+                upBtnText.text = "å·²æ»¡çº§";
                 upBtn.interactable = false;
             }
             
         }
 
-        levelMain.text = changeLevel(raceLevel) + "ÖÖ×å";
+        levelMain.text = changeLevel(raceLevel) + "ç§æ—";
         catNumber.text = CatController.instance.cats.Count + " / " + MaxCatNumber(raceLevel).ToString();
 
-        //·¢ËÍ¿ÉÒÔÉı¼¶µÄÏûÏ¢
+        //å‘é€å¯ä»¥å‡çº§çš„æ¶ˆæ¯
         tipsTimer -= Time.deltaTime;
         if (tipsTimer < 0)
         {
             cats = CatController.instance.cats;
 
-            //Ë¢ĞÂµÈ¼¶
+            //åˆ·æ–°ç­‰çº§
             bool ifLevelCondition = false; 
-            //±éÀúĞ¡Ã¨£¬¶Ô±ÈĞ¡Ã¨µÈ¼¶ÊÇ·ñ·ûºÏÌõ¼ş
+            //éå†å°çŒ«ï¼Œå¯¹æ¯”å°çŒ«ç­‰çº§æ˜¯å¦ç¬¦åˆæ¡ä»¶
             for (int i = 0; i < cats.Count; i++)
             {
-                //Ğ¡Ã¨µÈ¼¶·ûºÏÏÂÒ»µÈ¼¶µÄÌõ¼ş
+                //å°çŒ«ç­‰çº§ç¬¦åˆä¸‹ä¸€ç­‰çº§çš„æ¡ä»¶
                 if (CatController.instance.levelStringToNumber(cats[i].big_level) > raceLevel)
                 {                    
                     ifLevelCondition = true;
@@ -112,10 +112,10 @@ public class UpRaceController : MonoBehaviour
                 levelCondition = false;
             }
 
-            //ÊÇ·ñÂú×ãÁéÊ¯Ìõ¼ş
+            //æ˜¯å¦æ»¡è¶³çµçŸ³æ¡ä»¶
             if (PropertyController.instance.lingshiNumber >= RequestStone())
             {
-                //¸Ä±äÉ«¿é
+                //æ”¹å˜è‰²å—
                 stoneCondition = true;
             }
             else
@@ -123,7 +123,7 @@ public class UpRaceController : MonoBehaviour
                 stoneCondition = false;
             }
 
-            //ÊÇ·ñÂú×ãÁìÍÁÌõ¼ş
+            //æ˜¯å¦æ»¡è¶³é¢†åœŸæ¡ä»¶
             if (PropertyController.instance.territoryArea >= RequestTerritoryArea())
             {
                 areaCondition = true;
@@ -133,17 +133,17 @@ public class UpRaceController : MonoBehaviour
                 areaCondition = false;
             }
 
-            //Ğ¡Ã¨ÊıÁ¿´ïµ½×î´ó
+            //å°çŒ«æ•°é‡è¾¾åˆ°æœ€å¤§
             if (CatController.instance.cats.Count >= MaxCatNumber(raceLevel))
             {
-                Debug.Log("Ğ¡Ã¨ÊıÁ¿´ïµ½×î´ó");
+                Debug.Log("å°çŒ«æ•°é‡è¾¾åˆ°æœ€å¤§");
                 //Tips.instance.setTip(8);
             }
 
-            //´ïµ½ÖÖ×å½ú¼¶Ìõ¼ş
+            //è¾¾åˆ°ç§æ—æ™‹çº§æ¡ä»¶
             if (areaCondition && levelCondition && stoneCondition || CatController.instance.cats.Count >= MaxCatNumber(raceLevel))
             {
-                Debug.Log("´ïµ½ÖÖ×å½ú¼¶µÄÌõ¼ş£¬»òÕßĞ¡Ã¨ÊıÁ¿ÂúÁË");
+                Debug.Log("è¾¾åˆ°ç§æ—æ™‹çº§çš„æ¡ä»¶ï¼Œæˆ–è€…å°çŒ«æ•°é‡æ»¡äº†");
                 //Tips.instance.setTip(9);
 
                 redPoint.gameObject.SetActive(true);
@@ -157,14 +157,14 @@ public class UpRaceController : MonoBehaviour
         }
 
 
-        //ÊÇ·ñ´ò¿ªÉı¼¶Ãæ°å
+        //æ˜¯å¦æ‰“å¼€å‡çº§é¢æ¿
         if (upPanel.gameObject.activeSelf)
         {
 
-            //Ğ¡Ã¨µÈ¼¶·ûºÏÏÂÒ»µÈ¼¶µÄÌõ¼ş
+            //å°çŒ«ç­‰çº§ç¬¦åˆä¸‹ä¸€ç­‰çº§çš„æ¡ä»¶
             if (levelCondition)
             {
-                //¸Ä±äÉ«¿é
+                //æ”¹å˜è‰²å—
                 btn1.GetComponent<Image>().color = Color.green;
             }
             else
@@ -172,10 +172,10 @@ public class UpRaceController : MonoBehaviour
                 btn1.GetComponent<Image>().color = Color.grey;
             }
 
-            //ÊÇ·ñÂú×ãÁéÊ¯Ìõ¼ş
+            //æ˜¯å¦æ»¡è¶³çµçŸ³æ¡ä»¶
             if (stoneCondition)
             {
-                //¸Ä±äÉ«¿é
+                //æ”¹å˜è‰²å—
                 btn2.GetComponent<Image>().color = Color.green;
             }
             else
@@ -183,10 +183,10 @@ public class UpRaceController : MonoBehaviour
                 btn2.GetComponent<Image>().color = Color.grey;
             }
 
-            //ÊÇ·ñÂú×ãÁìÍÁÌõ¼ş
+            //æ˜¯å¦æ»¡è¶³é¢†åœŸæ¡ä»¶
             if (areaCondition)
             {
-                //¸Ä±äÉ«¿é
+                //æ”¹å˜è‰²å—
                 btn3.GetComponent<Image>().color = Color.green;
             }
             else
@@ -194,15 +194,15 @@ public class UpRaceController : MonoBehaviour
                 btn3.GetComponent<Image>().color = Color.grey;
             }
 
-            //3¸öÌõ¼ş¶¼Âú×ã£¬°´Å¥¸Ä±ä
+            //3ä¸ªæ¡ä»¶éƒ½æ»¡è¶³ï¼ŒæŒ‰é’®æ”¹å˜
             if (stoneCondition && levelCondition && areaCondition)
             {
-                upBtnText.text = "Î´Âú×ã";
+                upBtnText.text = "æœªæ»¡è¶³";
                 upBtn.interactable = true;
             }
             else
             {
-                upBtnText.text = "Î´Âú×ã";
+                upBtnText.text = "æœªæ»¡è¶³";
                 upBtn.interactable = false;
             }
         }
@@ -212,94 +212,94 @@ public class UpRaceController : MonoBehaviour
 
 
 
-    //Éı¼¶Ğ¡Ã¨
+    //å‡çº§å°çŒ«
     public void upLevel()
     {
-        //ÏûºÄÁéÊ¯
+        //æ¶ˆè€—çµçŸ³
         PropertyController.instance.lingshiNumber -= RequestStone();
 
-        //Éı¼¶³É¹¦£¬µÈ¼¶¼ÓÒ»£¬Í¬Ê±¸Ä±ä×î´óĞ¡Ã¨ÊıÁ¿ºÍ×î´óÁéµ¤ÊıÁ¿
+        //å‡çº§æˆåŠŸï¼Œç­‰çº§åŠ ä¸€ï¼ŒåŒæ—¶æ”¹å˜æœ€å¤§å°çŒ«æ•°é‡å’Œæœ€å¤§çµä¸¹æ•°é‡
         raceLevel++;
         PropertyController.instance.maxLingdanNumber = MaxLingDanNumber(raceLevel);
         PropertyController.instance.maxLingdanUINumber = MaxLingDanNumber(raceLevel);
 
-        //¸Ä±ä³É¹¦Ãæ°åµÄUI
+        //æ”¹å˜æˆåŠŸé¢æ¿çš„UI
 
-        nextRankText.text = "µ±Ç°µÈ¼¶£º" + changeLevel(raceLevel) + "ÖÖ×å";
-        newtMaxLDNumberText.text = "×î´óÁéµ¤ÊıÁ¿£º+" + (MaxLingDanNumber(raceLevel) - MaxLingDanNumber(raceLevel-1)).ToString() ;
-        nextMaxCNumberText.text = "×î´óĞ¡Ã¨ÊıÁ¿:+" + (MaxCatNumber(raceLevel) - MaxCatNumber(raceLevel - 1)).ToString();
+        nextRankText.text = "å½“å‰ç­‰çº§ï¼š" + changeLevel(raceLevel) + "ç§æ—";
+        newtMaxLDNumberText.text = "æœ€å¤§çµä¸¹æ•°é‡ï¼š+" + (MaxLingDanNumber(raceLevel) - MaxLingDanNumber(raceLevel-1)).ToString() ;
+        nextMaxCNumberText.text = "æœ€å¤§å°çŒ«æ•°é‡:+" + (MaxCatNumber(raceLevel) - MaxCatNumber(raceLevel - 1)).ToString();
 
         
     }
 
-    //½«µÈ¼¶×ªÎªÖĞÎÄ
+    //å°†ç­‰çº§è½¬ä¸ºä¸­æ–‡
     string changeLevel(int rLevel)
     {
         if(rLevel == 0)
         {
-            return "Ò»½×";
+            return "ä¸€é˜¶";
         }else if(rLevel == 1)
         {
-            return "¶ş½×";
+            return "äºŒé˜¶";
         }
         else if (rLevel == 2)
         {
-            return "Èı½×";
+            return "ä¸‰é˜¶";
         }
         else if (rLevel == 3)
         {
-            return "ËÄ½×";
+            return "å››é˜¶";
         }
         else if (rLevel == 4)
         {
-            return "Îå½×";
+            return "äº”é˜¶";
         }
 
         return " ";
     }
 
-    //Êä³öÏÂÒ»µÈ¼¶µÄÒªÇó1
+    //è¾“å‡ºä¸‹ä¸€ç­‰çº§çš„è¦æ±‚1
     string RequestLevel()
     {
         if (raceLevel == 0)
         {
-            return "Öş»ùÆÚ";
+            return "ç­‘åŸºæœŸ";
         }
         else if (raceLevel == 1)
         {
-            return "½ğµ¤ÆÚ";
+            return "é‡‘ä¸¹æœŸ";
         }
         else if (raceLevel == 2)
         {
-            return "ÔªÓ¤ÆÚ";
+            return "å…ƒå©´æœŸ";
         }
         else if (raceLevel == 3)
         {
-            return "»¯ÉñÆÚ";
+            return "åŒ–ç¥æœŸ";
         }
 
         return " ";
     }
 
-    //Êä³öÏÂÒ»µÈ¼¶µÄÁéÊ¯ÒªÇó2
+    //è¾“å‡ºä¸‹ä¸€ç­‰çº§çš„çµçŸ³è¦æ±‚2
     int RequestStone()
     {
         return 100 * (int)Mathf.Pow(100, raceLevel + 1);
     }
 
-    //Êä³öÏÂÒ»µÈ¼¶µÄÁìÍÁÃæ»ıÒªÇó
+    //è¾“å‡ºä¸‹ä¸€ç­‰çº§çš„é¢†åœŸé¢ç§¯è¦æ±‚
     int RequestTerritoryArea()
     {
         return 10 * (int)Mathf.Pow(10, raceLevel + 1);
     }
 
-    //Êä³öµ±Ç°µÈ¼¶×î´óĞ¡Ã¨ÊıÁ¿
+    //è¾“å‡ºå½“å‰ç­‰çº§æœ€å¤§å°çŒ«æ•°é‡
     public int MaxCatNumber(int rLevel)
     {
         return 10 * (int)Mathf.Pow(2, rLevel);
     }
 
-    //Êä³öµ±Ç°µÈ¼¶×î´óLingdanÊıÁ¿
+    //è¾“å‡ºå½“å‰ç­‰çº§æœ€å¤§Lingdanæ•°é‡
     int MaxLingDanNumber(int rLevel)
     {
         return 10 * (rLevel + 2);

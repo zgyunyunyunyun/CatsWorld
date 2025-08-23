@@ -6,35 +6,35 @@ using TMPro;
 
 public class AllCatUI : MonoBehaviour
 {
-    public GameObject catUI;//ÓÃÀ´Éú³ÉĞ¡Ã¨µÄprefab
-    public GameObject catListUI;//Õ¹Ê¾Ğ¡Ã¨ÁĞ±íµÄUI
+    public GameObject catUI;//ç”¨æ¥ç”Ÿæˆå°çŒ«çš„prefab
+    public GameObject catListUI;//å±•ç¤ºå°çŒ«åˆ—è¡¨çš„UI
 
-    public GameObject content;//¹ÒÔÚÄÚÈİ×é¼şÉÏ
+    public GameObject content;//æŒ‚åœ¨å†…å®¹ç»„ä»¶ä¸Š
 
-    public GameObject catDetailPanel;//Ã¨ßäÏêÇéÃæ°å£¬ÓÃÀ´µã»÷ÒÔºó´ò¿ªÏêÇéÒ³
+    public GameObject catDetailPanel;//çŒ«å’ªè¯¦æƒ…é¢æ¿ï¼Œç”¨æ¥ç‚¹å‡»ä»¥åæ‰“å¼€è¯¦æƒ…é¡µ
 
-    public GameObject catListGreyPanel;//Ã¨ßäÁĞ±íµÄ»ÒÉ«±³¾°°å
+    public GameObject catListGreyPanel;//çŒ«å’ªåˆ—è¡¨çš„ç°è‰²èƒŒæ™¯æ¿
 
-    public TMP_Dropdown dropdown;//ÏÂÀ­Ñ¡ÏîÌõ
+    public TMP_Dropdown dropdown;//ä¸‹æ‹‰é€‰é¡¹æ¡
 
-    private List<GameObject> catUIList = new List<GameObject>();//ËùÓĞ²úÉúĞ¡Ã¨µÄUI
+    private List<GameObject> catUIList = new List<GameObject>();//æ‰€æœ‰äº§ç”Ÿå°çŒ«çš„UI
 
-    private bool isShowAll = true;//ÊÇ·ñ´ò¿ªÊ×´ÎÕ¹Ê¾È«²¿Ğ¡Ã¨UI
+    private bool isShowAll = true;//æ˜¯å¦æ‰“å¼€é¦–æ¬¡å±•ç¤ºå…¨éƒ¨å°çŒ«UI
 
     // Start is called before the first frame update
     void Start()
     {
-        //¸øÏÂÀ­ÌõÌí¼ÓÑ¡Ïî¸Ä±äÊÂ¼ş
+        //ç»™ä¸‹æ‹‰æ¡æ·»åŠ é€‰é¡¹æ”¹å˜äº‹ä»¶
         dropdown.onValueChanged.AddListener((value) => spawnCatUI(value));
     }
 
-    private void Update()//ÒÅÁô£ºÄ¿µÄÊÇÎªÁËÄÜ¹»ÈÃĞ¡Ã¨UI·´¸´´ò¿ªµÄÊ±ºò£¬±È½ÏÊµÊ±µØË¢ĞÂÊı¾İ
+    private void Update()//é—ç•™ï¼šç›®çš„æ˜¯ä¸ºäº†èƒ½å¤Ÿè®©å°çŒ«UIåå¤æ‰“å¼€çš„æ—¶å€™ï¼Œæ¯”è¾ƒå®æ—¶åœ°åˆ·æ–°æ•°æ®
     {
 
-        //´ò¿ªĞ¡Ã¨ÁĞ±íµÄUI£¬ÇÒÊÇ´ò¿ªµÄÊ×´ÎÕ¹Ê¾È«²¿Ğ¡Ã¨UI
+        //æ‰“å¼€å°çŒ«åˆ—è¡¨çš„UIï¼Œä¸”æ˜¯æ‰“å¼€çš„é¦–æ¬¡å±•ç¤ºå…¨éƒ¨å°çŒ«UI
         if (catListUI.activeSelf && isShowAll)
         {
-            spawnCatUI(0);//³õÊ¼»¯Õ¹Ê¾ËùÓĞĞ¡Ã¨
+            spawnCatUI(0);//åˆå§‹åŒ–å±•ç¤ºæ‰€æœ‰å°çŒ«
 
             isShowAll = false;
 
@@ -52,44 +52,44 @@ public class AllCatUI : MonoBehaviour
         List<Cat> tempCats = CatController.instance.cats;
         List<Cat> cats = new List<Cat>();
 
-        Debug.Log("É¸Ñ¡Ìõ¼şÎª£º" + condition);
+        Debug.Log("ç­›é€‰æ¡ä»¶ä¸ºï¼š" + condition);
 
-        //µ±Ñ¡ÏîÎªÈ«²¿Ê±£¨0£©£¬Õ¹Ê¾ËùÓĞĞ¡Ã¨
+        //å½“é€‰é¡¹ä¸ºå…¨éƒ¨æ—¶ï¼ˆ0ï¼‰ï¼Œå±•ç¤ºæ‰€æœ‰å°çŒ«
         if(condition == 0)
         {
             cats = tempCats;
         }
-        //·ñÔò£¬Õ¹Ê¾Ñ¡ÖĞµÄĞ¡Ã¨
+        //å¦åˆ™ï¼Œå±•ç¤ºé€‰ä¸­çš„å°çŒ«
         else
         {
             for(int i = 0; i < tempCats.Count; i++)
             {
-                if(condition == 1 && tempCats[i].big_level == "Á·ÆøÆÚ")
+                if(condition == 1 && tempCats[i].big_level == "ç»ƒæ°”æœŸ")
                 {
                     cats.Add(tempCats[i]);
-                }else if (condition == 2 && tempCats[i].big_level == "Öş»ùÆÚ")
-                {
-                    cats.Add(tempCats[i]);
-                }
-                else if (condition == 3 && tempCats[i].big_level == "½ğµ¤ÆÚ")
+                }else if (condition == 2 && tempCats[i].big_level == "ç­‘åŸºæœŸ")
                 {
                     cats.Add(tempCats[i]);
                 }
-                else if (condition == 4 && tempCats[i].big_level == "ÔªÓ¤ÆÚ")
+                else if (condition == 3 && tempCats[i].big_level == "é‡‘ä¸¹æœŸ")
                 {
                     cats.Add(tempCats[i]);
                 }
-                else if (condition == 5 && tempCats[i].big_level == "»¯ÉñÆÚ")
+                else if (condition == 4 && tempCats[i].big_level == "å…ƒå©´æœŸ")
+                {
+                    cats.Add(tempCats[i]);
+                }
+                else if (condition == 5 && tempCats[i].big_level == "åŒ–ç¥æœŸ")
                 {
                     cats.Add(tempCats[i]);
                 }
             }
         }
 
-        Debug.Log("É¸Ñ¡½á¹û£º" + cats.Count);
+        Debug.Log("ç­›é€‰ç»“æœï¼š" + cats.Count);
 
-        Debug.Log("ÇåÀíÇ°£º" + catUIList.Count);
-        //Çå¿ÕĞ¡Ã¨µÄUI£¬ÓÃÓÚË¢ĞÂÑ¡ÔñµÄ½á¹û
+        Debug.Log("æ¸…ç†å‰ï¼š" + catUIList.Count);
+        //æ¸…ç©ºå°çŒ«çš„UIï¼Œç”¨äºåˆ·æ–°é€‰æ‹©çš„ç»“æœ
         for (int i = catUIList.Count - 1; i >= 0; i--)
         {
             GameObject tempObj = catUIList[i];          
@@ -97,28 +97,28 @@ public class AllCatUI : MonoBehaviour
             Destroy(tempObj);
         }
 
-        Debug.Log("ÇåÀí½á¹û£º" + catUIList.Count);
+        Debug.Log("æ¸…ç†ç»“æœï¼š" + catUIList.Count);
 
-        //µ±Ğ¡Ã¨µÄÊıÁ¿Õ¹Ê¾·¶Î§³¬¹ı5ĞĞÊ±£¬À©´ó¿ÉÕ¹Ê¾µÄcontent·¶Î§
+        //å½“å°çŒ«çš„æ•°é‡å±•ç¤ºèŒƒå›´è¶…è¿‡5è¡Œæ—¶ï¼Œæ‰©å¤§å¯å±•ç¤ºçš„contentèŒƒå›´
         if ((cats.Count / 4.0f) > 4)
         {
-            Debug.Log("³¢ÊÔ¸Ä±äUI");
+            Debug.Log("å°è¯•æ”¹å˜UI");
             RectTransform contentRect = content.GetComponent<RectTransform>();
             if ((cats.Count / 4.0f) == (cats.Count / 4))
             {
                 //contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, 1279.9f + ((cats.Count / 4) - 5) * 260);
                 contentRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 1300 + ((cats.Count / 4) - 4) * 270);
-                Debug.Log("³¢ÊÔ¸Ä±äUI1");
+                Debug.Log("å°è¯•æ”¹å˜UI1");
             }
             else
             {
                 //contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, 1279.9f + ((cats.Count / 4) - 4) * 260);
                 contentRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 1300 + ((cats.Count / 4) - 3) * 270);
-                Debug.Log("³¢ÊÔ¸Ä±äUI2");
+                Debug.Log("å°è¯•æ”¹å˜UI2");
             }
         }
 
-        //¸øĞ¡Ã¨½øĞĞµÈ¼¶ÅÅĞò
+        //ç»™å°çŒ«è¿›è¡Œç­‰çº§æ’åº
         for(int i = cats.Count-1; i > 0 ; i--)
         {
             int maxIndex = i;
@@ -136,22 +136,22 @@ public class AllCatUI : MonoBehaviour
             cats.Add(temp);
         }
 
-        //µÚÒ»¸öÊÇ×îĞ¡µÄ£¬È»ºóÅ²µ½µÚÒ»Î»È¥
+        //ç¬¬ä¸€ä¸ªæ˜¯æœ€å°çš„ï¼Œç„¶åæŒªåˆ°ç¬¬ä¸€ä½å»
         var firstObj = cats[0];
         cats.RemoveAt(0);
         cats.Add(firstObj);
 
-        //Õ¹Ê¾ËùÓĞĞ¡Ã¨²¢´¦Àí¶ÔÓ¦µÄÎ»ÖÃ
+        //å±•ç¤ºæ‰€æœ‰å°çŒ«å¹¶å¤„ç†å¯¹åº”çš„ä½ç½®
         for (int i = 0; i< cats.Count; i++)
         {
             GameObject tempObj = Instantiate(catUI);
             catUIList.Add(tempObj);
 
-            //¸øĞ¡Ã¨Ìí¼Óµã»÷¼àÌıÊÂ¼ş£¬ÓÃÔÚÕâÀïÊÇÒòÎªÉ¸Ñ¡»áÖØĞÂ¸üĞÂUI
+            //ç»™å°çŒ«æ·»åŠ ç‚¹å‡»ç›‘å¬äº‹ä»¶ï¼Œç”¨åœ¨è¿™é‡Œæ˜¯å› ä¸ºç­›é€‰ä¼šé‡æ–°æ›´æ–°UI
             int catID = cats[i].cat_id;
             tempObj.GetComponent<Button>().onClick.AddListener(() => showCatDetail(catID));
 
-            //½«Ğ¡Ã¨ÊôĞÔÁĞ±í¹Ò×Å¸¸½ÚµãÉÏ
+            //å°†å°çŒ«å±æ€§åˆ—è¡¨æŒ‚ç€çˆ¶èŠ‚ç‚¹ä¸Š
             tempObj.transform.SetParent(content.transform, false);
             //Debug.Log("%" + i % 4);
             //Debug.Log("/" + i / 4);
@@ -172,9 +172,9 @@ public class AllCatUI : MonoBehaviour
                 redPoint.gameObject.SetActive(true);
             }
 
-            //¶Ô»ñµÃµÄUI½øĞĞ¸³Öµ
+            //å¯¹è·å¾—çš„UIè¿›è¡Œèµ‹å€¼
             string path = "Materials/BigCat/cat" + cats[i].cat_icon.ToString();
-            //Debug.Log("³É¹¦µ®ÉúĞ¡Ã¨£¬Ğ¡Ã¨Í·Ïñ path:" + path);
+            //Debug.Log("æˆåŠŸè¯ç”Ÿå°çŒ«ï¼Œå°çŒ«å¤´åƒ path:" + path);
             Sprite sprite = Resources.Load(path, typeof(Sprite)) as Sprite;
             catIcon.sprite = sprite;
 
@@ -184,10 +184,10 @@ public class AllCatUI : MonoBehaviour
         
     }
 
-    //Õ¹Ê¾µÚnÖ»Ğ¡Ã¨µÄÏêÇé£¬´Ó0ËãÆğ
+    //å±•ç¤ºç¬¬nåªå°çŒ«çš„è¯¦æƒ…ï¼Œä»0ç®—èµ·
     void showCatDetail(int catID)
     {
-        Debug.Log("µã»÷ÁËµÚ" + catID + "Ö»Ã¨");
+        Debug.Log("ç‚¹å‡»äº†ç¬¬" + catID + "åªçŒ«");
         catListGreyPanel.gameObject.SetActive(false);
         catDetailPanel.gameObject.SetActive(true);
 
