@@ -19,10 +19,10 @@ public class CatDetailController : MonoBehaviour
 
     public Image rankPicture;//
 
-    public Button upRankBtn;//½ú¼¶°´Å¥
+    public Button upRankBtn;//æ™‹çº§æŒ‰é’®
 
-    public Image upRedPoint;//Éı¼¶µÄºìµã
-    public Image stoneRedPoint;//ÁéÊ¯²»×ãµÄºìµã
+    public Image upRedPoint;//å‡çº§çš„çº¢ç‚¹
+    public Image stoneRedPoint;//çµçŸ³ä¸è¶³çš„çº¢ç‚¹
 
     public GameObject toast;
 
@@ -43,13 +43,13 @@ public class CatDetailController : MonoBehaviour
 
     private void Update()
     {
-        //¸üĞÂĞ¡Ã¨ÓµÓĞµÄÁéÊ¯ÊıÁ¿
-        if(cat != null)
+        //æ›´æ–°å°çŒ«æ‹¥æœ‰çš„çµçŸ³æ•°é‡
+        if (cat != null)
         {
-            hadStone.text = "ÁéÊ¯£º" + cat.had_stone;
-            cultivation.text = "ĞŞÎª£º" + cat.cultivation + "/" + CatController.instance.levelNeedCul(cat.small_level, cat.big_level).ToString();
+            hadStone.text = "çµçŸ³ï¼š" + cat.had_stone;
+            cultivation.text = "ä¿®ä¸ºï¼š" + cat.cultivation + "/" + CatController.instance.levelNeedCul(cat.small_level, cat.big_level).ToString();
 
-            //ÅĞ¶ÏĞ¡Ã¨ÊÇ·ñ¿ÉÕ¹Ê¾½ú¼¶ºìµãºÍ°´Å¥
+            //åˆ¤æ–­å°çŒ«æ˜¯å¦å¯å±•ç¤ºæ™‹çº§çº¢ç‚¹å’ŒæŒ‰é’®
             if (cat.cultivation >= CatController.instance.levelNeedCul(cat.small_level, cat.big_level))
             {
                 upRankBtn.gameObject.SetActive(true);
@@ -64,32 +64,32 @@ public class CatDetailController : MonoBehaviour
 
     }
 
-    //ÔÚĞ¡Ã¨ÏêÇéÒ³ÀïÕ¹Ê¾Ğ¡Ã¨µÄÑùÊ½
+    //åœ¨å°çŒ«è¯¦æƒ…é¡µé‡Œå±•ç¤ºå°çŒ«çš„æ ·å¼
     public void showCatUI(int catID)
     {
-        for(int i=0;i< CatController.instance.cats.Count; i++)
+        for (int i = 0; i < CatController.instance.cats.Count; i++)
         {
-            if(catID == CatController.instance.cats[i].cat_id)
+            if (catID == CatController.instance.cats[i].cat_id)
             {
                 cat = CatController.instance.cats[i];
             }
         }
-        
 
-        //¶Ô»ñµÃµÄUI½øĞĞ¸³Öµ
+
+        //å¯¹è·å¾—çš„UIè¿›è¡Œèµ‹å€¼
         string path = "Materials/BigCat/cat" + cat.cat_icon.ToString();
-        Debug.Log("³É¹¦µ®ÉúĞ¡Ã¨£¬Ğ¡Ã¨Í·Ïñ path:" + path);
+        Debug.Log("æˆåŠŸè¯ç”Ÿå°çŒ«ï¼Œå°çŒ«å¤´åƒ path:" + path);
         Sprite sprite = Resources.Load(path, typeof(Sprite)) as Sprite;
         catPicture.sprite = sprite;
 
         catName.text = cat.cat_name;
         //state.text = cat.work;
-        
-        hadStone.text = "ÁéÊ¯£º" + cat.had_stone;
 
-        introduciton.text = "ĞÔ¸ñ£º" + cat.introuction;
+        hadStone.text = "çµçŸ³ï¼š" + cat.had_stone;
 
-        //ÅĞ¶ÏÊÇ·ñÕ¹Ê¾ºìµã
+        introduciton.text = "æ€§æ ¼ï¼š" + cat.introuction;
+
+        //åˆ¤æ–­æ˜¯å¦å±•ç¤ºçº¢ç‚¹
         if (cat.had_stone <= 0)
         {
             stoneRedPoint.gameObject.SetActive(true);
@@ -99,52 +99,52 @@ public class CatDetailController : MonoBehaviour
             stoneRedPoint.gameObject.SetActive(false);
         }
 
-        if (cat.big_level == "Á·ÆøÆÚ")
+        if (cat.big_level == "ç»ƒæ°”æœŸ")
         {
-            capacity.text = "ÄÜÁ¦£ºÁ¶ÖÆÒ»½×µ¤Ò©";
-            cultivation.text = "ĞŞÎª£º" + cat.cultivation + "/" + CatController.instance.levelNeedCul(cat.small_level, cat.big_level).ToString();
-            consumeStone.text = "ÏûºÄ£º" + cat.lingshi_consume.ToString() +"ÁéÊ¯/Ãë";
-            rank.text = "<color=#000000>" + cat.big_level + "</color> " + cat.small_level + "²ã";
+            capacity.text = "èƒ½åŠ›ï¼šç‚¼åˆ¶ä¸€é˜¶ä¸¹è¯";
+            cultivation.text = "ä¿®ä¸ºï¼š" + cat.cultivation + "/" + CatController.instance.levelNeedCul(cat.small_level, cat.big_level).ToString();
+            consumeStone.text = "æ¶ˆè€—ï¼š" + cat.lingshi_consume.ToString() + "çµçŸ³/ç§’";
+            rank.text = "<color=#000000>" + cat.big_level + "</color> " + cat.small_level + "å±‚";
 
             Color color = ParseHexColor("#000000");
             rankPicture.color = color;
         }
-        else if(cat.big_level == "Öş»ùÆÚ")
+        else if (cat.big_level == "ç­‘åŸºæœŸ")
         {
-            capacity.text = "ÄÜÁ¦£ºÁ¶ÖÆ¶ş½×µ¤Ò©";
-            cultivation.text = "ĞŞÎª£º" + cat.cultivation + "/" + CatController.instance.levelNeedCul(cat.small_level, cat.big_level).ToString();
-            consumeStone.text = "ÏûºÄ£º" + cat.lingshi_consume.ToString() + "ÁéÊ¯/Ãë";
-            rank.text = "<color=#19932D>" + cat.big_level + "</color> " + cat.small_level + "²ã";
+            capacity.text = "èƒ½åŠ›ï¼šç‚¼åˆ¶äºŒé˜¶ä¸¹è¯";
+            cultivation.text = "ä¿®ä¸ºï¼š" + cat.cultivation + "/" + CatController.instance.levelNeedCul(cat.small_level, cat.big_level).ToString();
+            consumeStone.text = "æ¶ˆè€—ï¼š" + cat.lingshi_consume.ToString() + "çµçŸ³/ç§’";
+            rank.text = "<color=#19932D>" + cat.big_level + "</color> " + cat.small_level + "å±‚";
 
             Color color = ParseHexColor("#19932D");
             rankPicture.color = color;
         }
-        else if (cat.big_level == "½ğµ¤ÆÚ")
+        else if (cat.big_level == "é‡‘ä¸¹æœŸ")
         {
-            capacity.text = "ÄÜÁ¦£ºÁ¶ÖÆÈı½×µ¤Ò©";
-            cultivation.text = "ĞŞÎª£º" + cat.cultivation + "/" + CatController.instance.levelNeedCul(cat.small_level, cat.big_level).ToString();
-            consumeStone.text = "ÏûºÄ£º" + cat.lingshi_consume.ToString() + "ÁéÊ¯/Ãë";
-            rank.text = "<color=#C3A010>" + cat.big_level + "</color> " + cat.small_level + "²ã";
+            capacity.text = "èƒ½åŠ›ï¼šç‚¼åˆ¶ä¸‰é˜¶ä¸¹è¯";
+            cultivation.text = "ä¿®ä¸ºï¼š" + cat.cultivation + "/" + CatController.instance.levelNeedCul(cat.small_level, cat.big_level).ToString();
+            consumeStone.text = "æ¶ˆè€—ï¼š" + cat.lingshi_consume.ToString() + "çµçŸ³/ç§’";
+            rank.text = "<color=#C3A010>" + cat.big_level + "</color> " + cat.small_level + "å±‚";
 
             Color color = ParseHexColor("#C3A010");
             rankPicture.color = color;
         }
-        else if (cat.big_level == "ÔªÓ¤ÆÚ")
+        else if (cat.big_level == "å…ƒå©´æœŸ")
         {
-            capacity.text = "ÄÜÁ¦£ºÁ¶ÖÆËÄ½×µ¤Ò©";
-            cultivation.text = "ĞŞÎª£º" + cat.cultivation + "/" + CatController.instance.levelNeedCul(cat.small_level, cat.big_level).ToString();
-            consumeStone.text = "ÏûºÄ£º" + cat.lingshi_consume.ToString() + "ÁéÊ¯/Ãë";
-            rank.text = "<color=#A72EB0>" + cat.big_level + "</color> " + cat.small_level + "²ã";
+            capacity.text = "èƒ½åŠ›ï¼šç‚¼åˆ¶å››é˜¶ä¸¹è¯";
+            cultivation.text = "ä¿®ä¸ºï¼š" + cat.cultivation + "/" + CatController.instance.levelNeedCul(cat.small_level, cat.big_level).ToString();
+            consumeStone.text = "æ¶ˆè€—ï¼š" + cat.lingshi_consume.ToString() + "çµçŸ³/ç§’";
+            rank.text = "<color=#A72EB0>" + cat.big_level + "</color> " + cat.small_level + "å±‚";
 
             Color color = ParseHexColor("#A72EB0");
             rankPicture.color = color;
         }
-        else if (cat.big_level == "»¯ÉñÆÚ")
+        else if (cat.big_level == "åŒ–ç¥æœŸ")
         {
-            capacity.text = "ÄÜÁ¦£ºÁ¶ÖÆÎå½×µ¤Ò©";
-            cultivation.text = "ĞŞÎª£º" + cat.cultivation + "/" + CatController.instance.levelNeedCul(cat.small_level, cat.big_level).ToString();
-            consumeStone.text = "ÏûºÄ£º" + cat.lingshi_consume.ToString() + "ÁéÊ¯/Ãë";
-            rank.text = "<color=#FF1010>" + cat.big_level + "</color> " + cat.small_level + "²ã";
+            capacity.text = "èƒ½åŠ›ï¼šç‚¼åˆ¶äº”é˜¶ä¸¹è¯";
+            cultivation.text = "ä¿®ä¸ºï¼š" + cat.cultivation + "/" + CatController.instance.levelNeedCul(cat.small_level, cat.big_level).ToString();
+            consumeStone.text = "æ¶ˆè€—ï¼š" + cat.lingshi_consume.ToString() + "çµçŸ³/ç§’";
+            rank.text = "<color=#FF1010>" + cat.big_level + "</color> " + cat.small_level + "å±‚";
 
             Color color = ParseHexColor("#FF1010");
             rankPicture.color = color;
@@ -152,27 +152,27 @@ public class CatDetailController : MonoBehaviour
 
     }
 
-    //ÑÕÉ«×ª»»
+    //é¢œè‰²è½¬æ¢
     Color ParseHexColor(string hexColor)
     {
         hexColor = hexColor.TrimStart('#');
         byte r = byte.Parse(hexColor.Substring(0, 2), System.Globalization.NumberStyles.HexNumber);
         byte g = byte.Parse(hexColor.Substring(2, 2), System.Globalization.NumberStyles.HexNumber);
         byte b = byte.Parse(hexColor.Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
-        return new Color32(r, g, b, 255); // Èç¹ûĞèÒªÍ¸Ã÷¶È£¬¿ÉÒÔÔÚÕâÀïÌí¼ÓalphaÖµ
+        return new Color32(r, g, b, 255); // å¦‚æœéœ€è¦é€æ˜åº¦ï¼Œå¯ä»¥åœ¨è¿™é‡Œæ·»åŠ alphaå€¼
     }
 
-    //Éı¼¶Ğ¡Ã¨µÈ¼¶º¯Êı
-    /*Ğ¡Ã¨¾³½ç£º
-     * ´ó¾³½ç£ºÁ·Æøµ½»¯Éñ
-     * Ğ¡¾³½ç£º10¸ö
+    //å‡çº§å°çŒ«ç­‰çº§å‡½æ•°
+    /*å°çŒ«å¢ƒç•Œï¼š
+     * å¤§å¢ƒç•Œï¼šç»ƒæ°”åˆ°åŒ–ç¥
+     * å°å¢ƒç•Œï¼š10ä¸ª
      * 
      */
     public void upCatRank()
     {
         if (cat != null && cat.cultivation >= CatController.instance.levelNeedCul(cat.small_level, cat.big_level))
         {
-            //Èç¹ûĞ¡¾³½ç²»×ã10£¬Ôò½ú¼¶Ğ¡¾³½ç£¬·ñÔò½ú¼¶´ó¾³½ç
+            //å¦‚æœå°å¢ƒç•Œä¸è¶³10ï¼Œåˆ™æ™‹çº§å°å¢ƒç•Œï¼Œå¦åˆ™æ™‹çº§å¤§å¢ƒç•Œ
             if (cat.small_level < 10)
             {
                 cat.small_level++;
@@ -183,111 +183,111 @@ public class CatDetailController : MonoBehaviour
                 cat.small_level = 1;
             }
 
-            /*½ú¼¶ºóË¢ĞÂÊôĞÔ
+            /*æ™‹çº§ååˆ·æ–°å±æ€§
              * 
              */
 
-            //¸Ä±äÁéÊ¯ÏûºÄËùĞè
+            //æ”¹å˜çµçŸ³æ¶ˆè€—æ‰€éœ€
             cat.lingshi_consume = (int)(cat.small_level * Mathf.Pow(4, 1 + CatController.instance.levelStringToNumber(cat.big_level)));
-            consumeStone.text = "ÏûºÄ£º" + cat.lingshi_consume.ToString() + "ÁéÊ¯/Ãë";
+            consumeStone.text = "æ¶ˆè€—ï¼š" + cat.lingshi_consume.ToString() + "çµçŸ³/ç§’";
 
 
-            //ĞŞÎªÇå¿Õ£¬²¢¸Ä±ä½ú¼¶µÄĞŞÎªºÍËùĞèĞŞÎªÎÄ°¸
+            //ä¿®ä¸ºæ¸…ç©ºï¼Œå¹¶æ”¹å˜æ™‹çº§çš„ä¿®ä¸ºå’Œæ‰€éœ€ä¿®ä¸ºæ–‡æ¡ˆ
             cat.cultivation = 0;
-            if (cat.big_level == "Á·ÆøÆÚ")
+            if (cat.big_level == "ç»ƒæ°”æœŸ")
             {
-                capacity.text = "ÄÜÁ¦£ºÁ¶ÖÆÒ»½×µ¤Ò©";
-                cultivation.text = "ĞŞÎª£º" + cat.cultivation + "/" + CatController.instance.levelNeedCul(cat.small_level, cat.big_level).ToString();
-                consumeStone.text = "ÏûºÄ£º" + cat.lingshi_consume.ToString() + "ÁéÊ¯/Ãë";
-                rank.text = "<color=#000000>" + cat.big_level + "</color> " + cat.small_level + "²ã";
+                capacity.text = "èƒ½åŠ›ï¼šç‚¼åˆ¶ä¸€é˜¶ä¸¹è¯";
+                cultivation.text = "ä¿®ä¸ºï¼š" + cat.cultivation + "/" + CatController.instance.levelNeedCul(cat.small_level, cat.big_level).ToString();
+                consumeStone.text = "æ¶ˆè€—ï¼š" + cat.lingshi_consume.ToString() + "çµçŸ³/ç§’";
+                rank.text = "<color=#000000>" + cat.big_level + "</color> " + cat.small_level + "å±‚";
 
                 Color color = ParseHexColor("#000000");
                 rankPicture.color = color;
             }
-            else if (cat.big_level == "Öş»ùÆÚ")
+            else if (cat.big_level == "ç­‘åŸºæœŸ")
             {
-                capacity.text = "ÄÜÁ¦£ºÁ¶ÖÆ¶ş½×µ¤Ò©";
-                cultivation.text = "ĞŞÎª£º" + cat.cultivation + "/" + CatController.instance.levelNeedCul(cat.small_level, cat.big_level).ToString();
-                consumeStone.text = "ÏûºÄ£º" + cat.lingshi_consume.ToString() + "ÁéÊ¯/Ãë";
-                rank.text = "<color=#19932D>" + cat.big_level + "</color> " + cat.small_level + "²ã";
+                capacity.text = "èƒ½åŠ›ï¼šç‚¼åˆ¶äºŒé˜¶ä¸¹è¯";
+                cultivation.text = "ä¿®ä¸ºï¼š" + cat.cultivation + "/" + CatController.instance.levelNeedCul(cat.small_level, cat.big_level).ToString();
+                consumeStone.text = "æ¶ˆè€—ï¼š" + cat.lingshi_consume.ToString() + "çµçŸ³/ç§’";
+                rank.text = "<color=#19932D>" + cat.big_level + "</color> " + cat.small_level + "å±‚";
 
                 Color color = ParseHexColor("#19932D");
                 rankPicture.color = color;
             }
-            else if (cat.big_level == "½ğµ¤ÆÚ")
+            else if (cat.big_level == "é‡‘ä¸¹æœŸ")
             {
-                capacity.text = "ÄÜÁ¦£ºÁ¶ÖÆÈı½×µ¤Ò©";
-                cultivation.text = "ĞŞÎª£º" + cat.cultivation + "/" + CatController.instance.levelNeedCul(cat.small_level, cat.big_level).ToString();
-                consumeStone.text = "ÏûºÄ£º" + cat.lingshi_consume.ToString() + "ÁéÊ¯/Ãë";
-                rank.text = "<color=#C3A010>" + cat.big_level + "</color> " + cat.small_level + "²ã";
+                capacity.text = "èƒ½åŠ›ï¼šç‚¼åˆ¶ä¸‰é˜¶ä¸¹è¯";
+                cultivation.text = "ä¿®ä¸ºï¼š" + cat.cultivation + "/" + CatController.instance.levelNeedCul(cat.small_level, cat.big_level).ToString();
+                consumeStone.text = "æ¶ˆè€—ï¼š" + cat.lingshi_consume.ToString() + "çµçŸ³/ç§’";
+                rank.text = "<color=#C3A010>" + cat.big_level + "</color> " + cat.small_level + "å±‚";
 
                 Color color = ParseHexColor("#C3A010");
                 rankPicture.color = color;
             }
-            else if (cat.big_level == "ÔªÓ¤ÆÚ")
+            else if (cat.big_level == "å…ƒå©´æœŸ")
             {
-                capacity.text = "ÄÜÁ¦£ºÁ¶ÖÆËÄ½×µ¤Ò©";
-                cultivation.text = "ĞŞÎª£º" + cat.cultivation + "/" + CatController.instance.levelNeedCul(cat.small_level, cat.big_level).ToString();
-                consumeStone.text = "ÏûºÄ£º" + cat.lingshi_consume.ToString() + "ÁéÊ¯/Ãë";
-                rank.text = "<color=#A72EB0>" + cat.big_level + "</color> " + cat.small_level + "²ã";
+                capacity.text = "èƒ½åŠ›ï¼šç‚¼åˆ¶å››é˜¶ä¸¹è¯";
+                cultivation.text = "ä¿®ä¸ºï¼š" + cat.cultivation + "/" + CatController.instance.levelNeedCul(cat.small_level, cat.big_level).ToString();
+                consumeStone.text = "æ¶ˆè€—ï¼š" + cat.lingshi_consume.ToString() + "çµçŸ³/ç§’";
+                rank.text = "<color=#A72EB0>" + cat.big_level + "</color> " + cat.small_level + "å±‚";
 
                 Color color = ParseHexColor("#A72EB0");
                 rankPicture.color = color;
             }
-            else if (cat.big_level == "»¯ÉñÆÚ")
+            else if (cat.big_level == "åŒ–ç¥æœŸ")
             {
-                capacity.text = "ÄÜÁ¦£ºÁ¶ÖÆÎå½×µ¤Ò©";
-                cultivation.text = "ĞŞÎª£º" + cat.cultivation + "/" + CatController.instance.levelNeedCul(cat.small_level, cat.big_level).ToString();
-                consumeStone.text = "ÏûºÄ£º" + cat.lingshi_consume.ToString() + "ÁéÊ¯/Ãë";
-                rank.text = "<color=#FF1010>" + cat.big_level + "</color> " + cat.small_level + "²ã";
+                capacity.text = "èƒ½åŠ›ï¼šç‚¼åˆ¶äº”é˜¶ä¸¹è¯";
+                cultivation.text = "ä¿®ä¸ºï¼š" + cat.cultivation + "/" + CatController.instance.levelNeedCul(cat.small_level, cat.big_level).ToString();
+                consumeStone.text = "æ¶ˆè€—ï¼š" + cat.lingshi_consume.ToString() + "çµçŸ³/ç§’";
+                rank.text = "<color=#FF1010>" + cat.big_level + "</color> " + cat.small_level + "å±‚";
 
                 Color color = ParseHexColor("#FF1010");
                 rankPicture.color = color;
             }
 
-            //Òş²Øºìµã
+            //éšè—çº¢ç‚¹
             upRedPoint.gameObject.SetActive(false);
 
 
-            Debug.Log("Ğ¡Ã¨Íê³É½úÉı");
+            Debug.Log("å°çŒ«å®Œæˆæ™‹å‡");
         }
         else
         {
-            //µ¯³öÁéÊ¯·ÖÅäÊ§°Ü
+            //å¼¹å‡ºçµçŸ³åˆ†é…å¤±è´¥
             toast.SetActive(true);
-            toast.GetComponent<Toast>().setText("ĞŞÎª²»×ã£¬ÎŞ·¨½ú¼¶");
-            Debug.Log("ÁéÊ¯²»×ã£¬·ÖÅäÊ§°Ü");
+            toast.GetComponent<Toast>().setText("ä¿®ä¸ºä¸è¶³ï¼Œæ— æ³•æ™‹çº§");
+            Debug.Log("çµçŸ³ä¸è¶³ï¼Œåˆ†é…å¤±è´¥");
         }
     }
 
-    //¸øÓèÁéÊ¯º¯Êı
+    //ç»™äºˆçµçŸ³å‡½æ•°
     public void giveStone(int stoneNumber)
     {
-        //ÅĞ¶Ï´ò¿ªÁËÏêÇéÒ³µÄĞ¡Ã¨·Ç¿Õ
-        if(cat != null)
+        //åˆ¤æ–­æ‰“å¼€äº†è¯¦æƒ…é¡µçš„å°çŒ«éç©º
+        if (cat != null)
         {
-            //ÅĞ¶ÏÊÇ·ñÌá¹©È«²¿ÁéÊ¯£ºstoneNUmber==-1
+            //åˆ¤æ–­æ˜¯å¦æä¾›å…¨éƒ¨çµçŸ³ï¼šstoneNUmber==-1
             if (stoneNumber < 0)
             {
                 cat.had_stone += PropertyController.instance.lingshiNumber;
-                hadStone.text = "ÁéÊ¯£º" + cat.had_stone;
+                hadStone.text = "çµçŸ³ï¼š" + cat.had_stone;
 
                 PropertyController.instance.lingshiNumber = 0;
             }
             else
-            {   
-                //ÅĞ¶ÏÊÇ·ñÓĞ×ã¹»ÁéÊ¯·ÖÅä
-                if(stoneNumber > PropertyController.instance.lingshiNumber)
+            {
+                //åˆ¤æ–­æ˜¯å¦æœ‰è¶³å¤ŸçµçŸ³åˆ†é…
+                if (stoneNumber > PropertyController.instance.lingshiNumber)
                 {
-                    //µ¯³öÁéÊ¯·ÖÅäÊ§°Ü
+                    //å¼¹å‡ºçµçŸ³åˆ†é…å¤±è´¥
                     toast.SetActive(true);
-                    toast.GetComponent<Toast>().setText("ÁéÊ¯²»×ã");
-                    Debug.Log("ÁéÊ¯²»×ã£¬·ÖÅäÊ§°Ü");
+                    toast.GetComponent<Toast>().setText("çµçŸ³ä¸è¶³");
+                    Debug.Log("çµçŸ³ä¸è¶³ï¼Œåˆ†é…å¤±è´¥");
                 }
-                else//×îºó³É¹¦Õı³£·ÖÅä
+                else//æœ€åæˆåŠŸæ­£å¸¸åˆ†é…
                 {
                     cat.had_stone += stoneNumber;
-                    hadStone.text = "ÁéÊ¯£º" + cat.had_stone;
+                    hadStone.text = "çµçŸ³ï¼š" + cat.had_stone;
 
                     PropertyController.instance.lingshiNumber -= stoneNumber;
                 }
@@ -297,10 +297,10 @@ public class CatDetailController : MonoBehaviour
         }
         else
         {
-            Debug.Log("¸øÓèÁéÊ¯µÄĞ¡Ã¨Îª¿Õ");
+            Debug.Log("ç»™äºˆçµçŸ³çš„å°çŒ«ä¸ºç©º");
         }
 
-        //·ÖÅäÒÔºó£¬ÅĞ¶ÏÁéÊ¯×ã²»×ã
+        //åˆ†é…ä»¥åï¼Œåˆ¤æ–­çµçŸ³è¶³ä¸è¶³
         if (cat.had_stone <= 0)
         {
             stoneRedPoint.gameObject.SetActive(true);
