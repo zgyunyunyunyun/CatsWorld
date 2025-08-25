@@ -2,14 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WordProcessor : MonoBehaviour
 {
-    public TMP_Text backgroundText;//±³¾°ÎÄ×Ö
-    public GameObject backgroundTipObj;//±³¾°µÄÌáÊ¾£¬²¥·ÅÍêÒÔºóÔÙÕ¹Ê¾
+    public TMP_Text backgroundText;//èƒŒæ™¯æ–‡å­—
+    public GameObject backgroundTipObj;//èƒŒæ™¯çš„æç¤ºï¼Œæ’­æ”¾å®Œä»¥åå†å±•ç¤º
 
-    private float charsPerSecond = 0.07f;//´ò×ÖÊ±¼ä¼ä¸ô
-    private int currentPos = 0;//µ±Ç°´ò×ÖÎ»ÖÃ
+    private float charsPerSecond = 0.07f;//æ‰“å­—æ—¶é—´é—´éš”
+    private int currentPos = 0;//å½“å‰æ‰“å­—ä½ç½®
+    public GameObject backgroundPanel;
+    public GameObject newCatUI;
 
     // Start is called before the first frame update
     void Start()
@@ -20,18 +23,21 @@ public class WordProcessor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void ShowBackGround()
     {
-        //string content = "ĞŞÏÉ½ç¹ã´óÎŞÛó£¬Éú´æ×ÅÊÀ¼äÍòÎï\n\nĞ¡Ã¨×åÓµÓĞ¼«¼ÑµÄÁ¶µ¤Ìì¸³£¬µ«ĞŞÁ¶Ìì¸³µÍ£¬²»¶®µÃÔËÓÃÁ¶µ¤Ìì¸³\n\nÍòÄêÇ°·¢ÉúÁËÒ»¼şÕğ¾ªÊÀ½çµÄ´óÊÂ£¬" +
-        //    "Ğ¡Ã¨×åËÄ·ÖÎåÁÑ£¬´óÁ¿Ğ¡Ã¨ÎŞ¼Ò¿É¹é\n\n¿ìÀ´Ñ°ÕÒĞ¡Ã¨£¬°ïÖúĞ¡Ã¨ĞŞÁ¶³É³¤¡¢ÖØËÜ¼ÒÔ°";
-        string content = "ĞŞÏÉ½çÖĞ\n\n´óÁ¿Ğ¡Ã¨ËÄ´¦Á÷ÀË\n\nĞèÒªÄã\nÊÕÑøĞ¡Ã¨\nÖ¸ÒıĞ¡Ã¨³É³¤";
+        string content = "æœ‰å¤§é‡çš„å°çŒ«åœ¨æµæµª\n\néœ€è¦ä½ æ”¶å…»å°çŒ«ï¼Œå¸®åŠ©å°çŒ«æˆé•¿";
         backgroundText.text = content;
-        //StartCoroutine(DisplayWordOneByOne(backgroundText, content));
+        Coroutine v = StartCoroutine(DisplayWordOneByOne(backgroundText, content));
 
-        //StartCoroutine(WaitDisplay(backgroundTipObj, 8.5f));
+        backgroundPanel.GetComponent<Button>().onClick.AddListener(() =>
+        {
+            StopCoroutine(v);
+            backgroundText.text = content;
+            LastClickWord();
+        });
     }
 
 
@@ -42,14 +48,23 @@ public class WordProcessor : MonoBehaviour
         {
             yield return new WaitForSeconds(charsPerSecond);
             currentPos++;
-            text.text = texts.Substring(0, currentPos);//Ë¢ĞÂÎÄ±¾ÏÔÊ¾ÄÚÈİ
+            text.text = texts.Substring(0, currentPos);//åˆ·æ–°æ–‡æœ¬æ˜¾ç¤ºå†…å®¹
         }
+        LastClickWord();
+
     }
 
-    IEnumerator WaitDisplay(GameObject text, float time)
+    private void LastClickWord()
     {
-        yield return new WaitForSeconds(time);
+        //ç»™èƒŒæ™¯æŒ‰é’®æ·»åŠ ç‚¹å‡»äº‹ä»¶
+        backgroundPanel.GetComponent<Button>().onClick.AddListener(() =>
+        {
+            Debug.Log("èƒŒæ™¯æŒ‰é’®è¢«ç‚¹å‡»");
 
-        text.SetActive(true);
+            backgroundPanel.SetActive(false);
+            MainController.instance.setBGIsOpened();
+            newCatUI.SetActive(true);
+        });
+
     }
 }

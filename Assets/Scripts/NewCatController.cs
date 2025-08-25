@@ -7,61 +7,62 @@ using UnityEngine.UI;
 using WeChatWASM;
 using Random = UnityEngine.Random;
 
-public class NewCatController : MonoBehaviour//ËäÈ»ÕâÀïĞ´ĞÂÔöĞ¡Ã¨£¬µ«¶ÔÍæ¼ÒÊÇÌ½Ë÷¡¢Ñ°ÕÒ
+public class NewCatController : MonoBehaviour//è™½ç„¶è¿™é‡Œå†™æ–°å¢å°çŒ«ï¼Œä½†å¯¹ç©å®¶æ˜¯æ¢ç´¢ã€å¯»æ‰¾
 {
-    public TMP_Text consumeText;//ÏûºÄÌáÊ¾ÎÄ°¸
-    public TMP_Text freeTimeText;//Ê±¼äµ¹¼ÆÊ±
-    public TMP_Text freeTipsText;//Ê×´Î´ò¿ªÓÎÏ·Ê±£¬Ãâ·Ñ»ñµÃĞ¡Ã¨µÄµ¹¼ÆÊ±
-    public TMP_Text outCatNumberText;//µ±Ç°Á÷ÀËĞ¡Ã¨µÄÊıÁ¿ÌáĞÑ
+    public TMP_Text consumeText;//æ¶ˆè€—æç¤ºæ–‡æ¡ˆ
+    public TMP_Text freeTimeText;//æ—¶é—´å€’è®¡æ—¶
+    public TMP_Text freeTipsText;//é¦–æ¬¡æ‰“å¼€æ¸¸æˆæ—¶ï¼Œå…è´¹è·å¾—å°çŒ«çš„å€’è®¡æ—¶
+    public TMP_Text sucessRateText;//æˆåŠŸç‡æ–‡æ¡ˆ
+    public TMP_Text outCatNumberText;//å½“å‰æµæµªå°çŒ«çš„æ•°é‡æé†’
 
-    private DateTime currentTime;//¼ÇÂ¼µ±Ç°Ê±¼ä
+    private DateTime currentTime;//è®°å½•å½“å‰æ—¶é—´
     private string hour = "00";
     private string minute = "00";
     private string second = "00";
 
-    public DateTime lastNewTime;//¼ÇÂ¼ÉÏÒ»´ÎÕĞÄ¼µÄÊ±¼ä
+    public DateTime lastNewTime;//è®°å½•ä¸Šä¸€æ¬¡æ‹›å‹Ÿçš„æ—¶é—´
 
     private int freeHour = 4;
 
     private bool isFree = false;
 
-    public int consumeStone = 200;//ÏÂÒ»´ÎÏûºÄµÄÁéÊ¯ÊıÁ¿
+    public int consumeStone = 200;//ä¸‹ä¸€æ¬¡æ¶ˆè€—çš„çµçŸ³æ•°é‡
 
-    public int time = 1;//µ±Ç°µÚ¼¸´Îµ®ÉúĞ¡Ã¨
+    public int time = 1;//å½“å‰ç¬¬å‡ æ¬¡è¯ç”Ÿå°çŒ«
 
-    public int freeNewTime = 3;//Ãâ·Ñµ®ÉúĞ¡Ã¨´ÎÊı
-    public int shareTime = 3;//¿É·ÖÏíµÄ´ÎÊı
+    public int freeNewTime = 3;//å…è´¹è¯ç”Ÿå°çŒ«æ¬¡æ•°
+    public int shareTime = 3;//å¯åˆ†äº«çš„æ¬¡æ•°
 
-    public Button newBtn;//µ®ÉúĞ¡Ã¨°´Å¥
-    public Button shareBtn;//·ÖÏí°´Å¥
-    public Button watchAddBtn;//¿´¹ã¸æ°´Å¥
-    public GameObject chooseCatUI;//Ñ¡ÔñĞ¡Ã¨µÄUI
-    public GameObject newCatUI;//Ñ°ÕÒĞ¡Ã¨µÄUI
-    public GameObject toast;//ÁéÊ¯²»×ãtoast
+    public Button newBtn;//è¯ç”Ÿå°çŒ«æŒ‰é’®
+    public Button shareBtn;//åˆ†äº«æŒ‰é’®
+    public Button watchAddBtn;//çœ‹å¹¿å‘ŠæŒ‰é’®
+    public GameObject chooseCatUI;//é€‰æ‹©å°çŒ«çš„UI
+    public GameObject newCatUI;//å¯»æ‰¾å°çŒ«çš„UI
+    public GameObject toast;//çµçŸ³ä¸è¶³toast
 
-    public Image redPoint;//ºìµãÊÇ·ñÕ¹Ê¾
+    public Image redPoint;//çº¢ç‚¹æ˜¯å¦å±•ç¤º
 
-    public int probabilityToNewCat;//Éú³ÉĞ¡Ã¨µÄ¸ÅÂÊ
+    public int probabilityToNewCat;//ç”Ÿæˆå°çŒ«çš„æ¦‚ç‡
 
-    public int outCatNumber = 0;//Á÷ÀËĞ¡Ã¨µÄÊıÁ¿
+    public int outCatNumber = 0;//æµæµªå°çŒ«çš„æ•°é‡
 
-    private float checkShowTipsTime = 10.0f;//Ã¿ns¼ì²âÒ»´ÎÊÇ·ñĞèÒªÅĞ¶ÏÕ¹Ê¾tips
-    private float checkShowTipsGap = 10.0f;//ÖĞ¼ä¼ä¸ôns
+    private float checkShowTipsTime = 10.0f;//æ¯nsæ£€æµ‹ä¸€æ¬¡æ˜¯å¦éœ€è¦åˆ¤æ–­å±•ç¤ºtips
+    private float checkShowTipsGap = 10.0f;//ä¸­é—´é—´éš”ns
 
-    string[] Name = { "ÇïË®³¤Ìì", "ÌìÑÄ³à×ÓĞÄ", "¾ÉÑÆÉÈµÄÏÄÌì ", "Ñ¸Óğ", "ÔÆÀ¼ÔÆ",
-        "°Á½¿Ğ¡ÏÉÅ®", "ºÎÎªÀËÂşÊ«", "Ñ¸Óğ", "Ç³Í«", "ÂÌË®ÎŞÓÇ", "Ã«Ã«", "Ç³É«ÏÄÄ©", "Éñ»êµßµ¹",
-        "ÖÚÉú", "ÁÃºº", "ÔÂ»ªÖ®¹â", "¶şÑ¾", "¹·µ°", "´ä»¨", "µØÓüÖ®Ö÷", "°¾Ò¹Ñ¡ÊÖµÚÒ»Ãû", "¹û¶³Ò¯",
-        "Å¯¸ÛÉÙÅ®", "ĞÇ¿ÕÅ®Éñ", "Ğ¡Íè×Ó", "ÎÂÈáĞ¡ÏÉÅ®", "Ó©»ğÖ®¸è", "Íú²Æ", "±ùÑ©ÉÙÅ®", "ÔÂãöÑÌ", "¶ş±¦", "Ñ©ÃÎÇç", "Î÷¹ÏÌì", "¸¡ÉËÄê»ª",
-        "ÉÙÅ®", "Å®Éñ", "ÍÃÍÃË¯ĞÑÁË", "Ğ¡ÏÉÅ®", "¼§ÈçÔÂÉñ¸è", "°®Ò»°ë", "±ùÑ©Å®", "ÑÌ", "±¦¶ù", "ÃÎ", "Î÷¹Ï", "Äê»ª",
-        "Ò»Ö±ÔÚ×öËØÑÕ", "Æ´ÃüÅ®ÀÉ", "Ğ¡ÍÃ¹Ô¹Ô", "ÄãÊÇ×î¿É°®Öí", "Í½ÊÖÕªĞÇ", "Ğ¡²¼¶¡¶ù", "ĞÇÁµÓ°Ëæ", "ÀáÎèÇå´¿", "Å¯Ñô", "Ğ¡ÅÖ", "ËÆË®Á÷Äê", "ÅõÃ¨ÉÙÅ®",
-        "ÔÜÒ»¿Ú´üĞÇĞÇ", "´òÒ°ÂÜÀò", "´ò²»µ¹µÄĞ¡¹ÔÊŞ", " ÌòÄÌ¸ÇµÄĞ¡ÏÉÅ®", "¼Ò×¡Ä§ÏÉ±¤", "×ÏÂŞÀ¼µÄÃØÃÜ", "½ã°ÔµÀ·¶", "×ÔÈ»ÃÈ", "ÌğÆß ", "Ñ©¶ù", "ÂÜÀò", "Äê»ª"};
+    string[] Name = { "ç§‹æ°´é•¿å¤©", "å¤©æ¶¯èµ¤å­å¿ƒ", "æ—§å“‘æ‰‡çš„å¤å¤© ", "è¿…ç¾½", "äº‘å…°äº‘",
+        "å‚²å¨‡å°ä»™å¥³", "ä½•ä¸ºæµªæ¼«è¯—", "è¿…ç¾½", "æµ…ç³", "ç»¿æ°´æ— å¿§", "æ¯›æ¯›", "æµ…è‰²å¤æœ«", "ç¥é­‚é¢ å€’",
+        "ä¼—ç”Ÿ", "æ’©æ±‰", "æœˆåä¹‹å…‰", "äºŒä¸«", "ç‹—è›‹", "ç¿ èŠ±", "åœ°ç‹±ä¹‹ä¸»", "ç†¬å¤œé€‰æ‰‹ç¬¬ä¸€å", "æœå†»çˆ·",
+        "æš–æ¸¯å°‘å¥³", "æ˜Ÿç©ºå¥³ç¥", "å°ä¸¸å­", "æ¸©æŸ”å°ä»™å¥³", "è¤ç«ä¹‹æ­Œ", "æ—ºè´¢", "å†°é›ªå°‘å¥³", "æœˆæ³ çƒŸ", "äºŒå®", "é›ªæ¢¦æ™´", "è¥¿ç“œå¤©", "æµ®ä¼¤å¹´å",
+        "å°‘å¥³", "å¥³ç¥", "å…”å…”ç¡é†’äº†", "å°ä»™å¥³", "å§¬å¦‚æœˆç¥æ­Œ", "çˆ±ä¸€åŠ", "å†°é›ªå¥³", "çƒŸ", "å®å„¿", "æ¢¦", "è¥¿ç“œ", "å¹´å",
+        "ä¸€ç›´åœ¨åšç´ é¢œ", "æ‹¼å‘½å¥³éƒ", "å°å…”ä¹–ä¹–", "ä½ æ˜¯æœ€å¯çˆ±çŒª", "å¾’æ‰‹æ‘˜æ˜Ÿ", "å°å¸ƒä¸å„¿", "æ˜Ÿæ‹å½±éš", "æ³ªèˆæ¸…çº¯", "æš–é˜³", "å°èƒ–", "ä¼¼æ°´æµå¹´", "æ§çŒ«å°‘å¥³",
+        "æ”’ä¸€å£è¢‹æ˜Ÿæ˜Ÿ", "æ‰“é‡èè‰", "æ‰“ä¸å€’çš„å°ä¹–å…½", " èˆ”å¥¶ç›–çš„å°ä»™å¥³", "å®¶ä½é­”ä»™å ¡", "ç´«ç½—å…°çš„ç§˜å¯†", "å§éœ¸é“èŒƒ", "è‡ªç„¶èŒ", "ç”œä¸ƒ ", "é›ªå„¿", "èè‰", "å¹´å"};
 
-    string[] level = { "½ğµ¤ÆÚ", "½ğµ¤ÆÚ", "½ğµ¤ÆÚ", "½ğµ¤ÆÚ", "½ğµ¤ÆÚ", "ÔªÓ¤ÆÚ", "ÔªÓ¤ÆÚ", "ÔªÓ¤ÆÚ", "»¯ÉñÆÚ" };
+    string[] level = { "é‡‘ä¸¹æœŸ", "é‡‘ä¸¹æœŸ", "é‡‘ä¸¹æœŸ", "é‡‘ä¸¹æœŸ", "é‡‘ä¸¹æœŸ", "å…ƒå©´æœŸ", "å…ƒå©´æœŸ", "å…ƒå©´æœŸ", "åŒ–ç¥æœŸ" };
 
-    public GameObject outCatTips;//tips¶ÔÏó
+    public GameObject outCatTips;//tipså¯¹è±¡
 
-    WXRewardedVideoAd renewVideoAd;//¹ã¸æÎ»³õÊ¼»¯
-    
+    WXRewardedVideoAd renewVideoAd;//å¹¿å‘Šä½åˆå§‹åŒ–
+
 
     public static NewCatController instance;
     private void Awake()
@@ -72,12 +73,12 @@ public class NewCatController : MonoBehaviour//ËäÈ»ÕâÀïĞ´ĞÂÔöĞ¡Ã¨£¬µ«¶ÔÍæ¼ÒÊÇÌ½Ë
     // Start is called before the first frame update
     void Start()
     {
-        //ÖØĞÂ»Øµ½Ö÷³¡¾°£¬»áÓĞÓ°ÏìµÄµØ·½Ö÷ÒªÔÚÓÚ£¬Ô­À´ÓĞ¸öÀÛ¼ÆµÄÊı¾İ£¬ĞèÒªÍ¨¹ıupdateÀ´¸üĞÂ£¬¶ø²»ÊÇ±»start³õÊ¼»¯µôÁË
+        //é‡æ–°å›åˆ°ä¸»åœºæ™¯ï¼Œä¼šæœ‰å½±å“çš„åœ°æ–¹ä¸»è¦åœ¨äºï¼ŒåŸæ¥æœ‰ä¸ªç´¯è®¡çš„æ•°æ®ï¼Œéœ€è¦é€šè¿‡updateæ¥æ›´æ–°ï¼Œè€Œä¸æ˜¯è¢«startåˆå§‹åŒ–æ‰äº†
 
         //lastNewTime = DateTime.Now;
 
-        
-        //ÖØÖÃµÄ¹ã¸æÎ»
+
+        //é‡ç½®çš„å¹¿å‘Šä½
         renewVideoAd = WX.CreateRewardedVideoAd(
         new WXCreateRewardedVideoAdParam()
         {
@@ -92,89 +93,89 @@ public class NewCatController : MonoBehaviour//ËäÈ»ÕâÀïĞ´ĞÂÔöĞ¡Ã¨£¬µ«¶ÔÍæ¼ÒÊÇÌ½Ë
     // Update is called once per frame
     void Update()
     {
-        //Ã¿´Îµ®ÉúÖğ²½µş¼ÓËùĞèÁéÊ¯
+        //æ¯æ¬¡è¯ç”Ÿé€æ­¥å åŠ æ‰€éœ€çµçŸ³
         consumeStone = int.Parse((Mathf.Pow(2, time)).ToString() + "00");
 
-        //µ±´¦ÓÚÕı³£³¡¾°Ê±£¬Èç¹ûĞ¡Ã¨·¢Éú±ä»¯£¬Ôò°ÑÊıÖµ¸³Óè¸ø³¡¾°´«µİµÄÊıÖµ
+        //å½“å¤„äºæ­£å¸¸åœºæ™¯æ—¶ï¼Œå¦‚æœå°çŒ«å‘ç”Ÿå˜åŒ–ï¼Œåˆ™æŠŠæ•°å€¼èµ‹äºˆç»™åœºæ™¯ä¼ é€’çš„æ•°å€¼
         if (outCatNumber > 0)
         {
             SceneTransferData.instance.outCatNumber = outCatNumber;
         }
 
         checkShowTipsTime -= Time.deltaTime;
-        if(checkShowTipsTime <= 0)
+        if (checkShowTipsTime <= 0)
         {
             int pro = Random.Range(0, 110);
 
-            if(pro >= 90 && pro < 110)
+            if (pro >= 90 && pro < 110)
             {
                 outCatTips.SetActive(true);
                 string n = Name[Random.Range(0, Name.Length - 1)];
                 string l = level[Random.Range(0, level.Length - 1)];
-                outCatNumberText.text = "¹§Ï²£ºÍæ¼Ò"+n+ "Ñ°ÕÒµ½ÁË<color=#9800FF>" + l + "</color>¾³½çµÄĞ¡Ã¨";
+                outCatNumberText.text = "æ­å–œï¼šç©å®¶" + n + "å¯»æ‰¾åˆ°äº†<color=#9800FF>" + l + "</color>å¢ƒç•Œçš„å°çŒ«";
             }
             else if (pro >= 80 && pro < 90)
             {
                 outCatTips.SetActive(true);
-                outCatNumberText.text = "×¢Òâ£º¸½½üÇøÓò·¢ÏÖÁË<color=#9800FF>" + outCatNumber.ToString() + "</color>Ö»Ğ¡Ã¨ÔÚÍâÁ÷ÀË£¬¿ìÈ¥Ñ°Ğ¡Ã¨";
+                outCatNumberText.text = "æ³¨æ„ï¼šé™„è¿‘åŒºåŸŸå‘ç°äº†<color=#9800FF>" + outCatNumber.ToString() + "</color>åªå°çŒ«åœ¨å¤–æµæµªï¼Œå¿«å»å¯»å°çŒ«";
             }
             else if (pro >= 70 && pro < 80)
             {
                 outCatTips.SetActive(true);
-                outCatNumberText.text = "ÌáÊ¾£ºĞ¡Ã¨»á×Ô¶¯Á¶µ¤£¬ÍµÍµ°ÑÁéµ¤ÊÕ²Øµ½²Øµ¤¸ó";
+                outCatNumberText.text = "æç¤ºï¼šå°çŒ«ä¼šè‡ªåŠ¨ç‚¼ä¸¹ï¼Œå·å·æŠŠçµä¸¹æ”¶è—åˆ°è—ä¸¹é˜";
             }
             else if (pro >= 60 && pro < 70)
             {
                 outCatTips.SetActive(true);
-                outCatNumberText.text = "ÌáÊ¾£ºµã»÷Áéµ¤¼´¿É³öÊÛ£¬²Øµ¤¸óÂúºó£¬Ğ¡Ã¨»áÍµÍµ°ë¼Û³öÊÛ";
+                outCatNumberText.text = "æç¤ºï¼šç‚¹å‡»çµä¸¹å³å¯å‡ºå”®ï¼Œè—ä¸¹é˜æ»¡åï¼Œå°çŒ«ä¼šå·å·åŠä»·å‡ºå”®";
             }
             else if (pro >= 50 && pro < 60)
             {
                 outCatTips.SetActive(true);
-                outCatNumberText.text = "ÌáÊ¾£ºµã»÷×óÉÏ½ÇĞ¡Ã¨Í·Ïñ¿ÉÉı¼¶ÖÖ×åµÈ¼¶£¬ÈİÄÉ¸ü¶àĞ¡Ã¨";
+                outCatNumberText.text = "æç¤ºï¼šç‚¹å‡»å·¦ä¸Šè§’å°çŒ«å¤´åƒå¯å‡çº§ç§æ—ç­‰çº§ï¼Œå®¹çº³æ›´å¤šå°çŒ«";
             }
             else if (pro >= 40 && pro < 50)
             {
                 outCatTips.SetActive(true);
-                outCatNumberText.text = "ÌáÊ¾£ºµ±ÁéÊ¯²»×ãÊ±£¬¿ÉÒÔÁ¶ÖÆµ¤Ò©¿ìËÙ»ñµÃ´óÁ¿ÁéÊ¯";
+                outCatNumberText.text = "æç¤ºï¼šå½“çµçŸ³ä¸è¶³æ—¶ï¼Œå¯ä»¥ç‚¼åˆ¶ä¸¹è¯å¿«é€Ÿè·å¾—å¤§é‡çµçŸ³";
             }
             else if (pro >= 30 && pro < 40)
             {
                 outCatTips.SetActive(true);
-                outCatNumberText.text = "ÌáÊ¾£ºÉı¼¶ÖÖ×åĞèÒªÁéÊ¯ºÍÁìÍÁ£¬Í¬Ê±¼ÇµÃÉı¼¶Ğ¡Ã¨Å¶";
+                outCatNumberText.text = "æç¤ºï¼šå‡çº§ç§æ—éœ€è¦çµçŸ³å’Œé¢†åœŸï¼ŒåŒæ—¶è®°å¾—å‡çº§å°çŒ«å“¦";
             }
             else if (pro >= 20 && pro < 30)
             {
                 outCatTips.SetActive(true);
-                outCatNumberText.text = "ÌáÊ¾£ºĞ¡Ã¨ĞŞÁ¶ĞèÒª´óÁ¿ÁéÊ¯£¬¼ÓÓÍ£¡£¡";
+                outCatNumberText.text = "æç¤ºï¼šå°çŒ«ä¿®ç‚¼éœ€è¦å¤§é‡çµçŸ³ï¼ŒåŠ æ²¹ï¼ï¼";
             }
             else if (pro >= 10 && pro < 20)
             {
                 outCatTips.SetActive(true);
-                outCatNumberText.text = "ÌáÊ¾£ºĞ¡Ã¨Í¨¹ıĞŞÁ¶¿É»ñµÃĞŞÎª£¬´Ó¶ø½ú¼¶";
+                outCatNumberText.text = "æç¤ºï¼šå°çŒ«é€šè¿‡ä¿®ç‚¼å¯è·å¾—ä¿®ä¸ºï¼Œä»è€Œæ™‹çº§";
             }
             else if (pro >= 0 && pro < 10)
             {
                 outCatTips.SetActive(true);
-                outCatNumberText.text = "ÌáÊ¾£ºĞ¡Ã¨½ú¼¶ºó£¬¿ÉÒÔ´ò°Ü¸ü¸ßµÈ¼¶µÄµĞÈË";
+                outCatNumberText.text = "æç¤ºï¼šå°çŒ«æ™‹çº§åï¼Œå¯ä»¥æ‰“è´¥æ›´é«˜ç­‰çº§çš„æ•Œäºº";
             }
             else
             {
                 outCatTips.SetActive(false);
-                Debug.Log("¸½½üĞ¡Ã¨tipsÎª¿Õ");
+                Debug.Log("é™„è¿‘å°çŒ«tipsä¸ºç©º");
             }
 
             checkShowTipsTime = checkShowTipsGap;
         }
 
-        
 
-        //Èç¹ûÊÇµÚÒ»´Î´ò¿ªÓÎÏ·£¬Ãâ·Ñ3´Î£ºÕ¹Ê¾ÎÄ°¸£¬²¢Ãâ·Ñ
+
+        //å¦‚æœæ˜¯ç¬¬ä¸€æ¬¡æ‰“å¼€æ¸¸æˆï¼Œå…è´¹3æ¬¡ï¼šå±•ç¤ºæ–‡æ¡ˆï¼Œå¹¶å…è´¹
         if (MainController.instance.isFirstTimeGaming)
         {
-            freeTipsText.gameObject.SetActive(true);
+            sucessRateText.gameObject.SetActive(true);
             isFree = true;
-            freeTipsText.text = "Ê×´ÎÍæÓÎÏ·£¬¿ÉÊÕÑø" + freeNewTime.ToString() + "Ö»Á÷ÀËµÄĞ¡Ã¨";
+            //freeTipsText.text = "é¦–æ¬¡ç©æ¸¸æˆï¼Œå¯æ”¶å…»" + freeNewTime.ToString() + "åªæµæµªçš„å°çŒ«";
 
             if (freeNewTime <= 0)
             {
@@ -185,19 +186,20 @@ public class NewCatController : MonoBehaviour//ËäÈ»ÕâÀïĞ´ĞÂÔöĞ¡Ã¨£¬µ«¶ÔÍæ¼ÒÊÇÌ½Ë
         }
 
 
-        //¸üĞÂÏûºÄÎÄ°¸ÌáĞÑ
+        //æ›´æ–°æ¶ˆè€—æ–‡æ¡ˆæé†’
         if (isFree)
         {
-            consumeText.text = "Ãâ·Ñ";
+            consumeText.text = "å…è´¹";
+            sucessRateText.gameObject.SetActive(true);
             if (CatController.instance.cats.Count >= UpRaceController.instance.MaxCatNumber(UpRaceController.instance.raceLevel))
             {
-                consumeText.text = "<color=#E52222>Ğ¡Ã¨ÒÑÂú£¬Éı¼¶ÖÖ×åµÈ¼¶¿ÉÈİÄÉ¸ü¶àĞ¡Ã¨</color>";
+                consumeText.text = "<color=#E52222>å°çŒ«å·²æ»¡ï¼Œå‡çº§ç§æ—ç­‰çº§å¯å®¹çº³æ›´å¤šå°çŒ«</color>";
             }
 
             freeTimeText.text = " ";
             time = 1;
 
-            //¸üĞÂºìµãÌáĞÑ
+            //æ›´æ–°çº¢ç‚¹æé†’
             redPoint.gameObject.SetActive(true);
 
             shareBtn.gameObject.SetActive(false);
@@ -206,46 +208,48 @@ public class NewCatController : MonoBehaviour//ËäÈ»ÕâÀïĞ´ĞÂÔöĞ¡Ã¨£¬µ«¶ÔÍæ¼ÒÊÇÌ½Ë
         }
         else
         {
-            //¸üĞÂºìµãÌáĞÑ
+            //æ›´æ–°çº¢ç‚¹æé†’
             redPoint.gameObject.SetActive(false);
 
-            //Òş²ØÃâ·ÑÎÄ°¸
-            freeTipsText.gameObject.SetActive(false);
+            //éšè—å…è´¹æ–‡æ¡ˆ
+            //freeTipsText.gameObject.SetActive(false);
+            sucessRateText.gameObject.SetActive(false);
 
             if (PropertyController.instance.lingshiNumber >= consumeStone)
             {
-                consumeText.text = "ÏûºÄ£º<b><color=#2D5AFD>" + consumeStone.ToString() + "</color></b> ÁéÊ¯\nÏûºÄÁéÊ¯Ô½¶à£¬Ñ°ÕÒµ½Ğ¡Ã¨¾³½çÔ½¸ß";
+                consumeText.text = "æ¶ˆè€—ï¼š<b><color=#2D5AFD>" + consumeStone.ToString() + "</color></b> çµçŸ³\næ¶ˆè€—çµçŸ³è¶Šå¤šï¼Œå¯»æ‰¾åˆ°å°çŒ«å¢ƒç•Œè¶Šé«˜";
             }
             else
             {
-                consumeText.text = "ÏûºÄ£º<b><color=#2D5AFD>" + consumeStone.ToString() + "</color></b> ÁéÊ¯\n" + "<color=#E52222>ÁéÊ¯²»×ã£¬Á¶µ¤¿É»ñµÃ¸ü¶àÁéÊ¯</color>";
+                consumeText.text = "æ¶ˆè€—ï¼š<b><color=#2D5AFD>" + consumeStone.ToString() + "</color></b> çµçŸ³\n" + "<color=#E52222>çµçŸ³ä¸è¶³ï¼Œç‚¼ä¸¹å¯è·å¾—æ›´å¤šçµçŸ³</color>";
             }
 
-            if(CatController.instance.cats.Count >= UpRaceController.instance.MaxCatNumber(UpRaceController.instance.raceLevel))
+            if (CatController.instance.cats.Count >= UpRaceController.instance.MaxCatNumber(UpRaceController.instance.raceLevel))
             {
-                consumeText.text = "<color=#E52222>Ğ¡Ã¨ÒÑÂú£¬Éı¼¶ÖÖ×åµÈ¼¶¿ÉÈİÄÉ¸ü¶àĞ¡Ã¨</color>";
+                consumeText.text = "<color=#E52222>å°çŒ«å·²æ»¡ï¼Œå‡çº§ç§æ—ç­‰çº§å¯å®¹çº³æ›´å¤šå°çŒ«</color>";
             }
 
 
-            //¸üĞÂÊ±¼äµ¹¼ÆÊ±
+            //æ›´æ–°æ—¶é—´å€’è®¡æ—¶
             currentTime = DateTime.Now;
 
-            TimeSpan difference = currentTime - lastNewTime; // ¼ÆËãÊ±¼ä²î
+            TimeSpan difference = currentTime - lastNewTime; // è®¡ç®—æ—¶é—´å·®
 
-            float secondsDifference = (float)difference.TotalSeconds; // Ïà²îµÄ×ÜÃëÊı
+            float secondsDifference = (float)difference.TotalSeconds; // ç›¸å·®çš„æ€»ç§’æ•°
 
-            //Èç¹ûÊ±¼ä¶¼ÊÇ0£¨µ¹¼ÆÊ±½áÊø£©£¬ÔòÕ¹Ê¾Ãâ·Ñ°´Å¥£»·ñÔò£¬Õı³£Õ¹Ê¾Ê±¼äµ¹¼ÆÊ±
+            //å¦‚æœæ—¶é—´éƒ½æ˜¯0ï¼ˆå€’è®¡æ—¶ç»“æŸï¼‰ï¼Œåˆ™å±•ç¤ºå…è´¹æŒ‰é’®ï¼›å¦åˆ™ï¼Œæ­£å¸¸å±•ç¤ºæ—¶é—´å€’è®¡æ—¶
             if (secondsDifference >= 3600 * freeHour)
             {
                 isFree = true;
                 freeNewTime = 1;
-                Debug.Log("ÖØÖÃÃâ·Ñ");
-            }else
+                Debug.Log("é‡ç½®å…è´¹");
+            }
+            else
             {
-                //µ¹¼ÆÊ±Ê£ÓàÊ±¼ä
+                //å€’è®¡æ—¶å‰©ä½™æ—¶é—´
                 float rest = 3600 * freeHour - secondsDifference;
                 int h = ((int)rest) / 3600;
-                int m = ((int)rest - h*3600) / 60;
+                int m = ((int)rest - h * 3600) / 60;
                 int s = ((int)rest) - m * 60 - h * 3600;
 
                 //Debug.Log("M" + m);
@@ -278,9 +282,9 @@ public class NewCatController : MonoBehaviour//ËäÈ»ÕâÀïĞ´ĞÂÔöĞ¡Ã¨£¬µ«¶ÔÍæ¼ÒÊÇÌ½Ë
                     second = s.ToString();
                 }
 
-                if(shareTime > 0)
+                if (shareTime > 0)
                 {
-                    freeTimeText.text = hour + ":" + minute + ":" + second + " ºóÃâ·Ñ£¬Ã¿ÈÕ<color=#F32D2D>¿´ÊÓÆµ</color>ÖØÖÃ3´Î";
+                    freeTimeText.text = hour + ":" + minute + ":" + second + " åå…è´¹ï¼Œæ¯æ—¥<color=#F32D2D>çœ‹è§†é¢‘</color>é‡ç½®3æ¬¡";
 
                     /*
                     if (!shareBtn.gameObject.activeSelf)
@@ -299,7 +303,7 @@ public class NewCatController : MonoBehaviour//ËäÈ»ÕâÀïĞ´ĞÂÔöĞ¡Ã¨£¬µ«¶ÔÍæ¼ÒÊÇÌ½Ë
                 }
                 else
                 {
-                    freeTimeText.text = hour + ":" + minute + ":" + second + " ºóÃâ·Ñ";
+                    freeTimeText.text = hour + ":" + minute + ":" + second + " åå…è´¹";
                 }
 
             }
@@ -309,7 +313,7 @@ public class NewCatController : MonoBehaviour//ËäÈ»ÕâÀïĞ´ĞÂÔöĞ¡Ã¨£¬µ«¶ÔÍæ¼ÒÊÇÌ½Ë
 
     }
 
-    //Ãâ·Ñ´ÎÊı¼õÉÙ1£¬Èç¹ûÃâ·Ñ´ÎÊıÎª0£¬Ôòµ¹¼ÆÊ±ÖØÖÃ
+    //å…è´¹æ¬¡æ•°å‡å°‘1ï¼Œå¦‚æœå…è´¹æ¬¡æ•°ä¸º0ï¼Œåˆ™å€’è®¡æ—¶é‡ç½®
     public void minusOneFreeTime()
     {
         freeNewTime--;
@@ -321,41 +325,41 @@ public class NewCatController : MonoBehaviour//ËäÈ»ÕâÀïĞ´ĞÂÔöĞ¡Ã¨£¬µ«¶ÔÍæ¼ÒÊÇÌ½Ë
         else
         {
             isFree = true;
-        }     
+        }
     }
 
-    //´ò¿ªĞ¡Ã¨ÏêÇéÒ³
+    //æ‰“å¼€å°çŒ«è¯¦æƒ…é¡µ
     public void newCatAndOpenCatDetail()
     {
 
 
         if (UpRaceController.instance.MaxCatNumber(UpRaceController.instance.raceLevel) <= CatController.instance.cats.Count)
         {
-            //µ¯³öÌáÊ¾Ğ¡Ã¨ÊıÁ¿´ïµ½·åÖµ
+            //å¼¹å‡ºæç¤ºå°çŒ«æ•°é‡è¾¾åˆ°å³°å€¼
             toast.SetActive(true);
-            toast.GetComponent<Toast>().setText("Ğ¡Ã¨ÊıÁ¿ÒÑ´ïµ½×î´óÖµ£¬ÇëÉı¼¶ÖÖ×åµÈ¼¶");
-            Debug.Log("Ğ¡Ã¨ÊıÁ¿´ïµ½·åÖµ");
+            toast.GetComponent<Toast>().setText("å°çŒ«æ•°é‡å·²è¾¾åˆ°æœ€å¤§å€¼ï¼Œè¯·å‡çº§ç§æ—ç­‰çº§");
+            Debug.Log("å°çŒ«æ•°é‡è¾¾åˆ°å³°å€¼");
         }
-        //Èç¹ûÂú×ãµ®ÉúĞ¡Ã¨µÄÌõ¼ş£¨Ãâ·Ñ»òÏûºÄ×ã¹»ÁéÊ¯¡ª¡ªÔİ¶¨100ÁéÊ¯µ®Éú1´Î£©£¬ÔòÔö¼ÓĞ¡Ã¨£»·ñÔòÌáÊ¾ÁéÊ¯²»×ã
+        //å¦‚æœæ»¡è¶³è¯ç”Ÿå°çŒ«çš„æ¡ä»¶ï¼ˆå…è´¹æˆ–æ¶ˆè€—è¶³å¤ŸçµçŸ³â€”â€”æš‚å®š100çµçŸ³è¯ç”Ÿ1æ¬¡ï¼‰ï¼Œåˆ™å¢åŠ å°çŒ«ï¼›å¦åˆ™æç¤ºçµçŸ³ä¸è¶³
         else if (isFree || PropertyController.instance.lingshiNumber >= consumeStone && UpRaceController.instance.MaxCatNumber(UpRaceController.instance.raceLevel) > CatController.instance.cats.Count)
         {
-            //ÏûºÄËùĞèÁéÊ¯
+            //æ¶ˆè€—æ‰€éœ€çµçŸ³
             if (!isFree)
             {
                 PropertyController.instance.consumeLingShi(consumeStone);
             }
 
-            //Èç¹ûÊÇµÚÒ»´ÎÍæÓÎÏ·£¬±ØµÃ3Ö»Ğ¡Ã¨£»·ñÔò°´ÁéÊ¯Öğ²½Ôö¼ÓÈ¥»ñµÃĞ¡Ã¨
+            //å¦‚æœæ˜¯ç¬¬ä¸€æ¬¡ç©æ¸¸æˆï¼Œå¿…å¾—3åªå°çŒ«ï¼›å¦åˆ™æŒ‰çµçŸ³é€æ­¥å¢åŠ å»è·å¾—å°çŒ«
             if (MainController.instance.isFirstTimeGaming)
             {
-                ChooseCatUI.instance.newCatAndCatUI(0);//ĞÂÔöĞ¡Ã¨
+                ChooseCatUI.instance.newCatAndCatUI(0);//æ–°å¢å°çŒ«
                 chooseCatUI.gameObject.SetActive(true);
 
                 minusOneFreeTime();
             }
             else
             {
-                //¸ÅÂÊlist£ºÈİÒ×»ñµÃ£¬²»Ì«¿ÉÄÜ»ñµÃ£¬ÖĞ¼äÖµ
+                //æ¦‚ç‡listï¼šå®¹æ˜“è·å¾—ï¼Œä¸å¤ªå¯èƒ½è·å¾—ï¼Œä¸­é—´å€¼
                 int[] proList =
                     { 90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 99, 95, 95, 95,
                     90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 99, 95, 95, 95,
@@ -370,107 +374,107 @@ public class NewCatController : MonoBehaviour//ËäÈ»ÕâÀïĞ´ĞÂÔöĞ¡Ã¨£¬µ«¶ÔÍæ¼ÒÊÇÌ½Ë
                     50, 50,70, 70, 60, 50, 50, 20, 20, 10,30, 30, 10, 10, 10, 15, 10, 30, 40, 50, 10};
 
                 int r = Random.Range(0, 100);
-                probabilityToNewCat = proList[Random.Range(0, proList.Length - 1)];//Ëæ»úÑ¡ÔñÉÏÊölistµÄ¸ÅÂÊ
+                probabilityToNewCat = proList[Random.Range(0, proList.Length - 1)];//éšæœºé€‰æ‹©ä¸Šè¿°listçš„æ¦‚ç‡
 
-                Debug.Log("²úÉúĞ¡Ã¨µÄ´ÎÊı£º" + time);
-                //Èç¹û³É¹¦Éú²úĞ¡Ã¨£¬Ôò×ßÉú³ÉĞ¡Ã¨µÄÌõ¼ş£»·ñÔòµ¯³öÌáÊ¾Éú³ÉÊ§°Ü
-                if (r >= probabilityToNewCat)//Ò»¶¨Í¨¹ı£¬ÔÚºóÃæµÈ¼¶´¦¿ØÖÆÊÇ·ñÉú³ÉĞ¡Ã¨
+                Debug.Log("äº§ç”Ÿå°çŒ«çš„æ¬¡æ•°ï¼š" + time);
+                //å¦‚æœæˆåŠŸç”Ÿäº§å°çŒ«ï¼Œåˆ™èµ°ç”Ÿæˆå°çŒ«çš„æ¡ä»¶ï¼›å¦åˆ™å¼¹å‡ºæç¤ºç”Ÿæˆå¤±è´¥
+                if (r >= probabilityToNewCat)//ä¸€å®šé€šè¿‡ï¼Œåœ¨åé¢ç­‰çº§å¤„æ§åˆ¶æ˜¯å¦ç”Ÿæˆå°çŒ«
                 {
-                    ChooseCatUI.instance.newCatAndCatUI(0);//ĞÂÔöĞ¡Ã¨
+                    ChooseCatUI.instance.newCatAndCatUI(0);//æ–°å¢å°çŒ«
                     //newCatUI.gameObject.SetActive(false);
                     chooseCatUI.gameObject.SetActive(true);
                 }
                 else
                 {
-                    //µ¯³öµ®ÉúÊ§°Ü
+                    //å¼¹å‡ºè¯ç”Ÿå¤±è´¥
                     toast.SetActive(true);
-                    toast.GetComponent<Toast>().setText("±¾´ÎÌ½Ë÷Î´ÄÜÑ°ÕÒµ½Ğ¡Ã¨");
-                    Debug.Log("±¾´ÎÌ½Ë÷Î´ÄÜÑ°ÕÒµ½Ğ¡Ã¨");
+                    toast.GetComponent<Toast>().setText("æœ¬æ¬¡æ¢ç´¢æœªèƒ½å¯»æ‰¾åˆ°å°çŒ«");
+                    Debug.Log("æœ¬æ¬¡æ¢ç´¢æœªèƒ½å¯»æ‰¾åˆ°å°çŒ«");
 
                 }
 
-                //ÖØĞÂÃâ·ÑĞ¡Ã¨µ¹¼ÆÊ±
+                //é‡æ–°å…è´¹å°çŒ«å€’è®¡æ—¶
                 if (isFree)
                 {
                     minusOneFreeTime();
-                    Debug.Log("ÖØĞÂÃâ·Ñµ¹¼ÆÊ±");
+                    Debug.Log("é‡æ–°å…è´¹å€’è®¡æ—¶");
                 }
 
-                //µ±Ç°ÂÖ´ÎÀï£¬µ®ÉúĞ¡Ã¨´ÎÊı+1
+                //å½“å‰è½®æ¬¡é‡Œï¼Œè¯ç”Ÿå°çŒ«æ¬¡æ•°+1
                 time++;
-                
+
             }
-                   
-            
+
+
         }
-        else if(PropertyController.instance.lingshiNumber < consumeStone)
+        else if (PropertyController.instance.lingshiNumber < consumeStone)
         {
-            //µ¯³öÌáÊ¾ÁéÊ¯²»×ã
+            //å¼¹å‡ºæç¤ºçµçŸ³ä¸è¶³
             toast.SetActive(true);
-            toast.GetComponent<Toast>().setText("ÁéÊ¯²»×ã£¬Çë»ñµÃ¸ü¶àÁéÊ¯");
+            toast.GetComponent<Toast>().setText("çµçŸ³ä¸è¶³ï¼Œè¯·è·å¾—æ›´å¤šçµçŸ³");
 
-            //consumeText.text = "ÁéÊ¯²»×ã£¬»ñµÃ¸ü¶àÁéÊ¯×÷ÎªÌ½Ë÷×Ê½ğ";
+            //consumeText.text = "çµçŸ³ä¸è¶³ï¼Œè·å¾—æ›´å¤šçµçŸ³ä½œä¸ºæ¢ç´¢èµ„é‡‘";
 
 
 
-             Debug.Log("µ¯³öÁéÊ¯²»×ãtoast");
+            Debug.Log("å¼¹å‡ºçµçŸ³ä¸è¶³toast");
         }
-        
-        
+
+
 
     }
 
 
-    //·ÖÏíº¯Êı
+    //åˆ†äº«å‡½æ•°
     public void Share()
     {
         WX.ShareAppMessage(new ShareAppMessageOption
         {
-            //imageUrl = imageUrl, // Í¼Æ¬µÄURL£¬Ò²¿ÉÒÔ²»Ìî£¨×Ô¶¯½ØÆÁ£©
-            title = "ºÙºÙ£¬ÎÒÂíÉÏ¾ÍÄÜÕÒµ½" + CatController.instance.cats.Count.ToString() + "Ö»Ã¨Ã¨ÁË", // ÏÔÊ¾ÎÄ±¾
-            //query = query, // ¸½´ø²ÎÊı£¬ÏŞÖÆ2k³¤¶È
+            //imageUrl = imageUrl, // å›¾ç‰‡çš„URLï¼Œä¹Ÿå¯ä»¥ä¸å¡«ï¼ˆè‡ªåŠ¨æˆªå±ï¼‰
+            title = "å˜¿å˜¿ï¼Œæˆ‘é©¬ä¸Šå°±èƒ½æ‰¾åˆ°" + CatController.instance.cats.Count.ToString() + "åªçŒ«çŒ«äº†", // æ˜¾ç¤ºæ–‡æœ¬
+            //query = query, // é™„å¸¦å‚æ•°ï¼Œé™åˆ¶2ké•¿åº¦
         });
 
 
         isFree = true;
         freeNewTime = 1;
         shareTime--;
-        Debug.Log("ÖØÖÃÃâ·Ñ");
+        Debug.Log("é‡ç½®å…è´¹");
     }
 
-    //µã»÷ÁËÖØÖÃ°´Å¥
+    //ç‚¹å‡»äº†é‡ç½®æŒ‰é’®
     public void ClickRenewBtn()
     {
         WatchAddToRenew();
     }
 
-    //ÎªÁËÒÆ³ı¶ø¿´ÊÓÆµ
+    //ä¸ºäº†ç§»é™¤è€Œçœ‹è§†é¢‘
     void WatchAddToRenew()
     {
         if (renewVideoAd != null)
         {
             renewVideoAd.Show();
-            Debug.Log("¼¤Àø¹ã¸æÕ¹Ê¾");
+            Debug.Log("æ¿€åŠ±å¹¿å‘Šå±•ç¤º");
         }
 
     }
 
-    //¹Ø±Õ¹ã¸æÊÂ¼ş¼àÌı-ÖØÖÃ
+    //å…³é—­å¹¿å‘Šäº‹ä»¶ç›‘å¬-é‡ç½®
     void RenewAdClose(WXRewardedVideoAdOnCloseResponse res)
     {
         if ((res != null && res.isEnded) || res == null)
         {
-            // Õı³£²¥·Å½áÊø£¬¿ÉÒÔÏÂ·¢ÓÎÏ·½±Àø
+            // æ­£å¸¸æ’­æ”¾ç»“æŸï¼Œå¯ä»¥ä¸‹å‘æ¸¸æˆå¥–åŠ±
             isFree = true;
             freeNewTime = 1;
             shareTime--;
 
-            Debug.Log("²âÊÔ¹ã¸æ³É¹¦");
+            Debug.Log("æµ‹è¯•å¹¿å‘ŠæˆåŠŸ");
         }
         else
         {
-            // ²¥·ÅÖĞÍ¾ÍË³ö£¬²»ÏÂ·¢ÓÎÏ·½±Àø
-            Debug.Log("¹ã¸æÖĞÍ¾ÍË³ö");
+            // æ’­æ”¾ä¸­é€”é€€å‡ºï¼Œä¸ä¸‹å‘æ¸¸æˆå¥–åŠ±
+            Debug.Log("å¹¿å‘Šä¸­é€”é€€å‡º");
         }
     }
 }

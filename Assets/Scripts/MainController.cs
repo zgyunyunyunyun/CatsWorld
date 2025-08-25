@@ -7,16 +7,16 @@ using WeChatWASM;
 
 public class MainController : MonoBehaviour
 {
-    public bool isFirstTimeGaming = true;//ÅĞ¶ÏÊÇ·ñµÚÒ»´Î½øÈëÓÎÏ·
+    public bool isFirstTimeGaming = true;//åˆ¤æ–­æ˜¯å¦ç¬¬ä¸€æ¬¡è¿›å…¥æ¸¸æˆ
 
-    public bool bgIsOpened = false;//ÊÇ·ñ´ò¿ª¹ı±³¾°Ãæ°å
+    public bool bgIsOpened = false;//æ˜¯å¦æ‰“å¼€è¿‡èƒŒæ™¯é¢æ¿
 
-    //³õÊ¼µÄÈı¸öÃæ°å£¬ÓÃÓÚÅĞ¶Ï¿ªÍ·ÈçºÎÕ¹Ê¾
+    //åˆå§‹çš„ä¸‰ä¸ªé¢æ¿ï¼Œç”¨äºåˆ¤æ–­å¼€å¤´å¦‚ä½•å±•ç¤º
     public GameObject beginBG;
     public GameObject beginBornCat;
     public GameObject beginChooseCat;
 
-    //¿ª¾ÖÕ¹Ê¾Ãâ·ÑÉú²úĞ¡Ã¨
+    //å¼€å±€å±•ç¤ºå…è´¹ç”Ÿäº§å°çŒ«
     public GameObject freeNewCat;
 
 
@@ -39,15 +39,15 @@ public class MainController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log("Ê×´Î½øÈëÓÎÏ·ÅĞ¶Ï£º" + isFirstTimeGaming);
+        //Debug.Log("é¦–æ¬¡è¿›å…¥æ¸¸æˆåˆ¤æ–­ï¼š" + isFirstTimeGaming);
 
-        //ÅĞ¶ÏÍæ¼ÒÊÇµÚÒ»´Î´ò¿ªÓÎÏ·£¬²¢³õÊ¼»¯Ïà¹ØÊı¾İ£¬×îºóÖÃÎªfalse
+        //åˆ¤æ–­ç©å®¶æ˜¯ç¬¬ä¸€æ¬¡æ‰“å¼€æ¸¸æˆï¼Œå¹¶åˆå§‹åŒ–ç›¸å…³æ•°æ®ï¼Œæœ€åç½®ä¸ºfalse
         if (isFirstTimeGaming && !bgIsOpened)
         {
-            //Õ¹Ê¾±³¾°½éÉÜ
-            //beginBG.SetActive(true);
+            //å±•ç¤ºèƒŒæ™¯ä»‹ç»
+            beginBG.SetActive(true);
 
-            //Debug.Log("Ê×´Î½øÈëÓÎÏ·");
+            //Debug.Log("é¦–æ¬¡è¿›å…¥æ¸¸æˆ");
 
             freeNewCat.SetActive(true);
         }
@@ -55,11 +55,11 @@ public class MainController : MonoBehaviour
         {
             beginBG.SetActive(false);
 
-            //Debug.Log("·ÇÊ×´Î½øÈëÓÎÏ·");
+            //Debug.Log("éé¦–æ¬¡è¿›å…¥æ¸¸æˆ");
         }
     }
 
-    //ÔÚ¹Ø±Õ±³¾°Ãæ°åÊ±£¬ÉèÖÃÃæ°åÒÑ¾­±»´ò¿ª¹ıÁË
+    //åœ¨å…³é—­èƒŒæ™¯é¢æ¿æ—¶ï¼Œè®¾ç½®é¢æ¿å·²ç»è¢«æ‰“å¼€è¿‡äº†
     public void setBGIsOpened()
     {
         bgIsOpened = true;
