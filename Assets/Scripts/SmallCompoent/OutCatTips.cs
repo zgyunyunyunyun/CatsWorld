@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class OutCatTips : MonoBehaviour
 {
-    private bool active;//ÎïÌåÕ¹Ê¾ÁË
+    private bool active;//ç‰©ä½“å±•ç¤ºäº†
 
     private float timer;
     private float gap = 7;

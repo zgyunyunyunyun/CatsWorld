@@ -4,28 +4,28 @@ using UnityEngine;
 
 public class SceneTransferData : MonoBehaviour
 {
-    public int getLingshiNumber;//´ÓÓÎÏ·Àï»ñµÃµÄÁéÊ¯
+    public int getLingshiNumber;//ä»Žæ¸¸æˆé‡ŒèŽ·å¾—çš„çµçŸ³
 
-    public int maxCatLevel;//Ð¡Ã¨×î¸ßµÈ¼¶
-    private float putTimer = 1;//Ã¿1s´«µÝÒ»´ÎµÈ¼¶Êý¾Ý
-
-
-    public float price = 1;//µ±Ç°Áéµ¤¼Û¸ñÏµÊý
-
-    public float priceRestTimer = -1;//¼Û¸ñÐèÒª½øÐÐµ¹¼ÆÊ±µÄÊ±¼ä
-    private float priceRestGap = 900;//¼Û¸ñÊ£ÓàÊ±¼äµÄµ¹¼ÆÊ±
-
-    public bool isHighPirce = false;//µ±Ê±ÊÇ·ñ¸ß¼Û¸ñ
-
-    public float expendRestTimer = -1;//ÍØÕ¹ÁìÍÁÐèÒª½øÐÐµ¹¼ÆÊ±µÄÊ±¼ä
-    private float expendRestGap = 900;//ÁìÍÁÊ£ÓàÊ±¼äµÄµ¹¼ÆÊ±
-
-    public bool hasAttackEnemy = false;//µ±Ê±ÊÇ·ñ½ø¹¥µÄµÐÈË
+    public int maxCatLevel;//å°çŒ«æœ€é«˜ç­‰çº§
+    private float putTimer = 1;//æ¯1sä¼ é€’ä¸€æ¬¡ç­‰çº§æ•°æ®
 
 
-    public int outCatNumber = 0;//Ã¿´Î´ò¿ªÓÎÏ·Ëæ»ú²úÉúµÄÐ¡Ã¨ÊýÁ¿
+    public float price = 1;//å½“å‰çµä¸¹ä»·æ ¼ç³»æ•°
 
-    public bool isConsumeStone = false;//ÅÐ¶ÏÊÇ·ñÒÑ¾­ÏûºÄÁËÁéÊ¯
+    public float priceRestTimer = -1;//ä»·æ ¼éœ€è¦è¿›è¡Œå€’è®¡æ—¶çš„æ—¶é—´
+    private float priceRestGap = 900;//ä»·æ ¼å‰©ä½™æ—¶é—´çš„å€’è®¡æ—¶
+
+    public bool isHighPirce = false;//å½“æ—¶æ˜¯å¦é«˜ä»·æ ¼
+
+    public float expendRestTimer = -1;//æ‹“å±•é¢†åœŸéœ€è¦è¿›è¡Œå€’è®¡æ—¶çš„æ—¶é—´
+    private float expendRestGap = 900;//é¢†åœŸå‰©ä½™æ—¶é—´çš„å€’è®¡æ—¶
+
+    public bool hasAttackEnemy = false;//å½“æ—¶æ˜¯å¦è¿›æ”»çš„æ•Œäºº
+
+
+    public int outCatNumber = 0;//æ¯æ¬¡æ‰“å¼€æ¸¸æˆéšæœºäº§ç”Ÿçš„å°çŒ«æ•°é‡
+
+    public bool isConsumeStone = false;//åˆ¤æ–­æ˜¯å¦å·²ç»æ¶ˆè€—äº†çµçŸ³
 
 
     public static SceneTransferData instance;
@@ -35,7 +35,7 @@ public class SceneTransferData : MonoBehaviour
         {
             instance = this;
 
-            // ±£³ÖÕâ¸ö¶ÔÏó²»±»Ïú»Ù
+            // ä¿æŒè¿™ä¸ªå¯¹è±¡ä¸è¢«é”€æ¯
             DontDestroyOnLoad(this.gameObject);
         }
         else
@@ -58,7 +58,7 @@ public class SceneTransferData : MonoBehaviour
             NewCatController.instance.outCatNumber = outCatNumber;
         }
 
-        //Õ¹Ê¾¼Û¸ñUIÊ±£¬µ¹¼ÆÊ±Õ¹Ê¾Êý×Ö
+        //å±•ç¤ºä»·æ ¼UIæ—¶ï¼Œå€’è®¡æ—¶å±•ç¤ºæ•°å­—
         if (isHighPirce && priceRestTimer >= 0)
         {
             priceRestTimer -= Time.deltaTime;
@@ -73,7 +73,7 @@ public class SceneTransferData : MonoBehaviour
             }
         }
 
-        //Õ¹Ê¾ÁìÍÁUIÊ±£¬µ¹¼ÆÊ±Õ¹Ê¾Êý×Ö
+        //å±•ç¤ºé¢†åœŸUIæ—¶ï¼Œå€’è®¡æ—¶å±•ç¤ºæ•°å­—
         if (hasAttackEnemy && expendRestTimer >= 0)
         {
             expendRestTimer -= Time.deltaTime;

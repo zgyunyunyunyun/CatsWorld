@@ -3,10 +3,10 @@ using UnityEngine;
 public class ResultData : MonoBehaviour
 {
 
-    public float upLianDan;//炼丹加成
-    public float duration;//持续时间
+    public float upLianDan;//鐐间腹鍔犳垚
+    public float duration;//鎸佺画鏃堕棿
 
-    public bool isFinish;//当前游戏是否完成
+    public bool isFinish;//褰撳墠娓告垙鏄惁瀹屾垚
 
     public static ResultData instance;
     private void Awake()

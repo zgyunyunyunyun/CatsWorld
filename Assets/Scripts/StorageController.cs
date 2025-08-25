@@ -6,18 +6,18 @@ using WeChatWASM;
 
 public class StorageController : MonoBehaviour
 {
-    private float storeTimer = 60.0f;//60s´æ´¢1´ÎÊı¾İ
+    private float storeTimer = 60.0f;//60så­˜å‚¨1æ¬¡æ•°æ®
 
-    private BasicData basicData = new BasicData();//»ù´¡Êı¾İ
-    private PropertyData propertData = new PropertyData();//×Ê²úÊı¾İ
-    private List<Cat> catsDataList;//Ğ¡Ã¨µÄÁĞ±íÊı¾İ
+    private BasicData basicData = new BasicData();//åŸºç¡€æ•°æ®
+    private PropertyData propertData = new PropertyData();//èµ„äº§æ•°æ®
+    private List<Cat> catsDataList;//å°çŒ«çš„åˆ—è¡¨æ•°æ®
 
-    private string basicJson;//»ù´¡Êı¾İµÄjson
-    private string propertyJson;//×Ê²úÊı¾İµÄjson
-    private string catsJson;//Ğ¡Ã¨ÁĞ±íÊı¾İµÄjson
+    private string basicJson;//åŸºç¡€æ•°æ®çš„json
+    private string propertyJson;//èµ„äº§æ•°æ®çš„json
+    private string catsJson;//å°çŒ«åˆ—è¡¨æ•°æ®çš„json
 
-    public DateTime endTime;//ÉÏ´Î½áÊøÓÎÏ·µÄÊ±¼ä
-    public DateTime lastFreeTime;//ÉÏ´ÎÃâ·ÑÑ°ÕÒĞ¡Ã¨µÄÊ±¼ä
+    public DateTime endTime;//ä¸Šæ¬¡ç»“æŸæ¸¸æˆçš„æ—¶é—´
+    public DateTime lastFreeTime;//ä¸Šæ¬¡å…è´¹å¯»æ‰¾å°çŒ«çš„æ—¶é—´
 
     public static StorageController instance;
     private void Awake()
@@ -26,7 +26,7 @@ public class StorageController : MonoBehaviour
         {
             instance = this;
 
-            // ±£³ÖÕâ¸ö¶ÔÏó²»±»Ïú»Ù
+            // ä¿æŒè¿™ä¸ªå¯¹è±¡ä¸è¢«é”€æ¯
             //DontDestroyOnLoad(this.gameObject);
         }
         else
@@ -38,25 +38,25 @@ public class StorageController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //³õÊ¼»¯Î¢ĞÅĞ¡ÓÎÏ·sdk
+        //åˆå§‹åŒ–å¾®ä¿¡å°æ¸¸æˆsdk
         WX.InitSDK((code)=>
         {
-            Debug.Log("´ò¿ªÓÎÏ·£¬´ÓÎ¢ĞÅ´æ´¢»ñµÃÊı¾İ");
+            Debug.Log("æ‰“å¼€æ¸¸æˆï¼Œä»å¾®ä¿¡å­˜å‚¨è·å¾—æ•°æ®");
             GetDataFromWXStorage();
 
         });
 
-        //Õ¹Ê¾ÔÚÇ°Ì¨
+        //å±•ç¤ºåœ¨å‰å°
         WX.OnShow((res) => {
-            Debug.Log("ÓÎÏ·Õ¹Ê¾µ½Ç°Ì¨£¬´ÓÎ¢ĞÅ´æ´¢»ñµÃÊı¾İ");
+            Debug.Log("æ¸¸æˆå±•ç¤ºåˆ°å‰å°ï¼Œä»å¾®ä¿¡å­˜å‚¨è·å¾—æ•°æ®");
 
            GetDataFromWXStorage();
 
         });
 
-        //ÍËµ½ºóÌ¨
+        //é€€åˆ°åå°
         WX.OnHide((res) => {
-            Debug.Log("ÓÎÏ·Òş²Øµ½ºóÌ¨£¬½«ÓÎÏ·Êı¾İ´æ´¢µ½Î¢ĞÅ");
+            Debug.Log("æ¸¸æˆéšè—åˆ°åå°ï¼Œå°†æ¸¸æˆæ•°æ®å­˜å‚¨åˆ°å¾®ä¿¡");
 
            SetDataToWXStorage();
 
@@ -66,27 +66,27 @@ public class StorageController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Ã¿60s´æ´¢1´ÎÊı¾İ
+        //æ¯60så­˜å‚¨1æ¬¡æ•°æ®
         storeTimer -= Time.deltaTime;
         if (storeTimer < 0)
         {
-            Debug.Log("Ê±¼ä¸ôÁË60Ãë£¬½«ÓÎÏ·Êı¾İ´æ´¢µ½Î¢ĞÅ");
+            Debug.Log("æ—¶é—´éš”äº†60ç§’ï¼Œå°†æ¸¸æˆæ•°æ®å­˜å‚¨åˆ°å¾®ä¿¡");
 
             SetDataToWXStorage();
             storeTimer = 60.0f;
         }
     }
 
-    //Õ¹Ê¾Ç°Ì¨Ê±£¬´ÓÎ¢ĞÅµÄ´æ´¢»ñµÃÊı¾İ£¬²¢¼ÓÔØµ½ÓÎÏ·ÖĞ
+    //å±•ç¤ºå‰å°æ—¶ï¼Œä»å¾®ä¿¡çš„å­˜å‚¨è·å¾—æ•°æ®ï¼Œå¹¶åŠ è½½åˆ°æ¸¸æˆä¸­
     public void GetDataFromWXStorage()
     {
         if(WX.GetStorageInfoSync() != null && WX.GetStorageInfoSync().keys.Length > 0)
         {
-            //»ñµÃ»ù´¡Êı¾İ£¬²¢¼ÓÔØµ½ÓÎÏ·
+            //è·å¾—åŸºç¡€æ•°æ®ï¼Œå¹¶åŠ è½½åˆ°æ¸¸æˆ
             string bJson = " ";
             bJson = WX.StorageGetStringSync("basicData", bJson);
 
-            Debug.Log("³É¹¦¿ªÊ¼¶ÁÈ¡Î¢ĞÅĞ¡ÓÎÏ·µÄÊı¾İ");
+            Debug.Log("æˆåŠŸå¼€å§‹è¯»å–å¾®ä¿¡å°æ¸¸æˆçš„æ•°æ®");
 
             basicData = JsonUtility.FromJson<BasicData>(bJson);
             MainController.instance.isFirstTimeGaming = basicData.isFirstTimeGaming;
@@ -102,15 +102,15 @@ public class StorageController : MonoBehaviour
             DateTime.TryParse(lastDateString, out lastDateValue);
             lastFreeTime = lastDateValue;
 
-            //»ñµÃ×Ê²úÊı¾İ£¬²¢¼ÓÔØµ½ÓÎÏ·
+            //è·å¾—èµ„äº§æ•°æ®ï¼Œå¹¶åŠ è½½åˆ°æ¸¸æˆ
             string pJson = " ";
             pJson = WX.StorageGetStringSync("propertyData", pJson);
             propertData = JsonUtility.FromJson<PropertyData>(pJson);
 
-            //¸üĞÂÊ±¼äµ¹¼ÆÊ±
+            //æ›´æ–°æ—¶é—´å€’è®¡æ—¶
             DateTime currentTime = DateTime.Now;
-            TimeSpan difference = currentTime - endTime; // ¼ÆËãÊ±¼ä²î
-            double secondsDifference = difference.TotalSeconds; // Ïà²îµÄ×ÜÃëÊı   
+            TimeSpan difference = currentTime - endTime; // è®¡ç®—æ—¶é—´å·®
+            double secondsDifference = difference.TotalSeconds; // ç›¸å·®çš„æ€»ç§’æ•°   
 
             if(SceneTransferData.instance!=null && SceneTransferData.instance.getLingshiNumber > 0)
             {
@@ -128,7 +128,7 @@ public class StorageController : MonoBehaviour
             NewCatController.instance.lastNewTime = lastFreeTime;
             NewCatController.instance.time = basicData.newCatTime;
 
-            //»ñµÃĞ¡Ã¨Êı¾İ£¬²¢¼ÓÔØµ½ÓÎÏ·
+            //è·å¾—å°çŒ«æ•°æ®ï¼Œå¹¶åŠ è½½åˆ°æ¸¸æˆ
             string cJson = " ";
 
             if (CatController.instance.cats != null)
@@ -144,13 +144,13 @@ public class StorageController : MonoBehaviour
                 CatController.instance.cats.Add(catData);
             }
 
-            //Èç¹ûÊ±¼ä²î´óÓÚ0£¬ËµÃ÷ĞÂÔöÁËÁéµ¤
+            //å¦‚æœæ—¶é—´å·®å¤§äº0ï¼Œè¯´æ˜æ–°å¢äº†çµä¸¹
             int newLingdan = 0;
             if (secondsDifference > 0)
             {
                 newLingdan = (int)(secondsDifference / PropertyController.instance.timeToLingdan * CatController.instance.cats.Count);
 
-                Debug.Log("ÀëÏß²úÉúµÄÁéµ¤Êı£º" + newLingdan);
+                Debug.Log("ç¦»çº¿äº§ç”Ÿçš„çµä¸¹æ•°ï¼š" + newLingdan);
             }
 
             newLingdan = propertData.waitToGetLingDan + newLingdan;
@@ -165,19 +165,19 @@ public class StorageController : MonoBehaviour
             }
             
             PropertyController.instance.saleLingdanToWaitGet(PropertyController.instance.waitToGetLingDan);
-            Debug.Log("ÀëÏßÊÕÒæ£º" + PropertyController.instance.waitToGetLingDan);
+            Debug.Log("ç¦»çº¿æ”¶ç›Šï¼š" + PropertyController.instance.waitToGetLingDan);
         }
         else
         {
-            Debug.Log("Ê×´Î´ò¿ªÎ¢ĞÅĞ¡ÓÎÏ·£¬Î´ÄÜ¶ÁÈ¡µ½Êı¾İ");
+            Debug.Log("é¦–æ¬¡æ‰“å¼€å¾®ä¿¡å°æ¸¸æˆï¼Œæœªèƒ½è¯»å–åˆ°æ•°æ®");
         }
         
     }
 
-    //ÍËµ½ºóÌ¨Ê±£¬´ÓÓÎÏ·ÄÚ»ñµÃÊı¾İ£¬²¢¸øÎ¢ĞÅµÄ´æ´¢´æÈëÊı¾İ
+    //é€€åˆ°åå°æ—¶ï¼Œä»æ¸¸æˆå†…è·å¾—æ•°æ®ï¼Œå¹¶ç»™å¾®ä¿¡çš„å­˜å‚¨å­˜å…¥æ•°æ®
     public void SetDataToWXStorage()
     {
-        //»ñµÃ»ù´¡Êı¾İ²¢´æ´¢
+        //è·å¾—åŸºç¡€æ•°æ®å¹¶å­˜å‚¨
         basicData.endTime = DateTime.Now.ToString();
         basicData.lastFreeTime = NewCatController.instance.lastNewTime.ToString();
         basicData.newCatTime = NewCatController.instance.time;
@@ -187,7 +187,7 @@ public class StorageController : MonoBehaviour
 
         WX.StorageSetStringSync("basicData", basicJson);
 
-        //»ñµÃ×Ê²úÊı¾İ²¢´æ´¢
+        //è·å¾—èµ„äº§æ•°æ®å¹¶å­˜å‚¨
         propertData.waitToGetLingDan = PropertyController.instance.waitToGetLingDan;
         propertData.lingshiNumber = PropertyController.instance.lingshiNumber;
         propertData.maxLingdanNumber = PropertyController.instance.maxLingdanNumber;
@@ -198,7 +198,7 @@ public class StorageController : MonoBehaviour
 
         WX.StorageSetStringSync("propertyData", propertyJson);
 
-        //½«Ğ¡Ã¨µÄÊı¾İ´æ´¢µ½Î¢ĞÅÀï
+        //å°†å°çŒ«çš„æ•°æ®å­˜å‚¨åˆ°å¾®ä¿¡é‡Œ
         catsDataList = CatController.instance.cats;
         for (int i = 0; i < catsDataList.Count; i++)
         {
@@ -210,30 +210,30 @@ public class StorageController : MonoBehaviour
     }
 }
 
-//»ù´¡ÊôĞÔÀà
+//åŸºç¡€å±æ€§ç±»
 [System.Serializable]
 public class BasicData
 {
-    public string endTime;//ÉÏÒ»´ÎÓÎÏ·½áÊøÊ±¼ä
-    public string lastFreeTime;//ÉÏÒ»´ÎÃâ·Ñ»ñµÃĞ¡Ã¨µÄÊ±¼ä
-    public int newCatTime;//µ±Ç°²úÉúĞ¡Ã¨µÄ´ÎÊı
-    public bool isFirstTimeGaming;//ÊÇ·ñµÚÒ»´Î½øÈëÓÎÏ·
-    public bool bgIsOpened;//Ê×´Î´ò¿ªÓÎÏ·µÄ±³¾°°åÊÇ·ñÒÑ´ò¿ª¹ı
+    public string endTime;//ä¸Šä¸€æ¬¡æ¸¸æˆç»“æŸæ—¶é—´
+    public string lastFreeTime;//ä¸Šä¸€æ¬¡å…è´¹è·å¾—å°çŒ«çš„æ—¶é—´
+    public int newCatTime;//å½“å‰äº§ç”Ÿå°çŒ«çš„æ¬¡æ•°
+    public bool isFirstTimeGaming;//æ˜¯å¦ç¬¬ä¸€æ¬¡è¿›å…¥æ¸¸æˆ
+    public bool bgIsOpened;//é¦–æ¬¡æ‰“å¼€æ¸¸æˆçš„èƒŒæ™¯æ¿æ˜¯å¦å·²æ‰“å¼€è¿‡
 }
 
-//×Ê²úÊôĞÔÀà
-/*ËµÃ÷£º
- * 1¡¢Ã¿´ÎÖØĞÂÆô¶¯Ğ¡ÓÎÏ·Ê±£¬Çå¿ÕÁéµ¤ÊıÁ¿£¬UI£¬¶ÔÏó
- * 2¡¢¸ù¾İÊ±¼ä¼ÆËãµÃµ½µÄÁéÊ¯
- * 3¡¢»ñµÃĞ¡Ã¨ÏêÏ¸µÄÊı¾İ£¬¿ÉÍ¨¹ıĞ¡Ã¨µÄÊıÁ¿´Ó0¿ªÊ¼ËãµÚÒ»Ö»£¬Í¨¹ıcatxµÄ·½Ê½£¬»ñµÃºóĞøµÄĞ¡Ã¨Êı¾İ
+//èµ„äº§å±æ€§ç±»
+/*è¯´æ˜ï¼š
+ * 1ã€æ¯æ¬¡é‡æ–°å¯åŠ¨å°æ¸¸æˆæ—¶ï¼Œæ¸…ç©ºçµä¸¹æ•°é‡ï¼ŒUIï¼Œå¯¹è±¡
+ * 2ã€æ ¹æ®æ—¶é—´è®¡ç®—å¾—åˆ°çš„çµçŸ³
+ * 3ã€è·å¾—å°çŒ«è¯¦ç»†çš„æ•°æ®ï¼Œå¯é€šè¿‡å°çŒ«çš„æ•°é‡ä»0å¼€å§‹ç®—ç¬¬ä¸€åªï¼Œé€šè¿‡catxçš„æ–¹å¼ï¼Œè·å¾—åç»­çš„å°çŒ«æ•°æ®
  */
 [System.Serializable]
 public class PropertyData
 {
-    public int waitToGetLingDan;//µ±Ç°ÓµÓĞµÄÁéµ¤ÊıÁ¿
-    public int lingshiNumber;//µ±Ç°ÓµÓĞµÄÁéÊ¯ÊıÁ¿
-    public int maxLingdanNumber;//×î´óµÄÁéµ¤ÊıÁ¿
-    public float territoryArea;//µ±Ç°ÁìÍÁÃæ»ı
-    public int catNumber;//µ±Ç°Ğ¡Ã¨µÄÊıÁ¿
-    public int raceLevel;//µ±Ç°ÖÖ×åµÈ¼¶
+    public int waitToGetLingDan;//å½“å‰æ‹¥æœ‰çš„çµä¸¹æ•°é‡
+    public int lingshiNumber;//å½“å‰æ‹¥æœ‰çš„çµçŸ³æ•°é‡
+    public int maxLingdanNumber;//æœ€å¤§çš„çµä¸¹æ•°é‡
+    public float territoryArea;//å½“å‰é¢†åœŸé¢ç§¯
+    public int catNumber;//å½“å‰å°çŒ«çš„æ•°é‡
+    public int raceLevel;//å½“å‰ç§æ—ç­‰çº§
 }

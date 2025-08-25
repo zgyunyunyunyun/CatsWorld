@@ -10,15 +10,15 @@ public class NumberController : MonoBehaviour
         instance = this;
     }
 
-    //½«Êı×Ö×ª»¯Îª×Ö·û´®£¨Íò¡¢ÒÚ£©
+    //å°†æ•°å­—è½¬åŒ–ä¸ºå­—ç¬¦ä¸²ï¼ˆä¸‡ã€äº¿ï¼‰
     public string NumberToChinaString(int number)
     {
         if(number >= 100000000)
         {
-            return (number / 100000000).ToString()+"ÒÚ";
+            return (number / 100000000).ToString()+"äº¿";
         }else if (number >= 10000)
         {
-            return (number / 10000).ToString()+"Íò";
+            return (number / 10000).ToString()+"ä¸‡";
         }
         else
         {

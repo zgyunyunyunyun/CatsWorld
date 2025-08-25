@@ -6,23 +6,23 @@ using UnityEngine;
 public class PriceController : MonoBehaviour
 {
     /// <summary>
-    /// µ¹¼ÆÊ±µÄ¼ÆËã·ÅÔÚµÄ¿ç³¡¾°µÄ¶ÔÏóÀï
+    /// å€’è®¡æ—¶çš„è®¡ç®—æ”¾åœ¨çš„è·¨åœºæ™¯çš„å¯¹è±¡é‡Œ
     /// </summary>
 
-    public GameObject highPriceUI;//Õ¹Ê¾¸ß¼Û¸ñµÄUI
+    public GameObject highPriceUI;//å±•ç¤ºé«˜ä»·æ ¼çš„UI
 
-    public TMP_Text titlePercentageText;//±êÌâ¼°°Ù·Ö±È
-    public TMP_Text restTimeText;//Ê£Óàµ¹¼ÆÊ±
+    public TMP_Text titlePercentageText;//æ ‡é¢˜åŠç™¾åˆ†æ¯”
+    public TMP_Text restTimeText;//å‰©ä½™å€’è®¡æ—¶
 
-    public float price = 1;//µ±Ç°Áéµ¤¼Û¸ñÏµÊı
+    public float price = 1;//å½“å‰çµä¸¹ä»·æ ¼ç³»æ•°
 
-    public float restTimer = 900;//ĞèÒª½øĞĞµ¹¼ÆÊ±µÄÊ±¼ä
-    private float restGap = 900;//Ê£ÓàÊ±¼äµÄµ¹¼ÆÊ±
+    public float restTimer = 900;//éœ€è¦è¿›è¡Œå€’è®¡æ—¶çš„æ—¶é—´
+    private float restGap = 900;//å‰©ä½™æ—¶é—´çš„å€’è®¡æ—¶
 
-    private float highPirceTimer = 5.0f;//¼Û¸ñì­ÉıµÄ¼ÆÊ±Æ÷
-    public float priceCheckGap = 5.0f;//¼Û¸ñì­ÉıµÄgap
+    private float highPirceTimer = 5.0f;//ä»·æ ¼é£™å‡çš„è®¡æ—¶å™¨
+    public float priceCheckGap = 5.0f;//ä»·æ ¼é£™å‡çš„gap
 
-    public bool isHighPirce = false;//µ±Ê±ÊÇ·ñ¸ß¼Û¸ñ£¿
+    public bool isHighPirce = false;//å½“æ—¶æ˜¯å¦é«˜ä»·æ ¼ï¼Ÿ
 
     public static PriceController instance;
     private void Awake()
@@ -39,43 +39,43 @@ public class PriceController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //µÚ¶ş´Î¼°ÒÔºó£¬´ÓÆäËû³¡¾°»ØÀ´ÒÔºó¡£Èç¹û´¦ÓÚµ¹¼ÆÊ±×´Ì¬£¬ÔòË¢ĞÂÊı¾İ
+        //ç¬¬äºŒæ¬¡åŠä»¥åï¼Œä»å…¶ä»–åœºæ™¯å›æ¥ä»¥åã€‚å¦‚æœå¤„äºå€’è®¡æ—¶çŠ¶æ€ï¼Œåˆ™åˆ·æ–°æ•°æ®
         if (SceneTransferData.instance.isHighPirce)
         {
             isHighPirce = SceneTransferData.instance.isHighPirce;
             restTimer = SceneTransferData.instance.priceRestTimer;
         }
 
-        //Ã¿¸ögapÊ±¼äÅĞ¶ÏÊÇ·ñ¼Û¸ñì­Éı
+        //æ¯ä¸ªgapæ—¶é—´åˆ¤æ–­æ˜¯å¦ä»·æ ¼é£™å‡
         highPirceTimer -= Time.deltaTime;
         //if (highPirceTimer <= 0)
         if (false)
         {
-            //Èç¹ûµ±Ç°¼Û¸ñ²»´¦ÓÚ¸ß×´Ì¬£¬Ëæ»úÅĞ¶ÏÊÇ·ñĞèÒªÔö¼Ó¼Û¸ñ
+            //å¦‚æœå½“å‰ä»·æ ¼ä¸å¤„äºé«˜çŠ¶æ€ï¼Œéšæœºåˆ¤æ–­æ˜¯å¦éœ€è¦å¢åŠ ä»·æ ¼
             if (!isHighPirce)
             {
                 int x = Random.Range(0, 100);
                 if (x > 90)
                 {
-                    //¼Û¸ñÔÚ20%-80%Ö®¼äÅÇ»²
+                    //ä»·æ ¼åœ¨20%-80%ä¹‹é—´å¾˜å¾Š
                     int p = Random.Range(10, 30);
                     price = (float)(1 + p * 0.1);
 
                     isHighPirce = true;
-                    Debug.Log("Áéµ¤¼Û¸ñÉÏÕÇ£¬µ±Ç°¼Û¸ñÏµÊıÎª£º" + price);
+                    Debug.Log("çµä¸¹ä»·æ ¼ä¸Šæ¶¨ï¼Œå½“å‰ä»·æ ¼ç³»æ•°ä¸ºï¼š" + price);
                 }
             }
             highPirceTimer = priceCheckGap;
         }
 
-        //Õ¹Ê¾UIÊ±£¬µ¹¼ÆÊ±Õ¹Ê¾Êı×Ö
-        //if (isHighPirce && highPriceUI != null && restTimer>=0)//ÒÅÁô£º¼Û¸ñ´æÔÚÎª0µÄÇé¿ö¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª
+        //å±•ç¤ºUIæ—¶ï¼Œå€’è®¡æ—¶å±•ç¤ºæ•°å­—
+        //if (isHighPirce && highPriceUI != null && restTimer>=0)//é—ç•™ï¼šä»·æ ¼å­˜åœ¨ä¸º0çš„æƒ…å†µâ€”â€”â€”â€”â€”â€”â€”â€”â€”â€”
         if(false)
         {
             
 
             highPriceUI.gameObject.SetActive(true);
-            titlePercentageText.text = "×¢Òâ,Áéµ¤¼Û¸ñÉÏÕÇ " + ((int)((price - 1) * 100)).ToString() + "%";
+            titlePercentageText.text = "æ³¨æ„,çµä¸¹ä»·æ ¼ä¸Šæ¶¨ " + ((int)((price - 1) * 100)).ToString() + "%";
 
             restTimer -= Time.deltaTime;
             restTimeText.text = ((int)restTimer / 60).ToString() + " : " + ((int)restTimer % 60).ToString();
@@ -87,7 +87,7 @@ public class PriceController : MonoBehaviour
                 price = 1;
             }
 
-            //³õÊ¼»¯Ê±£¬°ÑÊ£ÓàÊ±¼ä´«µİ¸ø³¡¾°¼ÇÂ¼data
+            //åˆå§‹åŒ–æ—¶ï¼ŒæŠŠå‰©ä½™æ—¶é—´ä¼ é€’ç»™åœºæ™¯è®°å½•data
             if (SceneTransferData.instance.priceRestTimer < 0 || SceneTransferData.instance.priceRestTimer < restTimer)
             {
                 SceneTransferData.instance.priceRestTimer = restTimer;

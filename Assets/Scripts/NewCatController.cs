@@ -77,7 +77,6 @@ public class NewCatController : MonoBehaviour//虽然这里写新增小猫，但
 
         //lastNewTime = DateTime.Now;
 
-
         //重置的广告位
         renewVideoAd = WX.CreateRewardedVideoAd(
         new WXCreateRewardedVideoAdParam()
@@ -167,7 +166,6 @@ public class NewCatController : MonoBehaviour//虽然这里写新增小猫，但
 
             checkShowTipsTime = checkShowTipsGap;
         }
-
 
 
         //如果是第一次打开游戏，免费3次：展示文案，并免费

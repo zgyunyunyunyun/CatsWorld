@@ -6,41 +6,41 @@ using UnityEngine.UI;
 
 public class UpLianDanController : MonoBehaviour
 {
-    //ÐèÒª³õÊ¼»¯µÄÊý¾Ý
-    private int purityPercentage;//Íê³ÉµÄ´¿¶È£¬Ó°Ïì×îºóÌáÉýÁ¶µ¤µÄÐ§ÂÊ
-    private float schedule;//Íê³ÉµÄ½ø¶È£¬¾ö¶¨ÁËµ±¾ÖÓÎÏ·ÊÇ·ñ½áÊø¡£¼´ÍêÕûÎüÊÕËùÓÐÁéÒºµÄ±ÈÀý
+    //éœ€è¦åˆå§‹åŒ–çš„æ•°æ®
+    private int purityPercentage;//å®Œæˆçš„çº¯åº¦ï¼Œå½±å“æœ€åŽæå‡ç‚¼ä¸¹çš„æ•ˆçŽ‡
+    private float schedule;//å®Œæˆçš„è¿›åº¦ï¼Œå†³å®šäº†å½“å±€æ¸¸æˆæ˜¯å¦ç»“æŸã€‚å³å®Œæ•´å¸æ”¶æ‰€æœ‰çµæ¶²çš„æ¯”ä¾‹
 
-    private float purityPoint;//ÁéÒº·ÖÊý
-    private float impurityPoint;//ÔÓÖÊ·ÖÊý
+    private float purityPoint;//çµæ¶²åˆ†æ•°
+    private float impurityPoint;//æ‚è´¨åˆ†æ•°
 
-    public float point = 1f;//Ã¿¸öÁéÒº»òÕßÔÓÖÊµÄ·ÖÊý£¬ÔÝ¶¨1·Ö
+    public float point = 1f;//æ¯ä¸ªçµæ¶²æˆ–è€…æ‚è´¨çš„åˆ†æ•°ï¼Œæš‚å®š1åˆ†
 
-    public int level = 2;//ÓÎÏ·µÄ¹Ø¿¨£¬¾ö¶¨ÁËÓÎÏ·µÄÄÑ¶È
-    private int purityNumber;//¸ù¾Ý¹Ø¿¨£¬ÐèÒªÉú³ÉµÄ×ÜÁéÒºÊýÁ¿
-    //private int impurityNumber;//¸ù¾Ý¹Ø¿¨£¬ÐèÒªÉú³ÉµÄ×ÜÔÓÖÊÊýÁ¿
+    public int level = 2;//æ¸¸æˆçš„å…³å¡ï¼Œå†³å®šäº†æ¸¸æˆçš„éš¾åº¦
+    private int purityNumber;//æ ¹æ®å…³å¡ï¼Œéœ€è¦ç”Ÿæˆçš„æ€»çµæ¶²æ•°é‡
+    //private int impurityNumber;//æ ¹æ®å…³å¡ï¼Œéœ€è¦ç”Ÿæˆçš„æ€»æ‚è´¨æ•°é‡
 
-    public float upLianDan;//Á¶µ¤¼Ó³É
-    public float duration;//³ÖÐøÊ±¼ä
+    public float upLianDan;//ç‚¼ä¸¹åŠ æˆ
+    public float duration;//æŒç»­æ—¶é—´
 
-    //public bool isFinish = false;//µ±Ç°ÓÎÏ·ÊÇ·ñÍê³É
-
-
-    //ÐèÒª¸³ÖµµÄ¶ÔÏó
-    public GameObject purity;//´ýÊµÀý»¯µÄÁéÒº
-    public GameObject impurity;//´ýÊµÀý»¯µÄÔÓÖÊ
-
-    public GameObject purities;//ÁéÒº¿ØÖÆÆ÷
-    public GameObject impurities;//ÔÓÖÊ¿ØÖÆÆ÷
-
-    public Slider slider;//ÓÎÏ·½ø¶ÈÌõ
-    public TMP_Text purityPerText;//Õ¹Ê¾Íê³É´¿¶ÈµÄ°Ù·Ö±È£¬´Ó100%¿ªÊ¼
-    public GameObject gameResult;//Õ¹Ê¾ÓÎÏ·½á¹ûµÄÃæ°å
-    public TMP_Text purityReward;//Íê³ÉÓÎÏ·µÄ¼ÓËÙ½±Àø
-    public TMP_Text durationTime;//Íê³É½±Àø¼ÓËÙµÄ³ÖÐøÊ±¼ä
+    //public bool isFinish = false;//å½“å‰æ¸¸æˆæ˜¯å¦å®Œæˆ
 
 
+    //éœ€è¦èµ‹å€¼çš„å¯¹è±¡
+    public GameObject purity;//å¾…å®žä¾‹åŒ–çš„çµæ¶²
+    public GameObject impurity;//å¾…å®žä¾‹åŒ–çš„æ‚è´¨
 
-    public int gameHard = 2;//ÓÎÏ·ÄÑ¶È
+    public GameObject purities;//çµæ¶²æŽ§åˆ¶å™¨
+    public GameObject impurities;//æ‚è´¨æŽ§åˆ¶å™¨
+
+    public Slider slider;//æ¸¸æˆè¿›åº¦æ¡
+    public TMP_Text purityPerText;//å±•ç¤ºå®Œæˆçº¯åº¦çš„ç™¾åˆ†æ¯”ï¼Œä»Ž100%å¼€å§‹
+    public GameObject gameResult;//å±•ç¤ºæ¸¸æˆç»“æžœçš„é¢æ¿
+    public TMP_Text purityReward;//å®Œæˆæ¸¸æˆçš„åŠ é€Ÿå¥–åŠ±
+    public TMP_Text durationTime;//å®Œæˆå¥–åŠ±åŠ é€Ÿçš„æŒç»­æ—¶é—´
+
+
+
+    public int gameHard = 2;//æ¸¸æˆéš¾åº¦
 
 
 
@@ -59,7 +59,7 @@ public class UpLianDanController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Ë¢ÐÂµ±Ç°µ¤Ò©µÄ´¿¶È
+        //åˆ·æ–°å½“å‰ä¸¹è¯çš„çº¯åº¦
         if (impurityPoint == 0 && purityPoint > 0)
         {
             purityPercentage = 100;
@@ -71,20 +71,20 @@ public class UpLianDanController : MonoBehaviour
             purityPerText.text = purityPercentage.ToString()+ "%";
         }
 
-        //Èç¹ûÍê³ÉµÄ½ø¶È´ïµ½100%£¬ÔòÓÎÏ·½áÊø
+        //å¦‚æžœå®Œæˆçš„è¿›åº¦è¾¾åˆ°100%ï¼Œåˆ™æ¸¸æˆç»“æŸ
         if (schedule >= 1)
         {
-            //ÔÝÍ£ÓÎÏ·£¬Õ¹Ê¾½á¹ûÃæ°å
+            //æš‚åœæ¸¸æˆï¼Œå±•ç¤ºç»“æžœé¢æ¿
             stopGame();
             gameResult.SetActive(true);
 
 
-            //¼ÆËã²¢Õ¹Ê¾½±Àø
+            //è®¡ç®—å¹¶å±•ç¤ºå¥–åŠ±
             upLianDan = purityPercentage * (level + 1) * 2;
             duration = (level + 1) * 10;
 
             purityReward.text = upLianDan.ToString() + "%";
-            durationTime.text = duration.ToString() + "·ÖÖÓ";
+            durationTime.text = duration.ToString() + "åˆ†é’Ÿ";
 
             ResultData.instance.upLianDan = upLianDan;
             ResultData.instance.duration = duration;
@@ -94,21 +94,21 @@ public class UpLianDanController : MonoBehaviour
 
     public void stopGame()
     {
-        Time.timeScale = 0; // ÔÝÍ£ÓÎÏ·
+        Time.timeScale = 0; // æš‚åœæ¸¸æˆ
     }
 
     public void keepGame()
     {
-        Time.timeScale = 1; // ¼ÌÐøÓÎÏ·
+        Time.timeScale = 1; // ç»§ç»­æ¸¸æˆ
     }
 
-    //¿ªÊ¼ÓÎÏ·Ê±£¬³õÊ¼»¯Êý¾Ý£¬Í¬Ê±ÓÃÓÚÖØÐÂ½øÈëÐÂµÄ¹Ø¿¨
+    //å¼€å§‹æ¸¸æˆæ—¶ï¼Œåˆå§‹åŒ–æ•°æ®ï¼ŒåŒæ—¶ç”¨äºŽé‡æ–°è¿›å…¥æ–°çš„å…³å¡
     public void startGame()
     {
-        //Çå¿ÕÔÓÖÊºÍÁéÒº
+        //æ¸…ç©ºæ‚è´¨å’Œçµæ¶²
         clearThings();
 
-        //³õÊ¼»¯»ù´¡Êý¾Ý
+        //åˆå§‹åŒ–åŸºç¡€æ•°æ®
         purityPoint = 0;
         impurityPoint = 0;
         purityPercentage = 0;
@@ -118,15 +118,15 @@ public class UpLianDanController : MonoBehaviour
         upLianDan = 0;
         duration = 0;
 
-        //²úÉúÔÓÖÊºÍÁéÒº
+        //äº§ç”Ÿæ‚è´¨å’Œçµæ¶²
         spawnPurities(level);
 
         purityNumber = gameHard * (level + 1);
 
-        Time.timeScale = 1; // ¼ÌÐøÓÎÏ·(ÖØÐÂ½øÈëÓÎÏ·Ê±£©
+        Time.timeScale = 1; // ç»§ç»­æ¸¸æˆ(é‡æ–°è¿›å…¥æ¸¸æˆæ—¶ï¼‰
     }
 
-    //½øÈëÓÎÏ·µÄÏÂÒ»¹Ø
+    //è¿›å…¥æ¸¸æˆçš„ä¸‹ä¸€å…³
     public void nextLevelGame()
     {
         level++;
@@ -141,21 +141,21 @@ public class UpLianDanController : MonoBehaviour
         //TaskManager.instance.ldResult.upSpeed = upLianDan;
         //TaskManager.instance.ldResult.duration =  duration;
         //TaskManager.instance.rewardChanged = true;
-        //Debug.Log("½áÊøµ±Ç°ÄýÁ·ÁéÒºÓÎÏ·£¬·µ»ØÖ÷½çÃæ: " + TaskManager.instance.rewardChanged);
+        //Debug.Log("ç»“æŸå½“å‰å‡ç»ƒçµæ¶²æ¸¸æˆï¼Œè¿”å›žä¸»ç•Œé¢: " + TaskManager.instance.rewardChanged);
     }
 
-    //Çå¿Õµ±Ç°ÓÎÏ·µÄÔÓÖÊºÍÁéÒº
+    //æ¸…ç©ºå½“å‰æ¸¸æˆçš„æ‚è´¨å’Œçµæ¶²
     public void clearThings()
     {
-        Debug.Log("Çå¿Õ½Úµã£º"+ purity.transform.childCount);
+        Debug.Log("æ¸…ç©ºèŠ‚ç‚¹ï¼š"+ purity.transform.childCount);
         if (purities.transform.childCount > 0)
         {
-            Debug.Log("Çå¿Õ½Úµã");
+            Debug.Log("æ¸…ç©ºèŠ‚ç‚¹");
             for (int j = 0; j < purities.transform.childCount; j++)
             {
                 Destroy(purities.transform.GetChild(j).gameObject);
 
-                Debug.Log("Çå¿ÕÔ­¸¸½ÚµãµÄ×Ó½Úµã");
+                Debug.Log("æ¸…ç©ºåŽŸçˆ¶èŠ‚ç‚¹çš„å­èŠ‚ç‚¹");
             }
         }
 
@@ -165,18 +165,18 @@ public class UpLianDanController : MonoBehaviour
             {
                 Destroy(impurities.transform.GetChild(j).gameObject);
 
-                Debug.Log("Çå¿ÕÔ­¸¸½ÚµãµÄ×Ó½Úµã");
+                Debug.Log("æ¸…ç©ºåŽŸçˆ¶èŠ‚ç‚¹çš„å­èŠ‚ç‚¹");
             }
         }
     }
 
-    //¸ù¾Ý¹Ø¿¨Ôö¼ÓÉú³ÉÁéÒº»òÔÓÖÊµÄÊýÁ¿
+    //æ ¹æ®å…³å¡å¢žåŠ ç”Ÿæˆçµæ¶²æˆ–æ‚è´¨çš„æ•°é‡
     void spawnPurities(int level)
     {
-        //Ò»´ÎÐÔÉú³ÉµÄÊýÁ¿ = ¹Ø¿¨ÄÑ¶È * ¹Ø¿¨Êý
+        //ä¸€æ¬¡æ€§ç”Ÿæˆçš„æ•°é‡ = å…³å¡éš¾åº¦ * å…³å¡æ•°
         for(int i=0; i< gameHard*(level+1); i++)
         {
-            //¹ÒÔÚ¸¸½ÚµãÉÏ
+            //æŒ‚åœ¨çˆ¶èŠ‚ç‚¹ä¸Š
             GameObject tempP = Instantiate(purity);
             tempP.transform.SetParent(purities.transform, false);
             tempP.transform.localPosition = new Vector3(Random.Range(-2.8f, 2.8f), Random.Range(-5, 5), 0);
@@ -187,23 +187,23 @@ public class UpLianDanController : MonoBehaviour
         }
     }
 
-    //ÁéÒºÔö¼Ó·ÖÊý
+    //çµæ¶²å¢žåŠ åˆ†æ•°
     public void addPurityPoint(float point)
     {
         purityPoint += point;
 
-        //¼ÆËãÍê³ÉµÄ½ø¶È
+        //è®¡ç®—å®Œæˆçš„è¿›åº¦
         schedule = (purityPoint / point) / purityNumber;
         changeSchedule(schedule);
     }
 
-    //ÔÓÖÊ¼Ó·Ö
+    //æ‚è´¨åŠ åˆ†
     public void addImpurityPoint(float point)
     {
         impurityPoint += point;
     }
 
-    //¸Ä±ä½ø¶È
+    //æ”¹å˜è¿›åº¦
     public void changeSchedule(float schedule)
     {
         slider.value = schedule;

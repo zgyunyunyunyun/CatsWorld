@@ -6,14 +6,14 @@ using TMPro;
 
 public class ChooseScript : MonoBehaviour
 {
-    //É¸Ñ¡°´Å¥µÄlist
+    //ç­›é€‰æŒ‰é’®çš„list
     private Button[] filterButtons;
 
-    //Ñ¡ÔñÃæ°åµÄÉ¸Ñ¡°´Å¥µÄ¸¸½Úµã£¨¸ù¾İµÈ¼¶É¸Ñ¡£©
+    //é€‰æ‹©é¢æ¿çš„ç­›é€‰æŒ‰é’®çš„çˆ¶èŠ‚ç‚¹ï¼ˆæ ¹æ®ç­‰çº§ç­›é€‰ï¼‰
     public GameObject buttons;
     public Button all;
 
-    //Éú²úÄÚÈİµÄ¸¸½Úµã
+    //ç”Ÿäº§å†…å®¹çš„çˆ¶èŠ‚ç‚¹
     public Transform contentParent;
 
 
@@ -21,7 +21,7 @@ public class ChooseScript : MonoBehaviour
     void Start()
     {
         
-        //»ñµÃÉ¸Ñ¡°´Å¥µÄÊıÁ¿²¢¸³Öµµ½list
+        //è·å¾—ç­›é€‰æŒ‰é’®çš„æ•°é‡å¹¶èµ‹å€¼åˆ°list
         int btnNumber = buttons.transform.childCount;
         filterButtons = new Button[btnNumber];
 
@@ -30,10 +30,10 @@ public class ChooseScript : MonoBehaviour
             filterButtons[i] = buttons.transform.GetChild(i).GetComponent<Button>();
         }
 
-        // ¸øÃ¿¸öÉ¸Ñ¡°´Å¥Ìí¼Óµã»÷ÊÂ¼ş
+        // ç»™æ¯ä¸ªç­›é€‰æŒ‰é’®æ·»åŠ ç‚¹å‡»äº‹ä»¶
         for (int i = 0; i < filterButtons.Length; i++)
         {          
-            //index£ºµÚn¸öÉ¸Ñ¡°´Å¥
+            //indexï¼šç¬¬nä¸ªç­›é€‰æŒ‰é’®
             int buttonIndex = i;
             filterButtons[i].onClick.AddListener(() => FilterContent(buttonIndex));
         }
@@ -41,11 +41,11 @@ public class ChooseScript : MonoBehaviour
 
     void Update()
     {
-        //ĞŞ¸Ä±»Ñ¡ÖĞµÄ°´Å¥ÑÕÉ«
+        //ä¿®æ”¹è¢«é€‰ä¸­çš„æŒ‰é’®é¢œè‰²
         if (CatListUI.instance.currChoose != null)
         {
-            //Debug.Log("¸Ä±äÑ¡ÏîÑÕÉ«");
-            if (CatListUI.instance.currChoose == "È«²¿")
+            //Debug.Log("æ”¹å˜é€‰é¡¹é¢œè‰²");
+            if (CatListUI.instance.currChoose == "å…¨éƒ¨")
             {
                 filterButtons[0].GetComponent<Image>().color = new Color32(255, 128, 98, 255);
                 filterButtons[1].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
@@ -53,7 +53,7 @@ public class ChooseScript : MonoBehaviour
                 filterButtons[3].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
 
             }
-            else if(CatListUI.instance.currChoose == "Á¶µ¤ÖĞ")
+            else if(CatListUI.instance.currChoose == "ç‚¼ä¸¹ä¸­")
             {
                 
                 filterButtons[1].GetComponent<Image>().color = new Color32(255, 128, 98, 255);
@@ -61,14 +61,14 @@ public class ChooseScript : MonoBehaviour
                 filterButtons[2].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
                 filterButtons[3].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
             }
-            else if (CatListUI.instance.currChoose == "Ì½Ë÷ÖĞ")
+            else if (CatListUI.instance.currChoose == "æ¢ç´¢ä¸­")
             {
                 filterButtons[2].GetComponent<Image>().color = new Color32(255, 128, 98, 255);
                 filterButtons[0].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
                 filterButtons[1].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
                 filterButtons[3].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
             }
-            else if (CatListUI.instance.currChoose == "¿ÕÏĞ")
+            else if (CatListUI.instance.currChoose == "ç©ºé—²")
             {
                 filterButtons[3].GetComponent<Image>().color = new Color32(255, 128, 98, 255);
                 filterButtons[0].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
@@ -81,16 +81,16 @@ public class ChooseScript : MonoBehaviour
     void FilterContent(int filterIndex)
     {
         /*
-        // ±éÀúËùÓĞÄÚÈİÏî£¬¸ù¾İÉ¸Ñ¡°´Å¥Ë÷ÒıÀ´¸ü¸ÄËüÃÇµÄ¼¤»î×´Ì¬
+        // éå†æ‰€æœ‰å†…å®¹é¡¹ï¼Œæ ¹æ®ç­›é€‰æŒ‰é’®ç´¢å¼•æ¥æ›´æ”¹å®ƒä»¬çš„æ¿€æ´»çŠ¶æ€
         foreach (Transform child in contentParent)
         {
-            // ¸ù¾İĞèÒªÉ¸Ñ¡µÄÂß¼­À´ÉèÖÃÕâ¸ö±äÁ¿
+            // æ ¹æ®éœ€è¦ç­›é€‰çš„é€»è¾‘æ¥è®¾ç½®è¿™ä¸ªå˜é‡
             bool shouldActivate = true; 
 
-            // ÀıÈç£¬¸ù¾İ°´Å¥Ë÷ÒıÉ¸Ñ¡
+            // ä¾‹å¦‚ï¼Œæ ¹æ®æŒ‰é’®ç´¢å¼•ç­›é€‰
             if ((child.GetSiblingIndex() % filterButtons.Length)  !=  filterIndex)
             {
-                Debug.Log("É¸Ñ¡µÄ½á¹û£º" + child.GetSiblingIndex() % filterButtons.Length);
+                Debug.Log("ç­›é€‰çš„ç»“æœï¼š" + child.GetSiblingIndex() % filterButtons.Length);
                 shouldActivate = false;
             }
             child.gameObject.SetActive(shouldActivate);
@@ -98,10 +98,10 @@ public class ChooseScript : MonoBehaviour
         */
 
 
-        //É¸Ñ¡Ìõ¼ş£º´¦ÓÚÊ²Ã´¹¤×÷×´Ì¬¡£»ñµÃµã»÷°´Å¥·µ»ØµÄÖµ
+        //ç­›é€‰æ¡ä»¶ï¼šå¤„äºä»€ä¹ˆå·¥ä½œçŠ¶æ€ã€‚è·å¾—ç‚¹å‡»æŒ‰é’®è¿”å›çš„å€¼
         string workstate = filterButtons[filterIndex].GetComponentInChildren<TMP_Text>().text;
 
-        Debug.Log("É¸Ñ¡µÄ¹¤×÷×´Ì¬ÊÇ£º" + workstate);
+        Debug.Log("ç­›é€‰çš„å·¥ä½œçŠ¶æ€æ˜¯ï¼š" + workstate);
 
         if(workstate != null)
         {

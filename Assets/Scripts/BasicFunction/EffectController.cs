@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class EffectController : MonoBehaviour
 {
-    public float shrinkDuration = 0.3f; // ¶¯»­µÄ×ÜÊ±³¤£¬µ¥Î»Ãë
-    public float shrinkInterval = 0.005f; // Ã¿´ÎµÄ¼ä¸ôÊ±¼ä£¬µ¥Î»Ãë
+    public float shrinkDuration = 0.3f; // åŠ¨ç”»çš„æ€»æ—¶é•¿ï¼Œå•ä½ç§’
+    public float shrinkInterval = 0.005f; // æ¯æ¬¡çš„é—´éš”æ—¶é—´ï¼Œå•ä½ç§’
     public bool isAnimating = false;
     public bool animationFinished = false;
 
@@ -32,25 +32,25 @@ public class EffectController : MonoBehaviour
         return isAnimating;
     }
 
-    //·Å´ó»òÕßËõĞ¡ÎïÌå£¨1£¬·Å´ó£»0£¬ËõĞ¡£©
+    //æ”¾å¤§æˆ–è€…ç¼©å°ç‰©ä½“ï¼ˆ1ï¼Œæ”¾å¤§ï¼›0ï¼Œç¼©å°ï¼‰
     public void scaleObject(bool isScale)
     {
         isAnimating = true;
 
-        // ¿ªÊ¼ËõĞ¡¶¯»­
+        // å¼€å§‹ç¼©å°åŠ¨ç”»
         StartCoroutine(ShrinkToHidden(isScale));
     }
 
     IEnumerator ShrinkToHidden(bool isScale)
     {
-        // »ñÈ¡³õÊ¼´óĞ¡
+        // è·å–åˆå§‹å¤§å°
         Vector3 initialScale = transform.localScale;
 
-        // Í¨¹ıÖ¸¶¨Ê±¼äÄÚÖğ½¥ËõĞ¡µ½ÎŞÏŞĞ¡À´Òş²ØÎïÌå
+        // é€šè¿‡æŒ‡å®šæ—¶é—´å†…é€æ¸ç¼©å°åˆ°æ— é™å°æ¥éšè—ç‰©ä½“
         float elapsedTime = 0;
         while (elapsedTime < shrinkDuration)
         {
-            // ¼ÆËãËõĞ¡µÄ±ÈÀı
+            // è®¡ç®—ç¼©å°çš„æ¯”ä¾‹
             float scaleRatio = 0;
             if (isScale)
             {
@@ -63,21 +63,21 @@ public class EffectController : MonoBehaviour
             
             transform.localScale = new Vector3(initialScale.x * scaleRatio, initialScale.y * scaleRatio, initialScale.z * scaleRatio);
 
-            // µÈ´ı¼ä¸ôÊ±¼ä
+            // ç­‰å¾…é—´éš”æ—¶é—´
             yield return new WaitForSeconds(shrinkInterval);
             elapsedTime += shrinkInterval;
-            //Debug.Log("¶¯»­²¥·Å½áÊø£¬ÉèÖÃ¶ÔÓ¦µÄÖµ1" + animationFinished + "£»Öµ2" + isAnimating);
+            //Debug.Log("åŠ¨ç”»æ’­æ”¾ç»“æŸï¼Œè®¾ç½®å¯¹åº”çš„å€¼1" + animationFinished + "ï¼›å€¼2" + isAnimating);
         }
 
-        // ×îºó½«ÎïÌå´óĞ¡ÉèÖÃÎª0À´Òş²Ø
+        // æœ€åå°†ç‰©ä½“å¤§å°è®¾ç½®ä¸º0æ¥éšè—
         if (!isScale)
         {
             transform.localScale = Vector3.zero;
         }
 
-        //½áÊø¶¯»­
+        //ç»“æŸåŠ¨ç”»
         animationFinished = true;
         isAnimating = false;
-        Debug.Log("¶¯»­²¥·Å½áÊø£¬ÉèÖÃ¶ÔÓ¦µÄÖµ1" + animationFinished + "£»Öµ2" + isAnimating);
+        Debug.Log("åŠ¨ç”»æ’­æ”¾ç»“æŸï¼Œè®¾ç½®å¯¹åº”çš„å€¼1" + animationFinished + "ï¼›å€¼2" + isAnimating);
     }
 }

@@ -6,9 +6,9 @@ using UnityEngine.UI;
 
 public class Toast : MonoBehaviour
 {
-    private float timer = 3.0f;//¼ÆÊ±Æ÷ 3s
+    private float timer = 3.0f;//è®¡æ—¶å™¨ 3s
 
-    public TMP_Text text;//ÎÄ±¾
+    public TMP_Text text;//æ–‡æœ¬
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +32,7 @@ public class Toast : MonoBehaviour
         }
     }
 
-    //ÊäÈë¸Ä±äÌáÊ¾µÄÎÄ°¸
+    //è¾“å…¥æ”¹å˜æç¤ºçš„æ–‡æ¡ˆ
     public void setText(string content)
     {
         text.text = content;
