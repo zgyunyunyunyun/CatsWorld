@@ -154,7 +154,7 @@ public class TaskLevelController : MonoBehaviour
         levelTitle.text = "第" + (currLevel + 1).ToString() + "关";
         if (currLevel > 0)
         {
-            gameTips.text = "本关灵石奖励增加" + currLevel.ToString() + "倍";
+            gameTips.text = "本关小鱼奖励增加" + currLevel.ToString() + "倍";
         }
 
     }
@@ -184,7 +184,7 @@ public class TaskLevelController : MonoBehaviour
         levelTitle.text = "第" + (currLevel + 1).ToString() + "关";
         if (currLevel > 0)
         {
-            gameTips.text = "本关灵石奖励增加" + currLevel.ToString() + "倍";
+            gameTips.text = "本关小鱼奖励增加" + currLevel.ToString() + "倍";
         }
     }
 
@@ -206,7 +206,7 @@ public class TaskLevelController : MonoBehaviour
     //把灵石奖励添加到资产里
     public void getLingshiAward()
     {
-        Debug.Log("获得灵石奖励（含奖励系数）：" + TaskController.instance.sNumber);
+        Debug.Log("获得奖励（含奖励系数）：" + TaskController.instance.sNumber);
         SceneTransferData.instance.getLingshiNumber += TaskController.instance.sNumber;
     }
 

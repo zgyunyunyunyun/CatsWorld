@@ -344,26 +344,31 @@ public class TaskController : MonoBehaviour
 
             //展示丹炉图片
             Image furnaceIcon = temp.transform.Find("MainObject").Find("furnaceImage").GetComponent<Image>();
-            int furnaceType = Random.Range(0, fType);
-            string path = "Materials/Logo/furnace" + furnaceType.ToString();
+            //int furnaceType = Random.Range(0, 4);
+            string path = "Materials/Logo/鱼群-" + task.lingdanQuality.ToString();
             Sprite sprite = Resources.Load(path, typeof(Sprite)) as Sprite;
             furnaceIcon.sprite = sprite;
 
             //不同品质的灵丹，输出效果
-            if (task.lingdanQuality == 1)
+            if (task.lingdanQuality == 0)
             {
-                temp.transform.Find("MainObject").Find("Panel").GetComponent<Image>().color = new Color32(45, 235, 0, 150);
-                temp.transform.Find("MainObject").Find("Name").GetComponent<TMP_Text>().text = "中品灵丹";
+                //temp.transform.Find("MainObject").Find("Panel").GetComponent<Image>().color = new Color32(45, 235, 0, 150);
+                //temp.transform.Find("MainObject").Find("Name").GetComponent<TMP_Text>().text = "中品灵丹";
+            }
+            else if (task.lingdanQuality == 1)
+            {
+                //temp.transform.Find("MainObject").Find("Panel").GetComponent<Image>().color = new Color32(45, 235, 0, 150);
+                //temp.transform.Find("MainObject").Find("Name").GetComponent<TMP_Text>().text = "中品灵丹";
             }
             else if (task.lingdanQuality == 2)
             {
-                temp.transform.Find("MainObject").Find("Panel").GetComponent<Image>().color = new Color32(253, 107, 0, 230);
-                temp.transform.Find("MainObject").Find("Name").GetComponent<TMP_Text>().text = "上品灵丹";
+                //temp.transform.Find("MainObject").Find("Panel").GetComponent<Image>().color = new Color32(253, 107, 0, 230);
+                //temp.transform.Find("MainObject").Find("Name").GetComponent<TMP_Text>().text = "上品灵丹";
             }
             else if (task.lingdanQuality == 3)
             {
-                temp.transform.Find("MainObject").Find("Panel").GetComponent<Image>().color = new Color32(194, 0, 253, 150);
-                temp.transform.Find("MainObject").Find("Name").GetComponent<TMP_Text>().text = "极品灵丹";
+                //temp.transform.Find("MainObject").Find("Panel").GetComponent<Image>().color = new Color32(194, 0, 253, 150);
+                //temp.transform.Find("MainObject").Find("Name").GetComponent<TMP_Text>().text = "极品灵丹";
             }
 
             //展示小猫图片
@@ -403,7 +408,7 @@ public class TaskController : MonoBehaviour
 
             //记录icon数据
             task.catType = catType;
-            task.furnaceIcon = furnaceType;
+            //task.furnaceIcon = furnaceType;
             task.lingdanLevel = SceneTransferData.instance.maxCatLevel;
 
 

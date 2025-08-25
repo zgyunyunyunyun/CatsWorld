@@ -606,7 +606,7 @@ public class PropertyController : MonoBehaviour///————遗留问题：小
 
     public void CloseBannerAD()
     {
-        BannerAd.Destroy();
+        //BannerAd.Destroy();
     }
 
     //获得资源池的对象，如果资源池为空，则返回1
