@@ -45,7 +45,7 @@ public class MainController : MonoBehaviour
         if (isFirstTimeGaming && !bgIsOpened)
         {
             //展示背景介绍
-            //beginBG.SetActive(true);
+            beginBG.SetActive(true);
 
             //Debug.Log("首次进入游戏");
 
