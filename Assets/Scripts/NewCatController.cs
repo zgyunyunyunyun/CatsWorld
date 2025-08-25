@@ -189,9 +189,12 @@ public class NewCatController : MonoBehaviour//虽然这里写新增小猫，但
         {
             consumeText.text = "免费";
             sucessRateText.gameObject.SetActive(true);
+            freeTimeText.gameObject.SetActive(false);
+            newBtn.gameObject.SetActive(true);
+
             if (CatController.instance.cats.Count >= UpRaceController.instance.MaxCatNumber(UpRaceController.instance.raceLevel))
             {
-                consumeText.text = "<color=#E52222>小猫已满，升级种族等级可容纳更多小猫</color>";
+                consumeText.text = "<color=#E52222>升级猫世界可收养更多小猫</color>";
             }
 
             freeTimeText.text = " ";
@@ -203,6 +206,7 @@ public class NewCatController : MonoBehaviour//虽然这里写新增小猫，但
             shareBtn.gameObject.SetActive(false);
             watchAddBtn.gameObject.SetActive(false);
             newBtn.transform.localPosition = new Vector3(0, -458, 0);
+            newBtn.transform.Find("Text (TMP)").GetComponent<TMP_Text>().text = "找小猫(" + freeNewTime.ToString() + ")";
         }
         else
         {
@@ -210,21 +214,15 @@ public class NewCatController : MonoBehaviour//虽然这里写新增小猫，但
             redPoint.gameObject.SetActive(false);
 
             //隐藏免费文案
-            //freeTipsText.gameObject.SetActive(false);
+            freeTimeText.gameObject.SetActive(true);
             sucessRateText.gameObject.SetActive(false);
 
-            if (PropertyController.instance.lingshiNumber >= consumeStone)
-            {
-                consumeText.text = "消耗：<b><color=#2D5AFD>" + consumeStone.ToString() + "</color></b> 灵石\n消耗灵石越多，寻找到小猫境界越高";
-            }
-            else
-            {
-                consumeText.text = "消耗：<b><color=#2D5AFD>" + consumeStone.ToString() + "</color></b> 灵石\n" + "<color=#E52222>灵石不足，炼丹可获得更多灵石</color>";
-            }
+            consumeText.text = "<color=#E52222>看视频</color>可找免费3次小猫";
+
 
             if (CatController.instance.cats.Count >= UpRaceController.instance.MaxCatNumber(UpRaceController.instance.raceLevel))
             {
-                consumeText.text = "<color=#E52222>小猫已满，升级种族等级可容纳更多小猫</color>";
+                consumeText.text = "<color=#E52222>升级猫世界可收养更多小猫</color>";
             }
 
 
@@ -239,7 +237,7 @@ public class NewCatController : MonoBehaviour//虽然这里写新增小猫，但
             if (secondsDifference >= 3600 * freeHour)
             {
                 isFree = true;
-                freeNewTime = 1;
+                freeNewTime = 3;
                 Debug.Log("重置免费");
             }
             else
@@ -282,26 +280,18 @@ public class NewCatController : MonoBehaviour//虽然这里写新增小猫，但
 
                 if (shareTime > 0)
                 {
-                    freeTimeText.text = hour + ":" + minute + ":" + second + " 后免费，每日<color=#F32D2D>看视频</color>重置3次";
-
-                    /*
-                    if (!shareBtn.gameObject.activeSelf)
-                    {
-                        newBtn.transform.localPosition = newBtn.transform.localPosition + new Vector3(170, 0, 0);
-                    }
-                    shareBtn.gameObject.SetActive(true);
-                    */
+                    freeTimeText.text = hour + ":" + minute + ":" + second + " 后免费找3次小猫";
 
                     if (!watchAddBtn.gameObject.activeSelf)
                     {
-                        newBtn.transform.localPosition = newBtn.transform.localPosition + new Vector3(170, 0, 0);
+                        newBtn.gameObject.SetActive(false);
                     }
                     watchAddBtn.gameObject.SetActive(true);
 
                 }
                 else
                 {
-                    freeTimeText.text = hour + ":" + minute + ":" + second + " 后免费";
+                    freeTimeText.text = hour + ":" + minute + ":" + second + " 后免费找3次小猫";
                 }
 
             }
@@ -435,7 +425,7 @@ public class NewCatController : MonoBehaviour//虽然这里写新增小猫，但
 
 
         isFree = true;
-        freeNewTime = 1;
+        freeNewTime = 3;
         shareTime--;
         Debug.Log("重置免费");
     }
@@ -464,7 +454,7 @@ public class NewCatController : MonoBehaviour//虽然这里写新增小猫，但
         {
             // 正常播放结束，可以下发游戏奖励
             isFree = true;
-            freeNewTime = 1;
+            freeNewTime = 3;
             shareTime--;
 
             Debug.Log("测试广告成功");

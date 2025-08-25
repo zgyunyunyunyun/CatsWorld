@@ -570,7 +570,7 @@ public class PropertyController : MonoBehaviour///————遗留问题：小
         {
             //打开面板
             offlinePanelObj.SetActive(true);
-            waitLingshiNumberText.text = "灵石：" + NumberController.instance.NumberToChinaString(waitToGetLingshi);
+            waitLingshiNumberText.text = NumberController.instance.NumberToChinaString(waitToGetLingshi);
 
 
         }
