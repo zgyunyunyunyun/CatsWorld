@@ -7,26 +7,27 @@ using WeChatWASM;
 
 public class ChooseCatUI : MonoBehaviour
 {
-    public Image catIcon;//Ğ¡Ã¨Í·Ïñ
-    public TMP_Text catName;//Ğ¡Ã¨Ãû³Æ
-    public TMP_Text catIntro;//Ğ¡Ã¨¼ò½é
-    public TMP_Text catCapacity;//Ğ¡Ã¨ÄÜÁ¦
-    public TMP_Text catLevel;//Ğ¡Ã¨¾³½ç
-    public TMP_Text stoneNumber;//Ğ¯´øÁéÊ¯µÄÊıÁ¿
-    public TMP_Text freshBtnText;//Ë¢ĞÂ°´Å¥ÎÄ°¸
-    public Button freshBtn;//Ë¢ĞÂ°´Å¥ÎÄ°¸
-    public Button shareBtn;//·ÖÏí°´Å¥
+    public Image catIcon;//å°çŒ«å¤´åƒ
+    public TMP_Text catName;//å°çŒ«åç§°
+    public TMP_Text catIntro;//å°çŒ«ç®€ä»‹
+    public TMP_Text catCapacity;//å°çŒ«èƒ½åŠ›
+    public TMP_Text catLevel;//å°çŒ«å¢ƒç•Œ
+    public TMP_Text eatFish;//å°çŒ«åƒé±¼æ•°é‡
+    public TMP_Text stoneNumber;//æºå¸¦çµçŸ³çš„æ•°é‡
+    public TMP_Text freshBtnText;//åˆ·æ–°æŒ‰é’®æ–‡æ¡ˆ
+    public Button freshBtn;//åˆ·æ–°æŒ‰é’®æ–‡æ¡ˆ
+    public Button shareBtn;//åˆ†äº«æŒ‰é’®
     public Image rankPicture;
 
-    public TMP_Text freshTips;//Ë¢ĞÂÓÃÍêÌáÊ¾
+    public TMP_Text freshTips;//åˆ·æ–°ç”¨å®Œæç¤º
 
-    private Cat currCat;//µ±Ç°´¦ÀíµÄĞ¡Ã¨UI£¨µ¥Ö»£©
+    private Cat currCat;//å½“å‰å¤„ç†çš„å°çŒ«UIï¼ˆå•åªï¼‰
 
-    private int currFreshTime = 3;//µ±Ç°¿ÉË¢ĞÂµÄ´ÎÊı
+    private int currFreshTime = 3;//å½“å‰å¯åˆ·æ–°çš„æ¬¡æ•°
 
     public static ChooseCatUI instance;
 
-    WXRewardedVideoAd refreshVideoAd;//¹ã¸æÎ»³õÊ¼»¯
+    WXRewardedVideoAd refreshVideoAd;//å¹¿å‘Šä½åˆå§‹åŒ–
 
     private void Awake()
     {
@@ -38,7 +39,7 @@ public class ChooseCatUI : MonoBehaviour
     {
 
 
-        //ÖØÖÃµÄ¹ã¸æÎ»
+        //é‡ç½®çš„å¹¿å‘Šä½
         refreshVideoAd = WX.CreateRewardedVideoAd(
         new WXCreateRewardedVideoAdParam()
         {
@@ -52,7 +53,7 @@ public class ChooseCatUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(currFreshTime <= 0)
+        if (currFreshTime <= 0)
         {
 
             shareBtn.gameObject.SetActive(true);
@@ -68,110 +69,115 @@ public class ChooseCatUI : MonoBehaviour
             freshBtn.gameObject.SetActive(true);
         }
 
-        freshBtnText.text = "Ë¢ĞÂ(" + currFreshTime.ToString() + ")";
+        freshBtnText.text = "åˆ·æ–°(" + currFreshTime.ToString() + ")";
     }
 
     public void shareCat()
     {
         WX.ShareAppMessage(new ShareAppMessageOption
         {
-            //imageUrl = imageUrl, // Í¼Æ¬µÄURL£¬Ò²¿ÉÒÔ²»Ìî£¨×Ô¶¯½ØÆÁ£©
-            title = "ºÙºÙ£¬ÎÒÁìÑøÁË1Ö»Ã¨Ã¨", // ÏÔÊ¾ÎÄ±¾
-            //query = query, // ¸½´ø²ÎÊı£¬ÏŞÖÆ2k³¤¶È
+            //imageUrl = imageUrl, // å›¾ç‰‡çš„URLï¼Œä¹Ÿå¯ä»¥ä¸å¡«ï¼ˆè‡ªåŠ¨æˆªå±ï¼‰
+            title = "å˜¿å˜¿ï¼Œæˆ‘é¢†å…»äº†1åªçŒ«çŒ«", // æ˜¾ç¤ºæ–‡æœ¬
+            //query = query, // é™„å¸¦å‚æ•°ï¼Œé™åˆ¶2ké•¿åº¦
         });
 
         currFreshTime = 3;
     }
 
 
-    //ÔÚµ®ÉúĞ¡Ã¨µÄÃæ°åÉÏ£¬Õ¹Ê¾Ğ¡Ã¨ÍêÕûĞÅÏ¢£¨´«Èë²ÎÊı£º0£¬ĞÂÔöĞ¡Ã¨£»1£¬Ë¢ĞÂĞ¡Ã¨£©
+    //åœ¨è¯ç”Ÿå°çŒ«çš„é¢æ¿ä¸Šï¼Œå±•ç¤ºå°çŒ«å®Œæ•´ä¿¡æ¯ï¼ˆä¼ å…¥å‚æ•°ï¼š0ï¼Œæ–°å¢å°çŒ«ï¼›1ï¼Œåˆ·æ–°å°çŒ«ï¼‰
     public void newCatAndCatUI(int type)
     {
-        if(type == 0)
+        if (type == 0)
         {
-            //ĞÂÔöĞ¡Ã¨
+            //æ–°å¢å°çŒ«
             currCat = CatController.instance.newCat(NewCatController.instance.time);
 
             currFreshTime = 3;
             freshBtn.interactable = true;
         }
-        else if(type == 1)
+        else if (type == 1)
         {
-            //Ë¢ĞÂĞ¡Ã¨
+            //åˆ·æ–°å°çŒ«
             currCat = CatController.instance.newCat(NewCatController.instance.time);
 
             currFreshTime--;
         }
         else
         {
-            Debug.Log("ĞÂÔöĞ¡Ã¨³ö´í!");
+            Debug.Log("æ–°å¢å°çŒ«å‡ºé”™!");
         }
-        
 
-        //¸üĞÂÃæ°åĞ¡Ã¨µÄĞÅÏ¢
+
+        //æ›´æ–°é¢æ¿å°çŒ«çš„ä¿¡æ¯
         string path = "Materials/BigCat/cat" + currCat.cat_icon;
-        Debug.Log("³É¹¦µ®ÉúĞ¡Ã¨£¬Ğ¡Ã¨Í·Ïñ path:" + path);
+        Debug.Log("æˆåŠŸè¯ç”Ÿå°çŒ«ï¼Œå°çŒ«å¤´åƒ path:" + path);
         Sprite sprite = Resources.Load(path, typeof(Sprite)) as Sprite;
         catIcon.sprite = sprite;
 
         catName.text = currCat.cat_name;
-        catIntro.text = "ĞÔ¸ñ£º" + currCat.introuction;
 
-        string capa = "";
-        if (currCat.big_level == "Á·ÆøÆÚ")
-        {
-            capa = "Á¶ÖÆÒ»½×µ¤Ò©";
-            catLevel.text = "¾³½ç£º<color=#000000>" + currCat.big_level + "</color> " + currCat.small_level.ToString() + " ²ã";
+        catLevel.text = currCat.level.ToString() + " çº§";
 
-            Color color = ParseHexColor("#000000");
-            rankPicture.color = color;
-        }
-        else if (currCat.big_level == "Öş»ùÆÚ")
-        {
-            capa = "Á¶ÖÆ¶ş½×µ¤Ò©";
-            catLevel.text = "¾³½ç£º<color=#19932D>" + currCat.big_level + "</color> " + currCat.small_level.ToString() + " ²ã";
+        eatFish.text = currCat.eatFishPerMin.ToString() + " å°é±¼/åˆ†é’Ÿ";
 
-            Color color = ParseHexColor("#19932D");
-            rankPicture.color = color;
-        }
-        else if (currCat.big_level == "½ğµ¤ÆÚ")
-        {
-            capa = "Á¶ÖÆÈı½×µ¤Ò©";
-            catLevel.text = "¾³½ç£º<color=#C3A010>" + currCat.big_level + "</color> " + currCat.small_level.ToString() + " ²ã";
+        // catIntro.text = "æ€§æ ¼ï¼š" + currCat.introuction;
 
-            Color color = ParseHexColor("#C3A010");
-            rankPicture.color = color;
-        }
-        else if (currCat.big_level == "ÔªÓ¤ÆÚ")
-        {
-            capa = "Á¶ÖÆËÄ½×µ¤Ò©";
-            catLevel.text = "¾³½ç£º<color=#A72EB0>" + currCat.big_level + "</color> " + currCat.small_level.ToString() + " ²ã";
+        // string capa = "";
+        // if (currCat.big_level == "ç»ƒæ°”æœŸ")
+        // {
+        //     capa = "ç‚¼åˆ¶ä¸€é˜¶ä¸¹è¯";
+        //     catLevel.text = "å¢ƒç•Œï¼š<color=#000000>" + currCat.big_level + "</color> " + currCat.small_level.ToString() + " å±‚";
 
-            Color color = ParseHexColor("#A72EB0");
-            rankPicture.color = color;
-        }
-        else if (currCat.big_level == "»¯ÉñÆÚ")
-        {
-            capa = "Á¶ÖÆÎå½×µ¤Ò©";
-            catLevel.text = "¾³½ç£º<color=#FF1010>" + currCat.big_level + "</color> " + currCat.small_level.ToString() + " ²ã";
+        //     Color color = ParseHexColor("#000000");
+        //     rankPicture.color = color;
+        // }
+        // else if (currCat.big_level == "ç­‘åŸºæœŸ")
+        // {
+        //     capa = "ç‚¼åˆ¶äºŒé˜¶ä¸¹è¯";
+        //     catLevel.text = "å¢ƒç•Œï¼š<color=#19932D>" + currCat.big_level + "</color> " + currCat.small_level.ToString() + " å±‚";
 
-            Color color = ParseHexColor("#FF1010");
-            rankPicture.color = color;
-        }
-        catCapacity.text = "ÄÜÁ¦£º" + capa;
-        
-        stoneNumber.text = "ÁéÊ¯£º<color=#2D5AFD>" + currCat.had_stone.ToString() + "</color>"; 
+        //     Color color = ParseHexColor("#19932D");
+        //     rankPicture.color = color;
+        // }
+        // else if (currCat.big_level == "é‡‘ä¸¹æœŸ")
+        // {
+        //     capa = "ç‚¼åˆ¶ä¸‰é˜¶ä¸¹è¯";
+        //     catLevel.text = "å¢ƒç•Œï¼š<color=#C3A010>" + currCat.big_level + "</color> " + currCat.small_level.ToString() + " å±‚";
+
+        //     Color color = ParseHexColor("#C3A010");
+        //     rankPicture.color = color;
+        // }
+        // else if (currCat.big_level == "å…ƒå©´æœŸ")
+        // {
+        //     capa = "ç‚¼åˆ¶å››é˜¶ä¸¹è¯";
+        //     catLevel.text = "å¢ƒç•Œï¼š<color=#A72EB0>" + currCat.big_level + "</color> " + currCat.small_level.ToString() + " å±‚";
+
+        //     Color color = ParseHexColor("#A72EB0");
+        //     rankPicture.color = color;
+        // }
+        // else if (currCat.big_level == "åŒ–ç¥æœŸ")
+        // {
+        //     capa = "ç‚¼åˆ¶äº”é˜¶ä¸¹è¯";
+        //     catLevel.text = "å¢ƒç•Œï¼š<color=#FF1010>" + currCat.big_level + "</color> " + currCat.small_level.ToString() + " å±‚";
+
+        //     Color color = ParseHexColor("#FF1010");
+        //     rankPicture.color = color;
+        // }
+        // catCapacity.text = "èƒ½åŠ›ï¼š" + capa;
+
+        // stoneNumber.text = "çµçŸ³ï¼š<color=#2D5AFD>" + currCat.had_stone.ToString() + "</color>";
 
     }
 
-    //ÑÕÉ«×ª»»
+    //é¢œè‰²è½¬æ¢
     Color ParseHexColor(string hexColor)
     {
         hexColor = hexColor.TrimStart('#');
         byte r = byte.Parse(hexColor.Substring(0, 2), System.Globalization.NumberStyles.HexNumber);
         byte g = byte.Parse(hexColor.Substring(2, 2), System.Globalization.NumberStyles.HexNumber);
         byte b = byte.Parse(hexColor.Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
-        return new Color32(r, g, b, 255); // Èç¹ûĞèÒªÍ¸Ã÷¶È£¬¿ÉÒÔÔÚÕâÀïÌí¼ÓalphaÖµ
+        return new Color32(r, g, b, 255); // å¦‚æœéœ€è¦é€æ˜åº¦ï¼Œå¯ä»¥åœ¨è¿™é‡Œæ·»åŠ alphaå€¼
     }
 
     public void chooseCat()
@@ -181,37 +187,37 @@ public class ChooseCatUI : MonoBehaviour
         NewCatController.instance.outCatNumber--;
     }
 
-    //µã»÷ÁËÖØÖÃ°´Å¥
+    //ç‚¹å‡»äº†é‡ç½®æŒ‰é’®
     public void ClickRefreshBtn()
     {
         WatchAddToRefresh();
     }
 
-    //¿´ÊÓÆµ
+    //çœ‹è§†é¢‘
     void WatchAddToRefresh()
     {
         if (refreshVideoAd != null)
         {
             refreshVideoAd.Show();
-            Debug.Log("¼¤Àø¹ã¸æÕ¹Ê¾");
+            Debug.Log("æ¿€åŠ±å¹¿å‘Šå±•ç¤º");
         }
 
     }
 
-    //¹Ø±Õ¹ã¸æÊÂ¼ş¼àÌı
+    //å…³é—­å¹¿å‘Šäº‹ä»¶ç›‘å¬
     void RefreshAdClose(WXRewardedVideoAdOnCloseResponse res)
     {
         if ((res != null && res.isEnded) || res == null)
         {
-            // Õı³£²¥·Å½áÊø£¬¿ÉÒÔÏÂ·¢ÓÎÏ·½±Àø
+            // æ­£å¸¸æ’­æ”¾ç»“æŸï¼Œå¯ä»¥ä¸‹å‘æ¸¸æˆå¥–åŠ±
             currFreshTime = 3;
 
-            Debug.Log("²âÊÔ¹ã¸æ³É¹¦");
+            Debug.Log("æµ‹è¯•å¹¿å‘ŠæˆåŠŸ");
         }
         else
         {
-            // ²¥·ÅÖĞÍ¾ÍË³ö£¬²»ÏÂ·¢ÓÎÏ·½±Àø
-            Debug.Log("¹ã¸æÖĞÍ¾ÍË³ö");
+            // æ’­æ”¾ä¸­é€”é€€å‡ºï¼Œä¸ä¸‹å‘æ¸¸æˆå¥–åŠ±
+            Debug.Log("å¹¿å‘Šä¸­é€”é€€å‡º");
         }
     }
 }

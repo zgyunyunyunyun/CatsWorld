@@ -210,6 +210,11 @@ public class CatController : MonoBehaviour
         newCat.lingshi_consume = (int)(newCat.small_level * Mathf.Pow(4, 1 + levelStringToNumber(newCat.big_level)));
         newCat.had_stone = Random.Range(1, 10) * (int)(Mathf.Pow(10, levelStringToNumber(newCat.big_level) + 2));
 
+
+        newCat.level = 1;
+        newCat.currentExp = 0;
+        newCat.eatFishPerMin = newCat.level * 5;
+
         return newCat;
     }
 
