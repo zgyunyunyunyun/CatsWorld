@@ -42,9 +42,8 @@ public class CatDetailControllerNew : MonoBehaviour
         {
             hasFish.text = cat.has_fish.ToString();
             exp.text = $"{catLogic.CurrentExp.Value}/{catLogic.MaxExp}";
+            eatFish.text = $"{catLogic.EatFishPerMin}/分";
         }
-
-
     }
 
     //在小猫详情页里展示小猫的样式
@@ -107,7 +106,7 @@ public class CatDetailControllerNew : MonoBehaviour
                 {
                     //弹出鱼分配失败
                     toast.SetActive(true);
-                    toast.GetComponent<Toast>().setText("鱼不足");
+                    toast.GetComponent<Toast>().setText("鱼儿不够了，快去抓鱼吧~");
                     Debug.Log("鱼不足，分配失败");
                 }
                 else//最后成功正常分配
@@ -123,7 +122,7 @@ public class CatDetailControllerNew : MonoBehaviour
         }
         else
         {
-            Debug.Log("给予灵石的小猫为空");
+            Debug.Log("给予鱼儿的小猫为空");
         }
 
         //分配以后，判断鱼足不足
