@@ -11,11 +11,13 @@ public class AllCatUI : MonoBehaviour
 
     public GameObject content;//挂在内容组件上
 
-    public GameObject catDetailPanel;//猫咪详情面板，用来点击以后打开详情页
+    // public GameObject catDetailPanel;//猫咪详情面板，用来点击以后打开详情页
 
     public GameObject catListGreyPanel;//猫咪列表的灰色背景板
 
     public TMP_Dropdown dropdown;//下拉选项条
+
+    public GameObject newCatDetailPanel; // 新的猫咪详情面板
 
     private List<GameObject> catUIList = new List<GameObject>();//所有产生小猫的UI
 
@@ -55,19 +57,20 @@ public class AllCatUI : MonoBehaviour
         Debug.Log("筛选条件为：" + condition);
 
         //当选项为全部时（0），展示所有小猫
-        if(condition == 0)
+        if (condition == 0)
         {
             cats = tempCats;
         }
         //否则，展示选中的小猫
         else
         {
-            for(int i = 0; i < tempCats.Count; i++)
+            for (int i = 0; i < tempCats.Count; i++)
             {
-                if(condition == 1 && tempCats[i].big_level == "练气期")
+                if (condition == 1 && tempCats[i].big_level == "练气期")
                 {
                     cats.Add(tempCats[i]);
-                }else if (condition == 2 && tempCats[i].big_level == "筑基期")
+                }
+                else if (condition == 2 && tempCats[i].big_level == "筑基期")
                 {
                     cats.Add(tempCats[i]);
                 }
@@ -92,7 +95,7 @@ public class AllCatUI : MonoBehaviour
         //清空小猫的UI，用于刷新选择的结果
         for (int i = catUIList.Count - 1; i >= 0; i--)
         {
-            GameObject tempObj = catUIList[i];          
+            GameObject tempObj = catUIList[i];
             catUIList.RemoveAt(i);
             Destroy(tempObj);
         }
@@ -119,12 +122,12 @@ public class AllCatUI : MonoBehaviour
         }
 
         //给小猫进行等级排序
-        for(int i = cats.Count-1; i > 0 ; i--)
+        for (int i = cats.Count - 1; i > 0; i--)
         {
             int maxIndex = i;
-            for(int j = i-1; j >= 0; j--)
+            for (int j = i - 1; j >= 0; j--)
             {
-                if(CatController.instance.levelStringToNumber(cats[j].big_level) > CatController.instance.levelStringToNumber(cats[maxIndex].big_level) 
+                if (CatController.instance.levelStringToNumber(cats[j].big_level) > CatController.instance.levelStringToNumber(cats[maxIndex].big_level)
                     || (CatController.instance.levelStringToNumber(cats[j].big_level) == CatController.instance.levelStringToNumber(cats[maxIndex].big_level) && cats[j].small_level > cats[maxIndex].small_level))
                 {
                     maxIndex = j;
@@ -142,7 +145,7 @@ public class AllCatUI : MonoBehaviour
         cats.Add(firstObj);
 
         //展示所有小猫并处理对应的位置
-        for (int i = 0; i< cats.Count; i++)
+        for (int i = 0; i < cats.Count; i++)
         {
             GameObject tempObj = Instantiate(catUI);
             catUIList.Add(tempObj);
@@ -181,16 +184,26 @@ public class AllCatUI : MonoBehaviour
             catName.text = cats[i].cat_name;
 
         }
-        
+
     }
+
+    // //展示第n只小猫的详情，从0算起
+    // void showCatDetail(int catID)
+    // {
+    //     Debug.Log("点击了第" + catID + "只猫");
+    //     catListGreyPanel.gameObject.SetActive(false);
+    //     catDetailPanel.gameObject.SetActive(true);
+
+    //     CatDetailController.instance.showCatUI(catID);
+    // }
 
     //展示第n只小猫的详情，从0算起
     void showCatDetail(int catID)
     {
         Debug.Log("点击了第" + catID + "只猫");
-        catListGreyPanel.gameObject.SetActive(false);
-        catDetailPanel.gameObject.SetActive(true);
+        catListGreyPanel.SetActive(false);
+        newCatDetailPanel.SetActive(true);
 
-        CatDetailController.instance.showCatUI(catID);
+        CatDetailControllerNew.instance.showCatUI(catID);
     }
 }
