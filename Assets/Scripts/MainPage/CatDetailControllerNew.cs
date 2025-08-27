@@ -42,9 +42,8 @@ public class CatDetailControllerNew : MonoBehaviour
         {
             hasFish.text = cat.has_fish.ToString();
             exp.text = $"{catLogic.CurrentExp.Value}/{catLogic.MaxExp}";
+            eatFish.text = $"{catLogic.EatFishPerMin}/分";
         }
-
-
     }
 
     //在小猫详情页里展示小猫的样式

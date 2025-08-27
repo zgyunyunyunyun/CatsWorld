@@ -113,47 +113,74 @@ public class CatController : MonoBehaviour
 
     private void Update()
     {
+        //     timer -= Time.deltaTime;
+        //     if (timer <= 0)
+        //     { 
+        //         autoConsumeStone();
+
+        //         bool redPointShowed = false;//红点是否展示了?
+        //         //遍历触发提示
+        //         for (int i = 0; i < cats.Count; i++)
+        //         {
+        //             //灵石消耗完了
+        //             if (cats[i].had_stone <= 0)
+        //             {
+        //                 Debug.Log("发送灵石消耗完的消息，展示红点");
+
+        //                 //发送消息
+        //                 //Tips.instance.setTip(3, i);
+
+        //                 redPointShowed = true;
+        //             }
+
+        //             //小猫可以升级了
+        //             bool canUp = cats[i].cultivation + cats[i].lingshi_consume > levelNeedCul(cats[i].small_level, cats[i].big_level);
+        //             if (canUp)
+        //             {
+        //                 Debug.Log("发送可升级的消息，展示红点");
+
+        //                 //发送消息
+        //                 //Tips.instance.setTip(7, i);
+        //                 cats[i].canUp = true;
+
+        //                 redPointShowed = true;
+        //             }
+        //             else
+        //             {
+        //                 cats[i].canUp = false;
+        //             }
+        //         }
+
+        //         //遍历完了以后，还不展示红点，则隐藏起来
+        //         catListRedPoint.gameObject.SetActive(redPointShowed);
+
+
+        //         timer = 1.0f;
+        //     }
+
         timer -= Time.deltaTime;
         if (timer <= 0)
         {
-            autoConsumeStone();
+            autoEatFish();
 
             bool redPointShowed = false;//红点是否展示了?
             //遍历触发提示
             for (int i = 0; i < cats.Count; i++)
             {
                 //灵石消耗完了
-                if (cats[i].had_stone <= 0)
+                if (cats[i].has_fish <= 0)
                 {
-                    Debug.Log("发送灵石消耗完的消息，展示红点");
+                    Debug.Log("发送鱼吃完的消息，展示红点");
 
                     //发送消息
                     //Tips.instance.setTip(3, i);
 
                     redPointShowed = true;
                 }
-
-                //小猫可以升级了
-                bool canUp = cats[i].cultivation + cats[i].lingshi_consume > levelNeedCul(cats[i].small_level, cats[i].big_level);
-                if (canUp)
-                {
-                    Debug.Log("发送可升级的消息，展示红点");
-
-                    //发送消息
-                    //Tips.instance.setTip(7, i);
-                    cats[i].canUp = true;
-
-                    redPointShowed = true;
-                }
-                else
-                {
-                    cats[i].canUp = false;
-                }
             }
 
             //遍历完了以后，还不展示红点，则隐藏起来
             catListRedPoint.gameObject.SetActive(redPointShowed);
-
 
             timer = 1.0f;
         }
@@ -396,6 +423,15 @@ public class CatController : MonoBehaviour
 
             }
 
+        }
+    }
+
+    // 自动吃鱼
+    public void autoEatFish()
+    {
+        for (int i = 0; i < cats.Count; i++)
+        {
+            catLogics[i].AddExp();
         }
     }
 
