@@ -35,14 +35,14 @@ public class Tips : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(MainController.instance.isFirstTimeGaming && !isShowed)
+        if (MainController.instance.isFirstTimeGaming && !isShowed)
         {
             /*每次开局，自动提示如下消息：
             * 0：小猫炼制灵丹说明提醒
@@ -65,7 +65,7 @@ public class Tips : MonoBehaviour
             Debug.Log("当前tip的列表数量：" + tipsList.Count);
             for (int i = tipsList.Count - 1; i >= 0; i--)
             {
-                Debug.Log("当前tip第"+i+"个是否被点击过：" + tipsList[i].clicked);
+                Debug.Log("当前tip第" + i + "个是否被点击过：" + tipsList[i].clicked);
             }
 
             TipsData tipToShow = null;//记录需要展示的tip数据
@@ -75,35 +75,36 @@ public class Tips : MonoBehaviour
             if (tipsList.Count > 0)
             {
                 //从后边遍历列表，找到第一个没有被点击过的tip
-                for(int i = tipsList.Count - 1; i >= 0; i--)
+                for (int i = tipsList.Count - 1; i >= 0; i--)
                 {
                     if (!tipsList[i].clicked)
                     {
                         tipToShow = tipsList[i];
                         tipPos = i;
                         tipsUIObj.gameObject.SetActive(true);
-                        
+
                         unclicked = i;
                         Debug.Log("当前有tip提示语事件发生，其序号为：" + i);
                         break;
                     }
                 }
-                
 
-            }else
+
+            }
+            else
             {
                 tipsUIObj.gameObject.SetActive(false);
                 Debug.Log("当前没有tip提示语事件发生");
             }
-                      
+
             //从没有被点击过的数据往前找
-            for(int i = unclicked - 1; i >= 0; i--)
+            for (int i = unclicked - 1; i >= 0; i--)
             {
-                if(!tipsList[i].clicked && tipsList[i].priority > tipToShow.priority)
+                if (!tipsList[i].clicked && tipsList[i].priority > tipToShow.priority)
                 {
                     tipToShow = tipsList[i];
                     tipPos = i;
-                }               
+                }
             }
 
             if (tipToShow != null)
@@ -112,17 +113,17 @@ public class Tips : MonoBehaviour
                 setText(tipToShow.content);
 
                 //设置头像
-                if(tipToShow.catNumber >= 0)
+                if (tipToShow.catNumber >= 0)
                 {
                     setIcon(tipToShow.catNumber);
                 }
-                
+
 
                 //清空点击事件的绑定
                 tipsUIObj.transform.GetComponent<Button>().onClick.RemoveAllListeners();
 
                 //设置点击事件
-                if(tipToShow.catNumber >= 0)
+                if (tipToShow.catNumber >= 0)
                 {
                     //进入详情页并关闭toast
                     tipsUIObj.transform.GetComponent<Button>().onClick.AddListener(() => showCatDetail(tipToShow.catNumber));
@@ -132,7 +133,7 @@ public class Tips : MonoBehaviour
                 {
                     //关闭toast
                     tipsUIObj.transform.GetComponent<Button>().onClick.AddListener(() => closeTips(tipPos));
-                    
+
                 }
 
             }
@@ -142,9 +143,9 @@ public class Tips : MonoBehaviour
 
         //清理被点击过的tips
         clearTimer -= Time.deltaTime;
-        if(clearTimer < 0)
+        if (clearTimer < 0)
         {
-            for(int i = tipsList.Count - 1; i >= 0; i--)
+            for (int i = tipsList.Count - 1; i >= 0; i--)
             {
                 //被点击过
                 if (tipsList[i].clicked)
@@ -162,20 +163,20 @@ public class Tips : MonoBehaviour
     {
 
         bool ifSet = true;
-        for(int i = 0; i < tipsList.Count; i++)
+        for (int i = 0; i < tipsList.Count; i++)
         {
             //判断该消息是否已在list里
-            if(type == tipsList[i].type && catNumber == tipsList[i].catNumber)
+            if (type == tipsList[i].type && catNumber == tipsList[i].catNumber)
             {
                 //Debug.Log("该消息已存在列表中，不再收纳");
 
                 ifSet = false;
                 break;
             }
-            
+
         }
 
-        if(ifSet)
+        if (ifSet)
         {
             spawnTipData(type, catNumber);
         }
@@ -223,7 +224,7 @@ public class Tips : MonoBehaviour
         }
         else if (type == 3)
         {
-            content = "小猫的灵石不足，无法修炼获得修为";
+            content = "小鱼不足";
             priority = 2;
 
         }
@@ -252,7 +253,7 @@ public class Tips : MonoBehaviour
         }
         else if (type == 8)
         {
-            content = "小猫数量达到上限，提高猫群等级才能收养更多小猫";
+            content = "小猫数量达到上限，提高世界等级才能收养更多小猫";
             priority = 1;
         }
         else if (type == 9)
@@ -273,7 +274,7 @@ public class Tips : MonoBehaviour
         tipsList.Add(tip);
     }
 
-        //设置tips的文本
+    //设置tips的文本
     public void setText(string content)
     {
         text.text = content;
@@ -287,7 +288,7 @@ public class Tips : MonoBehaviour
         Debug.Log("小猫头像 path:" + path);
         Sprite sprite = Resources.Load(path, typeof(Sprite)) as Sprite;
         catIcon.sprite = sprite;
-        
+
     }
 
     //绑定点击事件，可打开小猫详情页
