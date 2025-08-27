@@ -121,53 +121,6 @@ public class ChooseCatUI : MonoBehaviour
 
         eatFish.text = currCat.eatFishPerMin.ToString() + " 小鱼/分钟";
 
-        // catIntro.text = "性格：" + currCat.introuction;
-
-        // string capa = "";
-        // if (currCat.big_level == "练气期")
-        // {
-        //     capa = "炼制一阶丹药";
-        //     catLevel.text = "境界：<color=#000000>" + currCat.big_level + "</color> " + currCat.small_level.ToString() + " 层";
-
-        //     Color color = ParseHexColor("#000000");
-        //     rankPicture.color = color;
-        // }
-        // else if (currCat.big_level == "筑基期")
-        // {
-        //     capa = "炼制二阶丹药";
-        //     catLevel.text = "境界：<color=#19932D>" + currCat.big_level + "</color> " + currCat.small_level.ToString() + " 层";
-
-        //     Color color = ParseHexColor("#19932D");
-        //     rankPicture.color = color;
-        // }
-        // else if (currCat.big_level == "金丹期")
-        // {
-        //     capa = "炼制三阶丹药";
-        //     catLevel.text = "境界：<color=#C3A010>" + currCat.big_level + "</color> " + currCat.small_level.ToString() + " 层";
-
-        //     Color color = ParseHexColor("#C3A010");
-        //     rankPicture.color = color;
-        // }
-        // else if (currCat.big_level == "元婴期")
-        // {
-        //     capa = "炼制四阶丹药";
-        //     catLevel.text = "境界：<color=#A72EB0>" + currCat.big_level + "</color> " + currCat.small_level.ToString() + " 层";
-
-        //     Color color = ParseHexColor("#A72EB0");
-        //     rankPicture.color = color;
-        // }
-        // else if (currCat.big_level == "化神期")
-        // {
-        //     capa = "炼制五阶丹药";
-        //     catLevel.text = "境界：<color=#FF1010>" + currCat.big_level + "</color> " + currCat.small_level.ToString() + " 层";
-
-        //     Color color = ParseHexColor("#FF1010");
-        //     rankPicture.color = color;
-        // }
-        // catCapacity.text = "能力：" + capa;
-
-        // stoneNumber.text = "灵石：<color=#2D5AFD>" + currCat.had_stone.ToString() + "</color>";
-
     }
 
     //颜色转换

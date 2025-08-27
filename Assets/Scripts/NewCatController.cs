@@ -329,13 +329,13 @@ public class NewCatController : MonoBehaviour//虽然这里写新增小猫，但
             Debug.Log("小猫数量达到峰值");
         }
         //如果满足诞生小猫的条件（免费或消耗足够灵石——暂定100灵石诞生1次），则增加小猫；否则提示灵石不足
-        else if (isFree || PropertyController.instance.lingshiNumber >= consumeStone && UpRaceController.instance.MaxCatNumber(UpRaceController.instance.raceLevel) > CatController.instance.cats.Count)
+        else if (freeNewTime > 0)
         {
             //消耗所需灵石
-            if (!isFree)
-            {
-                PropertyController.instance.consumeLingShi(consumeStone);
-            }
+            // if (!isFree)
+            // {
+            //     //PropertyController.instance.consumeLingShi(consumeStone);
+            // }
 
             // //如果是第一次玩游戏，必得3只小猫；否则按灵石逐步增加去获得小猫
             // if (MainController.instance.isFirstTimeGaming)
@@ -347,6 +347,7 @@ public class NewCatController : MonoBehaviour//虽然这里写新增小猫，但
             // }
             // else
             // {
+
             //概率list：容易获得，不太可能获得，中间值
             int[] proList =
                 { 90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 99, 95, 95, 95,
@@ -406,17 +407,10 @@ public class NewCatController : MonoBehaviour//虽然这里写新增小猫，但
 
 
         }
-        else if (PropertyController.instance.lingshiNumber < consumeStone)
+        else
         {
-            //弹出提示灵石不足
             toast.SetActive(true);
-            toast.GetComponent<Toast>().setText("灵石不足，请获得更多灵石");
-
-            //consumeText.text = "灵石不足，获得更多灵石作为探索资金";
-
-
-
-            Debug.Log("弹出灵石不足toast");
+            toast.GetComponent<Toast>().setText("暂无寻找小猫次数");
         }
 
 

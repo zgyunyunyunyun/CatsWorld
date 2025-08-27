@@ -93,14 +93,14 @@ public class PropertyController : MonoBehaviour///————遗留问题：小
         doubleVideoAd.OnClose(DoubleAdClose);
 
         //获得实际屏幕的宽高
-        //float screenWidth = canvas.pixelRect.width;
-        //float screenHeight = canvas.pixelRect.height;
+        // float screenWidth = canvas.pixelRect.width;
+        // float screenHeight = canvas.pixelRect.height;
 
-        //double screenWidth = WX.GetSystemInfoSync().screenWidth;
-        //double screenHeight = WX.GetSystemInfoSync().screenHeight;
+        double screenWidth = WX.GetSystemInfoSync().screenWidth;
+        double screenHeight = WX.GetSystemInfoSync().screenHeight;
 
-        // Debug.Log("屏幕尺寸评估-宽：" + screenWidth.ToString());
-        // Debug.Log("屏幕尺寸评估-高：" + screenHeight.ToString());
+        Debug.Log("屏幕尺寸评估-宽：" + screenWidth.ToString());
+        Debug.Log("屏幕尺寸评估-高：" + screenHeight.ToString());
 
         /*
         //获得panel的高度
@@ -117,19 +117,19 @@ public class PropertyController : MonoBehaviour///————遗留问题：小
         Debug.Log("屏幕尺寸评估-l、t、w 分别是：" + l.ToString() + " " + t.ToString() + " " + w.ToString());
         */
 
-        // int t = (int)(screenHeight * 4 / 5);
-        // int w = (int)(screenWidth * 0.9);
-        // int l = (int)(screenWidth - 380) / 2;
+        int t = (int)(screenHeight * 4 / 5);
+        int w = (int)(screenWidth * 0.9);
+        int l = (int)(screenWidth - 380) / 2;
 
         // Debug.Log("屏幕尺寸评估-l、t、w 分别是：" + l.ToString() + " " + t.ToString() + " " + w.ToString());
 
-        // //banner广告位
-        // BannerAd = WX.CreateCustomAd(new WXCreateCustomAdParam()
-        // {
-        //     adUnitId = "adunit-032744d39c795888",
-        //     adIntervals = 30,
-        //     style = new CustomStyle() { left = l, top = t, width = 380 }
-        // });
+        //banner广告位
+        BannerAd = WX.CreateCustomAd(new WXCreateCustomAdParam()
+        {
+            adUnitId = "adunit-032744d39c795888",
+            adIntervals = 30,
+            style = new CustomStyle() { left = l, top = t, width = 380 }
+        });
     }
 
     // 每帧判断资源的刷新，包括：玩家灵草、灵石、灵丹及产生速度，猫咪的产生，任务的产生等

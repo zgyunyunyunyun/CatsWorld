@@ -50,7 +50,7 @@ public class UpRaceController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -59,8 +59,8 @@ public class UpRaceController : MonoBehaviour
         //如果升级面板展示了，则不断刷新UI
         if (upPanel.gameObject.activeSelf)
         {
-            
-            level.text = changeLevel(raceLevel) + "种族";
+
+            level.text = changeLevel(raceLevel);
             requestLevel.text = RequestLevel();//要求的下一等级
             requestStone.text = RequestStone().ToString() + "灵石";
             requestArea.text = RequestTerritoryArea().ToString() + "平方米";
@@ -68,15 +68,15 @@ public class UpRaceController : MonoBehaviour
             maxCatNumber.text = "小猫最大数量：" + MaxCatNumber(raceLevel).ToString();
             maxLingDanNumber.text = "灵丹最大数量：" + MaxLingDanNumber(raceLevel).ToString();
 
-            if(raceLevel >= 4)
+            if (raceLevel >= 4)
             {
                 upBtnText.text = "已满级";
                 upBtn.interactable = false;
             }
-            
+
         }
 
-        levelMain.text = changeLevel(raceLevel) + "种族";
+        levelMain.text = changeLevel(raceLevel);
         catNumber.text = CatController.instance.cats.Count + " / " + MaxCatNumber(raceLevel).ToString();
 
         //发送可以升级的消息
@@ -86,13 +86,13 @@ public class UpRaceController : MonoBehaviour
             cats = CatController.instance.cats;
 
             //刷新等级
-            bool ifLevelCondition = false; 
+            bool ifLevelCondition = false;
             //遍历小猫，对比小猫等级是否符合条件
             for (int i = 0; i < cats.Count; i++)
             {
                 //小猫等级符合下一等级的条件
                 if (CatController.instance.levelStringToNumber(cats[i].big_level) > raceLevel)
-                {                    
+                {
                     ifLevelCondition = true;
                     break;
 
@@ -225,37 +225,17 @@ public class UpRaceController : MonoBehaviour
 
         //改变成功面板的UI
 
-        nextRankText.text = "当前等级：" + changeLevel(raceLevel) + "种族";
-        newtMaxLDNumberText.text = "最大灵丹数量：+" + (MaxLingDanNumber(raceLevel) - MaxLingDanNumber(raceLevel-1)).ToString() ;
+        nextRankText.text = "当前等级：" + changeLevel(raceLevel);
+        newtMaxLDNumberText.text = "最大灵丹数量：+" + (MaxLingDanNumber(raceLevel) - MaxLingDanNumber(raceLevel - 1)).ToString();
         nextMaxCNumberText.text = "最大小猫数量:+" + (MaxCatNumber(raceLevel) - MaxCatNumber(raceLevel - 1)).ToString();
 
-        
+
     }
 
     //将等级转为中文
     string changeLevel(int rLevel)
     {
-        if(rLevel == 0)
-        {
-            return "一阶";
-        }else if(rLevel == 1)
-        {
-            return "二阶";
-        }
-        else if (rLevel == 2)
-        {
-            return "三阶";
-        }
-        else if (rLevel == 3)
-        {
-            return "四阶";
-        }
-        else if (rLevel == 4)
-        {
-            return "五阶";
-        }
-
-        return " ";
+        return (rLevel + 1).ToString() + "级猫世界";
     }
 
     //输出下一等级的要求1
