@@ -108,7 +108,6 @@ public class CatController : MonoBehaviour
         catNameList.Add(lines6);
 
         catTypeNumber = catNameList.Count;
-
     }
 
     private void Update()
@@ -429,9 +428,32 @@ public class CatController : MonoBehaviour
     // 自动吃鱼
     public void autoEatFish()
     {
+        // 计算挂机、离线时小猫吃鱼获得经验
+        int minutesDifference = 0; // 相差的总分钟数
+
+        if (!SceneTransferData.instance.isEatFish)
+        {
+            //更新时间倒计时
+            DateTime currentTime = DateTime.Now;
+            TimeSpan difference = currentTime - StorageController.instance.endTime; // 计算时间差
+            minutesDifference = (int)difference.TotalMinutes; // 相差的总分钟数
+
+            Debug.Log("距离上次打开的相差分钟数为：" + minutesDifference.ToString());
+
+            SceneTransferData.instance.isEatFish = true;
+        }
+
+        // 常规吃鱼
         for (int i = 0; i < cats.Count; i++)
         {
-            catLogics[i].AddExp();
+            if (minutesDifference > 0)
+            {
+                catLogics[i].AddExp(catLogics[i].EatFishPerMin * minutesDifference);
+            }
+            else
+            {
+                catLogics[i].AddExp();
+            }
         }
     }
 

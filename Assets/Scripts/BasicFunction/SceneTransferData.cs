@@ -26,6 +26,7 @@ public class SceneTransferData : MonoBehaviour
     public int outCatNumber = 0;//每次打开游戏随机产生的小猫数量
 
     public bool isConsumeStone = false;//判断是否已经消耗了灵石
+    public bool isEatFish = false;//判断是否已经吃了鱼(进游戏只触发一次)
 
 
     public static SceneTransferData instance;
@@ -53,7 +54,7 @@ public class SceneTransferData : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(NewCatController.instance != null && NewCatController.instance.outCatNumber <= 0)
+        if (NewCatController.instance != null && NewCatController.instance.outCatNumber <= 0)
         {
             NewCatController.instance.outCatNumber = outCatNumber;
         }
