@@ -28,7 +28,7 @@ public class NewCatController : MonoBehaviour//虽然这里写新增小猫，但
 
     public int consumeStone = 200;//下一次消耗的灵石数量
 
-    public int time = 1;//当前第几次诞生小猫
+    public int time = 1;//当前第几次诞生小猫，约到后面，生成的小猫等级越高
 
     public int freeNewTime = 3;//免费诞生小猫次数
     public int shareTime = 3;//可分享的次数
@@ -337,19 +337,19 @@ public class NewCatController : MonoBehaviour//虽然这里写新增小猫，但
                 PropertyController.instance.consumeLingShi(consumeStone);
             }
 
-            //如果是第一次玩游戏，必得3只小猫；否则按灵石逐步增加去获得小猫
-            if (MainController.instance.isFirstTimeGaming)
-            {
-                ChooseCatUI.instance.newCatAndCatUI(0);//新增小猫
-                chooseCatUI.gameObject.SetActive(true);
+            // //如果是第一次玩游戏，必得3只小猫；否则按灵石逐步增加去获得小猫
+            // if (MainController.instance.isFirstTimeGaming)
+            // {
+            //     ChooseCatUI.instance.newCatAndCatUI(0);//新增小猫
+            //     chooseCatUI.gameObject.SetActive(true);
 
-                minusOneFreeTime();
-            }
-            else
-            {
-                //概率list：容易获得，不太可能获得，中间值
-                int[] proList =
-                    { 90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 99, 95, 95, 95,
+            //     minusOneFreeTime();
+            // }
+            // else
+            // {
+            //概率list：容易获得，不太可能获得，中间值
+            int[] proList =
+                { 90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 99, 95, 95, 95,
                     90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 99, 95, 95, 95,
                     90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 90, 80, 70, 99, 95, 95, 95,
                      70, 60, 50, 50,70, 70, 60, 50, 70, 90, 80, 70, 70, 60, 50, 50,70, 70, 60, 50, 50, 20, 20, 10,
@@ -361,37 +361,48 @@ public class NewCatController : MonoBehaviour//虽然这里写新增小猫，但
                     50, 50,70, 70, 60, 50, 50, 20, 20, 10,30, 30, 10, 10, 10, 15, 10, 30, 40, 50, 10,
                     50, 50,70, 70, 60, 50, 50, 20, 20, 10,30, 30, 10, 10, 10, 15, 10, 30, 40, 50, 10};
 
-                int r = Random.Range(0, 100);
-                probabilityToNewCat = proList[Random.Range(0, proList.Length - 1)];//随机选择上述list的概率
+            int r = Random.Range(0, 100);
+            probabilityToNewCat = proList[Random.Range(0, proList.Length - 1)];//随机选择上述list的概率
 
-                Debug.Log("产生小猫的次数：" + time);
-                //如果成功生产小猫，则走生成小猫的条件；否则弹出提示生成失败
-                if (r >= probabilityToNewCat)//一定通过，在后面等级处控制是否生成小猫
-                {
-                    ChooseCatUI.instance.newCatAndCatUI(0);//新增小猫
-                    //newCatUI.gameObject.SetActive(false);
-                    chooseCatUI.gameObject.SetActive(true);
-                }
-                else
-                {
-                    //弹出诞生失败
-                    toast.SetActive(true);
-                    toast.GetComponent<Toast>().setText("本次探索未能寻找到小猫");
-                    Debug.Log("本次探索未能寻找到小猫");
-
-                }
-
-                //重新免费小猫倒计时
-                if (isFree)
-                {
-                    minusOneFreeTime();
-                    Debug.Log("重新免费倒计时");
-                }
-
-                //当前轮次里，诞生小猫次数+1
-                time++;
+            Debug.Log("产生小猫的次数：" + time);
+            //如果成功生产小猫，则走生成小猫的条件；否则弹出提示生成失败
+            if (r >= probabilityToNewCat)//一定通过，在后面等级处控制是否生成小猫
+            {
+                ChooseCatUI.instance.newCatAndCatUI(0);//新增小猫
+                                                       //newCatUI.gameObject.SetActive(false);
+                chooseCatUI.gameObject.SetActive(true);
+            }
+            else if (MainController.instance.isFirstTimeGaming && freeNewTime <= 1)
+            {
+                ChooseCatUI.instance.newCatAndCatUI(0);//新增小猫
+                chooseCatUI.gameObject.SetActive(true);
+                //newCatUI.gameObject.SetActive(false);
+            }
+            else
+            {
+                //弹出诞生失败
+                toast.SetActive(true);
+                toast.GetComponent<Toast>().setText("本次探索未能寻找到小猫");
+                Debug.Log("本次探索未能寻找到小猫");
 
             }
+
+            if (MainController.instance.isFirstTimeGaming && freeNewTime <= 1)
+            {
+                newCatUI.gameObject.SetActive(false);
+            }
+
+            //重新免费小猫倒计时
+            if (isFree)
+            {
+                minusOneFreeTime();
+                Debug.Log("重新免费倒计时");
+            }
+
+            //当前轮次里，诞生小猫次数+1
+            time++;
+
+            // }
 
 
         }

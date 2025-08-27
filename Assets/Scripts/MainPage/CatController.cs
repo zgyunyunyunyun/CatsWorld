@@ -218,6 +218,11 @@ public class CatController : MonoBehaviour
         newCat.has_fish = Random.Range(1, 10) * (long)(Mathf.Pow(10, newCat.level + 2));
 
 
+
+        newCat.level = 1;
+        newCat.currentExp = 0;
+        newCat.eatFishPerMin = newCat.level * 5;
+
         return newCat;
     }
 
