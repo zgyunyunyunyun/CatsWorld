@@ -34,5 +34,6 @@ public class Cat
     // 250824需求
     public int level; // 小猫等级
     public long currentExp; // 小猫经验值
+    public long has_fish; // 拥有的鱼
     public int eatFishPerMin;//每分钟吃鱼的数量
 }

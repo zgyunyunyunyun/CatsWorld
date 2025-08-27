@@ -39,7 +39,7 @@ public class StorageController : MonoBehaviour
     void Start()
     {
         //初始化微信小游戏sdk
-        WX.InitSDK((code)=>
+        WX.InitSDK((code) =>
         {
             Debug.Log("打开游戏，从微信存储获得数据");
             GetDataFromWXStorage();
@@ -47,18 +47,20 @@ public class StorageController : MonoBehaviour
         });
 
         //展示在前台
-        WX.OnShow((res) => {
+        WX.OnShow((res) =>
+        {
             Debug.Log("游戏展示到前台，从微信存储获得数据");
 
-           GetDataFromWXStorage();
+            GetDataFromWXStorage();
 
         });
 
         //退到后台
-        WX.OnHide((res) => {
+        WX.OnHide((res) =>
+        {
             Debug.Log("游戏隐藏到后台，将游戏数据存储到微信");
 
-           SetDataToWXStorage();
+            SetDataToWXStorage();
 
         });
     }
@@ -80,7 +82,7 @@ public class StorageController : MonoBehaviour
     //展示前台时，从微信的存储获得数据，并加载到游戏中
     public void GetDataFromWXStorage()
     {
-        if(WX.GetStorageInfoSync() != null && WX.GetStorageInfoSync().keys.Length > 0)
+        if (WX.GetStorageInfoSync() != null && WX.GetStorageInfoSync().keys.Length > 0)
         {
             //获得基础数据，并加载到游戏
             string bJson = " ";
@@ -112,7 +114,7 @@ public class StorageController : MonoBehaviour
             TimeSpan difference = currentTime - endTime; // 计算时间差
             double secondsDifference = difference.TotalSeconds; // 相差的总秒数   
 
-            if(SceneTransferData.instance!=null && SceneTransferData.instance.getLingshiNumber > 0)
+            if (SceneTransferData.instance != null && SceneTransferData.instance.getLingshiNumber > 0)
             {
                 PropertyController.instance.lingshiNumber = SceneTransferData.instance.getLingshiNumber;
             }
@@ -121,7 +123,7 @@ public class StorageController : MonoBehaviour
                 PropertyController.instance.lingshiNumber = propertData.lingshiNumber;
             }
 
-            
+
             PropertyController.instance.maxLingdanNumber = propertData.maxLingdanNumber;
             PropertyController.instance.territoryArea = propertData.territoryArea;
             UpRaceController.instance.raceLevel = propertData.raceLevel;
@@ -131,17 +133,22 @@ public class StorageController : MonoBehaviour
             //获得小猫数据，并加载到游戏
             string cJson = " ";
 
-            if (CatController.instance.cats != null)
+            if (CatController.instance.cats != null && CatController.instance.cats.Count > 0)
             {
                 CatController.instance.cats.Clear();
+            }
+            if (CatController.instance.catLogics != null && CatController.instance.catLogics.Count > 0)
+            {
+                CatController.instance.catLogics.Clear();
             }
 
             for (int i = 0; i < propertData.catNumber; i++)
             {
                 cJson = WX.StorageGetStringSync("cat" + i.ToString(), cJson);
                 Cat catData = JsonUtility.FromJson<Cat>(cJson);
-                
+
                 CatController.instance.cats.Add(catData);
+                CatController.instance.catLogics.Add(new CatLogic(catData));
             }
 
             //如果时间差大于0，说明新增了灵丹
@@ -163,7 +170,7 @@ public class StorageController : MonoBehaviour
             {
                 PropertyController.instance.waitToGetLingDan = newLingdan;
             }
-            
+
             PropertyController.instance.saleLingdanToWaitGet(PropertyController.instance.waitToGetLingDan);
             Debug.Log("离线收益：" + PropertyController.instance.waitToGetLingDan);
         }
@@ -171,7 +178,7 @@ public class StorageController : MonoBehaviour
         {
             Debug.Log("首次打开微信小游戏，未能读取到数据");
         }
-        
+
     }
 
     //退到后台时，从游戏内获得数据，并给微信的存储存入数据
@@ -204,9 +211,9 @@ public class StorageController : MonoBehaviour
         {
             catsJson = JsonUtility.ToJson(catsDataList[i]);
 
-            WX.StorageSetStringSync("cat"+i.ToString(), catsJson);
+            WX.StorageSetStringSync("cat" + i.ToString(), catsJson);
         }
-       
+
     }
 }
 

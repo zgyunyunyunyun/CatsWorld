@@ -13,6 +13,8 @@ public class CatController : MonoBehaviour
     //控制所有小猫的list和小猫的属性，产生，选择等行为
 
     public List<Cat> cats = new List<Cat>(); //目前玩家具备的所有小猫
+    public List<CatLogic> catLogics = new List<CatLogic>();
+
     List<string[]> catNameList = new List<string[]>();
 
     private float timer = 1.0f;//秒计时器
@@ -184,22 +186,26 @@ public class CatController : MonoBehaviour
         //根据新增小猫的次数来提高小猫的等级
 
         newCat.big_level = "练气期";
+        newCat.level = Random.Range(1, 3);
 
 
         if ((newCatTime >= 7 && Random.Range(0, 100) >= 70) || (newCatTime >= 12 && Random.Range(0, 100) >= 60) || (newCatTime >= 20 && Random.Range(0, 100) >= 0))
         {
             newCat.big_level = "筑基期";
             Debug.Log("寻找的小猫等级??：" + newCat.big_level);
+            newCat.level = Random.Range(3, 8);
         }
 
         if ((newCatTime >= 12 && Random.Range(0, 100) >= 80) || (newCatTime >= 20 && Random.Range(0, 100) >= 60))
         {
             newCat.big_level = "金丹期";
+            newCat.level = Random.Range(8, 16);
         }
 
         if (newCatTime >= 20 && Random.Range(0, 100) >= 80)
         {
             newCat.big_level = "元婴期";
+            newCat.level = Random.Range(16, 27);
         }
         Debug.Log("寻找的小猫次数：" + newCatTime);
         Debug.Log("寻找的小猫等级：" + newCat.big_level);
@@ -209,6 +215,8 @@ public class CatController : MonoBehaviour
         newCat.canUp = false;
         newCat.lingshi_consume = (int)(newCat.small_level * Mathf.Pow(4, 1 + levelStringToNumber(newCat.big_level)));
         newCat.had_stone = Random.Range(1, 10) * (int)(Mathf.Pow(10, levelStringToNumber(newCat.big_level) + 2));
+        newCat.has_fish = Random.Range(1, 10) * (long)(Mathf.Pow(10, newCat.level + 2));
+
 
 
         newCat.level = 1;
@@ -222,6 +230,7 @@ public class CatController : MonoBehaviour
     public void chooseCat(Cat cat)
     {
         cats.Add(cat);
+        catLogics.Add(new CatLogic(cat));
 
         Debug.Log("玩家选择了小猫，小猫id为：" + cat.cat_id.ToString());
     }

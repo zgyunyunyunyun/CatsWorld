@@ -31,7 +31,7 @@ public class CatLogic
     }
 
     public long MaxExp => (long)Math.Round(baseExp * Mathf.Pow(expGrowthRate, Level.Value - 1));
-    public int EatFishPerSec => Mathf.RoundToInt(baseEatFish * Mathf.Pow(eatFishGrowthRate, Level.Value - 1));
+    public int EatFishPerMin => Mathf.RoundToInt(baseEatFish * Mathf.Pow(eatFishGrowthRate, Level.Value - 1));
     public int CatchFishPerSec => Mathf.RoundToInt(baseCatchFish * Mathf.Pow(catchFishGrowthRate, Level.Value - 1));
 
     // 增加经验值
