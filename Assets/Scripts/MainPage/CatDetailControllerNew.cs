@@ -94,15 +94,15 @@ public class CatDetailControllerNew : MonoBehaviour
             //判断是否提供全部鱼：fishNumber==-1
             if (fishNumber < 0)
             {
-                cat.has_fish += PropertyController.instance.fishNumber;
+                cat.has_fish += PropertyController.instance.lingshiNumber;
                 hasFish.text = $"{cat.has_fish}";
 
-                PropertyController.instance.fishNumber = 0;
+                PropertyController.instance.lingshiNumber = 0;
             }
             else
             {
                 //判断是否有足够鱼分配
-                if (fishNumber > PropertyController.instance.fishNumber)
+                if (fishNumber > PropertyController.instance.lingshiNumber)
                 {
                     //弹出鱼分配失败
                     toast.SetActive(true);
@@ -114,7 +114,7 @@ public class CatDetailControllerNew : MonoBehaviour
                     cat.has_fish += fishNumber;
                     hasFish.text = $"{cat.has_fish}";
 
-                    PropertyController.instance.fishNumber -= fishNumber;
+                    PropertyController.instance.lingshiNumber -= fishNumber;
                 }
 
             }

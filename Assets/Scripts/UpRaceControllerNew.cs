@@ -109,7 +109,7 @@ public class UpRaceControllerNew : MonoBehaviour
             }
 
             //是否满足鱼的条件
-            if (PropertyController.instance.fishNumber >= RequestFish())
+            if (PropertyController.instance.lingshiNumber >= RequestFish())
             {
                 //改变色块
                 fishCondition = true;
@@ -178,7 +178,7 @@ public class UpRaceControllerNew : MonoBehaviour
     public void upLevel()
     {
         //消耗鱼
-        PropertyController.instance.fishNumber -= RequestFish();
+        PropertyController.instance.lingshiNumber -= RequestFish();
 
         //升级成功，等级加一，同时改变最大小猫数量和最大灵丹数量
         raceLevel++;

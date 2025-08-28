@@ -3834,30 +3834,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a00ac7e83f412b4ab06bbdf613cb06f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  raceLevel: 0
-  levelMain: {fileID: 420092269}
-  level: {fileID: 207995716}
-  requestLevel: {fileID: 1401075980}
-  requestStone: {fileID: 1394726881}
-  requestArea: {fileID: 1112250560}
-  upBtn: {fileID: 809664563}
-  upBtnText: {fileID: 1396734009}
-  maxCatNumber: {fileID: 1999144440}
-  maxLingDanNumber: {fileID: 1100089401}
-  catNumber: {fileID: 959213587}
-  btn1: {fileID: 654751949}
-  btn2: {fileID: 1319785914}
-  btn3: {fileID: 833710415}
-  upPanel: {fileID: 496097446}
-  cats: []
-  levelCondition: 0
-  stoneCondition: 0
-  areaCondition: 0
-  nextRankText: {fileID: 1593073476}
-  newtMaxLDNumberText: {fileID: 1053186284}
-  nextMaxCNumberText: {fileID: 1313096286}
-  tipsTimer: 1
-  redPoint: {fileID: 267448915}
 --- !u!4 &196068186
 Transform:
   m_ObjectHideFlags: 0
@@ -15446,7 +15422,6 @@ MonoBehaviour:
   timeToLingdan: 5
   lingdanNumber: 0
   lingshiNumber: 0
-  fishNumber: 0
   lingdanText: {fileID: 915072286}
   lingdanSpeedText: {fileID: 2128532863}
   lingshiText: {fileID: 1751319762}
@@ -34796,7 +34771,7 @@ MonoBehaviour:
   chooseCatUI: {fileID: 1287057973}
   newCatUI: {fileID: 862260944}
   toast: {fileID: 72442269}
-  redPoint: {fileID: 0}
+  redPoint: {fileID: 267448915}
   probabilityToNewCat: 10
   outCatNumber: 0
   outCatTips: {fileID: 627236860}
