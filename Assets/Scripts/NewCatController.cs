@@ -104,44 +104,19 @@ public class NewCatController : MonoBehaviour//虽然这里写新增小猫，但
         checkShowTipsTime -= Time.deltaTime;
         if (checkShowTipsTime <= 0)
         {
-            int pro = Random.Range(0, 110);
+            int pro = Random.Range(0, 50);
 
-            if (pro >= 90 && pro < 110)
+            if (pro >= 40 && pro < 50)
             {
                 outCatTips.SetActive(true);
                 string n = Name[Random.Range(0, Name.Length - 1)];
                 string l = level[Random.Range(0, level.Length - 1)];
                 outCatNumberText.text = "恭喜：玩家" + n + "寻找到了小猫";
             }
-            else if (pro >= 80 && pro < 90)
+            else if (pro >= 30 && pro < 40)
             {
                 outCatTips.SetActive(true);
                 outCatNumberText.text = "注意：附近区域发现了<color=#9800FF>" + outCatNumber.ToString() + "</color>只小猫在外流浪，快去寻小猫";
-            }
-            else if (pro >= 70 && pro < 80)
-            {
-                //outCatTips.SetActive(true);
-                //outCatNumberText.text = "提示：小猫会自动炼丹，偷偷把灵丹收藏到藏丹阁";
-            }
-            else if (pro >= 60 && pro < 70)
-            {
-                // outCatTips.SetActive(true);
-                // outCatNumberText.text = "提示：点击灵丹即可出售，藏丹阁满后，小猫会偷偷半价出售";
-            }
-            else if (pro >= 50 && pro < 60)
-            {
-                // outCatTips.SetActive(true);
-                // outCatNumberText.text = "提示：点击左上角小猫头像可升级种族等级，容纳更多小猫";
-            }
-            else if (pro >= 40 && pro < 50)
-            {
-                // outCatTips.SetActive(true);
-                // outCatNumberText.text = "提示：当灵石不足时，可以炼制丹药快速获得大量灵石";
-            }
-            else if (pro >= 30 && pro < 40)
-            {
-                // outCatTips.SetActive(true);
-                // outCatNumberText.text = "提示：升级种族需要灵石和领土，同时记得升级小猫哦";
             }
             else if (pro >= 20 && pro < 30)
             {
@@ -151,12 +126,7 @@ public class NewCatController : MonoBehaviour//虽然这里写新增小猫，但
             else if (pro >= 10 && pro < 20)
             {
                 outCatTips.SetActive(true);
-                outCatNumberText.text = "提示：小猫通过小鱼可以成长，从而升级";
-            }
-            else if (pro >= 0 && pro < 10)
-            {
-                // outCatTips.SetActive(true);
-                // outCatNumberText.text = "提示：小猫晋级后，可以打败更高等级的敌人";
+                outCatNumberText.text = "提示：进入游戏可以获得更多小鱼";
             }
             else
             {
