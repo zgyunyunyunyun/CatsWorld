@@ -162,7 +162,7 @@ public class NewCatController : MonoBehaviour//虽然这里写新增小猫，但
             freeTimeText.gameObject.SetActive(false);
             newBtn.gameObject.SetActive(true);
 
-            if (CatController.instance.cats.Count >= UpRaceController.instance.MaxCatNumber(UpRaceController.instance.raceLevel))
+            if (CatController.instance.cats.Count >= UpRaceControllerNew.instance.MaxCatNumber(UpRaceControllerNew.instance.raceLevel))
             {
                 consumeText.text = "<color=#E52222>升级猫世界可收养更多小猫</color>";
             }
@@ -190,7 +190,7 @@ public class NewCatController : MonoBehaviour//虽然这里写新增小猫，但
             consumeText.text = "<color=#E52222>看视频</color>可找免费3次小猫";
 
 
-            if (CatController.instance.cats.Count >= UpRaceController.instance.MaxCatNumber(UpRaceController.instance.raceLevel))
+            if (CatController.instance.cats.Count >= UpRaceControllerNew.instance.MaxCatNumber(UpRaceControllerNew.instance.raceLevel))
             {
                 consumeText.text = "<color=#E52222>升级猫世界可收养更多小猫</color>";
             }
@@ -291,7 +291,7 @@ public class NewCatController : MonoBehaviour//虽然这里写新增小猫，但
     {
 
 
-        if (UpRaceController.instance.MaxCatNumber(UpRaceController.instance.raceLevel) <= CatController.instance.cats.Count)
+        if (UpRaceControllerNew.instance.MaxCatNumber(UpRaceControllerNew.instance.raceLevel) <= CatController.instance.cats.Count)
         {
             //弹出提示小猫数量达到峰值
             toast.SetActive(true);

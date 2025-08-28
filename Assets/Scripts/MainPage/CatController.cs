@@ -189,7 +189,7 @@ public class CatController : MonoBehaviour
 
     //新增随机属性的小猫（并未加入小猫的列表中）
     //参数:当前新增小猫的次数（用于判断是否要增加小猫的等级）
-    public Cat newCat(int newCatTime)
+    public CatLogic newCat(int newCatTime)
     {
         Cat newCat = new Cat();
 
@@ -241,24 +241,20 @@ public class CatController : MonoBehaviour
         newCat.canUp = false;
         newCat.lingshi_consume = (int)(newCat.small_level * Mathf.Pow(4, 1 + levelStringToNumber(newCat.big_level)));
         newCat.had_stone = Random.Range(1, 10) * (int)(Mathf.Pow(10, levelStringToNumber(newCat.big_level) + 2));
-        newCat.has_fish = Random.Range(1, 10) * (long)(Mathf.Pow(10, newCat.level + 2));
-
-
-
-        newCat.level = 1;
+        newCat.has_fish = Random.Range(5, 10) * (long)Mathf.Pow(5, newCat.level);
         newCat.currentExp = 0;
-        newCat.eatFishPerMin = newCat.level * 5;
 
-        return newCat;
+        CatLogic newCatLogic = new CatLogic(newCat);
+        return newCatLogic;
     }
 
     //将小猫添加入list
-    public void chooseCat(Cat cat)
+    public void chooseCat(CatLogic catLogic)
     {
-        cats.Add(cat);
-        catLogics.Add(new CatLogic(cat));
+        catLogics.Add(catLogic);
+        cats.Add(catLogic.CatData);
 
-        Debug.Log("玩家选择了小猫，小猫id为：" + cat.cat_id.ToString());
+        Debug.Log("玩家选择了小猫，小猫id为：" + catLogic.CatData.cat_id.ToString());
     }
 
     //根据当前所有小猫，每隔一段时间产生灵石
