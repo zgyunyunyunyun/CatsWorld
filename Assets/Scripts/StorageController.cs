@@ -126,7 +126,7 @@ public class StorageController : MonoBehaviour
 
             PropertyController.instance.maxLingdanNumber = propertData.maxLingdanNumber;
             PropertyController.instance.territoryArea = propertData.territoryArea;
-            UpRaceController.instance.raceLevel = propertData.raceLevel;
+            UpRaceControllerNew.instance.raceLevel = propertData.raceLevel;
             NewCatController.instance.lastNewTime = lastFreeTime;
             NewCatController.instance.time = basicData.newCatTime;
 
@@ -200,7 +200,7 @@ public class StorageController : MonoBehaviour
         propertData.maxLingdanNumber = PropertyController.instance.maxLingdanNumber;
         propertData.territoryArea = PropertyController.instance.territoryArea;
         propertData.catNumber = CatController.instance.cats.Count;
-        propertData.raceLevel = UpRaceController.instance.raceLevel;
+        propertData.raceLevel = UpRaceControllerNew.instance.raceLevel;
         propertyJson = JsonUtility.ToJson(propertData);
 
         WX.StorageSetStringSync("propertyData", propertyJson);

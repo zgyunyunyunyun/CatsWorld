@@ -21,6 +21,7 @@ public class ChooseCatUI : MonoBehaviour
 
     public TMP_Text freshTips;//刷新用完提示
 
+    private CatLogic currCatLogic;
     private Cat currCat;//当前处理的小猫UI（单只）
 
     private int currFreshTime = 3;//当前可刷新的次数
@@ -91,7 +92,8 @@ public class ChooseCatUI : MonoBehaviour
         if (type == 0)
         {
             //新增小猫
-            currCat = CatController.instance.newCat(NewCatController.instance.time);
+            currCatLogic = CatController.instance.newCat(NewCatController.instance.time);
+            currCat = currCatLogic.CatData;
 
             currFreshTime = 3;
             freshBtn.interactable = true;
@@ -99,7 +101,8 @@ public class ChooseCatUI : MonoBehaviour
         else if (type == 1)
         {
             //刷新小猫
-            currCat = CatController.instance.newCat(NewCatController.instance.time);
+            currCatLogic = CatController.instance.newCat(NewCatController.instance.time);
+            currCat = currCatLogic.CatData;
 
             currFreshTime--;
         }
@@ -119,7 +122,7 @@ public class ChooseCatUI : MonoBehaviour
 
         catLevel.text = currCat.level.ToString() + " 级";
 
-        eatFish.text = currCat.eatFishPerMin.ToString() + " 小鱼/分钟";
+        eatFish.text = currCatLogic.EatFishPerMin.ToString() + " 小鱼/分钟";
 
     }
 
@@ -135,7 +138,7 @@ public class ChooseCatUI : MonoBehaviour
 
     public void chooseCat()
     {
-        CatController.instance.chooseCat(currCat);
+        CatController.instance.chooseCat(currCatLogic);
 
         NewCatController.instance.outCatNumber--;
     }
