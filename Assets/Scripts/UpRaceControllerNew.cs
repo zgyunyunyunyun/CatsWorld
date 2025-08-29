@@ -47,7 +47,9 @@ public class UpRaceControllerNew : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        upBtn.onClick.RemoveAllListeners();
+        // 绑定按钮事件
+        upBtn.onClick.AddListener(upLevel);
     }
 
     // Update is called once per frame
@@ -159,7 +161,7 @@ public class UpRaceControllerNew : MonoBehaviour
             //3个条件都满足，按钮改变
             if (fishCondition && levelCondition)
             {
-                upBtnText.text = "未满足";
+                upBtnText.text = "满足";
                 upBtn.interactable = true;
             }
             else

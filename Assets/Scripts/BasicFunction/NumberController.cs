@@ -10,7 +10,7 @@ public class NumberController : MonoBehaviour
         instance = this;
     }
 
-    //将数字转化为字符串（万、亿），保留以为小数，如101000转换为10.1万
+    //将数字转化为字符串（万、亿），保留一位小数，如101000转换为10.1万
     public string NumberToChinaString(int number)
     {
         string str;
