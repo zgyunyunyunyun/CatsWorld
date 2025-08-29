@@ -20,9 +20,6 @@ public class PropertyController : MonoBehaviour///————遗留问题：小
     private float beforlingshiNumber;//上一秒灵石数量
     private float lingshiSpeed;//灵石产生的速度
 
-    public long fishNumber = 0; // 鱼的数量
-    private long beforFishNumber; // 上一秒鱼的数量
-
     public TMP_Text lingdanText;//灵丹数量的文本
     public TMP_Text lingdanSpeedText;//灵丹产生速度的文本
 

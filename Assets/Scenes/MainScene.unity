@@ -15556,7 +15556,6 @@ MonoBehaviour:
   timeToLingdan: 5
   lingdanNumber: 0
   lingshiNumber: 0
-  fishNumber: 0
   lingdanText: {fileID: 915072286}
   lingdanSpeedText: {fileID: 2128532863}
   lingshiText: {fileID: 1751319762}
@@ -34907,7 +34906,7 @@ MonoBehaviour:
   chooseCatUI: {fileID: 1287057973}
   newCatUI: {fileID: 862260944}
   toast: {fileID: 72442269}
-  redPoint: {fileID: 0}
+  redPoint: {fileID: 267448915}
   probabilityToNewCat: 10
   outCatNumber: 0
   outCatTips: {fileID: 627236860}
