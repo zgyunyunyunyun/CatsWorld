@@ -57,7 +57,7 @@ public class UpRaceControllerNew : MonoBehaviour
         if (upPanel.gameObject.activeSelf)
         {
 
-            level.text = changeLevel(raceLevel);
+            level.text = changeLevel(raceLevel) + "猫世界";
             requestLevel.text = RequestLevel();//要求的下一等级
             requestFish.text = RequestFish().ToString();
 
@@ -72,7 +72,7 @@ public class UpRaceControllerNew : MonoBehaviour
 
         }
 
-        levelMain.text = changeLevel(raceLevel);
+        levelMain.text = changeLevel(raceLevel) + "猫世界";
         catNumber.text = CatController.instance.cats.Count + " / " + MaxCatNumber(raceLevel).ToString();
 
         //发送可以升级的消息

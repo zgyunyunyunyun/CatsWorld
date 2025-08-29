@@ -171,7 +171,7 @@ public class NewCatController : MonoBehaviour//虽然这里写新增小猫，但
             time = 1;
 
             //更新红点提醒
-            redPoint.gameObject.SetActive(true);
+            //redPoint.gameObject.SetActive(true);
 
             shareBtn.gameObject.SetActive(false);
             watchAddBtn.gameObject.SetActive(false);
@@ -181,7 +181,7 @@ public class NewCatController : MonoBehaviour//虽然这里写新增小猫，但
         else
         {
             //更新红点提醒
-            redPoint.gameObject.SetActive(false);
+            //redPoint.gameObject.SetActive(false);
 
             //隐藏免费文案
             freeTimeText.gameObject.SetActive(true);
