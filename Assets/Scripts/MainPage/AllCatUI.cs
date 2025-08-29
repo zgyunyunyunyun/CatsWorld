@@ -170,7 +170,7 @@ public class AllCatUI : MonoBehaviour
                 redPoint.gameObject.SetActive(true);
             }
 
-            if (cats[i].had_stone <= 0)
+            if (cats[i].has_fish <= 0)
             {
                 redPoint.gameObject.SetActive(true);
             }
