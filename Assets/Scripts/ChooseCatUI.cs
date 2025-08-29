@@ -123,6 +123,7 @@ public class ChooseCatUI : MonoBehaviour
         catLevel.text = currCat.level.ToString() + " 级";
 
         eatFish.text = currCatLogic.EatFishPerMin.ToString() + " 小鱼/分钟";
+        stoneNumber.text = currCat.has_fish.ToString() + " 小鱼";
 
     }
 
