@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -24,6 +25,12 @@ public class CatController : MonoBehaviour
     public int catTypeNumber = 5;//小猫类型数量
 
     public Image catListRedPoint;//小猫列表的红点
+
+    //小猫列表面板
+    public GameObject catUI;//用来生成小猫的prefab
+    private List<GameObject> catUIList = new List<GameObject>();//所有产生小猫的UI
+    public GameObject content;//挂在内容组件上
+
 
 
     public static CatController instance;
@@ -108,6 +115,13 @@ public class CatController : MonoBehaviour
         catNameList.Add(lines6);
 
         catTypeNumber = catNameList.Count;
+
+        //如果小猫数量大于0，则展示小猫列表
+        //展示所有小猫并处理对应的位置
+        for (int i = 0; i < cats.Count; i++)
+        {
+            ShowOneCat(cats[i]);
+        }
     }
 
     private void Update()
@@ -157,6 +171,35 @@ public class CatController : MonoBehaviour
         //         timer = 1.0f;
         //     }
 
+        //修改小猫列表面板前
+        // timer -= Time.deltaTime;
+        // if (timer <= 0)
+        // {
+        //     autoEatFish();
+
+        //     bool redPointShowed = false;//红点是否展示了?
+        //     //遍历触发提示
+        //     for (int i = 0; i < cats.Count; i++)
+        //     {
+        //         //灵石消耗完了
+        //         if (cats[i].has_fish <= 0)
+        //         {
+        //             Debug.Log("发送鱼吃完的消息，展示红点");
+
+        //             //发送消息
+        //             //Tips.instance.setTip(3, i);
+
+
+        //             redPointShowed = true;
+        //         }
+        //     }
+
+        //     //遍历完了以后，还不展示红点，则隐藏起来
+        //     catListRedPoint.gameObject.SetActive(redPointShowed);
+
+        //     timer = 1.0f;
+        // }
+
         timer -= Time.deltaTime;
         if (timer <= 0)
         {
@@ -166,21 +209,22 @@ public class CatController : MonoBehaviour
             //遍历触发提示
             for (int i = 0; i < cats.Count; i++)
             {
+                GameObject redPoint = catUIList[i].transform.Find("RedPoint").gameObject;
                 //灵石消耗完了
                 if (cats[i].has_fish <= 0)
                 {
-                    Debug.Log("发送鱼吃完的消息，展示红点");
-
-                    //发送消息
-                    //Tips.instance.setTip(3, i);
+                    redPoint.gameObject.SetActive(true);
 
                     redPointShowed = true;
+                }
+                else
+                {
+                    redPoint.gameObject.SetActive(false);
                 }
             }
 
             //遍历完了以后，还不展示红点，则隐藏起来
             catListRedPoint.gameObject.SetActive(redPointShowed);
-
             timer = 1.0f;
         }
 
@@ -249,12 +293,73 @@ public class CatController : MonoBehaviour
     }
 
     //将小猫添加入list
-    public void chooseCat(CatLogic catLogic)
+    public void chooseCat(Cat cat)
     {
-        catLogics.Add(catLogic);
-        cats.Add(catLogic.CatData);
+        catLogics.Add(new CatLogic(cat));
+        cats.Add(cat);
 
-        Debug.Log("玩家选择了小猫，小猫id为：" + catLogic.CatData.cat_id.ToString());
+        ShowOneCat(cat);
+
+        //在面板上新增小猫的UI
+
+        Debug.Log("玩家选择了小猫，小猫id为：" + cat.cat_id.ToString());
+    }
+
+    //在小猫列表面板上展示一只小猫
+    public void ShowOneCat(Cat cat)
+    {
+        //当小猫的数量展示范围超过5行时，扩大可展示的content范围
+        if (cats.Count <= 8)
+        {
+            content.GetComponent<GridLayoutGroup>().cellSize = new Vector2(240, 245);
+        }
+        else
+        {
+            content.GetComponent<GridLayoutGroup>().cellSize = new Vector2(215, 245);
+
+            RectTransform contentRect = content.GetComponent<RectTransform>();
+            if ((cats.Count / 2.0f) == (cats.Count / 2))
+            {
+                contentRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 1107 + ((cats.Count / 2) - 4) * 270);
+                Debug.Log("尝试改变UI1");
+            }
+            else
+            {
+                contentRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 1107 + ((cats.Count / 2) - 3) * 270);
+                Debug.Log("尝试改变UI2");
+            }
+        }
+
+        GameObject tempObj = Instantiate(catUI);
+        catUIList.Add(tempObj);
+
+        //给小猫添加点击监听事件，用在这里是因为筛选会重新更新UI
+        int catID = cat.cat_id;
+        tempObj.GetComponent<Button>().onClick.AddListener(() => CatDetailControllerNew.instance.showCatUI(catID));
+
+        //将小猫属性列表挂着父节点上
+        tempObj.transform.SetParent(content.transform, false);
+
+        Image catIcon = tempObj.transform.Find("Image").GetComponent<Image>();
+        TMP_Text catName = tempObj.transform.Find("Name").GetComponent<TMP_Text>();
+        GameObject redPoint = tempObj.transform.Find("RedPoint").gameObject;
+
+        if (cat.canUp)
+        {
+            redPoint.gameObject.SetActive(true);
+        }
+
+        if (cat.has_fish <= 0)
+        {
+            redPoint.gameObject.SetActive(true);
+        }
+
+        //对获得的UI进行赋值
+        string path = "Materials/BigCat/cat" + cat.cat_icon.ToString();
+        Sprite sprite = Resources.Load(path, typeof(Sprite)) as Sprite;
+        catIcon.sprite = sprite;
+
+        catName.text = cat.cat_name;
     }
 
     //根据当前所有小猫，每隔一段时间产生灵石
