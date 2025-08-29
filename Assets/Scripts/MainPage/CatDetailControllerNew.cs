@@ -22,6 +22,9 @@ public class CatDetailControllerNew : MonoBehaviour
     private CatLogic catLogic;
     private Cat cat;
 
+    public GameObject newCatDetailPanel; // 新的猫咪详情面板
+
+
 
     public static CatDetailControllerNew instance;
     private void Awake()
@@ -49,6 +52,9 @@ public class CatDetailControllerNew : MonoBehaviour
     //在小猫详情页里展示小猫的样式
     public void showCatUI(int catID)
     {
+        Debug.Log("打开小猫详情页，传入小猫id为：" + catID.ToString());
+        newCatDetailPanel.SetActive(true);
+
         catLogic = CatController.instance.catLogics.Find(x => x.CatData.cat_id == catID);
         if (catLogic == null)
         {

@@ -139,7 +139,7 @@ public class ChooseCatUI : MonoBehaviour
 
     public void chooseCat()
     {
-        CatController.instance.chooseCat(currCatLogic);
+        CatController.instance.chooseCat(currCat);
 
         NewCatController.instance.outCatNumber--;
     }

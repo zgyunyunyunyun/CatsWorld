@@ -147,8 +147,9 @@ public class StorageController : MonoBehaviour
                 cJson = WX.StorageGetStringSync("cat" + i.ToString(), cJson);
                 Cat catData = JsonUtility.FromJson<Cat>(cJson);
 
-                CatController.instance.cats.Add(catData);
-                CatController.instance.catLogics.Add(new CatLogic(catData));
+                //CatController.instance.cats.Add(catData);
+                //CatController.instance.catLogics.Add(new CatLogic(catData));
+                CatController.instance.chooseCat(catData);
             }
 
             //如果时间差大于0，说明新增了灵丹
