@@ -19,8 +19,8 @@ MonoBehaviour:
     assetLoadType: 0
     compressDataPackage: 1
     VideoUrl: 
-    relativeDST: E:/GameCode/OutGame/Cat
-    DST: E:/GameCode/OutGame/Cat
+    relativeDST: E:/GameCode/OutGame/Cat-2.0.2
+    DST: E:/GameCode/OutGame/Cat-2.0.2
     StreamCDN: 
     bundleHashLength: 32
     bundlePathIdentifier: StreamingAssets;

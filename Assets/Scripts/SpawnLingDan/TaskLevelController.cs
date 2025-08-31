@@ -107,11 +107,11 @@ public class TaskLevelController : MonoBehaviour
         {
             if (gameFailedPanel.activeSelf || gamePassPanel.activeSelf || gameFinishedPanel.activeSelf || gameStopdPanel.activeSelf)
             {
-                BannerAd.Show();
+                //BannerAd.Show();
             }
             else
             {
-                BannerAd.Hide();
+                //BannerAd.Hide();
             }
         }
     }
@@ -272,7 +272,12 @@ public class TaskLevelController : MonoBehaviour
     //返回主场景
     public void BackToMainScene()
     {
-        BannerAd.Destroy();
+        if (BannerAd != null)
+        {
+            BannerAd.Destroy();
+
+        }
+
         Debug.Log("关闭banner广告");
 
         //获得灵石

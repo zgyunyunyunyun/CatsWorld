@@ -74,7 +74,7 @@ public class StorageController : MonoBehaviour
         {
             Debug.Log("时间隔了60秒，将游戏数据存储到微信");
 
-            SetDataToWXStorage();
+            //SetDataToWXStorage();
             storeTimer = 60.0f;
         }
     }
@@ -208,11 +208,13 @@ public class StorageController : MonoBehaviour
 
         //将小猫的数据存储到微信里
         catsDataList = CatController.instance.cats;
-        for (int i = 0; i < catsDataList.Count; i++)
+        for (int i = catsDataList.Count - 1; i >= 0; i--)
         {
             catsJson = JsonUtility.ToJson(catsDataList[i]);
 
             WX.StorageSetStringSync("cat" + i.ToString(), catsJson);
+
+            //CatController.instance.DeleteCat(i);
         }
 
     }

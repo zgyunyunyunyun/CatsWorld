@@ -298,12 +298,24 @@ public class CatController : MonoBehaviour
         catLogics.Add(new CatLogic(cat));
         cats.Add(cat);
 
-        ShowOneCat(cat);
+        if (catUIList.Count < cats.Count)
+        {
+            ShowOneCat(cat);
+        }
 
         //在面板上新增小猫的UI
 
         Debug.Log("玩家选择了小猫，小猫id为：" + cat.cat_id.ToString());
     }
+
+    // //删除对象列表中第N只小猫的对象和数据
+    // public void DeleteCat(int index)
+    // {
+    //     Destroy(catUIList[index]);
+    //     catUIList.RemoveAt(index);
+    //     catLogics.RemoveAt(index);
+    //     cats.RemoveAt(index);
+    // }
 
     //在小猫列表面板上展示一只小猫
     public void ShowOneCat(Cat cat)
@@ -361,6 +373,8 @@ public class CatController : MonoBehaviour
 
         catName.text = cat.cat_name;
     }
+
+
 
     //根据当前所有小猫，每隔一段时间产生灵石
     public List<int> spawnLingdan()

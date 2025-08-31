@@ -117,14 +117,14 @@ public class LingDanCatController : MonoBehaviour
 
 
         //用于记录每个小猫图片需要往下的位置
-        int[,] siteFlag = new int[4, 4];
-        for (int a = 0; a < 4; a++)
-        {
-            for (int b = 0; b < 4; b++)
-            {
-                siteFlag[a, b] = 0;
-            }
-        }
+        // int[,] siteFlag = new int[4, 4];
+        // for (int a = 0; a < 4; a++)
+        // {
+        //     for (int b = 0; b < 4; b++)
+        //     {
+        //         siteFlag[a, b] = 0;
+        //     }
+        // }
 
         //产生新的小猫，一次生成3只
         int initCatNumber = 0;
@@ -144,11 +144,14 @@ public class LingDanCatController : MonoBehaviour
                 temp.transform.SetParent(catParent.transform, false);
 
                 //随机产生小猫位置
-                int x = Random.Range(-2, 2);
-                int y = Random.Range(-2, 2);
-                temp.transform.localPosition = new Vector3(250 * x + siteFlag[x + 2, y + 2] * 3, 250 * y + siteFlag[x + 2, y + 2] * 3, 0);
+                int x = Random.Range(-420, 170);
+                int y = Random.Range(-420, 170);
+                //int x = Random.Range(-2, 2);
+                // int y = Random.Range(-2, 2);
+                //temp.transform.localPosition = new Vector3(250 * x + siteFlag[x + 2, y + 2] * 3, 250 * y + siteFlag[x + 2, y + 2] * 3, 0);
+                temp.transform.localPosition = new Vector3(x, y, 0);
 
-                siteFlag[x + 2, y + 2] += 1;
+                //siteFlag[x + 2, y + 2] += 1;
 
                 //展示图片
                 Image catIcon = temp.GetComponent<Image>();

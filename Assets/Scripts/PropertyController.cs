@@ -273,7 +273,7 @@ public class PropertyController : MonoBehaviour///————遗留问题：小
         {
             if (offlinePanelObj.activeSelf)
             {
-                BannerAd.Show();
+                //BannerAd.Show();
             }
             else
             {
