@@ -63,6 +63,11 @@ public class NewCatController : MonoBehaviour//虽然这里写新增小猫，但
 
     WXRewardedVideoAd renewVideoAd;//广告位初始化
 
+    // 计算间隔时间控制
+    private float timeUpdateInterval = 0.5f; // 时间更新间隔
+    private float timeUpdateCounter = 0f;
+    private int cachedConsumeStone = 0; // 缓存的消耗灵石数
+
 
     public static NewCatController instance;
     private void Awake()
@@ -89,186 +94,190 @@ public class NewCatController : MonoBehaviour//虽然这里写新增小猫，但
 
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //每次诞生逐步叠加所需灵石
-        consumeStone = int.Parse((Mathf.Pow(2, time)).ToString() + "00");
+        // 消耗灵石计算 - 只在需要时计算
+        if (cachedConsumeStone != time)
+        {
+            UpdateConsumeStone();
+        }
 
-        //当处于正常场景时，如果小猫发生变化，则把数值赋予给场景传递的数值
+        // 更新流浪小猫数据 - 只在有变化时
+        UpdateOutCatNumber();
+
+        // 检查提示显示 - 使用已有的计时器逻辑
+        UpdateTipsDisplay();
+
+        // 更新UI显示 - 分离免费和付费状态的处理
+        if (MainController.instance.isFirstTimeGaming && freeNewTime > 0)
+        {
+            UpdateFirstTimeUI();
+        }
+        else if (isFree)
+        {
+            UpdateFreeUI();
+        }
+        else
+        {
+            // 时间更新可以降低频率
+            timeUpdateCounter += Time.deltaTime;
+            if (timeUpdateCounter >= timeUpdateInterval)
+            {
+                UpdateTimerUI();
+                timeUpdateCounter = 0f;
+            }
+        }
+    }
+
+    // 更新消耗的灵石数量
+    private void UpdateConsumeStone()
+    {
+        cachedConsumeStone = time;
+        consumeStone = (int)(Mathf.Pow(2, time) * 100);
+    }
+
+    // 更新流浪小猫数量
+    private void UpdateOutCatNumber()
+    {
         if (outCatNumber > 0)
         {
             SceneTransferData.instance.outCatNumber = outCatNumber;
         }
+    }
 
+    // 更新提示显示
+    private void UpdateTipsDisplay()
+    {
         checkShowTipsTime -= Time.deltaTime;
         if (checkShowTipsTime <= 0)
         {
-            int pro = Random.Range(0, 50);
-
-            if (pro >= 40 && pro < 50)
-            {
-                outCatTips.SetActive(true);
-                string n = Name[Random.Range(0, Name.Length - 1)];
-                string l = level[Random.Range(0, level.Length - 1)];
-                outCatNumberText.text = "恭喜：玩家" + n + "寻找到了小猫";
-            }
-            else if (pro >= 30 && pro < 40)
-            {
-                outCatTips.SetActive(true);
-                outCatNumberText.text = "注意：附近区域发现了<color=#9800FF>" + outCatNumber.ToString() + "</color>只小猫在外流浪，快去寻小猫";
-            }
-            else if (pro >= 20 && pro < 30)
-            {
-                outCatTips.SetActive(true);
-                outCatNumberText.text = "提示：小猫成长需要小鱼！！";
-            }
-            else if (pro >= 10 && pro < 20)
-            {
-                outCatTips.SetActive(true);
-                outCatNumberText.text = "提示：进入游戏可以获得更多小鱼";
-            }
-            else
-            {
-                outCatTips.SetActive(false);
-                Debug.Log("附近小猫tips为空");
-            }
-
+            ShowRandomTip();
             checkShowTipsTime = checkShowTipsGap;
         }
+    }
 
+    // 显示随机提示
+    private void ShowRandomTip()
+    {
+        int pro = Random.Range(0, 50);
 
-        //如果是第一次打开游戏，免费3次：展示文案，并免费
-        if (MainController.instance.isFirstTimeGaming)
+        if (pro >= 40)
         {
-            sucessRateText.gameObject.SetActive(true);
-            isFree = true;
-            //freeTipsText.text = "首次玩游戏，可收养" + freeNewTime.ToString() + "只流浪的小猫";
-
-            if (freeNewTime <= 0)
-            {
-                MainController.instance.isFirstTimeGaming = false;
-                isFree = false;
-                time = 1;
-            }
+            outCatTips.SetActive(true);
+            string n = Name[Random.Range(0, Name.Length - 1)];
+            string l = level[Random.Range(0, level.Length - 1)];
+            outCatNumberText.text = "恭喜：玩家" + n + "寻找到了小猫";
         }
-
-
-        //更新消耗文案提醒
-        if (isFree)
+        else if (pro >= 30)
         {
-            consumeText.text = "免费";
-            sucessRateText.gameObject.SetActive(true);
-            freeTimeText.gameObject.SetActive(false);
-            newBtn.gameObject.SetActive(true);
-
-            if (CatController.instance.cats.Count >= UpRaceControllerNew.instance.MaxCatNumber(UpRaceControllerNew.instance.raceLevel))
-            {
-                consumeText.text = "<color=#E52222>升级猫世界可收养更多小猫</color>";
-            }
-
-            freeTimeText.text = " ";
-            time = 1;
-
-            //更新红点提醒
-            //redPoint.gameObject.SetActive(true);
-
-            shareBtn.gameObject.SetActive(false);
-            watchAddBtn.gameObject.SetActive(false);
-            newBtn.transform.localPosition = new Vector3(0, -458, 0);
-            newBtn.transform.Find("Text (TMP)").GetComponent<TMP_Text>().text = "找小猫(" + freeNewTime.ToString() + ")";
+            outCatTips.SetActive(true);
+            outCatNumberText.text = $"注意：附近区域发现了<color=#9800FF>{outCatNumber}</color>只小猫在外流浪，快去寻小猫";
+        }
+        else if (pro >= 20)
+        {
+            outCatTips.SetActive(true);
+            outCatNumberText.text = "提示：小猫成长需要小鱼！！";
+        }
+        else if (pro >= 10)
+        {
+            outCatTips.SetActive(true);
+            outCatNumberText.text = "提示：进入游戏可以获得更多小鱼";
         }
         else
         {
-            //更新红点提醒
-            //redPoint.gameObject.SetActive(false);
+            outCatTips.SetActive(false);
+        }
+    }
 
-            //隐藏免费文案
-            freeTimeText.gameObject.SetActive(true);
-            sucessRateText.gameObject.SetActive(false);
+    // 更新首次游戏UI
+    private void UpdateFirstTimeUI()
+    {
+        sucessRateText.gameObject.SetActive(true);
+        isFree = true;
 
-            consumeText.text = "<color=#E52222>看视频</color>可找免费3次小猫";
+        if (freeNewTime <= 0)
+        {
+            MainController.instance.isFirstTimeGaming = false;
+            isFree = false;
+            time = 1;
+        }
+    }
 
+    // 更新免费状态UI
+    private void UpdateFreeUI()
+    {
+        consumeText.text = "免费";
+        sucessRateText.gameObject.SetActive(true);
+        freeTimeText.gameObject.SetActive(false);
+        newBtn.gameObject.SetActive(true);
 
-            if (CatController.instance.cats.Count >= UpRaceControllerNew.instance.MaxCatNumber(UpRaceControllerNew.instance.raceLevel))
-            {
-                consumeText.text = "<color=#E52222>升级猫世界可收养更多小猫</color>";
-            }
-
-
-            //更新时间倒计时
-            currentTime = DateTime.Now;
-
-            TimeSpan difference = currentTime - lastNewTime; // 计算时间差
-
-            float secondsDifference = (float)difference.TotalSeconds; // 相差的总秒数
-
-            //如果时间都是0（倒计时结束），则展示免费按钮；否则，正常展示时间倒计时
-            if (secondsDifference >= 3600 * freeHour)
-            {
-                isFree = true;
-                freeNewTime = 3;
-                Debug.Log("重置免费");
-            }
-            else
-            {
-                //倒计时剩余时间
-                float rest = 3600 * freeHour - secondsDifference;
-                int h = ((int)rest) / 3600;
-                int m = ((int)rest - h * 3600) / 60;
-                int s = ((int)rest) - m * 60 - h * 3600;
-
-                //Debug.Log("M" + m);
-                //Debug.Log("S" + s);
-
-                if (h < 10)
-                {
-                    hour = "0" + h.ToString();
-                }
-                else
-                {
-                    hour = h.ToString();
-                }
-
-                if (m < 10)
-                {
-                    minute = "0" + m.ToString();
-                }
-                else
-                {
-                    minute = m.ToString();
-                }
-
-                if (s < 10)
-                {
-                    second = "0" + s.ToString();
-                }
-                else
-                {
-                    second = s.ToString();
-                }
-
-                if (shareTime > 0)
-                {
-                    freeTimeText.text = hour + ":" + minute + ":" + second + " 后免费找3次小猫";
-
-                    if (!watchAddBtn.gameObject.activeSelf)
-                    {
-                        newBtn.gameObject.SetActive(false);
-                    }
-                    watchAddBtn.gameObject.SetActive(true);
-
-                }
-                else
-                {
-                    freeTimeText.text = hour + ":" + minute + ":" + second + " 后免费找3次小猫";
-                }
-
-            }
-
+        if (CatController.instance.cats.Count >= UpRaceControllerNew.instance.MaxCatNumber(UpRaceControllerNew.instance.raceLevel))
+        {
+            consumeText.text = "<color=#E52222>升级猫世界可收养更多小猫</color>";
         }
 
+        freeTimeText.text = " ";
+        time = 1;
 
+        shareBtn.gameObject.SetActive(false);
+        watchAddBtn.gameObject.SetActive(false);
+        newBtn.transform.localPosition = new Vector3(0, -458, 0);
+        newBtn.transform.Find("Text (TMP)").GetComponent<TMP_Text>().text = $"找小猫({freeNewTime})";
+    }
+
+    // 更新计时器UI
+    private void UpdateTimerUI()
+    {
+        freeTimeText.gameObject.SetActive(true);
+        sucessRateText.gameObject.SetActive(false);
+
+        consumeText.text = "<color=#E52222>看视频</color>可找免费3次小猫";
+
+        if (CatController.instance.cats.Count >= UpRaceControllerNew.instance.MaxCatNumber(UpRaceControllerNew.instance.raceLevel))
+        {
+            consumeText.text = "<color=#E52222>升级猫世界可收养更多小猫</color>";
+        }
+
+        // 计算时间差
+        currentTime = DateTime.Now;
+        TimeSpan difference = currentTime - lastNewTime;
+        float secondsDifference = (float)difference.TotalSeconds;
+
+        if (secondsDifference >= 3600 * freeHour)
+        {
+            isFree = true;
+            freeNewTime = 3;
+        }
+        else
+        {
+            UpdateCountdownDisplay(secondsDifference);
+        }
+    }
+
+    // 更新倒计时显示
+    private void UpdateCountdownDisplay(float secondsDifference)
+    {
+        float rest = 3600 * freeHour - secondsDifference;
+        int h = ((int)rest) / 3600;
+        int m = ((int)rest - h * 3600) / 60;
+        int s = ((int)rest) - m * 60 - h * 3600;
+
+        hour = h < 10 ? "0" + h : h.ToString();
+        minute = m < 10 ? "0" + m : m.ToString();
+        second = s < 10 ? "0" + s : s.ToString();
+
+        string timeText = $"{hour}:{minute}:{second} 后免费找3次小猫";
+        freeTimeText.text = timeText;
+
+        // 更新按钮状态
+        if (shareTime > 0)
+        {
+            if (!watchAddBtn.gameObject.activeSelf)
+            {
+                newBtn.gameObject.SetActive(false);
+            }
+            watchAddBtn.gameObject.SetActive(true);
+        }
     }
 
     //免费次数减少1，如果免费次数为0，则倒计时重置
