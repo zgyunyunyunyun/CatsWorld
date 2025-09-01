@@ -45,7 +45,8 @@ public class CatDetailControllerNew : MonoBehaviour
         {
             hasFish.text = cat.has_fish.ToString();
             exp.text = $"{catLogic.CurrentExp.Value}/{catLogic.MaxExp}";
-            eatFish.text = $"{catLogic.EatFishPerMin}/分";
+            eatFish.text = $"{catLogic.EatFishPerSec}/秒";
+            rank.text = $"{catLogic.Level.Value}级";
         }
     }
 
@@ -76,7 +77,7 @@ public class CatDetailControllerNew : MonoBehaviour
         rank.text = $"{catLogic.Level.Value}级";
         hasFish.text = $"{cat.has_fish}";
         exp.text = $"{catLogic.CurrentExp.Value}/{catLogic.MaxExp}";
-        eatFish.text = $"{catLogic.EatFishPerMin}/分";
+        eatFish.text = $"{catLogic.EatFishPerSec}/秒";
         catchFish.text = $"{catLogic.CatchFishPerSec}/秒";
 
 
