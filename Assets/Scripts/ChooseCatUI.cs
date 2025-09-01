@@ -93,7 +93,7 @@ public class ChooseCatUI : MonoBehaviour
         {
             //新增小猫
             currCatLogic = CatController.instance.newCat(NewCatController.instance.time);
-            currCat = currCatLogic.CatData;
+            currCat = currCatLogic.ToData();
 
             currFreshTime = 3;
             freshBtn.interactable = true;
@@ -102,7 +102,7 @@ public class ChooseCatUI : MonoBehaviour
         {
             //刷新小猫
             currCatLogic = CatController.instance.newCat(NewCatController.instance.time);
-            currCat = currCatLogic.CatData;
+            currCat = currCatLogic.ToData();
 
             currFreshTime--;
         }
@@ -122,7 +122,7 @@ public class ChooseCatUI : MonoBehaviour
 
         catLevel.text = currCat.level.ToString() + " 级";
 
-        eatFish.text = currCatLogic.EatFishPerMin.ToString() + " 小鱼/分钟";
+        eatFish.text = currCatLogic.EatFishPerSec.ToString() + " 小鱼/秒钟";
         stoneNumber.text = currCat.has_fish.ToString() + " 小鱼";
 
     }

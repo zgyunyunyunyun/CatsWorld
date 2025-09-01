@@ -31,18 +31,18 @@ public class CatLogic
     }
 
     public long MaxExp => (long)(baseExp * Level.Value * Mathf.Pow(expGrowthRate, Level.Value / 10));
-    public int EatFishPerMin => Mathf.RoundToInt(Level.Value * eatFishGrowthRate * baseEatFish);
+    public int EatFishPerSec => Mathf.RoundToInt(Level.Value * eatFishGrowthRate * baseEatFish);
     public int CatchFishPerSec => Mathf.RoundToInt(baseCatchFish * Mathf.Pow(catchFishGrowthRate, Level.Value - 1));
 
     // 普通吃鱼增加经验值
     public void AddExp()
     {
         // 小猫吃鱼
-        bool enoughFish = CatData.has_fish >= EatFishPerMin;
+        bool enoughFish = CatData.has_fish >= EatFishPerSec;
         // 判断小猫当前鱼的数量是否足够吃，如果不足，则仅吃目前有的
         if (enoughFish)
         {
-            bool canLevelUp = CurrentExp.Value + EatFishPerMin >= MaxExp;
+            bool canLevelUp = CurrentExp.Value + EatFishPerSec >= MaxExp;
             if (canLevelUp)
             {
                 CatData.has_fish -= MaxExp - CurrentExp.Value;
@@ -54,8 +54,8 @@ public class CatLogic
             }
             else
             {
-                CatData.has_fish -= EatFishPerMin;
-                CurrentExp.Value += EatFishPerMin;
+                CatData.has_fish -= EatFishPerSec;
+                CurrentExp.Value += EatFishPerSec;
             }
         }
         else
@@ -81,8 +81,9 @@ public class CatLogic
     // 一次性增加经验，可一次升多级
     public void AddExp(long fishAmount)
     {
-        CurrentExp.Value += fishAmount;
+        long finalFishAmount = Math.Min(fishAmount, CatData.has_fish);
 
+        CurrentExp.Value += finalFishAmount;
         long maxExp = MaxExp;
         while (CurrentExp.Value >= maxExp)
         {
@@ -90,6 +91,8 @@ public class CatLogic
             Level.Value++;
             maxExp = MaxExp; // 升级后重新计算
         }
+
+        CatData.has_fish -= finalFishAmount;
     }
 
     // 转回基础数据
