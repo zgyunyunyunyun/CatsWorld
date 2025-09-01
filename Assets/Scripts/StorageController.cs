@@ -52,7 +52,7 @@ public class StorageController : MonoBehaviour
             Debug.Log("游戏展示到前台，从微信存储获得数据");
 
             GetDataFromWXStorage();
-
+            SceneTransferData.instance.isEatFish = false;
         });
 
         //退到后台
@@ -61,7 +61,6 @@ public class StorageController : MonoBehaviour
             Debug.Log("游戏隐藏到后台，将游戏数据存储到微信");
 
             SetDataToWXStorage();
-
         });
     }
 
