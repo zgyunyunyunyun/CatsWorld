@@ -39,9 +39,9 @@ public class EntityBase : EntityLogic
             return;
         }
         Params = userData as EntityParams;
-        if (GF.Entity.IsValidEntity(Params.AttchToEntity))
+        if (GF.Entity.IsValidEntity(Params.AttachToEntity))
         {
-            GF.Entity.AttachEntity(this.Entity, Params.AttchToEntity, Params.ParentTransform);
+            GF.Entity.AttachEntity(this.Entity, Params.AttachToEntity, Params.ParentTransform);
         }
         if (Params.position != null)
         {
@@ -59,6 +59,10 @@ public class EntityBase : EntityLogic
         {
             gameObject.layer = Params.gameObjectLayer;
             //gameObject.SetLayerRecursively(Params.gameObjectLayer);
+        }
+        if (Params.localPosition != null)
+        {
+            this.CachedTransform.localPosition = Params.localPosition.Value;
         }
 
         Params.OnShowCallback?.Invoke(this);

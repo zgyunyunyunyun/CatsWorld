@@ -34,6 +34,8 @@ public class StaticUIComponent : GameFrameworkComponent
         UpdateCanvasScaler();
         waitingView.SetActive(false);
         Joystick.Enable = false;
+
+        Joystick.gameObject.SetActive(false); // 暂时无使用，隐藏
     }
 
     public void UpdateCanvasScaler()

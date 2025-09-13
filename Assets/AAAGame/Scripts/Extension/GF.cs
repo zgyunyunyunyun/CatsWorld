@@ -6,11 +6,11 @@ using UnityGameFramework.Runtime;
 public class GF : GFBuiltin
 {
     public static DataModelComponent DataModel { get; private set; }
-    //Ìæ´úDataNode, Ê¹ÓÃJobsµÄ¸ßĞÔÄÜ±äÁ¿´æ´¢³Ø,ÓÃÓÚº£Á¿Êı¾İ´æ´¢
+    //æ›¿ä»£DataNode, ä½¿ç”¨Jobsçš„é«˜æ€§èƒ½å˜é‡å­˜å‚¨æ± ,ç”¨äºæµ·é‡æ•°æ®å­˜å‚¨
     public static VariablePoolComponent VariablePool { get; private set; }
     //public static ADComponent AD { get; private set; }
 
-    public static StaticUIComponent StaticUI { get; private set; } //ÎŞĞèÒì²½¼ÓÔØµÄ, Í¨ÓÃUI
+    public static StaticUIComponent StaticUI { get; private set; } //æ— éœ€å¼‚æ­¥åŠ è½½çš„, é€šç”¨UI
 
     private void Start()
     {

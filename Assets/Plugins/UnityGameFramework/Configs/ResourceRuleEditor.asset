@@ -19,7 +19,7 @@ MonoBehaviour:
     fileSystem: 
     groups: 
     assetsDirectoryPath: Assets/AAAGame/Prefabs/Entity
-    loadType: 0
+    loadType: 1
     packed: 0
     filterType: 0
     searchPatterns: '*.*'
@@ -29,7 +29,7 @@ MonoBehaviour:
     fileSystem: 
     groups: 
     assetsDirectoryPath: Assets/AAAGame/Prefabs/Core
-    loadType: 0
+    loadType: 1
     packed: 0
     filterType: 0
     searchPatterns: '*.*'
@@ -39,7 +39,7 @@ MonoBehaviour:
     fileSystem: 
     groups: 
     assetsDirectoryPath: Assets/AAAGame/Prefabs/UI
-    loadType: 0
+    loadType: 1
     packed: 0
     filterType: 0
     searchPatterns: '*.*'
@@ -49,7 +49,7 @@ MonoBehaviour:
     fileSystem: 
     groups: 
     assetsDirectoryPath: Assets/AAAGame/Config
-    loadType: 0
+    loadType: 1
     packed: 0
     filterType: 0
     searchPatterns: '*.*'
@@ -59,17 +59,17 @@ MonoBehaviour:
     fileSystem: 
     groups: 
     assetsDirectoryPath: Assets/AAAGame/DataTable
-    loadType: 0
+    loadType: 1
     packed: 0
     filterType: 0
     searchPatterns: '*.*'
-  - valid: 1
+  - valid: 0
     name: HotfixDlls
     variant: 
     fileSystem: 
     groups: 
     assetsDirectoryPath: Assets/AAAGame/HotfixDlls
-    loadType: 0
+    loadType: 1
     packed: 0
     filterType: 0
     searchPatterns: '*.*'
@@ -79,7 +79,7 @@ MonoBehaviour:
     fileSystem: 
     groups: 
     assetsDirectoryPath: Assets/AAAGame/Language
-    loadType: 0
+    loadType: 1
     packed: 0
     filterType: 0
     searchPatterns: '*.*'
@@ -89,7 +89,7 @@ MonoBehaviour:
     fileSystem: 
     groups: 
     assetsDirectoryPath: Assets/AAAGame/Scene
-    loadType: 0
+    loadType: 1
     packed: 0
     filterType: 0
     searchPatterns: '*.unity'
@@ -99,7 +99,17 @@ MonoBehaviour:
     fileSystem: 
     groups: 
     assetsDirectoryPath: Assets/AAAGame/ScriptableAssets
-    loadType: 0
+    loadType: 1
     packed: 0
     filterType: 0
     searchPatterns: '*.asset'
+  - valid: 1
+    name: Sprites
+    variant: 
+    fileSystem: 
+    groups: 
+    assetsDirectoryPath: Assets/AAAGame/Sprites
+    loadType: 1
+    packed: 0
+    filterType: 0
+    searchPatterns: '*.*'

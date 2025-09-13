@@ -12,6 +12,22 @@ public static class UIExtension
     /// <summary>
     /// 异步加载并设置Sprite
     /// </summary>
+    /// <param name="spriteRenderer"></param>
+    /// <param name="spriteName"></param>
+    public static void SetSprite(this SpriteRenderer spriteRenderer, string spriteName)
+    {
+        spriteName = UtilityBuiltin.AssetsPath.GetSpritesPath(spriteName);
+        GF.UI.LoadSprite(spriteName, sp =>
+        {
+            if (sp != null)
+            {
+                spriteRenderer.sprite = sp;
+            }
+        });
+    }
+    /// <summary>
+    /// 异步加载并设置Sprite
+    /// </summary>
     /// <param name="image"></param>
     /// <param name="spriteName"></param>
     public static void SetSprite(this Image image, string spriteName, bool resize = false)

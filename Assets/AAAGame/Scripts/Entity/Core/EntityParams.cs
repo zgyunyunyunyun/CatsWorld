@@ -16,7 +16,7 @@ public class EntityParams : RefParams
     /// <summary>
     /// 绑定到父实体
     /// </summary>
-    public Entity AttchToEntity { get; set; } = null;
+    public Entity AttachToEntity { get; set; } = null;
     /// <summary>
     /// 指定绑定到父实体下的哪个节点
     /// </summary>
@@ -57,7 +57,7 @@ public class EntityParams : RefParams
         this.localEulerAngles = null;
         this.localScale = null;
         this.gameObjectLayer = -1;
-        this.AttchToEntity = null;
+        this.AttachToEntity = null;
         this.ParentTransform = null;
         OnShowCallback = null;
         OnHideCallback = null;

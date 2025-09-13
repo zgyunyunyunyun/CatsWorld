@@ -1,15 +1,25 @@
-﻿using GameFramework;
-using GameFramework.Event;
-using GameFramework.Fsm;
+﻿using GameFramework.Fsm;
 using GameFramework.Procedure;
-using UnityEngine;
-using UnityGameFramework.Runtime;
 [Obfuz.ObfuzIgnore(Obfuz.ObfuzScope.TypeName)]
 public class MenuProcedure : ProcedureBase
 {
+    IFsm<IProcedureManager> procedure;
+
+    protected override void OnInit(IFsm<IProcedureManager> procedureOwner)
+    {
+        base.OnInit(procedureOwner);
+    }
+
     protected override void OnEnter(IFsm<IProcedureManager> procedureOwner)
     {
         base.OnEnter(procedureOwner);
-        GF.Log("这是一个GF_X空白工程模板");
+
+        procedure = procedureOwner;
+        EnterGame(); //加载关卡
+    }
+
+    public void EnterGame()
+    {
+        ChangeState<GameProcedure>(procedure);
     }
 }

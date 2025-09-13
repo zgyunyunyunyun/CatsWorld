@@ -26,6 +26,6 @@ MonoBehaviour:
   KeystorePass: topgames
   AndroidKeyAliasName: release
   KeyAliasPass: topgames
-  ResourceBuildDir: AB
-  AppBuildDir: BuildApp
+  ResourceBuildDir: ..\..\..\output\CatWorld_GFX
+  AppBuildDir: ..\..\..\output\CatWorld_GFX\BuildApp
   EnableObfuz: 0

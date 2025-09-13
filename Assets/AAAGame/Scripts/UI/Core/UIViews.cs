@@ -8,6 +8,7 @@ public enum UIViews : int
 	GameUIForm = 2,
 	GameOverUIForm = 3,
 	Topbar = 4,
+	GameBg = 11,
 	SettingDialog = 5,
 	RatingDialog = 6,
 	TermsOfServiceDialog = 7,

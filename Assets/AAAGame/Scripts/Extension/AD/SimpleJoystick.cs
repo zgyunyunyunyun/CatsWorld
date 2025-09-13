@@ -39,7 +39,7 @@ public class SimpleJoystick : MonoBehaviour, IDragHandler, IPointerDownHandler, 
         baseRect = GetComponent<RectTransform>();
         originalBackgroundPos = background.anchoredPosition;
         canvasGroup = GetComponent<CanvasGroup>();
-        if(canvasGroup == null) canvasGroup = gameObject.AddComponent<CanvasGroup>();
+        if (canvasGroup == null) canvasGroup = gameObject.AddComponent<CanvasGroup>();
         canvasGroup.blocksRaycasts = true;
     }
     public void OnPointerDown(PointerEventData eventData)

@@ -38,27 +38,36 @@ public class LevelTable : DataRowBase
         }
 
         /// <summary>
-        /// 玩家初始钱数
+        /// 初始槽数
         /// </summary>
-        public int InitMoney
+        public int SlotCount
         {
             get;
             private set;
         }
 
         /// <summary>
-        /// 取值1-6
+        /// 鱼数量
         /// </summary>
-        public int MoneyColorId
+        public int FishCount
         {
             get;
             private set;
         }
 
         /// <summary>
-        /// 关卡显示名(多语言)
+        /// 每种小猫卡片出现的次数
         /// </summary>
-        public string LvDisplayName
+        public int RepeatCount
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// 小猫堆配置，每个数组表示一层，数组第一个元素为列数，第二个元素为行数，第三个元素为相对下面一层的水平偏移（0.5表示错开半格，0表示对齐，1表示偏移1格），第四个元素为相对下面一层的垂直偏移
+        /// </summary>
+        public float[][] Layers
         {
             get;
             private set;
@@ -77,9 +86,10 @@ public class LevelTable : DataRowBase
             m_Id = int.Parse(columnStrings[index++]);
             index++;
             LvPfbName = columnStrings[index++];
-            InitMoney = int.Parse(columnStrings[index++]);
-            MoneyColorId = int.Parse(columnStrings[index++]);
-            LvDisplayName = columnStrings[index++];
+            SlotCount = int.Parse(columnStrings[index++]);
+            FishCount = int.Parse(columnStrings[index++]);
+            RepeatCount = int.Parse(columnStrings[index++]);
+            Layers = DataTableExtension.Parse2DArray<float>(columnStrings[index++]);
 
             return true;
         }
@@ -92,9 +102,10 @@ public class LevelTable : DataRowBase
                 {
                     m_Id = binaryReader.Read7BitEncodedInt32();
                     LvPfbName = binaryReader.ReadString();
-                    InitMoney = binaryReader.Read7BitEncodedInt32();
-                    MoneyColorId = binaryReader.Read7BitEncodedInt32();
-                    LvDisplayName = binaryReader.ReadString();
+                    SlotCount = binaryReader.Read7BitEncodedInt32();
+                    FishCount = binaryReader.Read7BitEncodedInt32();
+                    RepeatCount = binaryReader.Read7BitEncodedInt32();
+                    Layers = binaryReader.Read2DArray<float>();
                 }
             }
 
