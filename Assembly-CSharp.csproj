@@ -497,6 +497,22 @@
       <HintPath>Assets\Plugins\ForEditor\CompressImageLibs\SixLabors.ImageSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="wx-perf">
+      <HintPath>Assets\WX-WASM-SDK-V2\Runtime\Plugins\wx-perf.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.FontABTool">
+      <HintPath>Assets\WX-WASM-SDK-V2\Runtime\Plugins\Unity.FontABTool.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="LitJson">
+      <HintPath>Assets\WX-WASM-SDK-V2\Runtime\Plugins\LitJson.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="wx-runtime-editor">
+      <HintPath>Assets\WX-WASM-SDK-V2\Runtime\Plugins\wx-runtime-editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.Android.Types">
       <HintPath>D:\Developer\Unity\Editor\2022.3.45f1c1\Editor\Data\PlaybackEngines\AndroidPlayer\Unity.Android.Types.dll</HintPath>
       <Private>False</Private>
@@ -1012,54 +1028,56 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="UniTask.Addressables.csproj" />
-    <ProjectReference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.csproj" />
     <ProjectReference Include="UnityGameFramework.Runtime.csproj" />
-    <ProjectReference Include="UniTask.Linq.csproj" />
     <ProjectReference Include="HybridCLR.Runtime.csproj" />
     <ProjectReference Include="Unity.Jobs.csproj" />
     <ProjectReference Include="Unity.RenderPipelines.Core.Runtime.csproj" />
-    <ProjectReference Include="Builtin.Runtime.csproj" />
-    <ProjectReference Include="Unity.RenderPipelines.Universal.Runtime.csproj" />
+    <ProjectReference Include="com.unity.cinemachine.editor.csproj" />
     <ProjectReference Include="GameFramework.csproj" />
-    <ProjectReference Include="Unity.Burst.csproj" />
     <ProjectReference Include="Unity.Burst.Editor.csproj" />
     <ProjectReference Include="Obfuz.Runtime.csproj" />
-    <ProjectReference Include="Obfuz.Editor.csproj" />
     <ProjectReference Include="HybridCLR.Editor.csproj" />
-    <ProjectReference Include="Unity.Timeline.Editor.csproj" />
-    <ProjectReference Include="Unity.ShaderGraph.Editor.csproj" />
     <ProjectReference Include="Newtonsoft.Json.UnityConverters.Mathematics.csproj" />
     <ProjectReference Include="ZString.csproj" />
-    <ProjectReference Include="DOTween.Extension.csproj" />
-    <ProjectReference Include="Unity.VisualStudio.Editor.csproj" />
-    <ProjectReference Include="UnityEditor.UI.csproj" />
     <ProjectReference Include="UnityGameFramework.Editor.csproj" />
-    <ProjectReference Include="UnityEngine.UI.csproj" />
-    <ProjectReference Include="com.unity.cinemachine.editor.csproj" />
-    <ProjectReference Include="Unity.RenderPipelines.Universal.Config.Runtime.csproj" />
     <ProjectReference Include="Unity.2D.Sprite.Editor.csproj" />
+    <ProjectReference Include="Unity.RenderPipelines.Universal.Config.Runtime.csproj" />
     <ProjectReference Include="Unity.RenderPipelines.Core.Editor.csproj" />
     <ProjectReference Include="Obfuz4HybridCLR.Editor.csproj" />
     <ProjectReference Include="Unity.Mathematics.Editor.csproj" />
-    <ProjectReference Include="Unity.RenderPipeline.Universal.ShaderLibrary.csproj" />
-    <ProjectReference Include="Unity.Timeline.csproj" />
     <ProjectReference Include="Unity.RenderPipelines.Core.ShaderLibrary.csproj" />
     <ProjectReference Include="Unity.Collections.csproj" />
     <ProjectReference Include="Unity.PlasticSCM.Editor.csproj" />
     <ProjectReference Include="UniTask.csproj" />
     <ProjectReference Include="Unity.Collections.Editor.csproj" />
+    <ProjectReference Include="WxEditor.csproj" />
     <ProjectReference Include="UniTask.TextMeshPro.csproj" />
     <ProjectReference Include="PPv2URPConverters.csproj" />
-    <ProjectReference Include="Newtonsoft.Json.UnityConverters.csproj" />
-    <ProjectReference Include="Unity.Mathematics.csproj" />
     <ProjectReference Include="Hotfix.csproj" />
     <ProjectReference Include="Unity.TextMeshPro.csproj" />
-    <ProjectReference Include="Unity.TextMeshPro.Editor.csproj" />
+    <ProjectReference Include="Unity.RenderPipelines.Universal.Editor.csproj" />
+    <ProjectReference Include="Builtin.Runtime.csproj" />
+    <ProjectReference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.csproj" />
+    <ProjectReference Include="UniTask.Linq.csproj" />
+    <ProjectReference Include="Unity.RenderPipelines.Universal.Runtime.csproj" />
+    <ProjectReference Include="Unity.Burst.csproj" />
+    <ProjectReference Include="Obfuz.Editor.csproj" />
+    <ProjectReference Include="Unity.Timeline.Editor.csproj" />
+    <ProjectReference Include="Unity.ShaderGraph.Editor.csproj" />
+    <ProjectReference Include="DOTween.Extension.csproj" />
+    <ProjectReference Include="Unity.VisualStudio.Editor.csproj" />
+    <ProjectReference Include="UnityEditor.UI.csproj" />
+    <ProjectReference Include="UnityEngine.UI.csproj" />
+    <ProjectReference Include="Wx.csproj" />
+    <ProjectReference Include="Unity.RenderPipeline.Universal.ShaderLibrary.csproj" />
+    <ProjectReference Include="Unity.Timeline.csproj" />
+    <ProjectReference Include="Newtonsoft.Json.UnityConverters.csproj" />
+    <ProjectReference Include="Unity.Mathematics.csproj" />
     <ProjectReference Include="Unity.RenderPipelines.Universal.Shaders.csproj" />
+    <ProjectReference Include="Unity.TextMeshPro.Editor.csproj" />
     <ProjectReference Include="Unity.Searcher.Editor.csproj" />
     <ProjectReference Include="Cinemachine.csproj" />
     <ProjectReference Include="UniTask.DOTween.csproj" />
-    <ProjectReference Include="Unity.RenderPipelines.Universal.Editor.csproj" />
   </ItemGroup>
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
   <ItemGroup>
