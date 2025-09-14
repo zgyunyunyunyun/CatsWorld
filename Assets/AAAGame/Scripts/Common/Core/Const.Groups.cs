@@ -12,7 +12,8 @@ public static partial class Const
 		Item,
 		Level,
 		Bullet,
-		Unrecycle
+		Unrecycle,
+		Enemy
 	}
 #if ENABLE_OBFUZ
 	[Obfuz.ObfuzIgnore]

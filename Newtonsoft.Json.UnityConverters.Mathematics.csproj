@@ -379,6 +379,10 @@
       <HintPath>D:\Developer\Unity\Editor\2022.3.45f1c1\Editor\Data\Managed\UnityEngine\UnityEditor.UnityConnectModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="wx-runtime-editor">
+      <HintPath>Assets\WX-WASM-SDK-V2\Runtime\Plugins\wx-runtime-editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System.Text.Json">
       <HintPath>Assets\Plugins\ForEditor\CompressImageLibs\System.Text.Json.dll</HintPath>
       <Private>False</Private>
@@ -403,6 +407,14 @@
       <HintPath>Library\PackageCache\com.unity.ext.nunit@2.0.3\net40\unity-custom\nunit.framework.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.FontABTool">
+      <HintPath>Assets\WX-WASM-SDK-V2\Runtime\Plugins\Unity.FontABTool.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="LitJson">
+      <HintPath>Assets\WX-WASM-SDK-V2\Runtime\Plugins\LitJson.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Microsoft.IO.RecyclableMemoryStream">
       <HintPath>Assets\Plugins\ForEditor\EPPlus.6.2\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
       <Private>False</Private>
@@ -423,12 +435,16 @@
       <HintPath>Library\PackageCache\com.unity.collections@2.5.7\Unity.Collections.Tests\System.IO.Hashing\System.IO.Hashing.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="LZ4">
-      <HintPath>Library\PackageCache\com.code-philosophy.hybridclr@d505624c78\Plugins\LZ4.dll</HintPath>
+    <Reference Include="Mono.Cecil">
+      <HintPath>Library\PackageCache\com.unity.nuget.mono-cecil@1.11.5\Mono.Cecil.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe">
       <HintPath>Assets\Plugins\ZString\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="LZ4">
+      <HintPath>Library\PackageCache\com.code-philosophy.hybridclr@d505624c78\Plugins\LZ4.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Tinify">
@@ -443,16 +459,16 @@
       <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@3.2.1\Runtime\Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Mono.Cecil">
-      <HintPath>Library\PackageCache\com.unity.nuget.mono-cecil@1.11.5\Mono.Cecil.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="EPPlus.System.Drawing">
       <HintPath>Assets\Plugins\ForEditor\EPPlus.6.2\EPPlus.System.Drawing.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>Assets\Plugins\UnityGameFramework\Libraries\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SixLabors.ImageSharp">
+      <HintPath>Assets\Plugins\ForEditor\CompressImageLibs\SixLabors.ImageSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces">
@@ -463,8 +479,8 @@
       <HintPath>Assets\Plugins\DOTween\DOTween.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="SixLabors.ImageSharp">
-      <HintPath>Assets\Plugins\ForEditor\CompressImageLibs\SixLabors.ImageSharp.dll</HintPath>
+    <Reference Include="wx-perf">
+      <HintPath>Assets\WX-WASM-SDK-V2\Runtime\Plugins\wx-perf.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Android.Types">

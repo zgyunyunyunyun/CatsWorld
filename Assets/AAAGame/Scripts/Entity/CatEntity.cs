@@ -35,6 +35,11 @@ public class CatEntity : EntityBase
         base.OnUpdate(elapseSeconds, realElapseSeconds);
     }
 
+    protected override void OnHide(bool isShutdown, object userData)
+    {
+        base.OnHide(isShutdown, userData);
+    }
+
     // 点击事件
     void OnMouseDown()
     {
@@ -48,7 +53,7 @@ public class CatEntity : EntityBase
         GF.Event.Fire(this, CatEntityClickEventArgs.Create(eParms));
     }
 
-    // 获取点击后前往的槽位
+    // 移动到指定位置
     public Tween MoveTo(Vector3 position)
     {
         // 返回 Tween 以便外部监听动画完成

@@ -3,6 +3,8 @@ using GameFramework.Event;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
@@ -13,7 +15,9 @@ public class LevelEntity : EntityBase
     public bool IsAllReady { get; private set; }
 
     private List<Cat> catCards = new(); // 关卡内所有猫咪卡片数据
+    private FishPoolEntity m_FishPoolEntity; // 鱼池实体
     private SlotEntity m_SlotEntity; // 槽位实体
+    private Collider2D m_Collider2D; // 用于检测鱼碰撞的碰撞体
 
     private Vector3 m_StartPos; // 猫咪堆叠的起始位置
     private float[][] layers; // 每一层的行数、列数，及相对下面一层的x、y偏移
@@ -41,6 +45,7 @@ public class LevelEntity : EntityBase
         IsAllReady = false;
         m_IsGameOver = false;
         m_EntityLoadingList.Clear();
+        m_FishPoolEntity = null;
         m_SlotEntity = null;
         catCards.Clear();
         catEntityIds.Clear();
@@ -60,10 +65,16 @@ public class LevelEntity : EntityBase
         // // bgParams.Set<VarAction>(GameBg.P_SlotInitCallback, (Action)GetSlotPoints);
         // m_GameBgUIForm = await GF.UI.OpenUIFormAwait(UIViews.GameBg, bgParams) as GameBg;
 
+        // 创建消除小猫堆
         GetStartPoint();
-        InitLevel();
+        InitLevelCats();
 
-        // GetSlotPoints();
+        // 创建鱼池
+        var fishPoolParams = EntityParams.Create();
+        fishPoolParams.AttachToEntity = this.Entity;
+        fishPoolParams.ParentTransform = this.CachedTransform.Find("FishPoolPoint");
+        fishPoolParams.localPosition = Vector3.zero;
+        m_FishPoolEntity = await GF.Entity.ShowEntityAwait<FishPoolEntity>("FishPool_1", Const.EntityGroup.Level, fishPoolParams) as FishPoolEntity;
 
         // 创建槽位
         var slotParams = EntityParams.Create();
@@ -94,10 +105,10 @@ public class LevelEntity : EntityBase
         base.OnHide(isShutdown, userData);
     }
 
-    public async void InitLevel()
+    public async void InitLevelCats()
     {
         catCards.Clear();
-        // TODO:获取小猫卡片数据
+
         //动态创建关卡
         var catTb = GF.DataTable.GetDataTable<CatTable>();
         List<CatData> catTypes = new();
@@ -143,6 +154,7 @@ public class LevelEntity : EntityBase
                     catEntity.CachedTransform.SetAsLastSibling(); // 保证后生成的在最上层
                     catEntityIds.Add(catEntity.Id);
                 }
+                await Task.Yield(); // 创建一列后稍微等待，避免卡顿
             }
         }
     }

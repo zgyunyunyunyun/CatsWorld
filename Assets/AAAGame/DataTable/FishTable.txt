@@ -2,4 +2,4 @@
 #	ID		PrefabName	Image	HP
 #	int		string	string	int
 #		备注	请添加字段, 字段名首字母大写		
-	0	鱼0	FishEntity	fish0	1
+	0	鱼0	FishEntity	UI/Fish/fish0.png	1
