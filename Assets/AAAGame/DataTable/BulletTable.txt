@@ -1,0 +1,5 @@
+﻿#	BulletTable		
+#	ID		PrefabName
+#	int		string
+#		备注	子弹实体预制体
+	0	子弹0	 BulletEntity

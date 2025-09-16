@@ -60,7 +60,9 @@
     <Compile Include="Assets\AAAGame\Scripts\UI\Core\UIItemObject.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Extension\ConfigExtension.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Network\PacketBase.cs" />
+    <Compile Include="Assets\AAAGame\Scripts\EventArgs\CatMergeCheckEventArgs.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Entity\Core\EntityBase.cs" />
+    <Compile Include="Assets\AAAGame\Scripts\EventArgs\BulletHitEventArgs.cs" />
     <Compile Include="Assets\AAAGame\Scripts\EventArgs\CatEntityClickEventArgs.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Extension\AwaitExtension\DownloadResult.cs" />
     <Compile Include="Assets\AAAGame\Scripts\DataTable\Core\EntityGroupTable.cs" />
@@ -71,6 +73,7 @@
     <Compile Include="Assets\AAAGame\Scripts\UI\UIVariables\GameUIForm.Variables.cs" />
     <Compile Include="Assets\AAAGame\Scripts\UI\UIVariables\LanguagesDialog.Variables.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Entity\CatEntity.cs" />
+    <Compile Include="Assets\AAAGame\Scripts\EventArgs\CatMergeAttackEventArgs.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Network\Packet\CSHeartBeat.cs" />
     <Compile Include="Assets\AAAGame\Scripts\UI\ToastTips.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Network\CSPacketBase.cs" />
@@ -80,6 +83,7 @@
     <Compile Include="Assets\AAAGame\Scripts\EventArgs\PlayerDataChangedEventArgs.cs" />
     <Compile Include="Assets\AAAGame\Scripts\UI\LanguagesDialog.cs" />
     <Compile Include="Assets\AAAGame\Scripts\UI\Core\UIViews.cs" />
+    <Compile Include="Assets\AAAGame\Scripts\EventArgs\FishDieEventArgs.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Network\SCPacketBase.cs" />
     <Compile Include="Assets\AAAGame\Scripts\UI\MenuUIForm.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Extension\DataModel\DataModelBase.cs" />
@@ -89,7 +93,7 @@
     <Compile Include="Assets\AAAGame\Scripts\UI\GameBg.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Extension\AD\AdSdkHelper.cs" />
     <Compile Include="Assets\AAAGame\Scripts\UI\UIVariables\ToastTips.Variables.cs" />
-    <Compile Include="Assets\AAAGame\Scripts\EventArgs\CatEntityClickEventArgs copy.cs" />
+    <Compile Include="Assets\AAAGame\Scripts\Entity\BulletEntity.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Entity\FishEntity.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Network\PacketHeaderBase.cs" />
     <Compile Include="Assets\AAAGame\Scripts\UI\Item\SlotItem.cs" />
@@ -116,9 +120,11 @@
     <Compile Include="Assets\AAAGame\Scripts\UI\Core\UIFormBase.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Extension\Animation\AnimationExtension.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Extension\DataModel\DataModelStorageBase.cs" />
+    <Compile Include="Assets\AAAGame\Scripts\DataTable\BulletTable.cs" />
     <Compile Include="Assets\AAAGame\Scripts\DataTable\CameraViewTable.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Data\Cat.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Main\SpriteRendererHorizontalLayoutGroup.cs" />
+    <Compile Include="Assets\AAAGame\Scripts\Data\BulletData.cs" />
     <Compile Include="Assets\AAAGame\Scripts\DataTable\LevelTable.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Extension\Variable\VarFloat.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Extension\AD\SimpleJoystick.cs" />
@@ -128,6 +134,7 @@
     <Compile Include="Assets\AAAGame\Scripts\DataTable\Core\SoundGroupTable.cs" />
     <Compile Include="Assets\AAAGame\Scripts\DataTable\ColorTable.cs" />
     <Compile Include="Assets\AAAGame\Scripts\UI\RatingDialog.cs" />
+    <Compile Include="Assets\AAAGame\Scripts\Data\Bullet.cs" />
     <Compile Include="Assets\AAAGame\Scripts\DataModel\PlayerDataModel.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Entity\Core\SampleEntity.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Data\FishData.cs" />
@@ -156,7 +163,6 @@
     <Compile Include="Assets\AAAGame\Scripts\UI\UIVariables\RatingDialog.Variables.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Common\CameraController.cs" />
     <Compile Include="Assets\AAAGame\Scripts\UI\ShopUIForm.cs" />
-    <Compile Include="Assets\AAAGame\Scripts\Main\CatHeap.cs" />
     <Compile Include="Assets\AAAGame\Scripts\UI\UITopbar.cs" />
     <Compile Include="Assets\AAAGame\Scripts\UI\UIVariables\MenuUIForm.Variables.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Network\CSPacketHeader.cs" />

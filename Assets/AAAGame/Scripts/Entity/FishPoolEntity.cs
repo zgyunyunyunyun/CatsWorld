@@ -13,7 +13,7 @@ public class FishPoolEntity : EntityBase
 
     private int fishCount; // 鱼的数量
     private List<Transform> fishSpawnPoints = new(); // 鱼类生成点列表
-    private List<Fish> fishes = new(); // 鱼类数据列表
+    private List<FishEntity> fishes = new(); // 鱼类数据列表
 
     protected override void OnInit(object userData)
     {
@@ -61,7 +61,12 @@ public class FishPoolEntity : EntityBase
     // 随机生成与fishSpawnPoints中点位y轴相同的鱼类生成点
     private Vector3 GetRandomFishSpawnPos()
     {
-        Vector3 randomPos = fishSpawnPoints[Random.Range(0, fishSpawnPoints.Count)].position;
+        var spawnTransform = fishSpawnPoints[Random.Range(0, fishSpawnPoints.Count)];
+        if (spawnTransform == null)
+        {
+            return Vector3.zero;
+        }
+        Vector3 randomPos = spawnTransform.position;
         randomPos.x = Random.Range(-4f, 4f); // 随机生成x轴位置
         return randomPos;
     }
@@ -69,7 +74,7 @@ public class FishPoolEntity : EntityBase
     // 生成鱼实体
     public async void SpawnFishEntities()
     {
-        if (fishes == null) fishes = new List<Fish>();
+        if (fishes == null) fishes = new();
 
         var fishTb = GF.DataTable.GetDataTable<FishTable>();
         List<FishData> fishTypes = new();
@@ -87,17 +92,61 @@ public class FishPoolEntity : EntityBase
             // 随机选择一种鱼类
             var fishType = fishTypes[Random.Range(0, fishTypes.Count)];
             var fish = new Fish(fishType);
-            fishes.Add(fish);
 
             var fishParams = EntityParams.Create();
             fishParams.position = spawnPoint;
             fishParams.Set(FishEntity.P_FishData, fish);
             // fishParams.Set<VarInt32>(FishEntity.P_SortOrder, 1); // 初始层级为1
             FishEntity fishEntity = await GF.Entity.ShowEntityAwait<FishEntity>("FishEntity", Const.EntityGroup.Enemy, fishParams) as FishEntity;
-            fishEntity.CachedTransform.SetAsLastSibling(); // 保证后生成的在最上层
+
+            fishes.Add(fishEntity);
 
             spawned++;
-            await Task.Delay(2000); // 每2秒生成一个
+            await Task.Delay(3000); // 每2秒生成一个
+        }
+    }
+
+    // 获取当前距离防守位置最近的鱼，支持第二个参数，为防守位置类型defendPosType，0表示一个点，1表示x轴不同y轴相同的线
+    public FishEntity GetNearestFishToDefense(Vector3 defensePosition, int defendPosType = 1)
+    {
+        if (fishes == null || fishes.Count == 0) return null;
+
+        FishEntity nearestFish = null;
+        float minDistance = float.MaxValue;
+
+        foreach (var fish in fishes)
+        {
+            if (fish == null) continue;
+            Vector3 fishPos = fish.CachedTransform.position;
+            float distance = 0f;
+
+            if (defendPosType == 0)
+            {
+                // 计算鱼与防守点的距离
+                distance = Vector3.Distance(fishPos, defensePosition);
+            }
+            else if (defendPosType == 1)
+            {
+                // 计算鱼与防守线的垂直距离（假设防守线为y轴相同的水平线）
+                distance = Mathf.Abs(fishPos.y - defensePosition.y);
+            }
+
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                nearestFish = fish;
+            }
+        }
+
+        return nearestFish;
+    }
+
+    // 鱼被击中，移除鱼实体
+    public void OnFishDie(FishEntity fish)
+    {
+        if (fishes.Contains(fish))
+        {
+            fishes.Remove(fish);
         }
     }
 }

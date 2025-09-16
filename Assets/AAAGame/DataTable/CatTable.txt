@@ -1,7 +1,7 @@
 ﻿#	CatTable				
 #	ID		PrefabName	Image	Damage
 #	int		string	string	int
-#		备注	请添加字段, 字段名首字母大写		
+#		备注	小猫实体预制体		
 	0	小猫0	CatEntity	UI/Cats/cat0.png	1
 	1	小猫1	CatEntity	UI/Cats/cat1.png	1
 	2	小猫2	CatEntity	UI/Cats/cat2.png	1

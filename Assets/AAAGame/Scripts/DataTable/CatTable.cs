@@ -29,7 +29,7 @@ public class CatTable : DataRowBase
     }
 
         /// <summary>
-        /// 请添加字段, 字段名首字母大写
+        /// 小猫实体预制体
         /// </summary>
         public string PrefabName
         {

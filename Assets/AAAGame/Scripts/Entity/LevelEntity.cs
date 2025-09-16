@@ -14,7 +14,7 @@ public class LevelEntity : EntityBase
     public const string P_LevelReadyCallback = "OnLevelReady";
     public bool IsAllReady { get; private set; }
 
-    private List<Cat> catCards = new(); // 关卡内所有猫咪卡片数据
+    private List<CatEntity> catCards = new(); // 关卡内所有猫咪卡片数据
     private FishPoolEntity m_FishPoolEntity; // 鱼池实体
     private SlotEntity m_SlotEntity; // 槽位实体
     private Collider2D m_Collider2D; // 用于检测鱼碰撞的碰撞体
@@ -22,7 +22,6 @@ public class LevelEntity : EntityBase
     private Vector3 m_StartPos; // 猫咪堆叠的起始位置
     private float[][] layers; // 每一层的行数、列数，及相对下面一层的x、y偏移
     private int repeatCount; // 每种猫咪的重复数量
-    private List<int> catEntityIds = new List<int>();  // 存储已创建的Cat实体ID
 
 
     private HashSet<int> m_EntityLoadingList;
@@ -40,7 +39,12 @@ public class LevelEntity : EntityBase
         GF.Event.Subscribe(ShowEntitySuccessEventArgs.EventId, OnShowEntitySuccess);
         GF.Event.Subscribe(HideEntityCompleteEventArgs.EventId, OnHideEntityComplete);
         GF.Event.Subscribe(CatEntityClickEventArgs.EventId, OnCatEntityClick);
-        GF.Event.Subscribe(CatMergeEventArgs.EventId, OnCatMerge);
+        GF.Event.Subscribe(CatMergeCheckEventArgs.EventId, OnCatMerge);
+        GF.Event.Subscribe(CatMergeAttackEventArgs.EventId, OnAttack);
+        GF.Event.Subscribe(BulletHitEventArgs.EventId, OnBulletHit);
+        GF.Event.Subscribe(FishDieEventArgs.EventId, OnFishDie);
+
+
 
         IsAllReady = false;
         m_IsGameOver = false;
@@ -48,7 +52,6 @@ public class LevelEntity : EntityBase
         m_FishPoolEntity = null;
         m_SlotEntity = null;
         catCards.Clear();
-        catEntityIds.Clear();
         m_StartPos = Vector3.zero;
 
 
@@ -100,11 +103,15 @@ public class LevelEntity : EntityBase
         GF.Event.Unsubscribe(ShowEntitySuccessEventArgs.EventId, OnShowEntitySuccess);
         GF.Event.Unsubscribe(HideEntityCompleteEventArgs.EventId, OnHideEntityComplete);
         GF.Event.Unsubscribe(CatEntityClickEventArgs.EventId, OnCatEntityClick);
-        GF.Event.Unsubscribe(CatMergeEventArgs.EventId, OnCatMerge);
+        GF.Event.Unsubscribe(CatMergeCheckEventArgs.EventId, OnCatMerge);
+        GF.Event.Unsubscribe(CatMergeAttackEventArgs.EventId, OnAttack);
+        GF.Event.Unsubscribe(BulletHitEventArgs.EventId, OnBulletHit);
+        GF.Event.Subscribe(FishDieEventArgs.EventId, OnFishDie);
 
         base.OnHide(isShutdown, userData);
     }
 
+    // 初始化关卡内的小猫
     public async void InitLevelCats()
     {
         catCards.Clear();
@@ -141,7 +148,6 @@ public class LevelEntity : EntityBase
                     int type = deck[deckIndex++];
 
                     var cat = new Cat(catTypes.Find(c => c.id == type));
-                    catCards.Add(cat);
 
                     var catParams = EntityParams.Create();
                     // 设置猫咪位置，同一层的x和y间距为0，往上一层的起始位置为下面一层的偏移，其中l[2]为x方向的偏移，l[3]为y方向的偏移，间距依然为0
@@ -152,7 +158,7 @@ public class LevelEntity : EntityBase
                     catParams.Set<VarInt32>(CatEntity.P_SortOrder, layer);
                     CatEntity catEntity = await GF.Entity.ShowEntityAwait<CatEntity>("CatEntity", Const.EntityGroup.Player, catParams) as CatEntity;
                     catEntity.CachedTransform.SetAsLastSibling(); // 保证后生成的在最上层
-                    catEntityIds.Add(catEntity.Id);
+                    catCards.Add(catEntity);
                 }
                 await Task.Yield(); // 创建一列后稍微等待，避免卡顿
             }
@@ -205,12 +211,11 @@ public class LevelEntity : EntityBase
     private bool IsSelectable(CatEntity cat)
     {
         float catSize = 1.4f; // 猫的尺寸
-        foreach (var other in catEntityIds)
+        foreach (var other in catCards)
         {
-            CatEntity otherCatEntity = GF.Entity.GetEntity(other).Logic as CatEntity;
-            if (otherCatEntity != null && otherCatEntity.layerOrder == cat.layerOrder + 1)
+            if (other.layerOrder == cat.layerOrder + 1)
             {
-                Vector2 otherPos = otherCatEntity.CachedTransform.position;
+                Vector2 otherPos = other.CachedTransform.position;
                 Vector2 catPos = cat.CachedTransform.position;
 
                 // 计算两个猫的包围盒
@@ -232,14 +237,15 @@ public class LevelEntity : EntityBase
     private void OnCatMerge(object sender, GameEventArgs e)
     {
         Log.Debug("触发猫咪合成事件");
-        var eArgs = e as CatMergeEventArgs;
-        List<CatEntity> mergedCats = eArgs.MergedCats;
-        if (mergedCats == null || mergedCats.Count < 3) return;
+        var eArgs = e as CatMergeCheckEventArgs;
+        List<CatEntity> slotCats = eArgs.MergedCats;
+        if (slotCats == null || slotCats.Count < 3) return;
 
-        Dictionary<int, int> counts = new Dictionary<int, int>();
-        List<int> result = new List<int>();
+        Dictionary<int, int> counts = new(); // 记录每种猫咪的数量
+        List<int> result = new(); // 记录需要消除的猫咪ID
 
-        foreach (int num in mergedCats.Select(c => c.GetCatId()))
+        // 统计槽位中每种猫咪的数量
+        foreach (int num in slotCats.Select(c => c.GetCatId()))
         {
             if (!counts.ContainsKey(num))
                 counts[num] = 0;
@@ -253,15 +259,77 @@ public class LevelEntity : EntityBase
             }
         }
 
-        m_SlotEntity.RemoveMergedCats(mergedCats.Where(c => result.Contains(c.GetCatId())).ToList());
-        catEntityIds.RemoveAll(id => mergedCats.Any(c => c.Id == id));
-        mergedCats.RemoveAll(c => result.Contains(c.GetCatId()));
+        // 消除符合条件的猫咪
+        m_SlotEntity.RemoveMergedCats(slotCats.Where(c => result.Contains(c.GetCatId())).ToList());
+        catCards.RemoveAll(c => slotCats.Any(s => s.Id == c.Id));
+        slotCats.RemoveAll(c => result.Contains(c.GetCatId()));
 
-        if (mergedCats.Count >= m_SlotEntity.GetMaxSlots())
+        if (slotCats.Count >= m_SlotEntity.GetMaxSlots())
         {
             // 游戏结束
             GF.Event.Fire(this, GameplayEventArgs.Create(GameplayEventType.GameOver));
             return;
+        }
+    }
+
+    // 处理猫咪攻击事件
+    private void OnAttack(object sender, GameEventArgs e)
+    {
+        Log.Debug("触发猫咪攻击事件");
+        var eArgs = e as CatMergeAttackEventArgs;
+        List<CatEntity> mergedCats = eArgs.MergedCats;
+        if (mergedCats == null || mergedCats.Count == 0) return;
+
+        // 计算攻击力
+        int attackPower = mergedCats.Sum(c => c.GetCatData().catData.damage) / mergedCats.Count;
+        Log.Debug($"攻击力: {attackPower}");
+
+        // 出现子弹
+        var bulletTable = GF.DataTable.GetDataTable<BulletTable>();
+        BulletTable defaultBullet = bulletTable.GetDataRow(0);
+        var bulletParams = EntityParams.Create();
+        bulletParams.position = mergedCats[1].CachedTransform.position;
+        bulletParams.Set(BulletEntity.P_BulletData, new Bullet(new BulletData(defaultBullet)));
+        bulletParams.Set<VarFloat>(BulletEntity.P_Speed, 3f);
+        bulletParams.Set(BulletEntity.P_TargetFish, m_FishPoolEntity.GetNearestFishToDefense(new Vector3(0, 1, 0), 1));
+        GF.Entity.ShowEntity<BulletEntity>("Bullet", Const.EntityGroup.Bullet, bulletParams);
+        // 播放攻击动画或特效（可选）
+    }
+
+    // 处理子弹命中事件
+    private void OnBulletHit(object sender, GameEventArgs e)
+    {
+        var eArgs = e as BulletHitEventArgs;
+        int bulletId = eArgs.BulletId;
+        FishEntity hitFish = eArgs.HitFish;
+
+        if (hitFish != null)
+        {
+            hitFish.OnHit(bulletId, 1); // 假设子弹伤害为1
+        }
+    }
+
+    // 处理鱼死亡事件
+    private void OnFishDie(object sender, GameEventArgs e)
+    {
+        var eArgs = e as FishDieEventArgs;
+        int bulletId = eArgs.BulletId;
+        FishEntity hitFish = eArgs.HitFish;
+        if (m_FishPoolEntity != null && hitFish != null)
+        {
+            m_FishPoolEntity.OnFishDie(hitFish);
+        }
+    }
+
+    // 检测防线是否有鱼通过
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            Debug.Log("鱼碰到防线！");
+
+            FishEntity fish = other.GetComponent<FishEntity>();
+            fish?.Die(-1); // -1表示不是被子弹击杀的
         }
     }
 

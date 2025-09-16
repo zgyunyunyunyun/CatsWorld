@@ -21,11 +21,12 @@
       <Asset Guid="09045e73e44b1d944bafe57ece728071" ResourceName="UI" />
       <Asset Guid="0b69b108d75f47940881a60045f21976" ResourceName="UI" />
       <Asset Guid="13b0b1255d7d6cf44a4d1987723460ef" ResourceName="ScriptableAssets" />
+      <Asset Guid="16a444ecc813bd74ea11503daee5795d" ResourceName="Sprites" />
       <Asset Guid="17809c14ab03d914fbb791e882587415" ResourceName="DataTable" />
       <Asset Guid="17c3f565cf73d4740bfaed4f87e98fa3" ResourceName="Language" />
       <Asset Guid="18868d941a71f02498051516873367ce" ResourceName="Scene" />
       <Asset Guid="18d313816561eb94f883cc5522c2158b" ResourceName="UI" />
-      <Asset Guid="197d6fb458c55f2478cf569b89632e52" ResourceName="Sprites" />
+      <Asset Guid="197d6fb458c55f2478cf569b89632e52" ResourceName="SharedAssets" />
       <Asset Guid="1a30e362e125e0b4a8862e3d5df4a0a4" ResourceName="UI" />
       <Asset Guid="1caa4c6fdc3281642b46f7c82c497dc5" ResourceName="Core" />
       <Asset Guid="1dcfff89ac470486aa68e4aa499b59c8" ResourceName="SharedAssets" />
@@ -51,6 +52,7 @@
       <Asset Guid="65286f6b2b857384abd71e30d9309f34" ResourceName="Config" />
       <Asset Guid="66210d36a4cf7514e8d9e60ae298c2c4" ResourceName="DataTable" />
       <Asset Guid="664209e7e2856a643ba5cce38f6107c2" ResourceName="Entity" />
+      <Asset Guid="66fe81b03f0a24a40bc90b88a0a34426" ResourceName="Entity" />
       <Asset Guid="6792e8ab386017841ab27626b9753bec" ResourceName="UI" />
       <Asset Guid="68e6db2ebdc24f95958faec2be5558d6" ResourceName="SharedAssets" />
       <Asset Guid="6a4e2eebc9726fd49952a02518d04a6b" ResourceName="UI" />
@@ -80,6 +82,7 @@
       <Asset Guid="bafec7443994f4ca888ddaaf0b29f99b" ResourceName="SharedAssets" />
       <Asset Guid="c0dffa5b64f2b4d45bf115220fd2c138" ResourceName="Sprites" />
       <Asset Guid="c1bf70ce98a49bd4f8b60847ce98cfa8" ResourceName="Language" />
+      <Asset Guid="c493f6bc824fbb448b8d4ca09acd1230" ResourceName="Entity" />
       <Asset Guid="c4e839cf3d001e0499336fb7f53c0310" ResourceName="DataTable" />
       <Asset Guid="c7a26b8d1ff63834298841254b2332c4" ResourceName="UI" />
       <Asset Guid="ca4765c7a3113644e9f87e202a7ff91d" ResourceName="Scene" />

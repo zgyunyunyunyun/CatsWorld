@@ -77,7 +77,8 @@ public class SlotEntity : EntityBase
                 // 只在最后一只猫动画完成后再触发合成
                 tween.OnComplete(() =>
                 {
-                    GF.Event.Fire(this, CatMergeEventArgs.Create(slotCats));
+                    // 触发猫咪合成检查事件
+                    GF.Event.Fire(this, CatMergeCheckEventArgs.Create(slotCats));
                 });
             }
         }
@@ -102,10 +103,13 @@ public class SlotEntity : EntityBase
             {
                 cat.Entity.transform.DOScale(Vector3.zero, 0.3f).OnComplete(() =>
                 {
-                    GF.Entity.HideEntity(cat.Entity);
+                    GF.Entity.HideEntitySafe(cat.Id);
                 });
             });
         }
+
+        // 消除小猫后进行攻击
+        GF.Event.Fire(this, CatMergeAttackEventArgs.Create(mergedCats));
 
         // 重新排列剩余的猫咪
         RearrangeCats();
