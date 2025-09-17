@@ -60,6 +60,7 @@
       <Asset Guid="73d884ecdd851124aaca044feebbe87d" ResourceName="DataTable" />
       <Asset Guid="743d91e4e5cb9bc478f0ab99fbd8f7d1" ResourceName="UI" />
       <Asset Guid="74b06ad59906133448a2fe06366e4889" ResourceName="Language" />
+      <Asset Guid="7b166d3a2bb2a114c9bf6ef7c7211a91" ResourceName="Entity" />
       <Asset Guid="7fa753003c0b5b24faded9b639aabaef" ResourceName="UI" />
       <Asset Guid="82fd6d28ec1803a4eaf75f27d727984f" ResourceName="DataTable" />
       <Asset Guid="83bdadb9e1d24a94e8498def13d4804c" ResourceName="Language" />
@@ -73,10 +74,12 @@
       <Asset Guid="9deca69555354744b9e1fbdffb007bd8" ResourceName="SharedAssets" />
       <Asset Guid="9e070c6eb5e59ae4c9d3abf2f1b54b30" ResourceName="Entity" />
       <Asset Guid="9fdf2423376c44500a69de40dd83ef49" ResourceName="SharedAssets" />
+      <Asset Guid="a17b52149625f184a92738db76af0ff7" ResourceName="Entity" />
       <Asset Guid="a1f86d33047f244769ac61e2fbffdba8" ResourceName="SharedAssets" />
       <Asset Guid="a29db755b6ae1104a94df297de29cfc8" ResourceName="SharedAssets" />
       <Asset Guid="a8043c8d11e46d648bb702e4a3572406" ResourceName="Entity" />
       <Asset Guid="b0fa76331025c074482a58b9be41e4c9" ResourceName="SharedAssets" />
+      <Asset Guid="b3f8e7805a251d34e87556f70ce61e17" ResourceName="DataTable" />
       <Asset Guid="b8f790017d833da45a5aec7344ed4f97" ResourceName="SharedAssets" />
       <Asset Guid="b9b257dbe6e8147fc8a45226e735b6e1" ResourceName="SharedAssets" />
       <Asset Guid="bafec7443994f4ca888ddaaf0b29f99b" ResourceName="SharedAssets" />

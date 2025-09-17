@@ -14,6 +14,11 @@ public class FishPoolEntity : EntityBase
     private int fishCount; // 鱼的数量
     private List<Transform> fishSpawnPoints = new(); // 鱼类生成点列表
     private List<FishEntity> fishes = new(); // 鱼类数据列表
+    private float spawnTimer = 0f; // 生成计时器
+    private int spawnedCount = 0; // 已生成的鱼数量
+    private float spawnInterval = 3.0f; // 生成间隔(秒)
+    private List<FishData> fishTypes; // 鱼类型缓存
+    private bool isSpawning = false; // 是否正在生成
 
     protected override void OnInit(object userData)
     {
@@ -29,15 +34,47 @@ public class FishPoolEntity : EntityBase
         // 获取鱼的数量
         fishCount = Params.Get<VarInt32>(P_FishCount, 50);
 
-        SpawnFishEntities();
+        // 初始化鱼类型数据
+        InitFishTypes();
+
+        // 重置计时器和计数
+        spawnTimer = 0f;
+        spawnedCount = 0;
+        isSpawning = true;
     }
+
     protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
     {
         base.OnUpdate(elapseSeconds, realElapseSeconds);
+
+        // 使用Update方法基于计时器生成鱼
+        if (isSpawning && spawnedCount < fishCount)
+        {
+            spawnTimer += elapseSeconds;
+            if (spawnTimer >= spawnInterval)
+            {
+                spawnTimer = 0f;
+                SpawnSingleFish();
+            }
+        }
     }
 
     protected override void OnHide(bool isShutdown, object userData)
     {
+        // 停止生成
+        isSpawning = false;
+
+        // 清理资源
+        if (fishes != null)
+        {
+            fishes.Clear();
+        }
+
+        if (fishTypes != null)
+        {
+            fishTypes.Clear();
+        }
+
         base.OnHide(isShutdown, userData);
     }
 
@@ -71,8 +108,47 @@ public class FishPoolEntity : EntityBase
         return randomPos;
     }
 
-    // 生成鱼实体
-    public async void SpawnFishEntities()
+    // 初始化鱼类型数据
+    private void InitFishTypes()
+    {
+        if (fishTypes == null) fishTypes = new();
+        else fishTypes.Clear();
+
+        var fishTb = GF.DataTable.GetDataTable<FishTable>();
+        foreach (var row in fishTb.GetAllDataRows())
+        {
+            fishTypes.Add(new FishData(row));
+        }
+    }
+
+    // 生成单条鱼，使用协程确保实体创建后能添加到列表中
+    private async void SpawnSingleFish()
+    {
+        if (fishes == null) fishes = new();
+        if (fishTypes == null || fishTypes.Count == 0) return;
+
+        // 随机选择一个生成点
+        var spawnPoint = GetRandomFishSpawnPos();
+
+        // 随机选择一种鱼类
+        var fishType = fishTypes[Random.Range(0, fishTypes.Count)];
+        var fish = new Fish(fishType);
+
+        var fishParams = EntityParams.Create();
+        fishParams.position = spawnPoint;
+        fishParams.Set(FishEntity.P_FishData, fish);
+
+        // 使用await方式显示实体并添加到列表
+        FishEntity fishEntity = await GF.Entity.ShowEntityAwait<FishEntity>("FishEntity", Const.EntityGroup.Enemy, fishParams) as FishEntity;
+        if (fishEntity != null)
+        {
+            fishes.Add(fishEntity);
+            spawnedCount++; // 增加已生成计数
+        }
+    }
+
+    // 生成鱼实体（异步方法在微信小游戏中不兼容，暂时保留）
+    private async void SpawnFishEntities()
     {
         if (fishes == null) fishes = new();
 

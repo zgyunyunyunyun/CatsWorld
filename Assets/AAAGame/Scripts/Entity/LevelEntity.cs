@@ -106,7 +106,7 @@ public class LevelEntity : EntityBase
         GF.Event.Unsubscribe(CatMergeCheckEventArgs.EventId, OnCatMerge);
         GF.Event.Unsubscribe(CatMergeAttackEventArgs.EventId, OnAttack);
         GF.Event.Unsubscribe(BulletHitEventArgs.EventId, OnBulletHit);
-        GF.Event.Subscribe(FishDieEventArgs.EventId, OnFishDie);
+        GF.Event.Unsubscribe(FishDieEventArgs.EventId, OnFishDie);
 
         base.OnHide(isShutdown, userData);
     }
@@ -129,7 +129,9 @@ public class LevelEntity : EntityBase
         foreach (var type in catTypes)
         {
             for (int i = 0; i < repeatCount; i++)
+            {
                 deck.Add(type.id);
+            }
         }
         Shuffle(deck);
 
