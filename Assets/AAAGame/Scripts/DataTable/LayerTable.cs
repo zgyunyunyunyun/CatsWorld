@@ -15,9 +15,9 @@ using UnityGameFramework.Runtime;
 [Obfuz.ObfuzIgnore(Obfuz.ObfuzScope.TypeName | Obfuz.ObfuzScope.MethodName)]
 #endif
 /// <summary>
-/// 关卡表
+/// LayerTable
 /// </summary>
-public class LevelTable : DataRowBase
+public class LayerTable : DataRowBase
 {
 	private int m_Id = 0;
 	/// <summary>
@@ -29,45 +29,27 @@ public class LevelTable : DataRowBase
     }
 
         /// <summary>
-        /// 关卡prefab名
+        /// 各层每行小猫数量，4,4,4表示该层有三行，每行4只小猫
         /// </summary>
-        public string LvPfbName
+        public int[] CatNum
         {
             get;
             private set;
         }
 
         /// <summary>
-        /// 初始槽数
+        /// 每行小猫间距
         /// </summary>
-        public int SlotCount
+        public float[] RowGap
         {
             get;
             private set;
         }
 
         /// <summary>
-        /// 鱼数量
+        /// 每行小猫起始位置
         /// </summary>
-        public int FishCount
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// 每种小猫卡片出现的次数
-        /// </summary>
-        public int RepeatCount
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// 小猫堆配置，读取LayerTable表数据，1,2,3表示第一层用id为1，第二层用id为2，第三层用id为3的层配置堆叠成小猫堆
-        /// </summary>
-        public int[] Layers
+        public Vector3[] StartPos
         {
             get;
             private set;
@@ -85,11 +67,9 @@ public class LevelTable : DataRowBase
             index++;
             m_Id = int.Parse(columnStrings[index++]);
             index++;
-            LvPfbName = columnStrings[index++];
-            SlotCount = int.Parse(columnStrings[index++]);
-            FishCount = int.Parse(columnStrings[index++]);
-            RepeatCount = int.Parse(columnStrings[index++]);
-            Layers = DataTableExtension.ParseArray<int>(columnStrings[index++]);
+            CatNum = DataTableExtension.ParseArray<int>(columnStrings[index++]);
+            RowGap = DataTableExtension.ParseArray<float>(columnStrings[index++]);
+            StartPos = DataTableExtension.ParseVector3Array(columnStrings[index++]);
 
             return true;
         }
@@ -101,11 +81,9 @@ public class LevelTable : DataRowBase
                 using (BinaryReader binaryReader = new BinaryReader(memoryStream, Encoding.UTF8))
                 {
                     m_Id = binaryReader.Read7BitEncodedInt32();
-                    LvPfbName = binaryReader.ReadString();
-                    SlotCount = binaryReader.Read7BitEncodedInt32();
-                    FishCount = binaryReader.Read7BitEncodedInt32();
-                    RepeatCount = binaryReader.Read7BitEncodedInt32();
-                    Layers = binaryReader.ReadArray<int>();
+                    CatNum = binaryReader.ReadArray<int>();
+                    RowGap = binaryReader.ReadArray<float>();
+                    StartPos = binaryReader.ReadVector3Array();
                 }
             }
 

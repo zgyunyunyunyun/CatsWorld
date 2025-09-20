@@ -79,6 +79,7 @@
     <None Include="Assets\AAAGame\Font\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\AAAGame\Font\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\AAAGame\Config\GameConfig.txt" />
+    <None Include="Assets\AAAGame\DataTable\LayerTable.txt" />
     <None Include="Assets\AAAGame\Font\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\AAAGame\HotfixDlls\HotfixFileList.txt" />
     <None Include="Assets\AAAGame\Shader\ASE\FastLit.shader" />

@@ -115,6 +115,7 @@
     <Compile Include="Assets\AAAGame\Scripts\Extension\SettingExtension.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Entity\LevelEntity.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Entity\SlotItemEntity.cs" />
+    <Compile Include="Assets\AAAGame\Scripts\DataTable\LayerTable.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Extension\LocalizationExtension.cs" />
     <Compile Include="Assets\AAAGame\Scripts\UI\GameOverUIForm.cs" />
     <Compile Include="Assets\AAAGame\Scripts\UI\Core\UIFormBase.cs" />

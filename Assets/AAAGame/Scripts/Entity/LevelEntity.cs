@@ -20,7 +20,8 @@ public class LevelEntity : EntityBase
     private Collider2D m_Collider2D; // 用于检测鱼碰撞的碰撞体
 
     private Vector3 m_StartPos; // 猫咪堆叠的起始位置
-    private float[][] layers; // 每一层的行数、列数，及相对下面一层的x、y偏移
+    private int m_SlotCount; // 槽位数量
+    private List<LayerTable> layerConfigs = new(); // 每一层的行数、列数，及相对下面一层的x、y偏移
     private int repeatCount; // 每种猫咪的重复数量
 
 
@@ -44,8 +45,6 @@ public class LevelEntity : EntityBase
         GF.Event.Subscribe(BulletHitEventArgs.EventId, OnBulletHit);
         GF.Event.Subscribe(FishDieEventArgs.EventId, OnFishDie);
 
-
-
         IsAllReady = false;
         m_IsGameOver = false;
         m_EntityLoadingList.Clear();
@@ -55,22 +54,15 @@ public class LevelEntity : EntityBase
         m_StartPos = Vector3.zero;
 
 
-        m_StartPos = this.CachedTransform.Find("StartPoint").position;
-        LevelTable levelTable = Params.Get(P_LevelData) as LevelTable;
-        Log.Warning(levelTable.SlotCount);
-
-        layers = levelTable.Layers;
-        repeatCount = levelTable.RepeatCount;
-
         // // 初始化游戏背景、槽位等
         // var bgParams = UIParams.Create();
         // bgParams.Set<VarInt32>(GameBg.P_SlotCount, levelTable.SlotCount);
         // // bgParams.Set<VarAction>(GameBg.P_SlotInitCallback, (Action)GetSlotPoints);
         // m_GameBgUIForm = await GF.UI.OpenUIFormAwait(UIViews.GameBg, bgParams) as GameBg;
 
-        // 创建消除小猫堆
-        GetStartPoint();
-        InitLevelCats();
+        GetStartPoint(); // 获取初始位置
+        InitLevelConfig(); // 初始化关卡配置
+        await InitLevelCats(); // 创建消除小猫堆
 
         // 创建鱼池
         var fishPoolParams = EntityParams.Create();
@@ -84,14 +76,33 @@ public class LevelEntity : EntityBase
         slotParams.AttachToEntity = this.Entity;
         slotParams.ParentTransform = this.CachedTransform.Find("SlotPoint");
         slotParams.localPosition = Vector3.zero;
-        slotParams.Set<VarInt32>(SlotEntity.P_MaxSlots, levelTable.SlotCount);
+        slotParams.Set<VarInt32>(SlotEntity.P_MaxSlots, m_SlotCount);
         m_SlotEntity = await GF.Entity.ShowEntityAwait<SlotEntity>("Slot_1", Const.EntityGroup.Level, slotParams) as SlotEntity;
     }
 
+    // 获取初始位置，后续的猫咪堆叠位置都基于此位置进行计算
     private void GetStartPoint()
     {
         // m_StartPos = m_GameBgUIForm.GetCatPileStartPoint();
-        m_StartPos = this.CachedTransform.Find("StartPoint").position;
+        m_StartPos = CachedTransform.Find("TileBg").Find("StartPoint").position;
+    }
+
+    // 初始化猫咪堆叠层数和每层行列数
+    private void InitLevelConfig()
+    {
+        LevelTable levelTable = Params.Get(P_LevelData) as LevelTable;
+        Log.Warning(levelTable.SlotCount);
+
+        m_SlotCount = levelTable.SlotCount;
+        repeatCount = levelTable.RepeatCount;
+
+        var layerIds = levelTable.Layers;
+        // 获取层配置
+        var layers = GF.DataTable.GetDataTable<LayerTable>();
+        for (int i = 0; i < layerIds.Length; i++)
+        {
+            layerConfigs.Add(layers.GetDataRow(layerIds[i]));
+        }
     }
 
     protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
@@ -112,19 +123,35 @@ public class LevelEntity : EntityBase
     }
 
     // 初始化关卡内的小猫
-    public async void InitLevelCats()
+    public async Task InitLevelCats()
     {
         catCards.Clear();
 
-        //动态创建关卡
+        // 1. 获取猫咪类型数据
+        List<CatData> catTypes = GetAllCatTypes();
+
+        // 2. 构建随机猫咪牌组
+        List<int> deck = BuildShuffledDeck(catTypes);
+
+        // 3. 按层摆放猫咪
+        await PlaceCatsByLayer(catTypes, deck);
+    }
+
+    // 获取所有猫咪类型数据
+    private List<CatData> GetAllCatTypes()
+    {
         var catTb = GF.DataTable.GetDataTable<CatTable>();
         List<CatData> catTypes = new();
         foreach (var row in catTb.GetAllDataRows())
         {
             catTypes.Add(new CatData(row));
         }
+        return catTypes;
+    }
 
-        // 1. 构建元素池
+    // 构建随机猫咪牌组
+    private List<int> BuildShuffledDeck(List<CatData> catTypes)
+    {
         List<int> deck = new List<int>();
         foreach (var type in catTypes)
         {
@@ -134,37 +161,66 @@ public class LevelEntity : EntityBase
             }
         }
         Shuffle(deck);
+        return deck;
+    }
 
+    // 按层摆放猫咪
+    private async Task PlaceCatsByLayer(List<CatData> catTypes, List<int> deck)
+    {
         int deckIndex = 0;
 
-        // 2. 按层摆放
-        for (int layer = 0; layer < layers.Length; layer++)
+        for (int layerIdx = 0; layerIdx < layerConfigs.Count; layerIdx++)
         {
-            var l = layers[layer];
-            for (int x = 0; x < l[0]; x++)
+            LayerTable layerConfig = layerConfigs[layerIdx];
+
+            for (int rowIdx = 0; rowIdx < layerConfig.CatNum.Length; rowIdx++)
             {
-                for (int y = 0; y < l[1]; y++)
-                {
-                    if (deckIndex >= deck.Count) break;
-
-                    int type = deck[deckIndex++];
-
-                    var cat = new Cat(catTypes.Find(c => c.id == type));
-
-                    var catParams = EntityParams.Create();
-                    // 设置猫咪位置，同一层的x和y间距为0，往上一层的起始位置为下面一层的偏移，其中l[2]为x方向的偏移，l[3]为y方向的偏移，间距依然为0
-                    // z轴方向为负数，层数越高z越小，保证层数高的在上面
-                    // catParams.position = m_StartPos + new Vector3(x * 1.5f + layer * l[2] + layer * 0.08f, y * -1.5f - layer * l[3], 0);
-                    catParams.position = m_StartPos + new Vector3(x * 2f + layer * l[2] + layer * 0.08f, y * -2f - layer * l[3], -layer * 0.01f);
-                    catParams.Set(CatEntity.P_CatData, cat);
-                    catParams.Set<VarInt32>(CatEntity.P_SortOrder, layer);
-                    CatEntity catEntity = await GF.Entity.ShowEntityAwait<CatEntity>("CatEntity", Const.EntityGroup.Player, catParams) as CatEntity;
-                    catEntity.CachedTransform.SetAsLastSibling(); // 保证后生成的在最上层
-                    catCards.Add(catEntity);
-                }
-                await Task.Yield(); // 创建一列后稍微等待，避免卡顿
+                await PlaceCatsInRow(catTypes, deck, layerIdx, layerConfig, rowIdx, deckIndex);
+                deckIndex += layerConfig.CatNum[rowIdx]; // 更新索引
             }
         }
+    }
+
+    // 在一行中摆放猫咪
+    private async Task PlaceCatsInRow(List<CatData> catTypes, List<int> deck,
+                                      int layerIdx, LayerTable layerConfig, int rowIdx, int startIndex)
+    {
+        Vector3 rowStartPos = m_StartPos + layerConfig.StartPos[rowIdx];
+        int catCount = layerConfig.CatNum[rowIdx];
+
+        for (int colIdx = 0; colIdx < catCount; colIdx++)
+        {
+            int deckIndex = startIndex + colIdx;
+            if (deckIndex >= deck.Count) break;
+
+            await CreateCatEntity(catTypes, deck[deckIndex], layerIdx, rowStartPos, layerConfig.RowGap[rowIdx], colIdx);
+        }
+
+        await Task.Yield(); // 创建一行后稍微等待，避免卡顿
+    }
+
+    // 创建单个猫咪实体
+    private async Task<CatEntity> CreateCatEntity(List<CatData> catTypes, int catTypeId, int layerIdx,
+                                                 Vector3 rowStartPos, float rowGap, int columnIndex)
+    {
+        // 根据id找到对应的猫咪数据
+        var cat = new Cat(catTypes.Find(c => c.id == catTypeId));
+
+        // 计算猫咪位置
+        Vector3 position = rowStartPos + new Vector3(columnIndex * 1.5f + rowGap * columnIndex, 0, -layerIdx * 0.01f);
+
+        // 创建实体参数
+        var catParams = EntityParams.Create();
+        catParams.position = position;
+        catParams.Set(CatEntity.P_CatData, cat);
+        catParams.Set<VarInt32>(CatEntity.P_SortOrder, layerIdx);
+
+        // 显示实体
+        CatEntity catEntity = await GF.Entity.ShowEntityAwait<CatEntity>("CatEntity", Const.EntityGroup.Player, catParams) as CatEntity;
+        catEntity.CachedTransform.SetAsLastSibling(); // 保证后生成的在最上层
+        catCards.Add(catEntity);
+
+        return catEntity;
     }
 
     // 洗牌算法
