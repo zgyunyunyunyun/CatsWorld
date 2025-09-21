@@ -17,12 +17,12 @@ public class LevelEntity : EntityBase
     private List<CatEntity> catCards = new(); // 关卡内所有猫咪卡片数据
     private FishPoolEntity m_FishPoolEntity; // 鱼池实体
     private SlotEntity m_SlotEntity; // 槽位实体
-    private Collider2D m_Collider2D; // 用于检测鱼碰撞的碰撞体
 
     private Vector3 m_StartPos; // 猫咪堆叠的起始位置
     private int m_SlotCount; // 槽位数量
     private List<LayerTable> layerConfigs = new(); // 每一层的行数、列数，及相对下面一层的x、y偏移
     private int repeatCount; // 每种猫咪的重复数量
+    private float m_CatEntitySize = 1.45f; // 猫咪实体的尺寸（假设为正方形，边长1.4单位）
 
 
     private HashSet<int> m_EntityLoadingList;
@@ -207,11 +207,13 @@ public class LevelEntity : EntityBase
         var cat = new Cat(catTypes.Find(c => c.id == catTypeId));
 
         // 计算猫咪位置
-        Vector3 position = rowStartPos + new Vector3(columnIndex * 1.5f + rowGap * columnIndex, 0, -layerIdx * 0.01f);
+        Vector3 position = rowStartPos + new Vector3(columnIndex * m_CatEntitySize + rowGap * columnIndex, 0, -layerIdx * 0.01f);
 
         // 创建实体参数
         var catParams = EntityParams.Create();
         catParams.position = position;
+        // catParams.AttachToEntity = this.Entity;
+        // catParams.ParentTransform = this.CachedTransform.Find("TileBg").Find("CatPile");
         catParams.Set(CatEntity.P_CatData, cat);
         catParams.Set<VarInt32>(CatEntity.P_SortOrder, layerIdx);
 
@@ -268,7 +270,6 @@ public class LevelEntity : EntityBase
     // 判断猫咪是否可选（没有被上层猫咪挡住）
     private bool IsSelectable(CatEntity cat)
     {
-        float catSize = 1.4f; // 猫的尺寸
         foreach (var other in catCards)
         {
             if (other.layerOrder == cat.layerOrder + 1)
@@ -277,9 +278,9 @@ public class LevelEntity : EntityBase
                 Vector2 catPos = cat.CachedTransform.position;
 
                 // 计算两个猫的包围盒
-                float half = catSize / 2f;
-                Rect catRect = new(catPos.x - half, catPos.y - half, catSize, catSize);
-                Rect otherRect = new(otherPos.x - half, otherPos.y - half, catSize, catSize);
+                float half = m_CatEntitySize / 2f;
+                Rect catRect = new(catPos.x - half, catPos.y - half, m_CatEntitySize, m_CatEntitySize);
+                Rect otherRect = new(otherPos.x - half, otherPos.y - half, m_CatEntitySize, m_CatEntitySize);
 
                 // 判断包围盒是否重叠
                 if (catRect.Overlaps(otherRect))

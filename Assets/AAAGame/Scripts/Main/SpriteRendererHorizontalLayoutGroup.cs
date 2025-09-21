@@ -11,7 +11,8 @@ public class SpriteRendererHorizontalLayoutGroup : MonoBehaviour
     {
         Left,
         Center,
-        Right
+        Right,
+        SpaceBetween,
     }
 
     [Header("Layout Settings")]
@@ -49,40 +50,49 @@ public class SpriteRendererHorizontalLayoutGroup : MonoBehaviour
             totalChildWidth += child.GetComponent<SpriteRenderer>().bounds.size.x;
         }
 
-        // 3. 计算平均间距
-        float availableSpace = containerWidth - totalChildWidth;
-        float actualSpacing = spacing;
-
-        if (children.Count > 1)
-        {
-            actualSpacing = Mathf.Max(spacing, availableSpace / (children.Count - 1));
-        }
-
-        // 4. 根据对齐方式确定起始X
-        float totalWidth = totalChildWidth + actualSpacing * (children.Count - 1);
+        // 3. 计算间距
+        float totalWidth = 0f;
         float startX = 0f;
-        switch (alignment)
+        if (alignment == Alignment.SpaceBetween && children.Count > 1)
         {
-            case Alignment.Left:
-                startX = -containerWidth / 2f;
-                break;
-            case Alignment.Center:
-                startX = -totalWidth / 2f;
-                break;
-            case Alignment.Right:
-                startX = containerWidth / 2f - totalWidth;
-                break;
+            // space-between: 两端贴边，中间均匀分布
+            float usedWidth = totalChildWidth;
+            float gap = (containerWidth - usedWidth) / (children.Count - 1);
+            float leftEdge = -containerWidth / 2f;
+            float currentX = leftEdge;
+            for (int i = 0; i < children.Count; i++)
+            {
+                SpriteRenderer sr = children[i].GetComponent<SpriteRenderer>();
+                float w = sr.bounds.size.x;
+                children[i].localPosition = new Vector3(currentX + w / 2f, 0f, 0f);
+                currentX += w + gap;
+            }
         }
-
-        // 5. 按顺序放置子物体
-        float currentX = startX;
-        foreach (var child in children)
+        else
         {
-            SpriteRenderer sr = child.GetComponent<SpriteRenderer>();
-            float w = sr.bounds.size.x;
-
-            child.localPosition = new Vector3(currentX + w / 2f, 0f, 0f);
-            currentX += w + actualSpacing;
+            // spacing 固定
+            float actualSpacing = spacing;
+            totalWidth = totalChildWidth + actualSpacing * (children.Count - 1);
+            switch (alignment)
+            {
+                case Alignment.Left:
+                    startX = -containerWidth / 2f;
+                    break;
+                case Alignment.Center:
+                    startX = -totalWidth / 2f;
+                    break;
+                case Alignment.Right:
+                    startX = containerWidth / 2f - totalWidth;
+                    break;
+            }
+            float currentX = startX;
+            foreach (var child in children)
+            {
+                SpriteRenderer sr = child.GetComponent<SpriteRenderer>();
+                float w = sr.bounds.size.x;
+                child.localPosition = new Vector3(currentX + w / 2f, 0f, 0f);
+                currentX += w + actualSpacing;
+            }
         }
     }
 }

@@ -163,6 +163,7 @@
     <Compile Include="Assets\AAAGame\Scripts\Extension\Variable\VarVector3Array.cs" />
     <Compile Include="Assets\AAAGame\Scripts\UI\UIVariables\RatingDialog.Variables.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Common\CameraController.cs" />
+    <Compile Include="Assets\AAAGame\Scripts\Main\ItemLayoutFormat.cs" />
     <Compile Include="Assets\AAAGame\Scripts\UI\ShopUIForm.cs" />
     <Compile Include="Assets\AAAGame\Scripts\UI\UITopbar.cs" />
     <Compile Include="Assets\AAAGame\Scripts\UI\UIVariables\MenuUIForm.Variables.cs" />

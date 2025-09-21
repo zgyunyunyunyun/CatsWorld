@@ -18,6 +18,7 @@ MonoBehaviour:
   - CameraViewTable
   - CatTable
   - FishTable
+  - LayerTable
   - LevelTable
   - Core/EntityGroupTable
   - Core/LanguagesTable
