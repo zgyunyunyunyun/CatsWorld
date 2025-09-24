@@ -40,7 +40,7 @@ public class LevelEntity : EntityBase
         GF.Event.Subscribe(ShowEntitySuccessEventArgs.EventId, OnShowEntitySuccess);
         GF.Event.Subscribe(HideEntityCompleteEventArgs.EventId, OnHideEntityComplete);
         GF.Event.Subscribe(CatEntityClickEventArgs.EventId, OnCatEntityClick);
-        GF.Event.Subscribe(CatMergeCheckEventArgs.EventId, OnCatMerge);
+        GF.Event.Subscribe(CatMergeCheckEventArgs.EventId, OnCatMergeCheck);
         GF.Event.Subscribe(CatMergeAttackEventArgs.EventId, OnAttack);
         GF.Event.Subscribe(BulletHitEventArgs.EventId, OnBulletHit);
         GF.Event.Subscribe(FishDieEventArgs.EventId, OnFishDie);
@@ -80,6 +80,23 @@ public class LevelEntity : EntityBase
         m_SlotEntity = await GF.Entity.ShowEntityAwait<SlotEntity>("Slot_1", Const.EntityGroup.Level, slotParams) as SlotEntity;
     }
 
+    protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
+    {
+        base.OnUpdate(elapseSeconds, realElapseSeconds);
+    }
+    protected override void OnHide(bool isShutdown, object userData)
+    {
+        GF.Event.Unsubscribe(ShowEntitySuccessEventArgs.EventId, OnShowEntitySuccess);
+        GF.Event.Unsubscribe(HideEntityCompleteEventArgs.EventId, OnHideEntityComplete);
+        GF.Event.Unsubscribe(CatEntityClickEventArgs.EventId, OnCatEntityClick);
+        GF.Event.Unsubscribe(CatMergeCheckEventArgs.EventId, OnCatMergeCheck);
+        GF.Event.Unsubscribe(CatMergeAttackEventArgs.EventId, OnAttack);
+        GF.Event.Unsubscribe(BulletHitEventArgs.EventId, OnBulletHit);
+        GF.Event.Unsubscribe(FishDieEventArgs.EventId, OnFishDie);
+
+        base.OnHide(isShutdown, userData);
+    }
+
     // 获取初始位置，后续的猫咪堆叠位置都基于此位置进行计算
     private void GetStartPoint()
     {
@@ -103,23 +120,6 @@ public class LevelEntity : EntityBase
         {
             layerConfigs.Add(layers.GetDataRow(layerIds[i]));
         }
-    }
-
-    protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
-    {
-        base.OnUpdate(elapseSeconds, realElapseSeconds);
-    }
-    protected override void OnHide(bool isShutdown, object userData)
-    {
-        GF.Event.Unsubscribe(ShowEntitySuccessEventArgs.EventId, OnShowEntitySuccess);
-        GF.Event.Unsubscribe(HideEntityCompleteEventArgs.EventId, OnHideEntityComplete);
-        GF.Event.Unsubscribe(CatEntityClickEventArgs.EventId, OnCatEntityClick);
-        GF.Event.Unsubscribe(CatMergeCheckEventArgs.EventId, OnCatMerge);
-        GF.Event.Unsubscribe(CatMergeAttackEventArgs.EventId, OnAttack);
-        GF.Event.Unsubscribe(BulletHitEventArgs.EventId, OnBulletHit);
-        GF.Event.Unsubscribe(FishDieEventArgs.EventId, OnFishDie);
-
-        base.OnHide(isShutdown, userData);
     }
 
     // 初始化关卡内的小猫
@@ -172,42 +172,31 @@ public class LevelEntity : EntityBase
         for (int layerIdx = 0; layerIdx < layerConfigs.Count; layerIdx++)
         {
             LayerTable layerConfig = layerConfigs[layerIdx];
+            Vector3[] layerCatPosArr = layerConfig.PosArr; // 每层猫咪的位置
 
-            for (int rowIdx = 0; rowIdx < layerConfig.CatNum.Length; rowIdx++)
+            for (int rowIdx = 0; rowIdx < layerCatPosArr.Length; rowIdx++)
             {
-                await PlaceCatsInRow(catTypes, deck, layerIdx, layerConfig, rowIdx, deckIndex);
-                deckIndex += layerConfig.CatNum[rowIdx]; // 更新索引
+                if (deckIndex >= deck.Count) break;
+                await CreateCatEntity(catTypes, deck[deckIndex], layerIdx, layerCatPosArr[rowIdx]);
+                deckIndex += 1; // 更新索引
             }
-        }
-    }
 
-    // 在一行中摆放猫咪
-    private async Task PlaceCatsInRow(List<CatData> catTypes, List<int> deck,
-                                      int layerIdx, LayerTable layerConfig, int rowIdx, int startIndex)
-    {
-        Vector3 rowStartPos = m_StartPos + layerConfig.StartPos[rowIdx];
-        int catCount = layerConfig.CatNum[rowIdx];
-
-        for (int colIdx = 0; colIdx < catCount; colIdx++)
-        {
-            int deckIndex = startIndex + colIdx;
-            if (deckIndex >= deck.Count) break;
-
-            await CreateCatEntity(catTypes, deck[deckIndex], layerIdx, rowStartPos, layerConfig.RowGap[rowIdx], colIdx);
+            await Task.Yield(); // 创建一层后稍微等待，避免卡顿
         }
 
-        await Task.Yield(); // 创建一行后稍微等待，避免卡顿
+        // 所有猫咪创建完成后，更新每个猫咪的可点击状态
+        UpdateAllCatsClickableState();
     }
 
     // 创建单个猫咪实体
     private async Task<CatEntity> CreateCatEntity(List<CatData> catTypes, int catTypeId, int layerIdx,
-                                                 Vector3 rowStartPos, float rowGap, int columnIndex)
+                                                 Vector3 pos)
     {
         // 根据id找到对应的猫咪数据
         var cat = new Cat(catTypes.Find(c => c.id == catTypeId));
 
         // 计算猫咪位置
-        Vector3 position = rowStartPos + new Vector3(columnIndex * m_CatEntitySize + rowGap * columnIndex, 0, -layerIdx * 0.01f);
+        Vector3 position = m_StartPos + new Vector3(pos.x, pos.y, -(layerConfigs.Count - layerIdx) * 0.2f);
 
         // 创建实体参数
         var catParams = EntityParams.Create();
@@ -215,6 +204,8 @@ public class LevelEntity : EntityBase
         // catParams.AttachToEntity = this.Entity;
         // catParams.ParentTransform = this.CachedTransform.Find("TileBg").Find("CatPile");
         catParams.Set(CatEntity.P_CatData, cat);
+
+        // 设置渲染层级，确保后创建的在上层，但Sorting in Layer不一定能保证点击时在最上面的先被OnMouseDown方法触发，需要结合z值处理
         catParams.Set<VarInt32>(CatEntity.P_SortOrder, layerIdx);
 
         // 显示实体
@@ -258,13 +249,28 @@ public class LevelEntity : EntityBase
         // 判断被点击的猫咪上面是否有其他猫咪覆盖
         if (IsSelectable(catEntity))
         {
-            m_SlotEntity.AddCat(catEntity);
+            m_SlotEntity.AddCat(catEntity); // 放入槽位
+            catCards.Remove(catEntity); // 从当前关卡的猫咪列表中移除
+
+            // 当猫咪被点击并移动到槽位时，更新剩余猫咪的可点击状态
+            // 使用延迟调用，确保在猫咪移动动画完成后更新
+            StartCoroutine(DelayUpdateClickableState());
         }
         else
         {
             Log.Debug("猫咪被挡住，无法点击");
             return;
         }
+    }
+
+    // 延迟更新可点击状态的协程
+    private System.Collections.IEnumerator DelayUpdateClickableState()
+    {
+        // 等待一段时间，确保猫咪移动动画已经完成
+        yield return new WaitForSeconds(0.5f);
+
+        // 更新所有猫咪的可点击状态
+        UpdateAllCatsClickableState();
     }
 
     // 判断猫咪是否可选（没有被上层猫咪挡住）
@@ -279,12 +285,19 @@ public class LevelEntity : EntityBase
 
                 // 计算两个猫的包围盒
                 float half = m_CatEntitySize / 2f;
-                Rect catRect = new(catPos.x - half, catPos.y - half, m_CatEntitySize, m_CatEntitySize);
-                Rect otherRect = new(otherPos.x - half, otherPos.y - half, m_CatEntitySize, m_CatEntitySize);
+                // 添加一个小的容差值，避免边缘相接时误判为重叠
+                float tolerance = 0.02f;
 
-                // 判断包围盒是否重叠
-                if (catRect.Overlaps(otherRect))
+                // 手动检查两个AABB包围盒是否有实际重叠（考虑容差）
+                bool overlapsX = Mathf.Abs(catPos.x - otherPos.x) < m_CatEntitySize - tolerance;
+                bool overlapsY = Mathf.Abs(catPos.y - otherPos.y) < m_CatEntitySize - tolerance;
+
+                if (overlapsX && overlapsY)
                 {
+                    // 记录详细的重叠信息以便调试
+                    float xDist = Mathf.Abs(catPos.x - otherPos.x);
+                    float yDist = Mathf.Abs(catPos.y - otherPos.y);
+                    Log.Debug($"猫咪 {cat.Id}({catPos}) 被猫咪 {other.Id}({otherPos}) 挡住，X距离:{xDist}/{m_CatEntitySize}，Y距离:{yDist}/{m_CatEntitySize}");
                     return false; // 被挡住
                 }
             }
@@ -292,8 +305,23 @@ public class LevelEntity : EntityBase
         return true;
     }
 
-    // 处理猫咪消除事件
-    private void OnCatMerge(object sender, GameEventArgs e)
+    // 更新所有猫咪的可点击状态
+    private void UpdateAllCatsClickableState()
+    {
+        // 检查每只猫咪是否可选，如果可选则设为可点击
+        foreach (var cat in catCards)
+        {
+            bool canSelect = IsSelectable(cat);
+            cat.SetClickAble(canSelect);
+            if (canSelect)
+            {
+                Log.Debug($"猫咪 {cat.Id} 可点击");
+            }
+        }
+    }
+
+    // 处理3只小猫时是否可触发消除事件
+    private void OnCatMergeCheck(object sender, GameEventArgs e)
     {
         Log.Debug("触发猫咪合成事件");
         var eArgs = e as CatMergeCheckEventArgs;
@@ -320,8 +348,10 @@ public class LevelEntity : EntityBase
 
         // 消除符合条件的猫咪
         m_SlotEntity.RemoveMergedCats(slotCats.Where(c => result.Contains(c.GetCatId())).ToList());
-        catCards.RemoveAll(c => slotCats.Any(s => s.Id == c.Id));
         slotCats.RemoveAll(c => result.Contains(c.GetCatId()));
+
+        // 猫咪消除后，更新剩余猫咪的可点击状态
+        StartCoroutine(DelayUpdateClickableState());
 
         if (slotCats.Count >= m_SlotEntity.GetMaxSlots())
         {
@@ -417,5 +447,11 @@ public class LevelEntity : EntityBase
         // }
 
         CheckGameOver();
+
+        // // 如果是猫咪被移除，更新其他猫咪的可点击状态
+        // if (eArgs.EntityAssetName == "CatEntity")
+        // {
+        //     UpdateAllCatsClickableState();
+        // }
     }
 }

@@ -10,10 +10,13 @@ public class CatEntity : EntityBase
 {
     public const string P_CatData = "CatData";
     public const string P_SortOrder = "SortOrder";
+    public const string P_ClickAble = "ClickAble";
 
     [SerializeField] private SpriteRenderer m_SpriteRenderer;
     private Cat cat;
     public int layerOrder = 0; // 渲染层级
+
+    private bool clickAble = false; // 是否已禁用点击
 
     protected override void OnInit(object userData)
     {
@@ -28,7 +31,9 @@ public class CatEntity : EntityBase
         m_SpriteRenderer.SetSprite(cat.catData.catIcon);
         layerOrder = Params.Get<VarInt32>(P_SortOrder).Value;
         m_SpriteRenderer.sortingOrder = layerOrder;
-
+        clickAble = Params.Get<VarBoolean>(P_ClickAble, false).Value;
+        SetClickAble(clickAble);
+        SetClickAbleStyle();
     }
     protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
     {
@@ -40,13 +45,36 @@ public class CatEntity : EntityBase
         base.OnHide(isShutdown, userData);
     }
 
-    // 点击事件
-    void OnMouseDown()
+    // 设置点击状态
+    public void SetClickAble(bool able, bool updateStyle = true)
     {
+        clickAble = able;
+        if (updateStyle)
+        {
+            SetClickAbleStyle();
+        }
+    }
+
+    // 设置可点击样式
+    public void SetClickAbleStyle()
+    {
+        m_SpriteRenderer.color = clickAble ? Color.white : Color.gray;
+    }
+
+    // 点击事件
+    public void OnClick()
+    {
+        if (!clickAble)
+        {
+            Log.Debug("当前猫咪不可点击");
+            return;
+        }
         Log.Debug("CatEntity Pos: " + transform.position);
         Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Log.Debug("Mouse World Pos: " + mouseWorld);
-        Log.Debug(cat.catData.id + " Clicked!");
+
+        // 将猫咪的sortOrder提升到最高，避免被其他猫咪遮挡
+        m_SpriteRenderer.sortingOrder = 1000;
 
         var eParms = RefParams.Create();
         eParms.Set(P_CatData, cat);

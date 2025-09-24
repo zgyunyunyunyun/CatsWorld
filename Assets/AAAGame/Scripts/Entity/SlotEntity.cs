@@ -64,28 +64,34 @@ public class SlotEntity : EntityBase
         return currentIndex < maxSlots;
     }
 
-    public void AddCat(CatEntity cat)
+    public bool AddCat(CatEntity cat)
     {
         if (HasEmptySlot())
         {
+            cat.SetClickAble(false, false); // 点击后立即设为不可点击，避免重复点击
+
             var tween = cat.MoveTo(GetEmptySlotPos());
             currentIndex++;
-            slotCats.Add(cat);
 
-            if (slotCats.Count >= 3)
+            // 完成猫移动动画完成后再触发合成
+            tween.OnComplete(() =>
             {
-                // 只在最后一只猫动画完成后再触发合成
-                tween.OnComplete(() =>
+                slotCats.Add(cat);
+                cat.SetClickAble(false, false); // 放入槽位后不可点击
+
+                if (slotCats.Count >= 3)
                 {
+
                     // 触发猫咪合成检查事件
                     GF.Event.Fire(this, CatMergeCheckEventArgs.Create(slotCats));
-                });
-            }
+                }
+            });
+            return true;
         }
         else
         {
             Log.Debug("没有空余槽位了！");
-            return;
+            return false;
         }
     }
 

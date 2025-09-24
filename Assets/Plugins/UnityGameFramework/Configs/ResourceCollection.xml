@@ -78,6 +78,7 @@
       <Asset Guid="a1f86d33047f244769ac61e2fbffdba8" ResourceName="SharedAssets" />
       <Asset Guid="a29db755b6ae1104a94df297de29cfc8" ResourceName="SharedAssets" />
       <Asset Guid="a8043c8d11e46d648bb702e4a3572406" ResourceName="Entity" />
+      <Asset Guid="aaf1d1759fb1c634998e88028bdea677" ResourceName="DataTable" />
       <Asset Guid="b0fa76331025c074482a58b9be41e4c9" ResourceName="SharedAssets" />
       <Asset Guid="b3f8e7805a251d34e87556f70ce61e17" ResourceName="DataTable" />
       <Asset Guid="b8f790017d833da45a5aec7344ed4f97" ResourceName="SharedAssets" />

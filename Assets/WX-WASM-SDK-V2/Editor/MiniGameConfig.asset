@@ -15,7 +15,7 @@ MonoBehaviour:
   ProjectConf:
     projectName: CatWorld
     Appid: wxc9df9cbd3e70e6b9
-    CDN: http://192.168.0.109/TestCDN/
+    CDN: https://cloudbase-3g6wpqls9c8a86cf-1258905158.tcloudbaseapp.com/Cat3/
     assetLoadType: 0
     compressDataPackage: 1
     VideoUrl: 

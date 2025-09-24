@@ -91,6 +91,7 @@
     <Compile Include="Assets\AAAGame\Scripts\Procedures\PreloadProcedure.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Entity\Core\ParticleEntity.cs" />
     <Compile Include="Assets\AAAGame\Scripts\UI\GameBg.cs" />
+    <Compile Include="Assets\AAAGame\Scripts\Main\ClickManager.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Extension\AD\AdSdkHelper.cs" />
     <Compile Include="Assets\AAAGame\Scripts\UI\UIVariables\ToastTips.Variables.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Entity\BulletEntity.cs" />

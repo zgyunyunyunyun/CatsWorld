@@ -29,27 +29,9 @@ public class LayerTable : DataRowBase
     }
 
         /// <summary>
-        /// 各层每行小猫数量，4,4,4表示该层有三行，每行4只小猫
+        /// 每层所有小猫的位置
         /// </summary>
-        public int[] CatNum
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// 每行小猫间距
-        /// </summary>
-        public float[] RowGap
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// 每行小猫起始位置
-        /// </summary>
-        public Vector3[] StartPos
+        public Vector3[] PosArr
         {
             get;
             private set;
@@ -67,9 +49,7 @@ public class LayerTable : DataRowBase
             index++;
             m_Id = int.Parse(columnStrings[index++]);
             index++;
-            CatNum = DataTableExtension.ParseArray<int>(columnStrings[index++]);
-            RowGap = DataTableExtension.ParseArray<float>(columnStrings[index++]);
-            StartPos = DataTableExtension.ParseVector3Array(columnStrings[index++]);
+            PosArr = DataTableExtension.ParseVector3Array(columnStrings[index++]);
 
             return true;
         }
@@ -81,9 +61,7 @@ public class LayerTable : DataRowBase
                 using (BinaryReader binaryReader = new BinaryReader(memoryStream, Encoding.UTF8))
                 {
                     m_Id = binaryReader.Read7BitEncodedInt32();
-                    CatNum = binaryReader.ReadArray<int>();
-                    RowGap = binaryReader.ReadArray<float>();
-                    StartPos = binaryReader.ReadVector3Array();
+                    PosArr = binaryReader.ReadVector3Array();
                 }
             }
 

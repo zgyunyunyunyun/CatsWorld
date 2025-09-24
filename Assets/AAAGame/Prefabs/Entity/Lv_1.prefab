@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 2540331001931246891}
   - component: {fileID: 3514823308137831216}
   - component: {fileID: 2781074299610680611}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Lv_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -202,7 +202,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5530408212352778957}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: SlotPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
