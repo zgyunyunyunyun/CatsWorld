@@ -381,6 +381,8 @@ public class LevelEntity : EntityBase
         bulletParams.Set(BulletEntity.P_BulletData, new Bullet(new BulletData(defaultBullet)));
         bulletParams.Set<VarFloat>(BulletEntity.P_Speed, 3f);
         bulletParams.Set(BulletEntity.P_TargetFish, m_FishPoolEntity.GetNearestFishToDefense(new Vector3(0, 1, 0), 1));
+        // 添加鱼池引用，用于子弹在目标消失时重新寻找目标
+        bulletParams.Set(BulletEntity.P_FishPoolEntity, m_FishPoolEntity);
         GF.Entity.ShowEntity<BulletEntity>("Bullet", Const.EntityGroup.Bullet, bulletParams);
         // 播放攻击动画或特效（可选）
     }
