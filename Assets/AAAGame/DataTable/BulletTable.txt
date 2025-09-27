@@ -1,5 +1,5 @@
-﻿#	BulletTable		
-#	ID		PrefabName
-#	int		string
-#		备注	子弹实体预制体
-	0	子弹0	 BulletEntity
+﻿#	BulletTable			
+#	ID		PrefabName	Speed
+#	int		string	float
+#		备注	子弹实体预制体	子弹速度
+	0	子弹0	 BulletEntity	10

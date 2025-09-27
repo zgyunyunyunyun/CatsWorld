@@ -1,19 +1,13 @@
-﻿using Cysharp.Threading.Tasks;
-using DG.Tweening;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using DG.Tweening;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
 public class BulletEntity : EntityBase
 {
-    public const string P_Speed = "Speed";
     public const string P_TargetFish = "TargetFish";
     public const string P_BulletData = "BulletData";
     public const string P_FishPoolEntity = "FishPoolEntity"; // 添加鱼池实体引用
 
-    private float speed;
     private FishEntity targetFish;
     private FishPoolEntity fishPoolEntity; // 鱼池实体引用，用于重新寻找目标
 
@@ -36,7 +30,6 @@ public class BulletEntity : EntityBase
     {
         base.OnShow(userData);
 
-        speed = Params.Get<VarFloat>(P_Speed).Value;
         targetFish = Params.Get(P_TargetFish) as FishEntity;
         bullet = Params.Get(P_BulletData) as Bullet;
         fishPoolEntity = Params.Get(P_FishPoolEntity) as FishPoolEntity; // 获取鱼池实体引用
@@ -92,7 +85,7 @@ public class BulletEntity : EntityBase
         // 计算目标点和飞行时间
         Vector3 targetPos = targetFish.CachedTransform.position;
         float targetDistance = Vector3.Distance(CachedTransform.position, targetPos);
-        float moveDuration = targetDistance / speed; // 按速度计算飞行时间
+        float moveDuration = targetDistance / bullet.bulletData.speed; // 按速度计算飞行时间
 
         // 更新子弹朝向
         Vector3 direction = (targetPos - CachedTransform.position).normalized;

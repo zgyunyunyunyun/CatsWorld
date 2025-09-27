@@ -56,15 +56,6 @@ public class LevelTable : DataRowBase
         }
 
         /// <summary>
-        /// 每种小猫卡片出现的次数
-        /// </summary>
-        public int RepeatCount
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
         /// 小猫堆配置，读取LayerTable表数据，1,2,3表示第一层用id为1，第二层用id为2，第三层用id为3的层配置堆叠成小猫堆
         /// </summary>
         public int[] Layers
@@ -88,7 +79,6 @@ public class LevelTable : DataRowBase
             LvPfbName = columnStrings[index++];
             SlotCount = int.Parse(columnStrings[index++]);
             FishCount = int.Parse(columnStrings[index++]);
-            RepeatCount = int.Parse(columnStrings[index++]);
             Layers = DataTableExtension.ParseArray<int>(columnStrings[index++]);
 
             return true;
@@ -104,7 +94,6 @@ public class LevelTable : DataRowBase
                     LvPfbName = binaryReader.ReadString();
                     SlotCount = binaryReader.Read7BitEncodedInt32();
                     FishCount = binaryReader.Read7BitEncodedInt32();
-                    RepeatCount = binaryReader.Read7BitEncodedInt32();
                     Layers = binaryReader.ReadArray<int>();
                 }
             }

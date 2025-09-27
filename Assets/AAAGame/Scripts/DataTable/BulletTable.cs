@@ -37,6 +37,15 @@ public class BulletTable : DataRowBase
             private set;
         }
 
+        /// <summary>
+        /// 子弹速度
+        /// </summary>
+        public float Speed
+        {
+            get;
+            private set;
+        }
+
         public override bool ParseDataRow(string dataRowString, object userData)
         {
             string[] columnStrings = dataRowString.Split(DataTableExtension.DataSplitSeparators);
@@ -50,6 +59,7 @@ public class BulletTable : DataRowBase
             m_Id = int.Parse(columnStrings[index++]);
             index++;
             PrefabName = columnStrings[index++];
+            Speed = float.Parse(columnStrings[index++]);
 
             return true;
         }
@@ -62,6 +72,7 @@ public class BulletTable : DataRowBase
                 {
                     m_Id = binaryReader.Read7BitEncodedInt32();
                     PrefabName = binaryReader.ReadString();
+                    Speed = binaryReader.ReadSingle();
                 }
             }
 

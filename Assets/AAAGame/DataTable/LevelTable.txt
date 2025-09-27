@@ -1,9 +1,9 @@
-﻿#	关卡表						
-#	ID		LvPfbName	SlotCount	FishCount	RepeatCount	Layers
-#	int		string	int	int	int	int[]
-#		备注	关卡prefab名	初始槽数	鱼数量	每种小猫卡片出现的次数	小猫堆配置，读取LayerTable表数据，1,2,3表示第一层用id为1，第二层用id为2，第三层用id为3的层配置堆叠成小猫堆
-	1		Lv_1	6	200	6	1,1,1
-	2		Lv_1	5	200	6	1,2,3
-	3		Lv_1	5	200	6	1,2,3
-	4		Lv_1	5	200	6	1,2,3
-	5		Lv_1	5	200	6	1,2,3
+﻿#	关卡表					
+#	ID		LvPfbName	SlotCount	FishCount	Layers
+#	int		string	int	int	int[]
+#		备注	关卡prefab名	初始槽数	鱼数量	小猫堆配置，读取LayerTable表数据，1,2,3表示第一层用id为1，第二层用id为2，第三层用id为3的层配置堆叠成小猫堆
+	1		Lv_1	6	200	1,1,1
+	2		Lv_1	5	200	1,2,3
+	3		Lv_1	5	200	1,2,3
+	4		Lv_1	5	200	1,2,3
+	5		Lv_1	5	200	1,2,3

@@ -47,7 +47,6 @@
     <Analyzer Include="D:\Developer\Unity\Editor\2022.3.45f1c1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\AAAGame\Scripts\Entity\FishPoolEntity.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Extension\VariablePool\VariablePoolComponent.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Procedures\GameOverProcedure.cs" />
     <Compile Include="Assets\AAAGame\Scripts\EventArgs\GFEventArgs.cs" />
@@ -73,7 +72,9 @@
     <Compile Include="Assets\AAAGame\Scripts\UI\UIVariables\GameUIForm.Variables.cs" />
     <Compile Include="Assets\AAAGame\Scripts\UI\UIVariables\LanguagesDialog.Variables.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Entity\CatEntity.cs" />
+    <Compile Include="Assets\AAAGame\Scripts\Entity\CatEntityBase.cs" />
     <Compile Include="Assets\AAAGame\Scripts\EventArgs\CatMergeAttackEventArgs.cs" />
+    <Compile Include="Assets\AAAGame\Scripts\Entity\Level\SlotItemEntity.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Network\Packet\CSHeartBeat.cs" />
     <Compile Include="Assets\AAAGame\Scripts\UI\ToastTips.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Network\CSPacketBase.cs" />
@@ -99,9 +100,11 @@
     <Compile Include="Assets\AAAGame\Scripts\Network\PacketHeaderBase.cs" />
     <Compile Include="Assets\AAAGame\Scripts\UI\Item\SlotItem.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Extension\DOTweenExtension.cs" />
+    <Compile Include="Assets\AAAGame\Scripts\Entity\Level\LevelEntity.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Extension\AwaitExtension\WebRequestResult.cs" />
     <Compile Include="Assets\AAAGame\Scripts\HotfixEntry.cs" />
     <Compile Include="Assets\AAAGame\Scripts\DataTable\Core\LanguagesTable.cs" />
+    <Compile Include="Assets\AAAGame\Scripts\Entity\Level\SlotEntity.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Data\CatData.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Common\Const.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Extension\ResourceExtension.cs" />
@@ -109,13 +112,10 @@
     <Compile Include="Assets\AAAGame\Scripts\Procedures\ChangeSceneProcedure.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Extension\GF.cs" />
     <Compile Include="Assets\AAAGame\Scripts\UI\UIVariables\GameBg.Variables.cs" />
-    <Compile Include="Assets\AAAGame\Scripts\Entity\SlotEntity.cs" />
     <Compile Include="Assets\AAAGame\Scripts\DataTable\Core\UITable.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Network\SCPacketHeader.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Data\Fish.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Extension\SettingExtension.cs" />
-    <Compile Include="Assets\AAAGame\Scripts\Entity\LevelEntity.cs" />
-    <Compile Include="Assets\AAAGame\Scripts\Entity\SlotItemEntity.cs" />
     <Compile Include="Assets\AAAGame\Scripts\DataTable\LayerTable.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Extension\LocalizationExtension.cs" />
     <Compile Include="Assets\AAAGame\Scripts\UI\GameOverUIForm.cs" />
@@ -139,6 +139,7 @@
     <Compile Include="Assets\AAAGame\Scripts\Data\Bullet.cs" />
     <Compile Include="Assets\AAAGame\Scripts\DataModel\PlayerDataModel.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Entity\Core\SampleEntity.cs" />
+    <Compile Include="Assets\AAAGame\Scripts\Entity\Level\LevelEntity2.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Data\FishData.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Extension\AwaitExtension\AwaitParams.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Extension\DataModel\DataModelComponent.cs" />
@@ -163,6 +164,8 @@
     <Compile Include="Assets\AAAGame\Scripts\Extension\TransformExtension.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Extension\Variable\VarVector3Array.cs" />
     <Compile Include="Assets\AAAGame\Scripts\UI\UIVariables\RatingDialog.Variables.cs" />
+    <Compile Include="Assets\AAAGame\Scripts\Entity\Level\LevelEntityBase.cs" />
+    <Compile Include="Assets\AAAGame\Scripts\Entity\Level\FishPoolEntity.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Common\CameraController.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Main\ItemLayoutFormat.cs" />
     <Compile Include="Assets\AAAGame\Scripts\UI\ShopUIForm.cs" />

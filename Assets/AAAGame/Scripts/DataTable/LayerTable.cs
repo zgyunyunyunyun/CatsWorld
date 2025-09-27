@@ -37,6 +37,15 @@ public class LayerTable : DataRowBase
             private set;
         }
 
+        /// <summary>
+        /// 每层小猫数量
+        /// </summary>
+        public int LayerCount
+        {
+            get;
+            private set;
+        }
+
         public override bool ParseDataRow(string dataRowString, object userData)
         {
             string[] columnStrings = dataRowString.Split(DataTableExtension.DataSplitSeparators);
@@ -50,6 +59,7 @@ public class LayerTable : DataRowBase
             m_Id = int.Parse(columnStrings[index++]);
             index++;
             PosArr = DataTableExtension.ParseVector3Array(columnStrings[index++]);
+            LayerCount = int.Parse(columnStrings[index++]);
 
             return true;
         }
@@ -62,6 +72,7 @@ public class LayerTable : DataRowBase
                 {
                     m_Id = binaryReader.Read7BitEncodedInt32();
                     PosArr = binaryReader.ReadVector3Array();
+                    LayerCount = binaryReader.Read7BitEncodedInt32();
                 }
             }
 
