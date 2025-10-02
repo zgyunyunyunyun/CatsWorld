@@ -153,6 +153,7 @@
     <Compile Include="Assets\Plugins\UnityGameFramework\Scripts\Runtime\WebRequest\WebRequestAgentHelperBase.cs" />
     <Compile Include="Assets\Plugins\UnityGameFramework\Scripts\Runtime\Sound\DefaultSoundGroupHelper.cs" />
     <Compile Include="Assets\Plugins\UnityGameFramework\Scripts\Runtime\Localization\LoadDictionaryUpdateEventArgs.cs" />
+    <Compile Include="Assets\Plugins\UnityGameFramework\Scripts\Runtime\Setting\WxStorageSettingHelper.cs" />
     <Compile Include="Assets\Plugins\UnityGameFramework\Scripts\Runtime\Resource\BuiltinVersionListSerializer.PackageVersionListDeserializeCallback.cs" />
     <Compile Include="Assets\Plugins\UnityGameFramework\Scripts\Runtime\Debugger\DebuggerComponent.SystemInformationWindow.cs" />
     <Compile Include="Assets\Plugins\UnityGameFramework\Scripts\Runtime\Config\LoadConfigFailureEventArgs.cs" />

@@ -82,6 +82,7 @@
     <Compile Include="Assets\AAAGame\Scripts\Network\NetworkChannelHelper.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Procedures\MenuProcedure.cs" />
     <Compile Include="Assets\AAAGame\Scripts\EventArgs\PlayerDataChangedEventArgs.cs" />
+    <Compile Include="Assets\AAAGame\Scripts\Entity\Level\SlotEntityBase.cs" />
     <Compile Include="Assets\AAAGame\Scripts\UI\LanguagesDialog.cs" />
     <Compile Include="Assets\AAAGame\Scripts\UI\Core\UIViews.cs" />
     <Compile Include="Assets\AAAGame\Scripts\EventArgs\FishDieEventArgs.cs" />
@@ -139,7 +140,6 @@
     <Compile Include="Assets\AAAGame\Scripts\Data\Bullet.cs" />
     <Compile Include="Assets\AAAGame\Scripts\DataModel\PlayerDataModel.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Entity\Core\SampleEntity.cs" />
-    <Compile Include="Assets\AAAGame\Scripts\Entity\Level\LevelEntity2.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Data\FishData.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Extension\AwaitExtension\AwaitParams.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Extension\DataModel\DataModelComponent.cs" />

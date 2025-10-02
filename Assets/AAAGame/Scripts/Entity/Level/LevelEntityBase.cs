@@ -12,7 +12,7 @@ public class LevelEntityBase : EntityBase
     public bool IsAllReady { get; private set; }
 
     protected FishPoolEntity m_FishPoolEntity; // 鱼池实体
-    protected SlotEntity m_SlotEntity; // 槽位实体
+    protected SlotEntityBase m_SlotEntity; // 槽位实体
 
     protected LevelTable levelTable; // 当前关卡数据
 
@@ -110,7 +110,16 @@ public class LevelEntityBase : EntityBase
         slotParams.ParentTransform = this.CachedTransform.Find("SlotPoint");
         slotParams.localPosition = Vector3.zero;
         slotParams.Set<VarInt32>(SlotEntity.P_MaxSlots, m_SlotCount);
-        m_SlotEntity = await GF.Entity.ShowEntityAwait<SlotEntity>("Slot_1", Const.EntityGroup.Level, slotParams) as SlotEntity;
+
+        // 调用创建槽位的工厂方法，让子类决定创建什么类型的槽位
+        m_SlotEntity = await CreateSlotEntity(slotParams);
+    }
+
+    // 工厂方法，让子类可以重写来返回特定类型的SlotEntity
+    protected virtual async Task<SlotEntityBase> CreateSlotEntity(EntityParams slotParams)
+    {
+        // 基类默认创建SlotEntityBase类型
+        return await GF.Entity.ShowEntityAwait<SlotEntityBase>("Slot_1", Const.EntityGroup.Level, slotParams) as SlotEntityBase;
     }
 
     // 获取初始位置，后续的猫咪堆叠位置都基于此位置进行计算

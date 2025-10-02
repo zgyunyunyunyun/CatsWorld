@@ -69,23 +69,23 @@ public class GameProcedure : ProcedureBase
         var lvRow = lvTb.GetDataRow(currentLevelId);
 
         var lvParams = EntityParams.Create(Vector3.zero, Vector3.zero, Vector3.one);
-        lvParams.Set(LevelEntity.P_LevelData, lvRow);
+        lvParams.Set(LevelEntityBase.P_LevelData, lvRow);
 
         // 根据关卡ID决定使用哪个关卡实体类
         switch (currentLevelId)
         {
             case 1:
                 // 第一关使用LevelEntity
-                m_Level = await GF.Entity.ShowEntityAwait<LevelEntity>(lvRow.LvPfbName, Const.EntityGroup.Level, lvParams) as LevelEntity;
+                m_Level = await GF.Entity.ShowEntityAwait<LevelEntityBase>(lvRow.LvPfbName, Const.EntityGroup.Level, lvParams) as LevelEntityBase;
                 break;
             case 2:
                 // 第二关使用LevelEntity2
-                m_Level = await GF.Entity.ShowEntityAwait<LevelEntity2>(lvRow.LvPfbName, Const.EntityGroup.Level, lvParams) as LevelEntity2;
+                m_Level = await GF.Entity.ShowEntityAwait<LevelEntity>(lvRow.LvPfbName, Const.EntityGroup.Level, lvParams) as LevelEntity;
                 break;
             // 可以添加更多关卡
             default:
                 // 默认使用基本的LevelEntity
-                m_Level = await GF.Entity.ShowEntityAwait<LevelEntity>(lvRow.LvPfbName, Const.EntityGroup.Level, lvParams) as LevelEntity;
+                m_Level = await GF.Entity.ShowEntityAwait<LevelEntityBase>(lvRow.LvPfbName, Const.EntityGroup.Level, lvParams) as LevelEntityBase;
                 break;
         }
         GF.BuiltinView.HideLoadingProgress();
