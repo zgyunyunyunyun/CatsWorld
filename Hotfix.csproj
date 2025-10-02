@@ -1175,6 +1175,7 @@
     <ProjectReference Include="Unity.Collections.csproj" />
     <ProjectReference Include="Unity.Mathematics.csproj" />
     <ProjectReference Include="Obfuz.Runtime.csproj" />
+    <ProjectReference Include="Wx.csproj" />
     <ProjectReference Include="UnityEditor.UI.csproj" />
     <ProjectReference Include="UnityEngine.UI.csproj" />
   </ItemGroup>

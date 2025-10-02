@@ -62,6 +62,7 @@
     <None Include="Assets\WX-WASM-SDK-V2\Runtime\Plugins\wx-runtime-editor.dll" />
     <None Include="Assets\WX-WASM-SDK-V2\Runtime\Plugins\link.xml" />
     <None Include="Assets\WX-WASM-SDK-V2\Runtime\Plugins\Unity.FontABTool.dll" />
+    <None Include="Assets\WX-WASM-SDK-V2\Runtime\Plugins\wx-runtime.xml" />
     <None Include="Assets\WX-WASM-SDK-V2\Runtime\Plugins\LitJson.dll" />
     <None Include="Assets\WX-WASM-SDK-V2\Runtime\Plugins\wx-perf.xml" />
     <None Include="Assets\WX-WASM-SDK-V2\Runtime\Plugins\LuaAdaptor\lua_adaptor_import.h" />
@@ -71,7 +72,6 @@
     <None Include="Assets\WX-WASM-SDK-V2\Runtime\Plugins\LuaAdaptor\lua_adaptor_503.c" />
     <None Include="Assets\WX-WASM-SDK-V2\Runtime\Plugins\LuaAdaptor\lua_adaptor_comm.c" />
     <None Include="Assets\WX-WASM-SDK-V2\Runtime\WxWasmSDKRuntime.asmdef" />
-    <None Include="Assets\WX-WASM-SDK-V2\Runtime\Plugins\wx-runtime.xml" />
     <None Include="Assets\WX-WASM-SDK-V2\Runtime\Plugins\wx-perf.dll" />
   </ItemGroup>
   <ItemGroup>

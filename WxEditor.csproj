@@ -70,8 +70,8 @@
     <None Include="Assets\WX-WASM-SDK-V2\Editor\TextureEditor\Release\System.Half.dll" />
     <None Include="Assets\WX-WASM-SDK-V2\Editor\TextureEditor\Release\Mono.Cecil.Pdb.dll" />
     <None Include="Assets\WX-WASM-SDK-V2\Editor\Brotli\win_x86_64\vcruntime140_1.dll" />
-    <None Include="Assets\WX-WASM-SDK-V2\Editor\wx-editor.xml" />
     <None Include="Assets\WX-WASM-SDK-V2\Editor\Brotli\win_x86_64\msvcp140.dll" />
+    <None Include="Assets\WX-WASM-SDK-V2\Editor\wx-editor.xml" />
     <None Include="Assets\WX-WASM-SDK-V2\Editor\Brotli\LICENSE.txt" />
     <None Include="Assets\WX-WASM-SDK-V2\Editor\TextureEditor\Release\Mono.Cecil.dll" />
     <None Include="Assets\WX-WASM-SDK-V2\Editor\TextureEditor\Release\wxlog.dll" />

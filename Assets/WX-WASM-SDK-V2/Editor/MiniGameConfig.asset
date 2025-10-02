@@ -15,7 +15,7 @@ MonoBehaviour:
   ProjectConf:
     projectName: CatWorld
     Appid: wxc9df9cbd3e70e6b9
-    CDN: https://cloudbase-3g6wpqls9c8a86cf-1258905158.tcloudbaseapp.com/Cat3/
+    CDN: 
     assetLoadType: 0
     compressDataPackage: 1
     VideoUrl: 
@@ -45,7 +45,7 @@ MonoBehaviour:
     UseFriendRelation: 0
     UseCompressedTexture: 0
     UseMiniGameChat: 0
-    PreloadWXFont: 1
+    PreloadWXFont: 0
     disableMultiTouch: 0
   CompileOptions:
     DevelopBuild: 0
@@ -53,7 +53,7 @@ MonoBehaviour:
     ScriptOnly: 0
     Il2CppOptimizeSize: 1
     profilingFuncs: 1
-    Webgl2: 1
+    Webgl2: 0
     fbslim: 0
     DeleteStreamingAssets: 0
     ProfilingMemory: 0
@@ -67,6 +67,7 @@ MonoBehaviour:
     iOSAutoGCInterval: 10000
     enableIOSPerformancePlus: 0
     enableiOSMetal: 0
+    enableEmscriptenGLX: 0
     brotliMT: 1
     enableWasm2023: 0
   CompressTexture:
