@@ -56,12 +56,19 @@ public class SlotEntityBase : EntityBase
         return Vector3.zero; // 如果没有空闲槽位，返回零向量
     }
 
+    // 获取当前槽位内的猫咪列表
+    public List<CatEntity> GetSlotCats()
+    {
+        return slotCats;
+    }
+
     // 判断是否还有空闲槽位
     public bool HasEmptySlot()
     {
         return currentIndex < maxSlots;
     }
 
+    // 添加猫咪到槽位
     public bool AddCat(CatEntity cat)
     {
         if (HasEmptySlot())
@@ -92,6 +99,7 @@ public class SlotEntityBase : EntityBase
         }
     }
 
+    // 消除槽位内的猫咪
     public void RemoveMergedCats(List<CatEntity> mergedCats)
     {
         // 先让所有猫咪向上飘，再消失
@@ -118,6 +126,7 @@ public class SlotEntityBase : EntityBase
         RearrangeCats();
     }
 
+    // 让槽位内的猫咪重新从左往右排列
     private void RearrangeCats()
     {
         for (int i = 0; i < slotCats.Count; i++)

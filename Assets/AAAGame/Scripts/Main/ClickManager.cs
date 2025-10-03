@@ -3,8 +3,15 @@ using UnityEngine;
 public class ClickManager : MonoBehaviour
 {
     public LayerMask catLayerMask;
+
     void Update()
     {
+        // 只在游戏过程中检测点击
+        if (GF.Procedure.CurrentProcedure == null || !(GF.Procedure.CurrentProcedure is GameProcedure))
+        {
+            return;
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

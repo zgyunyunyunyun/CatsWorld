@@ -64,9 +64,11 @@ public class GameProcedure : ProcedureBase
         //动态创建关卡
         var lvTb = GF.DataTable.GetDataTable<LevelTable>();
 
-        int currentLevelId = 2; // 获取当前关卡ID
-        // var playerMd = GF.DataModel.GetOrCreate<PlayerDataModel>();
+        var playerMd = GF.DataModel.GetOrCreate<PlayerDataModel>();
+        int currentLevelId = playerMd.LevelId;
         var lvRow = lvTb.GetDataRow(currentLevelId);
+        // var playerMd = GF.DataModel.GetOrCreate<PlayerDataModel>();
+        // var lvRow = lvTb.GetDataRow(currentLevelId);
 
         var lvParams = EntityParams.Create(Vector3.zero, Vector3.zero, Vector3.one);
         lvParams.Set(LevelEntityBase.P_LevelData, lvRow);
@@ -106,7 +108,7 @@ public class GameProcedure : ProcedureBase
         var args = e as GameplayEventArgs;
         if (args.EventType == GameplayEventType.GameOver)
         {
-            // OnGameOver(args.Params.Get<VarBoolean>("IsWin"));
+            OnGameOver(args.Params.Get<VarBoolean>("IsWin"));
         }
     }
     private void OnGameOver(bool isWin)

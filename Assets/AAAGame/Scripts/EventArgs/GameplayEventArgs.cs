@@ -3,7 +3,7 @@ using GameFramework;
 
 public enum GameplayEventType
 {
-    GameOver
+    GameOver,
 }
 public class GameplayEventArgs : GameEventArgs
 {

@@ -14,7 +14,7 @@ using WeChatWASM;
 namespace UnityGameFramework.Runtime
 {
     /// <summary>
-    /// PlayerPrefs 游戏配置辅助器。
+    /// 微信缓存API 游戏配置辅助器。
     /// </summary>
     public class WxStorageSettingHelper : SettingHelperBase
     {
@@ -27,10 +27,22 @@ namespace UnityGameFramework.Runtime
             //初始化微信小游戏sdk
             WX.InitSDK((code) =>
             {
-                Log.Debug("打开游戏，从微信存储获得数据2");
+                Debug.Log("打开游戏，从微信存储获得数据");
+            });
+
+            //展示在前台
+            WX.OnShow((res) =>
+            {
+                Debug.Log("游戏展示到前台，从微信存储获得数据");
+            });
+
+            //退到后台
+            WX.OnHide((res) =>
+            {
+                Debug.Log("游戏隐藏到后台，将游戏数据存储到微信");
             });
         }
-        // Start is called before the first frame update
+
         // void Update()
         // {
         //     //每60s存储1次数据
@@ -51,7 +63,14 @@ namespace UnityGameFramework.Runtime
         {
             get
             {
-                return -1;
+                if (WX.GetStorageInfoSync() != null)
+                {
+                    return WX.GetStorageInfoSync().keys.Length;
+                }
+                else
+                {
+                    return -1;
+                }
             }
         }
 
@@ -70,7 +89,6 @@ namespace UnityGameFramework.Runtime
         /// <returns>是否保存游戏配置成功。</returns>
         public override bool Save()
         {
-            PlayerPrefs.Save();
             return true;
         }
 
@@ -80,8 +98,7 @@ namespace UnityGameFramework.Runtime
         /// <returns>所有游戏配置项的名称。</returns>
         public override string[] GetAllSettingNames()
         {
-            Log.Warning("GetAllSettingNames is not supported.");
-            return null;
+            return WX.GetStorageInfoSync().keys;
         }
 
         /// <summary>
@@ -96,7 +113,8 @@ namespace UnityGameFramework.Runtime
             }
 
             results.Clear();
-            Log.Warning("GetAllSettingNames is not supported.");
+
+            results.AddRange(WX.GetStorageInfoSync().keys);
         }
 
         /// <summary>
@@ -106,7 +124,7 @@ namespace UnityGameFramework.Runtime
         /// <returns>指定的游戏配置项是否存在。</returns>
         public override bool HasSetting(string settingName)
         {
-            return PlayerPrefs.HasKey(settingName);
+            return WX.StorageHasKeySync(settingName);
         }
 
         /// <summary>
@@ -116,12 +134,12 @@ namespace UnityGameFramework.Runtime
         /// <returns>是否移除指定游戏配置项成功。</returns>
         public override bool RemoveSetting(string settingName)
         {
-            if (!PlayerPrefs.HasKey(settingName))
+            if (!WX.StorageHasKeySync(settingName))
             {
                 return false;
             }
 
-            PlayerPrefs.DeleteKey(settingName);
+            WX.StorageDeleteKeySync(settingName);
             return true;
         }
 
@@ -130,7 +148,7 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         public override void RemoveAllSettings()
         {
-            PlayerPrefs.DeleteAll();
+            WX.StorageDeleteAllSync();
         }
 
         /// <summary>
@@ -140,7 +158,7 @@ namespace UnityGameFramework.Runtime
         /// <returns>读取的布尔值。</returns>
         public override bool GetBool(string settingName)
         {
-            return PlayerPrefs.GetInt(settingName) != 0;
+            return WX.StorageGetIntSync(settingName, 0) != 0;
         }
 
         /// <summary>
@@ -151,7 +169,7 @@ namespace UnityGameFramework.Runtime
         /// <returns>读取的布尔值。</returns>
         public override bool GetBool(string settingName, bool defaultValue)
         {
-            return PlayerPrefs.GetInt(settingName, defaultValue ? 1 : 0) != 0;
+            return WX.StorageGetIntSync(settingName, defaultValue ? 1 : 0) != 0;
         }
 
         /// <summary>
@@ -161,7 +179,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="value">要写入的布尔值。</param>
         public override void SetBool(string settingName, bool value)
         {
-            PlayerPrefs.SetInt(settingName, value ? 1 : 0);
+            WX.StorageSetIntSync(settingName, value ? 1 : 0);
         }
 
         /// <summary>
@@ -171,7 +189,7 @@ namespace UnityGameFramework.Runtime
         /// <returns>读取的整数值。</returns>
         public override int GetInt(string settingName)
         {
-            return PlayerPrefs.GetInt(settingName);
+            return WX.StorageGetIntSync(settingName, 0);
         }
 
         /// <summary>
@@ -182,7 +200,7 @@ namespace UnityGameFramework.Runtime
         /// <returns>读取的整数值。</returns>
         public override int GetInt(string settingName, int defaultValue)
         {
-            return PlayerPrefs.GetInt(settingName, defaultValue);
+            return WX.StorageGetIntSync(settingName, defaultValue);
         }
 
         /// <summary>
@@ -192,7 +210,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="value">要写入的整数值。</param>
         public override void SetInt(string settingName, int value)
         {
-            PlayerPrefs.SetInt(settingName, value);
+            WX.StorageSetIntSync(settingName, value);
         }
 
         /// <summary>
@@ -202,7 +220,7 @@ namespace UnityGameFramework.Runtime
         /// <returns>读取的浮点数值。</returns>
         public override float GetFloat(string settingName)
         {
-            return PlayerPrefs.GetFloat(settingName);
+            return WX.StorageGetFloatSync(settingName, 0);
         }
 
         /// <summary>
@@ -213,7 +231,7 @@ namespace UnityGameFramework.Runtime
         /// <returns>读取的浮点数值。</returns>
         public override float GetFloat(string settingName, float defaultValue)
         {
-            return PlayerPrefs.GetFloat(settingName, defaultValue);
+            return WX.StorageGetFloatSync(settingName, defaultValue);
         }
 
         /// <summary>
@@ -223,7 +241,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="value">要写入的浮点数值。</param>
         public override void SetFloat(string settingName, float value)
         {
-            PlayerPrefs.SetFloat(settingName, value);
+            WX.StorageSetFloatSync(settingName, value);
         }
 
         /// <summary>
@@ -233,7 +251,7 @@ namespace UnityGameFramework.Runtime
         /// <returns>读取的字符串值。</returns>
         public override string GetString(string settingName)
         {
-            return PlayerPrefs.GetString(settingName);
+            return WX.StorageGetStringSync(settingName, null);
         }
 
         /// <summary>
@@ -244,7 +262,7 @@ namespace UnityGameFramework.Runtime
         /// <returns>读取的字符串值。</returns>
         public override string GetString(string settingName, string defaultValue)
         {
-            return PlayerPrefs.GetString(settingName, defaultValue);
+            return WX.StorageGetStringSync(settingName, defaultValue);
         }
 
         /// <summary>
@@ -254,7 +272,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="value">要写入的字符串值。</param>
         public override void SetString(string settingName, string value)
         {
-            PlayerPrefs.SetString(settingName, value);
+            WX.StorageSetStringSync(settingName, value);
         }
 
         /// <summary>
@@ -323,7 +341,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="obj">要写入的对象。</param>
         public override void SetObject<T>(string settingName, T obj)
         {
-            PlayerPrefs.SetString(settingName, Utility.Json.ToJson(obj));
+            WX.StorageSetStringSync(settingName, Utility.Json.ToJson(obj));
         }
 
         /// <summary>
@@ -333,7 +351,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="obj">要写入的对象。</param>
         public override void SetObject(string settingName, object obj)
         {
-            PlayerPrefs.SetString(settingName, Utility.Json.ToJson(obj));
+            WX.StorageSetStringSync(settingName, Utility.Json.ToJson(obj));
         }
     }
 }

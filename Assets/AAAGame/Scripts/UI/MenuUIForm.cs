@@ -43,9 +43,9 @@ public partial class MenuUIForm : UIFormBase
         var args = e as PlayerDataChangedEventArgs;
         switch (args.DataType)
         {
-            case PlayerDataType.Coins:
-                RefreshMoneyText();
-                break;
+            // case PlayerDataType.Coins:
+            //     RefreshMoneyText();
+            //     break;
             case PlayerDataType.LevelId:
 
                 break;
@@ -56,7 +56,7 @@ public partial class MenuUIForm : UIFormBase
     private void RefreshMoneyText()
     {
         var playerDm = GF.DataModel.GetOrCreate<PlayerDataModel>();
-        SetMoneyText(playerDm.Coins);
+        // SetMoneyText(playerDm.Coins);
     }
     private void SetMoneyText(int money)
     {

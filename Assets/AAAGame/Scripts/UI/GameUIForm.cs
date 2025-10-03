@@ -14,7 +14,7 @@ public partial class GameUIForm : UIFormBase
     }
     private void RefreshCoinsText()
     {
-        var playerDm = GF.DataModel.GetOrCreate<PlayerDataModel>();
-        coinNumText.text = playerDm.Coins.ToString();
+        // var playerDm = GF.DataModel.GetOrCreate<PlayerDataModel>();
+        // coinNumText.text = playerDm.Coins.ToString();
     }
 }

@@ -286,11 +286,6 @@ public class LevelEntityBase : EntityBase
     {
     }
 
-    private void CheckGameOver()
-    {
-
-    }
-
     // 处理猫咪点击事件
     protected virtual void OnCatEntityClick(object sender, GameEventArgs e)
     {
@@ -401,11 +396,11 @@ public class LevelEntityBase : EntityBase
         // 猫咪消除后，更新剩余猫咪的可点击状态
         StartCoroutine(DelayUpdateClickableState());
 
+        // 消除后检查是否还有空槽位，没有则游戏结束
         if (slotCats.Count >= m_SlotEntity.GetMaxSlots())
         {
             // 游戏结束
-            GF.Event.Fire(this, GameplayEventArgs.Create(GameplayEventType.GameOver));
-            return;
+            OnNonMergeCats();
         }
     }
 
@@ -468,6 +463,28 @@ public class LevelEntityBase : EntityBase
 
             FishEntity fish = other.GetComponent<FishEntity>();
             fish?.Die(-1); // -1表示不是被子弹击杀的
+        }
+    }
+
+    // 处理没有可合成的猫咪时游戏结束
+    private void OnNonMergeCats()
+    {
+        if (m_IsGameOver) return;
+        m_IsGameOver = true;
+        var eParms = RefParams.Create();
+        eParms.Set<VarBoolean>("IsWin", true);
+        GF.Event.Fire(GameplayEventArgs.EventId, GameplayEventArgs.Create(GameplayEventType.GameOver, eParms));
+    }
+
+    private void CheckGameOver()
+    {
+        if (m_IsGameOver) return;
+        if (catCards.Count < 1 && m_SlotEntity.GetSlotCats().Count < 1)
+        {
+            m_IsGameOver = true;
+            var eParms = RefParams.Create();
+            eParms.Set<VarBoolean>("IsWin", true);
+            GF.Event.Fire(GameplayEventArgs.EventId, GameplayEventArgs.Create(GameplayEventType.GameOver, eParms));
         }
     }
 
