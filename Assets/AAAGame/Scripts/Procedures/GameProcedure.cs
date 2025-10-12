@@ -24,6 +24,11 @@ public class GameProcedure : ProcedureBase
         GF.Event.Subscribe(CloseUIFormCompleteEventArgs.EventId, OnCloseUIForm);
         GF.Event.Subscribe(GameplayEventArgs.EventId, OnGameplayEvent);
 
+        if (m_Level != null)
+        {
+            // GF.Entity.HideEntity(m_Level.Id);
+        }
+
         ShowLevel();
         procedureOwner.RemoveData("LevelEntity");
     }

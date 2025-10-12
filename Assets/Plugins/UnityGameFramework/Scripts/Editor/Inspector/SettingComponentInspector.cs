@@ -53,6 +53,17 @@ namespace UnityGameFramework.Editor
                 }
             }
 
+            // 清理编辑器PlayerPrefs方法
+            if (GUILayout.Button("Clear All Settings (PlayerPrefs)"))
+            {
+                if (EditorUtility.DisplayDialog("Clear All Settings", "Are you sure to clear all settings?", "Yes", "No"))
+                {
+                    PlayerPrefs.DeleteAll();
+                    PlayerPrefs.Save();
+                    Debug.Log("All settings have been cleared.");
+                }
+            }
+
             serializedObject.ApplyModifiedProperties();
 
             Repaint();

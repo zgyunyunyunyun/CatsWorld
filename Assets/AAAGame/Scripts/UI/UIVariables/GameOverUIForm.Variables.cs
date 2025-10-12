@@ -1,6 +1,6 @@
-﻿//---------------------------------
+//---------------------------------
 //此文件由工具自动生成,请勿手动修改
-//更新自:NPC-20230705ZXI
+//更新自:DESKTOP-QMB7B3D
 //---------------------------------
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,4 +11,6 @@ public partial class GameOverUIForm
 	[Header("UI Variables:")]
 	[SerializeField] private Button varBackBtn = null;
 	[SerializeField] private TextMeshProUGUI varTitleTxt = null;
+	[SerializeField] private Button varNextLevelBtn = null;
+	[SerializeField] private Button varRestartBtn = null;
 }

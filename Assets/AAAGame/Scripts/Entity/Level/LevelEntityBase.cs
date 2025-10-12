@@ -16,12 +16,12 @@ public class LevelEntityBase : EntityBase
 
     protected LevelTable levelTable; // 当前关卡数据
 
-    private List<CatEntity> catCards; // 关卡内所有猫咪卡片数据
+    private List<CatEntity> catCards = new(); // 关卡内所有猫咪卡片数据
 
 
     private Vector3 m_StartPos; // 猫咪堆叠的起始位置
     protected int m_SlotCount; // 槽位数量
-    private List<LayerTable> layerConfigs; // 每一层卡片配置
+    private List<LayerTable> layerConfigs = new(); // 每一层卡片配置
     private int totalCatsCount; // 猫咪的总数量
     private float m_CatEntitySize = 1.45f; // 猫咪实体的尺寸（假设为正方形，边长1.4单位）
 
@@ -29,8 +29,6 @@ public class LevelEntityBase : EntityBase
     protected override void OnInit(object userData)
     {
         base.OnInit(userData);
-        catCards = new();
-        layerConfigs = new();
     }
     protected override async void OnShow(object userData)
     {
@@ -402,6 +400,10 @@ public class LevelEntityBase : EntityBase
             // 游戏结束
             OnNonMergeCats();
         }
+        else
+        {
+            CheckGameOver();
+        }
     }
 
     // 处理猫咪攻击事件
@@ -499,7 +501,5 @@ public class LevelEntityBase : EntityBase
     {
         var eArgs = e as HideEntityCompleteEventArgs;
         int entityId = eArgs.EntityId;
-
-        CheckGameOver();
     }
 }

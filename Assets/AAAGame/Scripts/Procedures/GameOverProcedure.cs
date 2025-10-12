@@ -42,4 +42,16 @@ public class GameOverProcedure : ProcedureBase
     {
         ChangeState<MenuProcedure>(procedure);
     }
+
+    internal void Restart()
+    {
+        ChangeState<GameProcedure>(procedure);
+    }
+
+    internal void NextLevel()
+    {
+        var playerMd = GF.DataModel.GetOrCreate<PlayerDataModel>();
+        playerMd.LevelId += 1;
+        ChangeState<GameProcedure>(procedure);
+    }
 }
