@@ -30,6 +30,9 @@ public abstract class DataModelStorageBase : DataModelBase
             return;
         }
         string dataJson = GF.Setting.GetString(StorageKey, null);
+
+        Log.Warning("读取存档数据: " + dataJson);
+
         if (!string.IsNullOrEmpty(dataJson))
         {
             Newtonsoft.Json.JsonConvert.PopulateObject(dataJson, this);

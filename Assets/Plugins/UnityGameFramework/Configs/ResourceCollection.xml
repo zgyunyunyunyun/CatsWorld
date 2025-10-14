@@ -9,6 +9,7 @@
       <Resource Name="Language" LoadType="1" Packed="False" />
       <Resource Name="Scene" LoadType="1" Packed="False" />
       <Resource Name="ScriptableAssets" LoadType="1" Packed="False" />
+      <Resource Name="Shader" LoadType="2" Packed="False" />
       <Resource Name="SharedAssets" LoadType="2" Packed="False" />
       <Resource Name="Sprites" LoadType="1" Packed="False" />
       <Resource Name="UI" LoadType="1" Packed="False" />
@@ -25,6 +26,7 @@
       <Asset Guid="17809c14ab03d914fbb791e882587415" ResourceName="DataTable" />
       <Asset Guid="17c3f565cf73d4740bfaed4f87e98fa3" ResourceName="Language" />
       <Asset Guid="18868d941a71f02498051516873367ce" ResourceName="Scene" />
+      <Asset Guid="18883705d207aec4d82482188aeb45df" ResourceName="Shader" />
       <Asset Guid="18d313816561eb94f883cc5522c2158b" ResourceName="UI" />
       <Asset Guid="197d6fb458c55f2478cf569b89632e52" ResourceName="SharedAssets" />
       <Asset Guid="1a30e362e125e0b4a8862e3d5df4a0a4" ResourceName="UI" />
@@ -66,6 +68,7 @@
       <Asset Guid="83bdadb9e1d24a94e8498def13d4804c" ResourceName="Language" />
       <Asset Guid="84a6440c0fd8e974e8986ff4df2d489f" ResourceName="Language" />
       <Asset Guid="8a4e2875174034b4aabb43c9ca9028a1" ResourceName="SharedAssets" />
+      <Asset Guid="8ce080d6b39aa264a98b2fb6ddd59b21" ResourceName="Shader" />
       <Asset Guid="92cb04501693359419a839b8d33aace7" ResourceName="UI" />
       <Asset Guid="93e5244c613569f4ca34418e4a2b59b4" ResourceName="DataTable" />
       <Asset Guid="96ce730f2c56bbd48bfb01246e0d5612" ResourceName="Entity" />

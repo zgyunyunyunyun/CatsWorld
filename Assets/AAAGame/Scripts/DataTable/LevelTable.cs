@@ -64,6 +64,15 @@ public class LevelTable : DataRowBase
             private set;
         }
 
+        /// <summary>
+        /// 每层小猫种类配置
+        /// </summary>
+        public int[] CatTypes
+        {
+            get;
+            private set;
+        }
+
         public override bool ParseDataRow(string dataRowString, object userData)
         {
             string[] columnStrings = dataRowString.Split(DataTableExtension.DataSplitSeparators);
@@ -80,6 +89,7 @@ public class LevelTable : DataRowBase
             SlotCount = int.Parse(columnStrings[index++]);
             FishCount = int.Parse(columnStrings[index++]);
             Layers = DataTableExtension.ParseArray<int>(columnStrings[index++]);
+            CatTypes = DataTableExtension.ParseArray<int>(columnStrings[index++]);
 
             return true;
         }
@@ -95,6 +105,7 @@ public class LevelTable : DataRowBase
                     SlotCount = binaryReader.Read7BitEncodedInt32();
                     FishCount = binaryReader.Read7BitEncodedInt32();
                     Layers = binaryReader.ReadArray<int>();
+                    CatTypes = binaryReader.ReadArray<int>();
                 }
             }
 

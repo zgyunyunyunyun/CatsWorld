@@ -71,6 +71,10 @@ public class GameProcedure : ProcedureBase
 
         var playerMd = GF.DataModel.GetOrCreate<PlayerDataModel>();
         int currentLevelId = playerMd.LevelId;
+
+        Log.Warning("存档数据: " + playerMd);
+        Log.Warning("当前关卡ID: " + currentLevelId);
+
         var lvRow = lvTb.GetDataRow(currentLevelId);
         // var playerMd = GF.DataModel.GetOrCreate<PlayerDataModel>();
         // var lvRow = lvTb.GetDataRow(currentLevelId);

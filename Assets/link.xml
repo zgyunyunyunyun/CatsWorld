@@ -12,13 +12,11 @@
 	<assembly fullname="Newtonsoft.Json.UnityConverters" preserve="all" />
 	<assembly fullname="System.Core" preserve="all" />
 	<assembly fullname="System" preserve="all" />
-	<assembly fullname="UniTask.DOTween" preserve="all" />
 	<assembly fullname="Unity.TextMeshPro" preserve="all" />
 	<assembly fullname="UnityEngine.AnimationModule" preserve="all" />
 	<assembly fullname="UnityEngine.AudioModule" preserve="all" />
 	<assembly fullname="UnityEngine.CoreModule" preserve="all" />
 	<assembly fullname="UnityEngine" preserve="all" />
-	<assembly fullname="UnityEngine.JSONSerializeModule" preserve="all" />
 	<assembly fullname="UnityEngine.ParticleSystemModule" preserve="all" />
 	<assembly fullname="UnityEngine.Physics2DModule" preserve="all" />
 	<assembly fullname="UnityEngine.PhysicsModule" preserve="all" />
@@ -27,8 +25,6 @@
 	<assembly fullname="UnityEngine.UIModule" preserve="all" />
 	<assembly fullname="UnityEngine.UnityWebRequestModule" preserve="all" />
 	<assembly fullname="UnityGameFramework.Runtime" preserve="all" />
-	<assembly fullname="Wx" preserve="all" />
-	<assembly fullname="wx-runtime" preserve="all" />
 	<!--GENERATE_TAG-->
 	<!--<assembly fullname="UnityEngine">
 		<type fullname="UnityEngine.Vector2Int" preserve="all"/>

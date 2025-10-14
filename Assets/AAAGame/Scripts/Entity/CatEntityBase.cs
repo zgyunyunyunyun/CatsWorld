@@ -10,7 +10,7 @@ public class CatEntityBase : EntityBase
     public const string P_ClickAble = "ClickAble";
 
     [SerializeField] private SpriteRenderer m_SpriteRenderer;
-    [SerializeField] private TextMeshPro text1;
+    // [SerializeField] private TextMeshPro text1;
     // [SerializeField] private TextMeshPro text2;
 
 
@@ -27,15 +27,15 @@ public class CatEntityBase : EntityBase
     {
         base.OnShow(userData);
         m_SpriteRenderer = GetComponent<SpriteRenderer>();
-        text1 = GetComponentInChildren<TextMeshPro>();
+        // text1 = GetComponentInChildren<TextMeshPro>();
         // text2 = transform.Find("Num2").GetComponent<TextMeshPro>();
 
         cat = Params.Get(P_CatData) as Cat;
         layerOrder = Params.Get<VarInt32>(P_SortOrder).Value;
         m_SpriteRenderer.SetSprite(cat.catData.catIcon);
         m_SpriteRenderer.sortingOrder = layerOrder * 10;
-        text1.sortingOrder = layerOrder * 10 + 1;
-        text1.text = "1";
+        // text1.sortingOrder = layerOrder * 10 + 1;
+        // text1.text = "1";
         // text2.sortingOrder = layerOrder * 10 + 1;
         // text2.text = "2";
         clickAble = Params.Get<VarBoolean>(P_ClickAble, false).Value;
@@ -94,13 +94,13 @@ public class CatEntityBase : EntityBase
         if (isClicked)
         {
             m_SpriteRenderer.sortingOrder = layerOrder * 1000;
-            text1.sortingOrder = layerOrder * 1000 + 1;
+            // text1.sortingOrder = layerOrder * 1000 + 1;
             // text2.sortingOrder = layerOrder * 1000 + 1;
         }
         else
         {
             m_SpriteRenderer.sortingOrder = layerOrder * 10;
-            text1.sortingOrder = layerOrder * 1000 + 1;
+            // text1.sortingOrder = layerOrder * 1000 + 1;
             // text2.sortingOrder = layerOrder * 1000 + 1;
         }
     }

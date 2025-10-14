@@ -23,7 +23,7 @@ public class LevelEntityBase : EntityBase
     protected int m_SlotCount; // 槽位数量
     private List<LayerTable> layerConfigs = new(); // 每一层卡片配置
     private int totalCatsCount; // 猫咪的总数量
-    private float m_CatEntitySize = 1.45f; // 猫咪实体的尺寸（假设为正方形，边长1.4单位）
+    private float m_CatEntitySize = 1.5f; // 猫咪实体的尺寸（假设为正方形，边长1.4单位）
 
     private bool m_IsGameOver;
     protected override void OnInit(object userData)

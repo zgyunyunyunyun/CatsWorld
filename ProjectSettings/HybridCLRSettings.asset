@@ -24,8 +24,14 @@ MonoBehaviour:
   externalHotUpdateAssembliyDirs: []
   strippedAOTDllOutputRootDir: HybridCLRData/AssembliesPostIl2CppStrip
   patchAOTAssemblies:
-  - wx-runtime
-  - Wx
+  - Builtin.Runtime
+  - GameFramework
+  - mscorlib
+  - System.Core
+  - System
+  - UniTask
+  - UnityGameFramework.Runtime
+  - ZString
   outputLinkFile: HybridCLRData/Generated/link.xml
   outputAOTGenericReferenceFile: HybridCLRData/Generated/AOTGenericReferences.cs
   maxGenericReferenceIteration: 10

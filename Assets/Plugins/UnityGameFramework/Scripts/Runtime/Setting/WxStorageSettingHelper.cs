@@ -22,24 +22,24 @@ namespace UnityGameFramework.Runtime
 
         void Start()
         {
-            Log.Debug("打开游戏，从微信存储获得数据1");
+            Log.Warning("打开游戏，从微信存储获得数据1");
 
             //初始化微信小游戏sdk
             WX.InitSDK((code) =>
             {
-                Debug.Log("打开游戏，从微信存储获得数据");
+                Log.Warning("打开游戏，从微信存储获得数据");
             });
 
             //展示在前台
             WX.OnShow((res) =>
             {
-                Debug.Log("游戏展示到前台，从微信存储获得数据");
+                Log.Warning("游戏展示到前台，从微信存储获得数据");
             });
 
             //退到后台
             WX.OnHide((res) =>
             {
-                Debug.Log("游戏隐藏到后台，将游戏数据存储到微信");
+                Log.Warning("游戏隐藏到后台，将游戏数据存储到微信");
             });
         }
 
