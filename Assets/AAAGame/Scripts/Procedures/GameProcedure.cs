@@ -86,11 +86,8 @@ public class GameProcedure : ProcedureBase
         switch (currentLevelId)
         {
             case 1:
-                // 第一关使用LevelEntity
-                m_Level = await GF.Entity.ShowEntityAwait<LevelEntityBase>(lvRow.LvPfbName, Const.EntityGroup.Level, lvParams) as LevelEntityBase;
-                break;
             case 2:
-                // 第二关使用LevelEntity2
+                // 第一关使用LevelEntity
                 m_Level = await GF.Entity.ShowEntityAwait<LevelEntity>(lvRow.LvPfbName, Const.EntityGroup.Level, lvParams) as LevelEntity;
                 break;
             // 可以添加更多关卡

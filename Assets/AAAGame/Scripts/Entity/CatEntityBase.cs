@@ -30,6 +30,8 @@ public class CatEntityBase : EntityBase
         // text1 = GetComponentInChildren<TextMeshPro>();
         // text2 = transform.Find("Num2").GetComponent<TextMeshPro>();
 
+        CachedTransform.localScale = Vector3.one; // 重置缩放，防止进入下一关时缩放异常
+
         cat = Params.Get(P_CatData) as Cat;
         layerOrder = Params.Get<VarInt32>(P_SortOrder).Value;
         m_SpriteRenderer.SetSprite(cat.catData.catIcon);

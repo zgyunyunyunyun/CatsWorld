@@ -16,13 +16,13 @@ public class LevelEntityBase : EntityBase
 
     protected LevelTable levelTable; // 当前关卡数据
 
-    private List<CatEntity> catCards = new(); // 关卡内所有猫咪卡片数据
+    protected List<CatEntity> catCards = new(); // 关卡内所有猫咪卡片数据
 
 
     private Vector3 m_StartPos; // 猫咪堆叠的起始位置
     protected int m_SlotCount; // 槽位数量
-    private List<LayerTable> layerConfigs = new(); // 每一层卡片配置
-    private int totalCatsCount; // 猫咪的总数量
+    protected List<LayerTable> layerConfigs = new(); // 每一层卡片配置
+    protected int totalCatsCount; // 猫咪的总数量
     private float m_CatEntitySize = 1.5f; // 猫咪实体的尺寸（假设为正方形，边长1.4单位）
 
     private bool m_IsGameOver;
@@ -130,8 +130,6 @@ public class LevelEntityBase : EntityBase
     // 初始化猫咪堆叠层数和每层行列数
     protected virtual bool InitLevelData()
     {
-        Log.Warning(levelTable.SlotCount);
-
         m_SlotCount = levelTable.SlotCount;
 
         var layerIds = levelTable.Layers;
@@ -154,7 +152,7 @@ public class LevelEntityBase : EntityBase
     }
 
     // 初始化关卡内的小猫
-    public async Task InitLevelCats()
+    public virtual async Task InitLevelCats()
     {
         catCards.Clear();
 
@@ -166,6 +164,9 @@ public class LevelEntityBase : EntityBase
 
         // 3. 按层摆放猫咪
         await PlaceCatsByLayer(catTypes, deck);
+
+        // 所有猫咪创建完成后，更新每个猫咪的可点击状态
+        UpdateAllCatsClickableState();
     }
 
     // 获取所有猫咪类型数据
@@ -180,18 +181,18 @@ public class LevelEntityBase : EntityBase
         return catTypes;
     }
 
-    // 构建随机猫咪牌组
-    private List<int> BuildShuffledDeck(List<CatData> catTypes)
+    // 处理均分每种小猫牌组（每种3的倍数），catsCount为总数（也是3的倍数）
+    public virtual List<int> BuildCatsDeckBy3(int catsCount, List<CatData> catTypes)
     {
         List<int> deck = new();
 
-        // 根据totalCatsCount计算每种猫咪的数量，确保每种猫咪数量都为3的倍数
-        int totalRepeatCount = totalCatsCount / catTypes.Count;
+        // 根据catsCount计算每种猫咪的数量，确保每种猫咪数量都为3的倍数
+        int totalRepeatCount = catsCount / catTypes.Count;
         int minueCount = totalRepeatCount % 3;
         int repeatCount = totalRepeatCount - minueCount;
 
         // 总数减去所有猫咪重复的次数，计算剩余的数量，随机分配给几种猫咪，确保总数满足要求
-        int remainingCount = (totalCatsCount - (repeatCount * catTypes.Count)) / 3;
+        int remainingCount = (catsCount - (repeatCount * catTypes.Count)) / 3;
 
         foreach (var type in catTypes)
         {
@@ -211,12 +212,20 @@ public class LevelEntityBase : EntityBase
             }
         }
 
+        return deck;
+    }
+
+    // 构建随机猫咪牌组
+    protected virtual List<int> BuildShuffledDeck(List<CatData> catTypes)
+    {
+        List<int> deck = BuildCatsDeckBy3(totalCatsCount, catTypes);
+
         Shuffle(deck);
         return deck;
     }
 
     // 按层摆放猫咪
-    private async Task PlaceCatsByLayer(List<CatData> catTypes, List<int> deck)
+    protected virtual async Task<int> PlaceCatsByLayer(List<CatData> catTypes, List<int> deck)
     {
         int deckIndex = 0;
 
@@ -235,12 +244,11 @@ public class LevelEntityBase : EntityBase
             await Task.Yield(); // 创建一层后稍微等待，避免卡顿
         }
 
-        // 所有猫咪创建完成后，更新每个猫咪的可点击状态
-        UpdateAllCatsClickableState();
+        return deckIndex;
     }
 
     // 创建单个猫咪实体
-    private async Task<CatEntity> CreateCatEntity(List<CatData> catTypes, int catTypeId, int layerIdx,
+    protected async Task<CatEntity> CreateCatEntity(List<CatData> catTypes, int catTypeId, int layerIdx,
                                                  Vector3 pos)
     {
         // 根据id找到对应的猫咪数据
@@ -351,7 +359,7 @@ public class LevelEntityBase : EntityBase
     }
 
     // 更新所有猫咪的可点击状态
-    private void UpdateAllCatsClickableState()
+    protected void UpdateAllCatsClickableState()
     {
         // 检查每只猫咪是否可选，如果可选则设为可点击
         foreach (var cat in catCards)

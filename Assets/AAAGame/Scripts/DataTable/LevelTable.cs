@@ -65,7 +65,7 @@ public class LevelTable : DataRowBase
         }
 
         /// <summary>
-        /// 每层小猫种类配置
+        /// 每层小猫种类数量配置（用于难度调节）
         /// </summary>
         public int[] CatTypes
         {
