@@ -38,6 +38,15 @@ public class LevelTable : DataRowBase
         }
 
         /// <summary>
+        /// 关卡实体类名
+        /// </summary>
+        public string LvEntityName
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
         /// 初始槽数
         /// </summary>
         public int SlotCount
@@ -86,6 +95,7 @@ public class LevelTable : DataRowBase
             m_Id = int.Parse(columnStrings[index++]);
             index++;
             LvPfbName = columnStrings[index++];
+            LvEntityName = columnStrings[index++];
             SlotCount = int.Parse(columnStrings[index++]);
             FishCount = int.Parse(columnStrings[index++]);
             Layers = DataTableExtension.ParseArray<int>(columnStrings[index++]);
@@ -102,6 +112,7 @@ public class LevelTable : DataRowBase
                 {
                     m_Id = binaryReader.Read7BitEncodedInt32();
                     LvPfbName = binaryReader.ReadString();
+                    LvEntityName = binaryReader.ReadString();
                     SlotCount = binaryReader.Read7BitEncodedInt32();
                     FishCount = binaryReader.Read7BitEncodedInt32();
                     Layers = binaryReader.ReadArray<int>();

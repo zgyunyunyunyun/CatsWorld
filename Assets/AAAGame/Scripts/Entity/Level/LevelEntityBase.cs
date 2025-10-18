@@ -5,14 +5,14 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
-public class LevelEntityBase : EntityBase
+public class LevelEntityBase<T, U> : EntityBase where T : SlotEntityBase where U : FishPoolEntityBase
 {
     public const string P_LevelData = "LevelData";
     public const string P_LevelReadyCallback = "OnLevelReady";
     public bool IsAllReady { get; private set; }
 
-    protected FishPoolEntity m_FishPoolEntity; // 鱼池实体
-    protected SlotEntityBase m_SlotEntity; // 槽位实体
+    protected U m_FishPoolEntity; // 鱼池实体
+    protected T m_SlotEntity; // 槽位实体
 
     protected LevelTable levelTable; // 当前关卡数据
 
@@ -96,7 +96,16 @@ public class LevelEntityBase : EntityBase
         fishPoolParams.AttachToEntity = this.Entity;
         fishPoolParams.ParentTransform = this.CachedTransform.Find("FishPoolPoint");
         fishPoolParams.localPosition = Vector3.zero;
-        m_FishPoolEntity = await GF.Entity.ShowEntityAwait<FishPoolEntity>("FishPool_1", Const.EntityGroup.Level, fishPoolParams) as FishPoolEntity;
+
+        // 调用创建槽位的工厂方法，让子类决定创建什么类型的槽位
+        m_FishPoolEntity = await CreateFishPoolEntity(fishPoolParams);
+    }
+
+    // 工厂方法，让子类可以重写来返回特定类型的FishPoolEntity
+    protected virtual async Task<U> CreateFishPoolEntity(EntityParams fishPoolParams)
+    {
+        // 基类默认创建FishPoolEntityBase类型
+        return await GF.Entity.ShowEntityAwait<U>("FishPool_1", Const.EntityGroup.Level, fishPoolParams) as U;
     }
 
     // 创建槽位
@@ -114,10 +123,10 @@ public class LevelEntityBase : EntityBase
     }
 
     // 工厂方法，让子类可以重写来返回特定类型的SlotEntity
-    protected virtual async Task<SlotEntityBase> CreateSlotEntity(EntityParams slotParams)
+    protected virtual async Task<T> CreateSlotEntity(EntityParams slotParams)
     {
         // 基类默认创建SlotEntityBase类型
-        return await GF.Entity.ShowEntityAwait<SlotEntityBase>("Slot_1", Const.EntityGroup.Level, slotParams) as SlotEntityBase;
+        return await GF.Entity.ShowEntityAwait<T>("Slot_1", Const.EntityGroup.Level, slotParams) as T;
     }
 
     // 获取初始位置，后续的猫咪堆叠位置都基于此位置进行计算
@@ -268,7 +277,7 @@ public class LevelEntityBase : EntityBase
         catParams.Set<VarInt32>(CatEntity.P_SortOrder, layerIdx + 1); // 从1开始，避免0层乘以别的数都为0被盖住
 
         // 显示实体
-        CatEntity catEntity = await GF.Entity.ShowEntityAwait<CatEntity>("CatEntity", Const.EntityGroup.Player, catParams) as CatEntity;
+        CatEntity catEntity = await GF.Entity.ShowEntityAwait<CatEntity>(cat.catData.prefabName, Const.EntityGroup.Player, catParams) as CatEntity;
         catEntity.CachedTransform.SetAsLastSibling(); // 保证后生成的在最上层
         catCards.Add(catEntity);
 

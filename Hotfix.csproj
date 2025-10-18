@@ -117,6 +117,7 @@
     <Compile Include="Assets\AAAGame\Scripts\Network\SCPacketHeader.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Data\Fish.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Extension\SettingExtension.cs" />
+    <Compile Include="Assets\AAAGame\Scripts\Entity\Level\FishPoolEntityBase.cs" />
     <Compile Include="Assets\AAAGame\Scripts\DataTable\LayerTable.cs" />
     <Compile Include="Assets\AAAGame\Scripts\Extension\LocalizationExtension.cs" />
     <Compile Include="Assets\AAAGame\Scripts\UI\GameOverUIForm.cs" />

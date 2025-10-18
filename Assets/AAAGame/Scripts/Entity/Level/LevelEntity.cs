@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using NUnit.Framework;
 using UnityEngine;
-using UnityGameFramework.Runtime;
 
-public class LevelEntity : LevelEntityBase
+/// <summary>
+/// 通过控制每层的卡片种类来实现难度控制的关卡（卡片堆最多为5*5）
+/// </summary>
+public class LevelEntity : LevelEntityBase<SlotEntityBase, FishPoolEntityBase>
 {
     private List<int> layerCount = new(); // 每层的卡片数量
     private List<int> layerCatTypeCount = new(); // 每层的卡片种类数量

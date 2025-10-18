@@ -3,11 +3,14 @@ using GameFramework.Procedure;
 using UnityGameFramework.Runtime;
 using GameFramework.Event;
 using UnityEngine;
+using System;
+using System.Threading.Tasks;
+using System.Linq;
 
 [Obfuz.ObfuzIgnore(Obfuz.ObfuzScope.TypeName)]
 public class GameProcedure : ProcedureBase
 {
-    private LevelEntityBase m_Level;
+    private LevelEntityBase<SlotEntityBase, FishPoolEntityBase> m_Level;
     private IFsm<IProcedureManager> procedure;
 
     protected override void OnEnter(IFsm<IProcedureManager> procedureOwner)
@@ -80,20 +83,21 @@ public class GameProcedure : ProcedureBase
         // var lvRow = lvTb.GetDataRow(currentLevelId);
 
         var lvParams = EntityParams.Create(Vector3.zero, Vector3.zero, Vector3.one);
-        lvParams.Set(LevelEntityBase.P_LevelData, lvRow);
+        lvParams.Set(LevelEntityBase<SlotEntityBase, FishPoolEntityBase>.P_LevelData, lvRow);
 
-        // 根据关卡ID决定使用哪个关卡实体类
-        switch (currentLevelId)
+        // 关卡配置表增加 EntityClassName 字段，填写完整类名（如 "Namespace.LevelEntity"）
+        string entityClassName = lvRow.LvEntityName;
+
+        // 根据关卡配置的实体类决定使用哪个关卡实体类
+        switch (entityClassName)
         {
-            case 1:
-            case 2:
-                // 第一关使用LevelEntity
+            case "LevelEntity":
                 m_Level = await GF.Entity.ShowEntityAwait<LevelEntity>(lvRow.LvPfbName, Const.EntityGroup.Level, lvParams) as LevelEntity;
                 break;
             // 可以添加更多关卡
             default:
                 // 默认使用基本的LevelEntity
-                m_Level = await GF.Entity.ShowEntityAwait<LevelEntityBase>(lvRow.LvPfbName, Const.EntityGroup.Level, lvParams) as LevelEntityBase;
+                m_Level = await GF.Entity.ShowEntityAwait<LevelEntityBase<SlotEntityBase, FishPoolEntityBase>>(lvRow.LvPfbName, Const.EntityGroup.Level, lvParams) as LevelEntityBase<SlotEntityBase, FishPoolEntityBase>;
                 break;
         }
         GF.BuiltinView.HideLoadingProgress();

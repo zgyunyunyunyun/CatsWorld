@@ -2,9 +2,9 @@
 #	ID		PrefabName	Image	Damage
 #	int		string	string	int
 #		备注	小猫实体预制体		
-	0	小猫0	CatEntity	UI/Cats/cat0.png	1
-	1	小猫1	CatEntity	UI/Cats/cat1.png	1
-	2	小猫2	CatEntity	UI/Cats/cat2.png	1
-	3	小猫3	CatEntity	UI/Cats/cat3.png	1
-	4	小猫4	CatEntity	UI/Cats/cat4.png	1
-	5	小猫5	CatEntity	UI/Cats/cat5.png	1
+	0	小猫0	SmallCatEntity	UI/Cats/cat0.png	1
+	1	小猫1	SmallCatEntity	UI/Cats/cat1.png	1
+	2	小猫2	SmallCatEntity	UI/Cats/cat2.png	1
+	3	小猫3	SmallCatEntity	UI/Cats/cat3.png	1
+	4	小猫4	SmallCatEntity	UI/Cats/cat4.png	1
+	5	小猫5	SmallCatEntity	UI/Cats/cat5.png	1
