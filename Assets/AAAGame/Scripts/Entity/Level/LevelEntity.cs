@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityGameFramework.Runtime;
 
 /// <summary>
 /// 通过控制每层的卡片种类来实现难度控制的关卡（卡片堆最多为5*5）
@@ -50,9 +51,18 @@ public class LevelEntity : LevelEntityBase<SlotEntityBase, FishPoolEntityBase>
         }
 
         layerCatTypeCount = levelTable.CatTypes.ToList();
-
+        // 如果不是每层都有配置卡片种类数量，则补齐默认值3
+        if (layerCatTypeCount.Count != layerCount.Count)
+        {
+            Log.Warning($"每层卡片种类数量配置遗漏，使用默认值3");
+            for (int i = layerCatTypeCount.Count; i < layerCount.Count; i++)
+            {
+                layerCatTypeCount.Add(3);
+            }
+        }
         return true;
     }
+
 
     // 按照层配置构建随机猫咪牌组
     protected override List<int> BuildShuffledDeck(List<CatData> catTypes)
