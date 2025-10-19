@@ -261,7 +261,14 @@ public class LevelEntity : LevelEntityBase<SlotEntityBase, FishPoolEntityBase>
                 int remainder = layerRemainingCount % 3; // 剩余数量
                 for (int j = 0; j < full3TypeCount; j++)
                 {
-                    layerDeck.AddRange(Enumerable.Repeat(currentLayerRandomAddCats[j].id, 3));
+                    if (currentLayerRandomAddCats.Count > j)
+                    {
+                        layerDeck.AddRange(Enumerable.Repeat(currentLayerRandomAddCats[j].id, 3));
+                    }
+                    else
+                    {
+                        layerDeck.AddRange(Enumerable.Repeat(layerCats[j].id, 3));
+                    }
                 }
                 if (remainder > 0)
                 {
